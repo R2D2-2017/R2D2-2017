@@ -1,13 +1,14 @@
 /**
  * \file
- * \brief
- * \author    Chris Smeele
- * \copyright Copyright (c) 2017, Chris Smeele. All rights reserved.
- * \license   MIT. See LICENSE for the full license text.
+ * \brief     INSERT A DESCRIPTION HERE
+ * \author    INSERT YOUR NAME HERE
+ * \copyright Copyright (c) 2017, The R2D2 Team
+ * \license   See LICENSE
  */
 #include <iostream>
 
 int main(int argc, char **argv) {
-    std::cout << "Hoi wereld!\n";
+    std::cout << "Hello world!\n";
+
     return 0;
 }
