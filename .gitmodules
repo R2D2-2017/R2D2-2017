@@ -1,0 +1,4 @@
+[submodule "toolchain"]
+	path = toolchain
+	url = https://github.com/kvasir-io/toolchain.git
+	branch = development
