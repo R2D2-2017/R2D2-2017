@@ -1,9 +1,10 @@
 cmake_minimum_required(VERSION 2.6)
 
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/module-naam)
-file(GLOB projects "modules/*/CMakeLists.txt"
+file(GLOB projects "modules/*/CMakeLists.txt")
+
 foreach(project ${projects})
-	string(REGEX REPLACE '[/\\]CMakeLists.txt$' '' sub_dir ${project})
-	add_subdirectory(${sub_dir})
+    string(REGEX REPLACE "[/\\]CMakeLists.txt$" "" sub_dir ${project})
+    add_subdirectory(${sub_dir})
 endforeach()
+
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
