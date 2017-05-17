@@ -9,6 +9,8 @@ import sys
 import shutil
 import re
 
+platform_cmakes = {"pc":"","pi":"", "duino":"-DCMAKE_TOOLCHAIN_FILE={0}/toolchain/compilers/arm-none-eabi.cmake".format(os.path.dirname(os.path.abspath(__file__)))}
+
 if 'create' not in sys.argv:
     print('usage: ' + sys.argv[0] + ' create')
     exit(1)
@@ -31,8 +33,9 @@ if os.path.isdir(module_dir):
     exit(1)
 
 platform = ''
-while platform not in ('pc', 'pi', 'duino'):
-    platform = input('Platform: [pc|pi|duino] ')
+platform_question_string = 'Platform: [' + "|".join(platform_cmakes) + "] "
+while platform not in platform_cmakes:
+    platform = input(platform_question_string)
 
 if not len(platform): exit(0)
 
@@ -56,6 +59,6 @@ os.mkdir('build')
 os.chdir('build')
 
 # Fixme: Pass toolchain flags for arduino / kvasir-toolchain.
-os.system('cmake ..')
+os.system('cmake .. {0}'.format(platform_cmakes[platform]))
 
 print('\nModule ' + module_name + ' is gemaakt in ' + module_dir)
