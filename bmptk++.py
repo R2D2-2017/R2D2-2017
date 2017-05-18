@@ -2,13 +2,13 @@
 
 # Copyright (c) 2017, The R2D2 Team.
 import glob
-
-__author__ = 'Chris Smeele'
-
 import os
 import shutil
 import platform
 import argparse
+
+__author__ = 'Chris Smeele & Robert Bezem'
+
 
 platform_cmakes = {"pc": "",
                    "pi": "",
