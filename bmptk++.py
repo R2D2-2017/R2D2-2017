@@ -79,8 +79,9 @@ def generate_one(path):
     os.chdir(running_dir)
 
 def generate():
-    for filename in glob.iglob('modules/**/.bmptkpp', recursive=True):
+    for filename in glob.iglob('modules/*/.bmptkpp'):
         if 'template' not in filename:
+            print('Generating build directory for {0}...'.format(filename.replace('modules/','').replace('/.bmptkpp','')))
             generate_one(filename.replace("/.bmptkpp", ""))
 
 
