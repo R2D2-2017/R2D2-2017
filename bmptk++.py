@@ -12,7 +12,7 @@ import platform
 
 platform_cmakes = {"pc": "",
                    "pi": "",
-                   "arduino": "{0}".format("" if platform.system() is not 'Windows' else "-G\"MinGW Makefiles\"")}
+                   "arduino": "{0}".format("" if platform.system() is not 'Windows' else "-G\"MSYS Makefiles\"")}
 
 if 'create' not in sys.argv:
     print('usage: ' + sys.argv[0] + ' create')
