@@ -1,0 +1,22 @@
+cmake_minimum_required (VERSION 2.8.11)
+set(toolchain ../../toolchain) # Your path to kvasir_toolchain
+set(CMAKE_TOOLCHAIN_FILE ${toolchain}/compilers/arm-none-eabi.cmake)
+project (example CXX)
+
+set(sources src/main.cc)
+
+
+# Where the toolchain is located on your pc.
+
+# Location of the flash tool if it's not in your path
+#set(flash_program_path ~/bossac) # Your path to the flash tool
+
+# The compiler that is used:
+#include(${toolchain}/compilers/arm-none-eabi.cmake)
+
+# The target chip that is compiled for:
+include(${toolchain}/targets/arm32/cm3/atmel/sam3x/sam3x8e/sam3x8e.cmake)
+
+# The flashscript used to flash the binary (optional):
+include(${toolchain}/targets/arm32/cm3/atmel/sam3x/sam3x8e/flashscripts/arduino_due.cmake)
+
