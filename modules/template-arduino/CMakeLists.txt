@@ -1,7 +1,7 @@
 cmake_minimum_required (VERSION 2.8.11)
 set(toolchain ../../toolchain) # Your path to kvasir_toolchain
 set(CMAKE_TOOLCHAIN_FILE ${toolchain}/compilers/arm-none-eabi.cmake)
-project (example CXX)
+project (template-arduino CXX)
 
 set(hwlib ../../libraries/hwlib)
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -specs=nosys.specs")
