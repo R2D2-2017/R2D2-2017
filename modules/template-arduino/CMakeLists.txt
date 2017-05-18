@@ -5,6 +5,9 @@ project (example CXX)
 
 set(hwlib ../../libraries/hwlib)
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -specs=nano.specs")
+include(../../flags.cmake)
+
+set(sources src/main.cc)
 
 include_directories(
 	${hwlib}/library
