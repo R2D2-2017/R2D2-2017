@@ -4,9 +4,10 @@ set(CMAKE_TOOLCHAIN_FILE ${toolchain}/compilers/arm-none-eabi.cmake)
 project (example CXX)
 
 set(hwlib ../../libraries/hwlib)
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -specs=nano.specs")
 
 include_directories(
-	${hwlib}/include
+	${hwlib}/library
 )
 
 set(sources
