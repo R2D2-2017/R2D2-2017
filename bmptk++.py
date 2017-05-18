@@ -9,7 +9,6 @@ import argparse
 
 __author__ = 'Chris Smeele & Robert Bezem'
 
-
 platform_cmakes = {"pc": "",
                    "pi": "",
                    "arduino": "{0}".format("" if platform.system() is not 'Windows' else "-G\"MSYS Makefiles\"")}
@@ -32,7 +31,7 @@ def ask_question(question, validator, error):
     return inp
 
 
-def create():
+def create(args):
     module_name = ask_question('Modulenaam (shortname): ',
                                lambda x: len(x) and not os.path.isdir(root_dir + '/' + x.upper()),
                                "Something is wrong with this name").upper()
@@ -64,7 +63,7 @@ def create():
     print('\nModule ' + module_name + ' is gemaakt in ' + module_dir)
 
 
-def generate_one(path):
+def generate_one(path, override_generator=None):
     build_platform = ''
     with open(path + '/.bmptkpp', 'r') as bmptkpp:
         build_platform = bmptkpp.readline().strip()
@@ -74,15 +73,21 @@ def generate_one(path):
     if not os.path.isdir(build_dir):
         os.mkdir(build_dir)
     os.chdir(build_dir)
+    cmake_params = platform_cmakes[build_platform]
+    if override_generator:
+        if '-G' not in cmake_params:
+            cmake_params += " -G\"{0}\"".format(override_generator)
 
-    os.system('cmake .. {0}'.format(platform_cmakes[build_platform]))
+    os.system('cmake .. {0}'.format(cmake_params))
     os.chdir(running_dir)
 
-def generate():
+
+def generate(args):
     for filename in glob.iglob('modules/*/.bmptkpp'):
         if 'template' not in filename:
-            print('Generating build directory for {0}...'.format(filename.replace('modules/','').replace('/.bmptkpp','')))
-            generate_one(filename.replace("/.bmptkpp", ""))
+            print('Generating build directory for {0}...'.format(
+                filename.replace('modules/', '').replace('/.bmptkpp', '')))
+            generate_one(filename.replace("/.bmptkpp", ""), args.override_generator)
 
 
 if __name__ == '__main__':
@@ -94,10 +99,11 @@ if __name__ == '__main__':
 
     generate_command = subcom.add_parser('generate')
     generate_command.set_defaults(func=generate)
+    generate_command.add_argument('--override-generator')
 
     args = parser.parse_args()
 
-    try:
-        args.func()
-    except AttributeError:
-        parser.print_help()
+    if hasattr(args, 'func'):
+        args.func(args)
+    else:
+        pass
