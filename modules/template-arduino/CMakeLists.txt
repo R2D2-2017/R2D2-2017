@@ -10,8 +10,8 @@ include_directories(
 )
 
 set(sources
-    ${hwlib}/include/hwlib.cpp
-    main.cc
+    ${hwlib}/library/hwlib.cpp
+    src/main.cc
 )
 
 # Where the toolchain is located on your pc.
