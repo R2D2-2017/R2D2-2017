@@ -2,3 +2,6 @@
 	path = toolchain
 	url = https://github.com/kvasir-io/toolchain.git
 	branch = development
+[submodule "libraries/hwlib"]
+	path = libraries/hwlib
+	url = git@github.com:wovo/hwlib.git
