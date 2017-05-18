@@ -95,10 +95,10 @@ def generate(args):
 def console(parser, subcommands):
     print("Running in command mode type command to use")
 
-    exit_command = subcommands.add_parser('exit')
+    exit_command = subcommands.add_parser('exit', help="Exit this program")
     exit_command.set_defaults(func=lambda x: exit())
 
-    help_command = subcommands.add_parser('help')
+    help_command = subcommands.add_parser('help', help="Show this help")
     help_command.set_defaults(func=lambda x: parser.print_help())
 
     parser.usage = argparse.SUPPRESS
@@ -120,12 +120,13 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(add_help=False)
     subcom = parser.add_subparsers(title="Commands")
 
-    create_command = subcom.add_parser('create')
+    create_command = subcom.add_parser('create', help="Create a new project")
     create_command.set_defaults(func=create)
 
-    generate_command = subcom.add_parser('generate')
+    generate_command = subcom.add_parser('generate', help="Generate all the build files")
     generate_command.set_defaults(func=generate)
-    generate_command.add_argument('--override-generator')
+    generate_command.add_argument('--override-generator',
+                                  help="Overwrite the default cmake generator used, does not work for some targets")
 
     if len(sys.argv) > 1:
         parser.add_argument(
