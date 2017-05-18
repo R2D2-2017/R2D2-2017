@@ -7,6 +7,8 @@ import shutil
 import platform
 import argparse
 
+import sys
+
 __author__ = 'Chris Smeele & Robert Bezem'
 
 platform_cmakes = {"pc": "",
@@ -96,8 +98,13 @@ def console(parser, subcommands):
     exit_command = subcommands.add_parser('exit')
     exit_command.set_defaults(func=lambda x: exit())
 
+    help_command = subcommands.add_parser('help')
+    help_command.set_defaults(func=lambda x: parser.print_help())
+
     parser.usage = argparse.SUPPRESS
+
     parser.print_help()
+
     while True:
         command = input("Command: ")
         args = None
@@ -110,7 +117,7 @@ def console(parser, subcommands):
 
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(add_help=False)
     subcom = parser.add_subparsers(title="Commands")
 
     create_command = subcom.add_parser('create')
@@ -119,6 +126,12 @@ if __name__ == '__main__':
     generate_command = subcom.add_parser('generate')
     generate_command.set_defaults(func=generate)
     generate_command.add_argument('--override-generator')
+
+    if len(sys.argv) > 1:
+        parser.add_argument(
+            "-h", "--help",
+            action='help', default=argparse.SUPPRESS,
+            help='show this help message and exit')
 
     args = parser.parse_args()
 
