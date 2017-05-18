@@ -9,7 +9,10 @@ import sys
 import shutil
 import re
 
-platform_cmakes = {"pc":"","pi":"", "duino":"-DCMAKE_TOOLCHAIN_FILE={0}/toolchain/compilers/arm-none-eabi.cmake".format(os.path.dirname(os.path.abspath(__file__)))}
+platform_cmakes = { "pc":"",
+                    "pi":"",
+                    "arduino":"-DCMAKE_TOOLCHAIN_FILE={0}/toolchain/compilers/arm-none-eabi.cmake"
+                    .format(os.path.dirname(os.path.abspath(__file__))) }
 
 if 'create' not in sys.argv:
     print('usage: ' + sys.argv[0] + ' create')
