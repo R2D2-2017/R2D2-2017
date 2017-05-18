@@ -3,6 +3,8 @@ set(toolchain ../../toolchain) # Your path to kvasir_toolchain
 set(CMAKE_TOOLCHAIN_FILE ${toolchain}/compilers/arm-none-eabi.cmake)
 project (example CXX)
 
+include(../../flags.cmake)
+
 set(sources src/main.cc)
 
 
