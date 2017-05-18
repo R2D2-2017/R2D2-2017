@@ -4,4 +4,4 @@
 	branch = development
 [submodule "libraries/hwlib"]
 	path = libraries/hwlib
-	url = git@github.com:wovo/hwlib.git
+	url = https://github.com/wovo/hwlib.git
