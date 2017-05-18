@@ -4,7 +4,7 @@ set(CMAKE_TOOLCHAIN_FILE ${toolchain}/compilers/arm-none-eabi.cmake)
 project (example CXX)
 
 set(hwlib ../../libraries/hwlib)
-set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -specs=nano.specs")
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -specs=nosys.specs -nostdlib")
 include(../../flags.cmake)
 
 set(sources src/main.cc)
@@ -14,11 +14,10 @@ include_directories(
 )
 
 set(sources
-    ${hwlib}/library/hwlib.cpp
+    #${hwlib}/library/hwlib.cpp
+    src/wrap-hwlib.cc
     src/main.cc
 )
-
-# Where the toolchain is located on your pc.
 
 # Location of the flash tool if it's not in your path
 #set(flash_program_path ~/bossac) # Your path to the flash tool
