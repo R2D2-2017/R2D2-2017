@@ -9,7 +9,6 @@ import argparse
 
 __author__ = 'Chris Smeele & Robert Bezem'
 
-
 platform_cmakes = {"pc": "",
                    "pi": "",
                    "arduino": "{0}".format("" if platform.system() is not 'Windows' else "-G\"MSYS Makefiles\"")}
@@ -91,9 +90,28 @@ def generate(args):
             generate_one(filename.replace("/.bmptkpp", ""), args.override_generator)
 
 
+def console(parser, subcommands):
+    print("Running in command mode type command to use")
+
+    exit_command = subcommands.add_parser('exit')
+    exit_command.set_defaults(func=lambda x: exit())
+
+    parser.usage = argparse.SUPPRESS
+    parser.print_help()
+    while True:
+        command = input("Command: ")
+        args = None
+        try:
+            args = parser.parse_args(command.split())
+        except SystemExit:
+            pass
+        if hasattr(args, 'func'):
+            args.func(args)
+
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    subcom = parser.add_subparsers()
+    subcom = parser.add_subparsers(title="Commands")
 
     create_command = subcom.add_parser('create')
     create_command.set_defaults(func=create)
@@ -104,7 +122,10 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
-    if hasattr(args, 'func'):
-        args.func(args)
-    else:
-        pass
+    try:
+        if hasattr(args, 'func'):
+            args.func(args)
+        else:
+            console(parser, subcom)
+    except KeyboardInterrupt:
+        print()
