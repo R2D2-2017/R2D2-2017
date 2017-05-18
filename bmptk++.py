@@ -9,6 +9,7 @@ import argparse
 
 __author__ = 'Chris Smeele & Robert Bezem'
 
+
 platform_cmakes = {"pc": "",
                    "pi": "",
                    "arduino": "{0}".format("" if platform.system() is not 'Windows' else "-G\"MSYS Makefiles\"")}
@@ -16,7 +17,7 @@ platform_cmakes = {"pc": "",
 root_dir = 'modules'
 running_dir = os.getcwd()
 if not os.path.isdir(root_dir):
-    print('Je zit in de verkeerde dir, ga naar de root van de repo')
+    print('Please go to the root directory of the repository before running this script.')
     exit(1)
 
 
@@ -60,7 +61,7 @@ def create(args):
 
     os.chdir(running_dir)
     generate_one(module_dir)
-    print('\nModule ' + module_name + ' is gemaakt in ' + module_dir)
+    print('\nModule ' + module_name + ' was created in ' + module_dir)
 
 
 def generate_one(path, override_generator=None):
