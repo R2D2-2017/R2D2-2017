@@ -3,8 +3,16 @@ set(toolchain ../../toolchain) # Your path to kvasir_toolchain
 set(CMAKE_TOOLCHAIN_FILE ${toolchain}/compilers/arm-none-eabi.cmake)
 project (example CXX)
 
-set(sources src/main.cc)
+set(hwlib ../../libraries/hwlib)
 
+include_directories(
+	${hwlib}/include
+)
+
+set(sources
+    ${hwlib}/include/hwlib.cpp
+    main.cc
+)
 
 # Where the toolchain is located on your pc.
 
@@ -19,4 +27,3 @@ include(${toolchain}/targets/arm32/cm3/atmel/sam3x/sam3x8e/sam3x8e.cmake)
 
 # The flashscript used to flash the binary (optional):
 include(${toolchain}/targets/arm32/cm3/atmel/sam3x/sam3x8e/flashscripts/arduino_due.cmake)
-
