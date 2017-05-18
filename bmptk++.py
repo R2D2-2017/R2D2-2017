@@ -8,10 +8,11 @@ import os
 import sys
 import shutil
 import re
+import platform
 
-platform_cmakes = { "pc": "",
-                    "pi": "",
-                    "arduino": "" }
+platform_cmakes = {"pc": "",
+                   "pi": "",
+                   "arduino": "{0}".format("" if platform.system() is not 'Windows' else "-G 'MinGW Makefiles'")}
 
 if 'create' not in sys.argv:
     print('usage: ' + sys.argv[0] + ' create')
@@ -61,6 +62,6 @@ os.mkdir('build')
 os.chdir('build')
 
 # Fixme: Pass toolchain flags for arduino / kvasir-toolchain.
-os.system('cmake .. {0}'.format(platform_cmakes[platform]))
+os.system('cmake .. {0} {1}'.format(platform_cmakes[platform]))
 
 print('\nModule ' + module_name + ' is gemaakt in ' + module_dir)
