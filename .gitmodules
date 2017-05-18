@@ -1,6 +1,6 @@
 [submodule "toolchain"]
 	path = toolchain
-	url = https://github.com/kvasir-io/toolchain.git
+	url = https://github.com/sqrtroot/toolchain.git 
 	branch = development
 [submodule "libraries/hwlib"]
 	path = libraries/hwlib
