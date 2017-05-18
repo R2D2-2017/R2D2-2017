@@ -32,7 +32,7 @@ def ask_question(question, validator, error):
 
 
 def create(args):
-    module_name = ask_question('Modulenaam (shortname): ',
+    module_name = ask_question('Module name (shortname): ',
                                lambda x: len(x) and not os.path.isdir(root_dir + '/' + x.upper()),
                                "Something is wrong with this name").upper()
     module_name = module_name.upper()
