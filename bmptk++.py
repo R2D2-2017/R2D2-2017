@@ -68,11 +68,15 @@ def generate_one(path):
     build_platform = ''
     with open(path + '/.bmptkpp', 'r') as bmptkpp:
         build_platform = bmptkpp.readline().strip()
-    os.mkdir(path + '/build')
-    os.chdir(path + '/build')
+
+    # Create build directory if it doesn't exist yet.
+    build_dir = path + '/build'
+    if not os.path.isdir(build_dir):
+        os.mkdir(build_dir)
+    os.chdir(build_dir)
+
     os.system('cmake .. {0}'.format(platform_cmakes[build_platform]))
     os.chdir(running_dir)
-
 
 def generate():
     for filename in glob.iglob('modules/**/.bmptkpp', recursive=True):
