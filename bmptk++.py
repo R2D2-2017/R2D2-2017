@@ -17,7 +17,7 @@ platform_cmakes = {"pc": "",
 root_dir = 'modules'
 running_dir = os.getcwd()
 if not os.path.isdir(root_dir):
-    print('Je zit in de verkeerde dir, ga naar de root van de repo')
+    print('Please go to the root directory of the repository before running this script.')
     exit(1)
 
 
@@ -33,11 +33,11 @@ def ask_question(question, validator, error):
 
 
 def create():
-    module_name = ask_question('Modulenaam (shortname): ',
+    module_name = ask_question('Module name (shortname): ',
                                lambda x: len(x) and not os.path.isdir(root_dir + '/' + x.upper()),
                                "Something is wrong with this name").upper()
     module_name = module_name.upper()
-    module_dir = root_dir + '/' + module_name
+    module_dir  = root_dir + '/' + module_name
 
     platform_question_string = 'Platform: [' + "|".join(platform_cmakes) + "] "
     build_platform = ask_question(platform_question_string, lambda x: x in platform_cmakes,
@@ -46,8 +46,6 @@ def create():
     template_name = 'template-' + build_platform
 
     shutil.copytree(root_dir + '/' + template_name, module_dir)
-
-    print('Created module at ' + module_dir)
 
     os.chdir(module_dir)
     os.remove('CMakeLists.txt')
@@ -61,7 +59,7 @@ def create():
 
     os.chdir(running_dir)
     generate_one(module_dir)
-    print('\nModule ' + module_name + ' is gemaakt in ' + module_dir)
+    print('\nModule ' + module_name + ' was created in ' + module_dir)
 
 
 def generate_one(path):
