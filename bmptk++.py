@@ -10,6 +10,13 @@ import argparse
 import sys
 
 __author__ = 'Chris Smeele & Robert Bezem'
+header = ''' _               _         _
+| |__  _ __ ___ | |_ _ __ | | __ _     _
+| '_ \| '_ ` _ \| __| '_ \| |/ /| |_ _| |_
+| |_) | | | | | | |_| |_) |   <_   _|_   _|
+|_.__/|_| |_| |_|\__| .__/|_|\_\|_|   |_|
+                    |_|
+'''
 
 platform_cmakes = {"pc": "",
                    "pi": "",
@@ -93,9 +100,10 @@ def generate(args):
 
 
 def console(parser, subcommands):
+    print(header)
     print("Running in command mode type command to use")
 
-    exit_command = subcommands.add_parser('exit', help="Exit this program")
+    exit_command = subcommands.add_parser('exit', help="Exit this program", aliases=['e', 'q', 'quit'])
     exit_command.set_defaults(func=lambda x: exit())
 
     help_command = subcommands.add_parser('help', help="Show this help")
@@ -129,6 +137,8 @@ if __name__ == '__main__':
                                   help="Overwrite the default cmake generator used, does not work for some targets")
 
     if len(sys.argv) > 1:
+        parser.formatter_class = argparse.RawDescriptionHelpFormatter
+        parser.description = header
         parser.add_argument(
             "-h", "--help",
             action='help', default=argparse.SUPPRESS,
