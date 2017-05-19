@@ -27,7 +27,7 @@ bool Graph::containsNode(const Node node) {
     return std::find(nodes.begin(), nodes.end(), node) != nodes.end();
 }
 bool Graph::containsVertice(const Vertice vertice) {
-    return std::find(vertices.begin(), vertices.end(), vertice) != vertices.end()
+    return std::find(vertices.begin(), vertices.end(), vertice) != vertices.end();
 }
 std::vector<Node> Graph::getNodes() {
     return nodes;

@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.6)
 
-project(navigationsystem)
-set(exe_name "navigationsystem")
+project(navsys)
+set(exe_name "navsys")
 
 enable_testing()
 include(../../flags.cmake)
