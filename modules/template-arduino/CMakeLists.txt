@@ -7,14 +7,13 @@ set(hwlib ../../libraries/hwlib)
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -specs=nosys.specs")
 include(../../flags.cmake)
 
-set(sources src/main.cc)
+add_definitions(-DBMPTK_TARGET_arduino_due)
 
 include_directories(
 	${hwlib}/library
 )
 
 set(sources
-    #${hwlib}/library/hwlib.cpp
     src/wrap-hwlib.cc
     src/main.cc
 )
