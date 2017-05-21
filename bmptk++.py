@@ -6,8 +6,9 @@ import os
 import shutil
 import platform
 import argparse
-
+import json
 import sys
+import subprocess
 
 __author__ = 'Chris Smeele & Robert Bezem'
 
@@ -100,6 +101,93 @@ def generate(args):
             generate_one(filename.replace("/.bmptkpp", ""), args.override_generator)
 
 
+class CheckError:
+    def __init__(self, checker, module, file, line, description, type=None):
+        self.checker = checker
+        self.module = module
+        self.file = file
+        self.line = line
+        self.description = description
+        self.type = type
+
+    def __eq__(self, other):
+        return \
+            self.checker == other.checker and \
+            self.module == other.module and \
+            self.file == other.file and \
+            self.line == other.line and \
+            self.description == other.description and \
+            self.type == other.type
+
+    def __repr__(self):
+        return "[{0}]{1}:{2} {3}".format(
+            self.checker,
+            "".join(self.file.split("/")[-1:]),
+            self.line,
+            self.description)
+
+
+def check_one(cc_db):
+    errors = []
+    with open(cc_db) as cc_db_file:
+        cc_json = json.load(cc_db_file)
+        module = cc_db.split("/")[-3]
+        for entry in cc_json:
+            tidy_command = 'clang-tidy-3.8 -header-filter=.* -p={0} -checks=* {1}'.format(
+                cc_db.replace("compile_commands.json", "")
+                , entry["file"]
+            )
+            cpp_check_command = 'cppcheck -q -v --template=gcc --enable=warning,performance,portability {0}'.format(
+                entry["file"])
+
+            try:
+                tidy_errors = subprocess.check_output(tidy_command.split(), stderr=subprocess.DEVNULL)
+                for line in tidy_errors.decode().splitlines():
+                    if entry["file"] in line:
+                        line = line.split(":")
+                        error = CheckError("Clang-tidy", module, line[0], line[1], ":".join(line[4:]), line[3])
+                        if error not in errors:
+                            errors.append(error)
+            except OSError as e:
+                if e.errno == os.errno.ENOENT:
+                    print("clang-tidy is not found please install it\nNo checks with this checker have been run")
+                else:
+                    raise
+            try:
+                cpp_check_errors = subprocess.check_output(cpp_check_command.split(), stderr=subprocess.STDOUT)
+                for line in cpp_check_errors.decode().splitlines():
+                    line = line.split(":")
+                    error = CheckError("Cppcheck", module, line[0], line[1], line[3], line[2])
+                    if error not in errors:
+                        errors.append(error)
+            except OSError as e:
+                if e.errno == os.errno.ENOENT:
+                    print("cppcheck is not found please install it\nNo checks with this checker have been run")
+                else:
+                    raise
+
+    errors.sort(key=lambda x: x.checker + x.file + x.line)
+    return errors
+
+
+def check(args):
+    cc_databases = []
+    if args.module:
+        if not os.path.exists("modules/{0}/.bmptkpp".format(args.module.upper())):
+            print("no module named {0}".format(args.module))
+            return
+        if not os.path.exists("modules/{0}/build/compile_commands.json".format(args.module.upper())):
+            print("module is not yet generated. Generate first")
+            return
+        cc_databases.append("modules/{0}/build/compile_commands.json".format(args.module.upper()))
+        print("Checking module {0}".format(args.module))
+    else:
+        print("Checking all generated modules")
+        cc_databases = [filename for filename in glob.iglob('modules/*/build/compile_commands.json')]
+    for cc_database in cc_databases:
+        [print(error) for error in check_one(cc_database)]
+
+
 def console(parser, subcommands):
     print(header)
     print("Running in command mode type command to use")
@@ -136,6 +224,10 @@ if __name__ == '__main__':
     generate_command.set_defaults(func=generate)
     generate_command.add_argument('--override-generator',
                                   help="Overwrite the default cmake generator used, does not work for some targets")
+
+    check_command = subcom.add_parser('check', help="Check source files for errors")
+    check_command.set_defaults(func=check)
+    check_command.add_argument('-m', '--module', help="Name of the module to check")
 
     if len(sys.argv) > 1:
         parser.formatter_class = argparse.RawDescriptionHelpFormatter
