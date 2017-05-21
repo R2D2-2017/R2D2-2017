@@ -11,8 +11,9 @@ class Vertice {
 private:
   Node node1;
   Node node2;
+  int weight;
 public:
-  Vertice(const Node &node1, const Node &node2);
+  Vertice(const Node &node1, const Node &node2, int weight = 1);
   friend std::ostream &operator<<(std::ostream &os, const Vertice &vertice);
   bool operator==(const Vertice &rhs) const;
   bool operator!=(const Vertice &rhs) const;

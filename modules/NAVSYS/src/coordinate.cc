@@ -40,8 +40,6 @@ Coordinate operator-(Coordinate lhs, const Coordinate &rhs) {
     return lhs;
 }
 float Coordinate::euclideanDistance(const Coordinate &rhs) const {
-    return (float) sqrt(pow(x + rhs.x, 2) + pow(y + rhs.y, 2));
+    return (float) sqrt(pow(x - rhs.x, 2) + pow(y - rhs.y, 2));
 }
-
-
 
