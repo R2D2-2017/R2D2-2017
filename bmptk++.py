@@ -6,7 +6,7 @@ import os
 import shutil
 import platform
 import argparse
-
+import re
 import sys
 
 __author__ = 'Chris Smeele & Robert Bezem'
@@ -96,8 +96,8 @@ def generate(args):
     for filename in glob.iglob('modules/*/.bmptkpp'):
         if 'template' not in filename:
             print('Generating build directory for {0}...'.format(
-                filename.replace('modules/', '').replace('/.bmptkpp', '')))
-            generate_one(filename.replace("/.bmptkpp", ""), args.override_generator)
+                re.sub(r"modules[/\\](.*)[/\\].bmptkpp", "\1", filename)))
+            generate_one(re.sub(r"[\\/].bmptkpp", "", filename), args.override_generator)
 
 
 def console(parser, subcommands):
