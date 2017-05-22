@@ -7,6 +7,11 @@
 
 #include <ostream>
 #include "node.hh"
+/**
+ * \brief Vertice class
+ * \details
+ * Class that describes a vertice between two nodes
+ */
 class Vertice {
 private:
   Node node1;
