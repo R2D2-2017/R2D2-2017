@@ -133,7 +133,7 @@ def check_one(cc_db):
         cc_json = json.load(cc_db_file)
         module = cc_db.split("/")[-3]
         for entry in cc_json:
-            tidy_command = 'clang-tidy-3.8 -header-filter=.* -p={0} -checks=* {1}'.format(
+            tidy_command = 'clang-tidy -header-filter=.* -p={0} -checks=* {1}'.format(
                 cc_db.replace("compile_commands.json", "")
                 , entry["file"]
             )
