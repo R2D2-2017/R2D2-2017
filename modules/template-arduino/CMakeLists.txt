@@ -20,8 +20,10 @@ set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -nostartfiles -nostdlib")
 link_libraries(gcc)
 
 set(hwlib ../../libraries/hwlib)
-add_definitions(-DBMPTK_TARGET_arduino_due)
 include_directories(${hwlib}/library)
+add_definitions(-DBMPTK_TARGET_arduino_due
+                -DBMPTK_TARGET=arduino_due
+                -DBMPTK_BAUDRATE=19200)
 
 set(sources
     src/wrap-hwlib.cc
