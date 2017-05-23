@@ -8,16 +8,16 @@
 
 #pragma once
 
-//#include hwlib.h
+#include "wrap-hwlib.hh" 
 
 /// just a magic number at the moment
-int32_t gasValueThreshold = 100;
+int gasValueThreshold = 100;
 
 /// /brief Check if the gass value is above the threshold then trigger the alarm
-/// Take the gass value and call trigger_alarm() when it's above the
-/// threshold or disable_alarm() when it's below said threshold.
-/// @param gas_value the gas value
-void checkGasValue(int32_t gasValue);
+/// Take the gass value and call triggerAlarm() when it's above the
+/// threshold or disableAlarm() when it's below said threshold.
+/// @param gasValue the gas value
+void checkGasValue(int gasValue);
 
 /// /brief turn the alarm on
 void triggerAlarm();

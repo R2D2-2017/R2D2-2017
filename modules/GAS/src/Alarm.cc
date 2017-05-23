@@ -7,13 +7,12 @@
  */
 
 
-#include Alarm.hh
+#include "Alarm.hh"
 
+auto led0 = hwlib::target::pin_out( hwlib::target::pins::d7 );
 
-
-
-void checkGasValue(int32_t gas_value) {
-    if (gas_value > gasValueThreshold) {
+void checkGasValue(int gasValue) {
+    if (gasValue > gasValueThreshold) {
         triggerAlarm();
     } else {
         disableAlarm();
@@ -21,10 +20,9 @@ void checkGasValue(int32_t gas_value) {
 }
 
 void triggerAlarm() {
-//  fuction for turning the right pin on
+    led0.set( 1 );
 }
 
-
 void disableAlarm() {
-//  fuction for turning the right pin off
+    led0.set( 0 );
 }
