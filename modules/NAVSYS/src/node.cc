@@ -23,14 +23,33 @@ float Node::euclideanDistance(const Node &other) const {
     return coordinate.euclideanDistance(other.coordinate);
 }
 
+///author jeremy
+///
+/// This function can be used to get the id of a node.
+///
+///
+/// Output node id  returned.
  int  Node::getNodeId() const {
     return id;
 }
 
+///author jeremy
+///
+/// This function can be used to get the name of a node.
+///
+///
+/// Output node name returned.
 std::string Node::getNodeName() {
     return name;
 }
 
+///author jeremy
+///
+/// This function can be used to get a string representation for a node.
+///
+/// This function is used for the writing of a nodes coordinate to the node file.
+///
+/// Output string representation returned.
 std::string Node::getCoordinate() {
     std::string tmp = "[";
     tmp+=std::to_string((int)coordinate.x);

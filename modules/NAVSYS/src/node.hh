@@ -21,8 +21,30 @@ public:
     bool operator==(const Node &rhs) const;
     bool operator!=(const Node &rhs) const;
     float euclideanDistance(const Node &other) const;
+
+///author jeremy
+///
+    /// This function can be used to get the id of a node
+///
+///
+/// Output node id  returned
     int getNodeId() const;
+
+///author jeremy
+///
+    /// This function can be used to get the name of a node.
+///
+///
+/// Output node name returned.
     std::string getNodeName();
+
+///author jeremy
+///
+    /// This function can be used to get a string representation for a node.
+///
+/// This function is used for the writing of a nodes coordinate to the node file.
+///
+/// Output string representation returned.
     std::string getCoordinate();
 };
 #endif //NAVIGATIONSYSTEM_NODE_HH

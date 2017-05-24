@@ -41,6 +41,18 @@ bool Graph::containsNode(const Node node) {
     return std::find(nodes.begin(), nodes.end(), node) != nodes.end();
 }
 
+///author jeremy
+///
+/// This function gets a node from the graph based on id.
+///
+/// /param int id
+///
+/// This function iterates over all the node elements en returns the element where the id matches.
+/// This function is only used to close the input file streams used by the factory functions.
+///
+/// Output the iterator pointing to the node will be returned.
+///
+/// /return it
 std::vector<Node>::iterator Graph::getNodeByID(int id) {
     std::vector<Node>::iterator it;
      it = std::find_if(std::begin(nodes), std::end(nodes),[&](const Node & node) -> bool{
@@ -58,15 +70,35 @@ std::vector<Vertice> & Graph::getVertices() {
     return vertices;
 }
 
+///author jeremy
+///
+/// This function can be used to write the current state of the graph to disk.
+///
+/// The function calls the storage manager to handle storage.
+///
+/// Output vertices and nodes saved in their respective files.
 void Graph::writeGraphToStorage() {
     storage->storeGraphOnDisk();
 }
 
-
+///author jeremy
+///
+/// This function can be used to add a node to the graph.
+///
+/// The function calls the storage manager to handle the input.
+///
+/// Output node added to graph.
 void Graph::addNodeEntry() {
     storage->getNodeEntryFromScreen();
 }
 
+///author jeremy
+///
+/// This function can be used to add a node to the graph.
+///
+/// The function calls the storage manager to handle the input.
+///
+/// Output node added to graph.
 void Graph::addVerticeEntry() {
     storage->getVerticeEntryFromScreen();
 }
