@@ -111,7 +111,7 @@ void StorageMngr::storeGraphOnDisk() {
 ///author jeremy
 ///
 /// This function can be used to get a node entry from the terminal.
-/// It asks the user to input the data, wich it uses to create a node class.
+/// It asks the user to input the data, which it uses to create a node class.
 /// The created node class is then passed to the graph.
 ///
 /// Output node is added to graph
@@ -136,7 +136,7 @@ void StorageMngr::getNodeEntryFromScreen() {
 ///author jeremy
 ///
 /// This function can be used to get a vertice entry from the terminal.
-/// It asks the user to input the data wich, it uses to create a vertice class
+/// It asks the user to input the data which, it uses to create a vertice class
 /// The created vertice class is then passed to the graph
 ///
 /// Output vertice is added to graph.
@@ -269,7 +269,7 @@ void StorageMngr::RunNodeFactory() {
 /// in the case of the involved nodes this is done by calling the graph to return the *ptr to the nodes  in the vertice.
 /// This is done based on node id.
 /// This created vertice is then passed to the graph.
-/// This repeats untill there are no more lines in the file.
+/// This repeats until there are no more lines in the file.
 ///
 /// !!!
 /// If the user enters an entry directly in the file itself, make sure not to end the last

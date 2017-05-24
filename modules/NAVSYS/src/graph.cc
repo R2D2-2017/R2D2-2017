@@ -14,7 +14,6 @@ Graph::Graph(const string nodeFilePath, const string verticeFilePath):
 }
 
 
-
 void Graph::addNode(const Node node) {
     if (!containsNode(node)) {
         nodes.push_back(node);
