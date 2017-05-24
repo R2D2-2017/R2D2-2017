@@ -6,9 +6,40 @@
  * \license   See LICENSE
  */
 #include <iostream>
+#include "Astar.hh"
 
-int main(int argc, char **argv) {
-    std::cout << "Hello world!\n";
+int main(int argc, char **argv)
+{
+	Graph g;
 
-    return 0;
+	Node n1(Coordinate(5.f, 5.f));
+	Node n2(Coordinate(10.f, 10.f));
+	Node n3(Coordinate(5.f, 10.f));
+
+	g.addNode(n1);
+	g.addNode(n2);
+	g.addNode(n3);
+
+	Vertice v1(n1, n2, 5.f);
+	Vertice v2(n2, n1, 5.f);
+	Vertice v3(n2, n3, 4.f);
+	Vertice v4(n3, n2, 4.f);
+	Vertice v5(n1, n3, 2.f);
+	Vertice v6(n3, n1, 2.f);
+
+	g.addVertice(v1);
+	g.addVertice(v2);
+	g.addVertice(v3);
+	g.addVertice(v4);
+	g.addVertice(v5);
+	g.addVertice(v6);
+
+	std::vector<PathNode> path = Astar(&g, &n1, &n2);
+
+	std::cout << "the path is:\n";
+	for (auto it = path.begin(); it != path.end(); it++)
+	{
+		std::cout << ' ' << *it << '\n';
+	}
+
 }

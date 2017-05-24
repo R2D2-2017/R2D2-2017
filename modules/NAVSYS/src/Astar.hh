@@ -8,4 +8,6 @@
 #include <algorithm>
 #include <limits>
 
-std::vector<Node> Astar(Graph G, Node * start, Node * goal);
+std::vector<PathNode> Astar(Graph * g, Node *start, Node *goal);
+
+std::vector<PathNode> reconstruct(PathNode * current);

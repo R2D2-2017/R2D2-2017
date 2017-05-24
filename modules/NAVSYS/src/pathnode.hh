@@ -10,8 +10,10 @@ private:
 	float f = 0;
 	Coordinate coordinate;
 
+	PathNode * parent = nullptr;
+
 public:
-	PathNode(Node n, float g = 0);
+	PathNode(Node n, Node goal, float g = 0);
 
 	void calcf(Node goal);
 	void setG(float dist);
@@ -19,5 +21,9 @@ public:
 	float getG();
 
 	float getF();
+
+	void setParent(PathNode * dad);
+
+	PathNode * getParent();
 
 };

@@ -1,10 +1,12 @@
 #include "pathnode.hh"
 
-PathNode::PathNode(Node n, float g = 0) :
+PathNode::PathNode(Node n, Node goal, float g) :
 	Node(n),
 	coordinate(n.getCoordinate()),
 	g(g)
-{}
+{
+	calcf(goal);
+}
 
 void PathNode::calcf(Node goal)
 {
@@ -24,4 +26,14 @@ float PathNode::getF()
 float PathNode::getG()
 {
 	return g;
+}
+
+void PathNode::setParent(PathNode * dad)
+{
+	parent = dad;
+}
+
+PathNode * PathNode::getParent()
+{
+	return parent;
 }
