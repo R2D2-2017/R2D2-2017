@@ -1,9 +1,9 @@
 /**
  * \file
- * \brief     INSERT A DESCRIPTION HERE
- * \author    INSERT YOUR NAME HERE
+ * \brief     Main of the NAVSYS feature branch
+ * \author    Philippe Zwietering
  * \copyright Copyright (c) 2017, The R2D2 Team
- * \license   See LICENSE
+ * \license   See ../../LICENSE
  */
 #include <iostream>
 
