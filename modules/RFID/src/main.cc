@@ -12,30 +12,29 @@
 
 int main(int argc, char **argv) {
     MySql connection;
-    
+
     if(!connection.connectTo("192.168.2.50", "R2D2", "BB8")){
-        std::cerr << "Can not connect\n";
+        std::cout << "Can not connect\n";
         exit(0);
     }
     
     if(!connection.selectDatabase("R2D2")){
-        std::cerr << "Database unknown\n";
+        std::cout << "Database unknown\n";
         exit(0);
     }
     
     if(!connection.executeQuery("SELECT * FROM RFID")){
-        std::cerr << "Can not execute query\n";
+        std::cout << "Can not execute query\n";
         exit(0);
     }
     
     sql::ResultSet * result = connection.getFullResult();
     while(result->next()){
-        std::cerr << "Card ID: " << result->getString(2) << '\n';
-        exit(0);
+        std::cout << "Card ID: " << result->getString(2) << '\n';
     }
     
-    if(!connection.executeQueryNoResult("INSERT INTO RFID (CARD_ID) VALUES ('[51,187,188,221,234]')")){
-        std::cerr << "Failed to insert data\n";
+    if(!connection.executeQueryNoResult("INSERT INTO RFID (CARD_ID) VALUES ('[51,187,188,221,233]')")){
+        std::cout << "Failed to insert data\n";
         exit(0);
     }
 

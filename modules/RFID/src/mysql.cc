@@ -30,8 +30,8 @@ bool MySql::errorCheck(T function){
     try{
         function();
     } catch (sql::SQLException & error) {
-        std::cerr << "MySQL error code: " << error.getErrorCode();
-        std::cerr << ", SQLState: " << error.getSQLState() << '\n';
+        std::cerr << "MySQL error code: " << error.getErrorCode()
+                  << ", SQLState: " << error.getSQLState() << '\n';
         return false;
     }
     return true;
@@ -57,21 +57,37 @@ bool MySql::executeQuery(std::string query){
 }
 
 bool MySql::executeQueryNoResult(std::string query){
-    return !stmt->execute(query.c_str());
+    return errorCheck([&](){
+        stmt->execute(query.c_str());
+    });
 }
 
-std::string MySql::getPreviousResponseColumn(int columnNumber){
-    if(res->next()){
-        return res->getString(1);
+std::string MySql::getPreviousResponseColumn(unsigned int columnNumber){
+    std::string columnInformation = "";
+    bool has_worked = errorCheck([&](){
+        if(res->next()){
+            columnInformation = res->getString(columnNumber);
+        }
+    });
+    
+    if(!has_worked){
+        res->previous();
     }
-    return "";
+    return columnInformation;
 }
 
 std::string MySql::getPreviousResponseColumn(std::string columnName){
-    if(res->next()){
-        return res->getString(columnName.c_str());
+    std::string columnInformation = "";
+    bool has_worked = errorCheck([&](){
+        if(res->next()){
+            columnInformation = res->getString(columnName);
+        }
+    });
+    
+    if(!has_worked){
+        res->previous();
     }
-    return "";
+    return columnInformation;
 }
 
 sql::ResultSet * MySql::getFullResult(){

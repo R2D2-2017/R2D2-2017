@@ -23,7 +23,6 @@
 #include <cppconn/statement.h>
 
 #include <string>
-#include <functional>
 
 class MySql{
 private:
@@ -44,7 +43,7 @@ private:
     ///     });
     /// \endcode
     ///
-    /// \param [in] function of template type T
+    /// \param [in] function The function to run of template type T
     ///
     /// \returns true on success.
     template <typename T>
@@ -71,9 +70,9 @@ public:
     ///     connectTo("tcp://192.168.2.50:3306", "R2D2", "BB8");
     /// \endcode
     ///
-    /// \param [in] The url of the server
-    /// \param [in] The username used to log in
-    /// \param [in] The password used to log in
+    /// \param [in] url The url of the server
+    /// \param [in] username The username used to log in
+    /// \param [in] password The password used to log in
     ///
     /// \returns true on success.
     bool connectTo(std::string url, std::string username, std::string password);
@@ -86,7 +85,7 @@ public:
     ///     selectDatabase("R2D2");
     /// \endcode
     ///
-    /// \param [in] The database to select
+    /// \param [in] databaseName The database to select
     ///
     /// \returns true on success.
     bool selectDatabase(std::string databaseName);
@@ -99,7 +98,7 @@ public:
     ///     executeQuery("SELECT * FROM RFID");
     /// \endcode
     ///
-    /// \param [in] The query to execute
+    /// \param [in] query The query to execute
     ///
     /// \returns true on success.
     bool executeQuery(std::string query);
@@ -112,23 +111,13 @@ public:
     ///     executeQueryNoResult( "INSERT INTO RFID (CARD_ID) VALUES ('[51,187,188,221,233]')" );
     /// \endcode
     ///
-    /// \param [in] The query to execute
+    /// \param [in] query The query to execute
     ///
     /// \returns true on success.
     bool executeQueryNoResult(std::string query);
     
     
-    
-    
-    
-    /*
-     Maybe test what hapens when you do not call res->next();
-     */
-    
-    
-    
-    
-    /// Returns the result of a previous run query
+    /// Can be used to grab the result of a previous query by column number
     ///
     /// Does not return the result if there is no result left. In that case it
     ///  returns an empty string.
@@ -138,40 +127,35 @@ public:
     ///     getPreviousResponseColumn(2);
     /// \endcode
     ///
-    /// \param [in] The number of the column to get
+    /// \param [in] columnNumber The number of the column to get
     ///
     /// \returns The result from the database
-    std::string getPreviousResponseColumn(int columnNumber);
+    std::string getPreviousResponseColumn(unsigned int columnNumber);
     
     
-    /// Does foo and bar.
+    /// Can be used to grab the result of a previous query by column name
     ///
-    /// Does not do foo the usual way if \p Baz is true.
+    /// Does not return the result if there is no result left. In that case it
+    ///  returns an empty string.
     ///
     /// Typical usage:
     /// \code
-    ///   fooBar(false, "quux", Res);
+    ///     getPreviousResponseColumn("CARD_ID");
     /// \endcode
     ///
-    /// \param Quux kind of foo to do.
-    /// \param [out] Result filled with bar sequence on foo success.
+    /// \param [in] columnName The name of the requested column 
     ///
-    /// \returns true on success.
+    /// \returns The result from the database
     std::string getPreviousResponseColumn(std::string columnName);
     
     
-    /// Does foo and bar.
-    ///
-    /// Does not do foo the usual way if \p Baz is true.
+    /// Get the full result from the previous sql query
     ///
     /// Typical usage:
     /// \code
-    ///   fooBar(false, "quux", Res);
+    ///     getFullResult();
     /// \endcode
     ///
-    /// \param Quux kind of foo to do.
-    /// \param [out] Result filled with bar sequence on foo success.
-    ///
-    /// \returns true on success.
+    /// \returns The full result with all columns and rows
     sql::ResultSet * getFullResult();
 };
