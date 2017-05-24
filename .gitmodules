@@ -5,3 +5,7 @@
 [submodule "libraries/hwlib"]
 	path = libraries/hwlib
 	url = https://github.com/wovo/hwlib.git
+[submodule "libraries/mustore"]
+	path = libraries/mustore
+	url = https://github.com/cjsmeele/MuStore.git
+	branch = cmake

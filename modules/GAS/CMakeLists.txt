@@ -25,6 +25,11 @@ add_definitions(-DBMPTK_TARGET_arduino_due
                 -DBMPTK_TARGET=arduino_due
                 -DBMPTK_BAUDRATE=19200)
 
+set(mustore ../../libraries/mustore)
+add_subdirectory(${mustore} mustore)
+include_directories(${mustore}/include)
+link_libraries(mustore)
+
 set(sources
     src/wrap-hwlib.cc
     src/libc-stub.cc
