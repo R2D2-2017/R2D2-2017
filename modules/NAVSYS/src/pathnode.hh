@@ -6,26 +6,25 @@
 class PathNode : public Node
 {
 private:
-	float g;
-	float h;
-	float f = 0;
-	Coordinate coordinate;
+    float g;
+    float h;
+    float f = 0;
+    Coordinate coordinate;
 
-	std::shared_ptr<PathNode> parent = nullptr;
+    std::shared_ptr<PathNode> parent = nullptr;
 
 public:
-	PathNode(Node n, Node goal, float g = 0);
-	~PathNode() = default;
+    PathNode(Node n, Node goal, float g = 0);
 
-	void calcf(Node goal);
-	void setG(float dist);
-	
-	float getG();
+    void calcF(Node goal);
+    void setG(float dist);
+    
+    float getG();
 
-	float getF();
+    float getF();
 
-	void setParent(std::shared_ptr<PathNode> dad);
+    void setParent(std::shared_ptr<PathNode> dad);
 
-	std::shared_ptr<PathNode> getParent();
+    std::shared_ptr<PathNode> getParent();
 
 };

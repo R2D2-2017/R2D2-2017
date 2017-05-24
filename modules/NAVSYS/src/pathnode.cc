@@ -1,39 +1,39 @@
 #include "pathnode.hh"
 
 PathNode::PathNode(Node n, Node goal, float g) :
-	Node(n),
-	coordinate(n.getCoordinate()),
-	g(g)
+    Node(n),
+    coordinate(n.getCoordinate()),
+    g(g)
 {
-	calcf(goal);
+    calcF(goal);
 }
 
-void PathNode::calcf(Node goal)
+void PathNode::calcF(Node goal)
 {
-	f = g + euclideanDistance(goal);
+    f = g + euclideanDistance(goal);
 }
 
 void PathNode::setG(float dist)
 {
-	g = dist;
+    g = dist;
 }
 
 float PathNode::getF()
 {
-	return f;
+    return f;
 }
 
 float PathNode::getG()
 {
-	return g;
+    return g;
 }
 
 void PathNode::setParent(std::shared_ptr<PathNode> dad)
 {
-	parent = dad;
+    parent = dad;
 }
 
 std::shared_ptr<PathNode> PathNode::getParent()
 {
-	return parent;
+    return parent;
 }
