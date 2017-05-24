@@ -20,12 +20,12 @@ int main(int argc, char **argv)
 	g.addNode(n2);
 	g.addNode(n3);
 
-	Vertice v1(n1, n2, 5.f);
-	Vertice v2(n2, n1, 5.f);
-	Vertice v3(n2, n3, 4.f);
-	Vertice v4(n3, n2, 4.f);
-	Vertice v5(n1, n3, 2.f);
-	Vertice v6(n3, n1, 2.f);
+	Vertice v1(n1, n2, 5);
+	Vertice v2(n2, n1, 5);
+	Vertice v3(n2, n3, 4);
+	Vertice v4(n3, n2, 4);
+	Vertice v5(n1, n3, 2);
+	Vertice v6(n3, n1, 2);
 
 	g.addVertice(v1);
 	g.addVertice(v2);
@@ -37,9 +37,7 @@ int main(int argc, char **argv)
 	std::vector<PathNode> path = Astar(&g, &n1, &n2);
 
 	std::cout << "the path is:\n";
-	for (auto it = path.begin(); it != path.end(); it++)
-	{
-		std::cout << ' ' << *it << '\n';
-	}
 
+	std::cout << "panic\n";
+	return 0;
 }

@@ -14,6 +14,7 @@ private:
 
 public:
 	PathNode(Node n, Node goal, float g = 0);
+	~PathNode() = default;
 
 	void calcf(Node goal);
 	void setG(float dist);

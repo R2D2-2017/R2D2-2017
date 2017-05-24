@@ -1,4 +1,5 @@
 #include "Astar.hh"
+#include <iostream>
 
 std::vector<PathNode> Astar(Graph * g, Node *start, Node *goal)
 {
@@ -35,13 +36,20 @@ std::vector<PathNode> Astar(Graph * g, Node *start, Node *goal)
 		// check to see if current is the goal
 		if (current == goal)
 		{
-			return reconstruct(current);
+			std::vector<PathNode> x;
+			return x;
 		}
 
 		// remove current from the opened nodes list and add it to closed
 		// shows that the node has been visited
 		closed_nodes.push_back(*current);
 		opened_nodes.erase(std::remove(opened_nodes.begin(), opened_nodes.end(), *current), opened_nodes.end());
+		std::cout << *current << '\n';
+
+		for (auto it = opened_nodes.begin(); it != opened_nodes.end(); it++)
+		{
+			std::cout << *it << '\n';
+		}
 		
 		// check which node corresponds with this PathNode
 		// add vertices to the list of curvertice based on that
@@ -105,7 +113,6 @@ std::vector<PathNode> Astar(Graph * g, Node *start, Node *goal)
 				if (i->getCoordinate() == it->getNeighbour()->getCoordinate())
 				{
 					cur_g = i->getG();
-					break;
 				}
 			}
 
@@ -131,7 +138,6 @@ std::vector<PathNode> Astar(Graph * g, Node *start, Node *goal)
 				}
 			}
 		}
-		
 	}
 }
 
