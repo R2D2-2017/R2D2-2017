@@ -28,12 +28,12 @@ float PathNode::getG()
 	return g;
 }
 
-void PathNode::setParent(PathNode * dad)
+void PathNode::setParent(std::shared_ptr<PathNode> dad)
 {
 	parent = dad;
 }
 
-PathNode * PathNode::getParent()
+std::shared_ptr<PathNode> PathNode::getParent()
 {
 	return parent;
 }

@@ -1,22 +1,21 @@
 #include "Astar.hh"
 #include <iostream>
 
-std::vector<PathNode> Astar(Graph * g, Node *start, Node *goal)
+std::vector<std::shared_ptr<PathNode>> Astar(Graph * g, Node *start, Node *goal)
 {
-	std::vector<PathNode> closed_nodes;
-	std::vector<PathNode> opened_nodes;
+	std::vector<std::shared_ptr<PathNode>> closed_nodes;
+	std::vector<std::shared_ptr<PathNode>> opened_nodes;
 	std::vector<Node> nodes = g->getNodes();
 	std::vector<Vertice> vertices = g->getVertices();
 	std::vector<Vertice> curvertice;
-	PathNode * current;
+	std::shared_ptr<PathNode> current;
 	float lowest_f;
 	bool breaker;
 	bool in = false;
 
-
 	float path_dist = 0;
 	
-	opened_nodes.push_back(PathNode(*start, *goal));
+	opened_nodes.push_back(std::make_shared<PathNode>(PathNode(*start, *goal)));
 
 	while (!opened_nodes.empty())
 	{
@@ -26,24 +25,23 @@ std::vector<PathNode> Astar(Graph * g, Node *start, Node *goal)
 		lowest_f = std::numeric_limits<float>::infinity();
 		for (auto it = opened_nodes.begin(); it != opened_nodes.end(); it++)
 		{
-			if (it->getF() < lowest_f)
+			if (it->get()->getF() < lowest_f)
 			{
-				lowest_f = it->getF();
-				current = &(*it);
+				lowest_f = it->get()->getF();
+				current = *it;
 			}
 		}
 		
 		// check to see if current is the goal
-		if (current == goal)
+		if (current->getCoordinate() == goal->getCoordinate())
 		{
-			std::vector<PathNode> x;
-			return x;
+			return reconstruct(current);
 		}
 
 		// remove current from the opened nodes list and add it to closed
 		// shows that the node has been visited
-		closed_nodes.push_back(*current);
-		opened_nodes.erase(std::remove(opened_nodes.begin(), opened_nodes.end(), *current), opened_nodes.end());
+		closed_nodes.push_back(current);
+		opened_nodes.erase(std::remove(opened_nodes.begin(), opened_nodes.end(), current), opened_nodes.end());
 		std::cout << *current << '\n';
 
 		for (auto it = opened_nodes.begin(); it != opened_nodes.end(); it++)
@@ -79,7 +77,7 @@ std::vector<PathNode> Astar(Graph * g, Node *start, Node *goal)
 			// check if the neighbouring nodes are already closed
 			for (auto i = closed_nodes.begin(); i != closed_nodes.end(); i++)
 			{
-				if (it->getNeighbour()->getCoordinate() == i->getCoordinate())
+				if (it->getNeighbour()->getCoordinate() == i->get()->getCoordinate())
 				{
 					breaker = true;
 					break;
@@ -96,7 +94,7 @@ std::vector<PathNode> Astar(Graph * g, Node *start, Node *goal)
 			for (auto i = opened_nodes.begin(); i != opened_nodes.end(); i++)
 			{
 				in = false;
-				if (it->getNeighbour()->getCoordinate() == i->getCoordinate())
+				if (it->getNeighbour()->getCoordinate() == i->get()->getCoordinate())
 				{
 					in = true;
 					break;
@@ -110,9 +108,9 @@ std::vector<PathNode> Astar(Graph * g, Node *start, Node *goal)
 			float cur_g;
 			for (auto i = opened_nodes.begin(); i != opened_nodes.end(); i++)
 			{
-				if (i->getCoordinate() == it->getNeighbour()->getCoordinate())
+				if (i->get()->getCoordinate() == it->getNeighbour()->getCoordinate())
 				{
-					cur_g = i->getG();
+					cur_g = i->get()->getG();
 				}
 			}
 
@@ -120,7 +118,7 @@ std::vector<PathNode> Astar(Graph * g, Node *start, Node *goal)
 
 			if (!in)
 			{
-				opened_nodes.push_back(PathNode(*(it->getNeighbour()), *goal, float(it->getWeight()) + current->getG()));
+				opened_nodes.push_back(std::make_shared<PathNode>(PathNode(*(it->getNeighbour()), *goal, float(it->getWeight()) + current->getG())));
 			}
 			// this path is slower than the current node continue to the next neighbour
 			else if (tentative_g >= cur_g)
@@ -130,25 +128,29 @@ std::vector<PathNode> Astar(Graph * g, Node *start, Node *goal)
 
 			for (auto i = opened_nodes.begin(); i != opened_nodes.end(); i++)
 			{
-				if (i->getCoordinate() == it->getNeighbour()->getCoordinate())
+				if (i->get()->getCoordinate() == it->getNeighbour()->getCoordinate())
 				{
-					i->setParent(current);
-					i->setG(tentative_g);
-					i->calcf(*goal);
+					i->get()->setParent(current);
+					i->get()->setG(tentative_g);
+					i->get()->calcf(*goal);
 				}
 			}
 		}
 	}
 }
 
-std::vector<PathNode> reconstruct(PathNode * current)
+std::vector<std::shared_ptr<PathNode>> reconstruct(std::shared_ptr<PathNode> current)
 {
-	std::vector<PathNode> path;
+	std::vector<std::shared_ptr<PathNode>> path;
+
+	path.push_back(current);
 
 	while (current->getParent() != nullptr)
 	{
-		path.push_back(*current);
 		current = current->getParent();
+		path.push_back(current);
+
 	}
+	std::reverse(path.begin(), path.end());
 	return path;
 }

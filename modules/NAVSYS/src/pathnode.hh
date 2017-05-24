@@ -1,5 +1,6 @@
 #pragma once
 
+#include <memory>
 #include "node.hh"
 
 class PathNode : public Node
@@ -10,7 +11,7 @@ private:
 	float f = 0;
 	Coordinate coordinate;
 
-	PathNode * parent = nullptr;
+	std::shared_ptr<PathNode> parent = nullptr;
 
 public:
 	PathNode(Node n, Node goal, float g = 0);
@@ -23,8 +24,8 @@ public:
 
 	float getF();
 
-	void setParent(PathNode * dad);
+	void setParent(std::shared_ptr<PathNode> dad);
 
-	PathNode * getParent();
+	std::shared_ptr<PathNode> getParent();
 
 };

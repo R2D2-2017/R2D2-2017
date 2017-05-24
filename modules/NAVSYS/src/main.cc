@@ -34,10 +34,14 @@ int main(int argc, char **argv)
 	g.addVertice(v5);
 	g.addVertice(v6);
 
-	std::vector<PathNode> path = Astar(&g, &n1, &n2);
+	std::vector<std::shared_ptr<PathNode>> path = Astar(&g, &n1, &n2);
 
 	std::cout << "the path is:\n";
 
-	std::cout << "panic\n";
+	for (auto it = path.begin(); it != path.end(); it++)
+	{
+		std::cout << it->get()->getCoordinate() << '\n';
+	}
+
 	return 0;
 }
