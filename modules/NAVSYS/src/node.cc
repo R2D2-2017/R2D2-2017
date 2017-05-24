@@ -15,6 +15,7 @@ std::ostream &operator<<(std::ostream &os, const Node &node) {
 }
 bool Node::operator==(const Node &rhs) const {
     return id == rhs.id;
+
 }
 bool Node::operator!=(const Node &rhs) const {
     return !(rhs == *this);
@@ -22,6 +23,7 @@ bool Node::operator!=(const Node &rhs) const {
 float Node::euclideanDistance(const Node &other) const {
     return coordinate.euclideanDistance(other.coordinate);
 }
+
 
 ///author jeremy
 ///
@@ -58,3 +60,4 @@ std::string Node::getCoordinate() {
     tmp+= "]";
     return tmp;
 }
+

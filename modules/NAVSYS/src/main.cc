@@ -1,11 +1,12 @@
 /**
  * \file
  * \brief     INSERT A DESCRIPTION HERE
- * \author
+ * \author    INSERT YOUR NAME HERE
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See LICENSE
  */
 #include <iostream>
+
 #include <algorithm>
 #include "graph.hh"
 
@@ -20,8 +21,8 @@ int main(int argc, char **argv) {
     Graph graph(nodeFilePath, verticeFilePath);
 
     try {
-        //graph.addNodeEntry();
-        //graph.addVerticeEntry();
+        graph.addNodeEntry();
+        graph.addVerticeEntry();
         //graph.addVerticeEntry();
         graph.writeGraphToStorage();
     }
@@ -35,4 +36,5 @@ int main(int argc, char **argv) {
 
     return 0;
 }
+
 

@@ -13,7 +13,11 @@
 // forward declaration of StorageMngr
 // which is necessary for the compiler make this class
 class StorageMngr;
-
+/**
+ * \brief Graph class
+ * \details
+ * Container class for nodes and vertices in the same graph
+ */
 class Graph {
 private:
     std::vector<Node> nodes;

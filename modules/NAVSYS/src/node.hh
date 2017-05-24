@@ -7,6 +7,12 @@
 
 #include <ostream>
 #include "coordinate.hh"
+
+/**
+ * \brief Node class
+ * \details
+ * Node class used in the constructions of a \ref Graph and \ref Vertice classes
+ */
 class Node {
 private:
     Coordinate coordinate;
@@ -47,4 +53,6 @@ public:
 /// Output string representation returned.
     std::string getCoordinate();
 };
+
+
 #endif //NAVIGATIONSYSTEM_NODE_HH

@@ -1,4 +1,5 @@
 //
+
 // Created by Robert  on 5/19/17 and jeremy.
 //
 
@@ -9,6 +10,7 @@ Vertice::Vertice(const std::vector<Node>::iterator node1, const std::vector<Node
 
 std::ostream &operator<<(std::ostream &os, const Vertice &vertice) {
     os << "Vertice with nodes: " << vertice.node1->getNodeName() << " & " << vertice.node2->getNodeName() << " with weight: " << vertice.weight << "\n";
+
     return os;
 }
 bool Vertice::operator==(const Vertice &rhs) const {
@@ -18,6 +20,7 @@ bool Vertice::operator==(const Vertice &rhs) const {
 bool Vertice::operator!=(const Vertice &rhs) const {
     return !(rhs == *this);
 }
+
 
 ///author jeremy
 ///
@@ -53,3 +56,4 @@ std::vector<Node>::iterator Vertice::getIteratorNode1() {
 int Vertice::getWeight() {
     return weight;
 }
+

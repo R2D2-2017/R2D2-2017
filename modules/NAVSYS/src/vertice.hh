@@ -6,18 +6,24 @@
 #define NAVIGATIONSYSTEM_VERTICE_HH
 
 #include <ostream>
+
 #include <vector>
 #include "node.hh"
+/**
+ * \brief Vertice class
+ * \details
+ * Class that describes a vertice between two nodes
+ */
 class Vertice {
 private:
     std::vector<Node>::iterator  node1;
     std::vector<Node>::iterator  node2;
-  int weight;
+    int weight;
 public:
     Vertice(const std::vector<Node>::iterator node1, const std::vector<Node>::iterator &node2, int weight = 1);
-  friend std::ostream &operator<<(std::ostream &os, const Vertice &vertice);
-  bool operator==(const Vertice &rhs) const;
-  bool operator!=(const Vertice &rhs) const;
+    friend std::ostream &operator<<(std::ostream &os, const Vertice &vertice);
+    bool operator==(const Vertice &rhs) const;
+    bool operator!=(const Vertice &rhs) const;
 
 ///author jeremy
 ///

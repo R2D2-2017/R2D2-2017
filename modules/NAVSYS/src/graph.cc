@@ -1,4 +1,5 @@
 //
+
 // Created by Robert and jeremy on 5/19/17.
 //
 #include <algorithm>
@@ -31,7 +32,6 @@ void Graph::addVertice(const Vertice vertice) {
         throw std::runtime_error("Vertice already in graph");
     }
 }
-
 
 void Graph::removeVertice(const Vertice vertice) {
     vertices.erase(std::remove(vertices.begin(), vertices.end(), vertice), vertices.end());
@@ -101,5 +101,6 @@ void Graph::addNodeEntry() {
 void Graph::addVerticeEntry() {
     storage->getVerticeEntryFromScreen();
 }
+
 
 
