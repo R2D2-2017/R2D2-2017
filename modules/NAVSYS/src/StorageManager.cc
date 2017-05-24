@@ -73,16 +73,12 @@ void StorageMngr::getNodeEntryFromScreen() {
     string iD = "";
     cout << "Please enter node name: >";
     getline(cin, name);
-    //nodeFileStreamOut << "(" << input << ")[";
     cout << "Please enter node coordinate x: >";
     getline(cin, coordinateX);
-    //nodeFileStreamOut <<  input << ",";
     cout << "Please enter node coordinate y: >";
     getline(cin, coordinateY);
-    //nodeFileStreamOut <<  input << "]-";
     cout << "Please enter node iD: >";
     getline(cin, iD);
-    //nodeFileStreamOut <<  input << "\n";
     graph->addNode(Node(std::stof(coordinateX), std::stof(coordinateY),std::stoi(iD), name ));
 
 }
@@ -95,12 +91,9 @@ void StorageMngr::getVerticeEntryFromScreen() {
 
     cout << "Please enter id of from node x: >";
     getline(cin, node1);
-    //verticeFileStreamOut << "(" << input << ")-(";
     cout << "Please enter id of to node x: >";
     getline(cin, node2);
-    //verticeFileStreamOut << input << ")[";
     cout << "Please enter path weight x: >";
-    //verticeFileStreamOut << input << "]\n";
     getline(cin, weight);
     graph->addVertice(Vertice(graph->getNodeByID(std::stoi(node1)),graph->getNodeByID(std::stoi(node2)),std::stoi(weight)));
 
@@ -238,9 +231,6 @@ void StorageMngr::RunVerticeFactory() {
         int tmpNodeA =  atoi(nodeA.c_str());
         int tmpNodeB =  atoi(nodeB.c_str());
         int tmpWeight =  atoi(weight.c_str());
-        //cout << nodeA << " \n";
-        //cout << nodeA << " \n";
-        //cout << weight<< " \n";
 
         graph->addVertice(Vertice(graph->getNodeByID(tmpNodeA), graph->getNodeByID(tmpNodeB), tmpWeight ));
     }
