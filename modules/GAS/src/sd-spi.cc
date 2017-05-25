@@ -1,16 +1,17 @@
-//===------------ sd-spi.hh - SD SPI Block Storage Provider -----*- C++ -*-===//
-//
-//                              The R2D2 Project
-//
-// This file is distributed under the Apache License 2.0, See LICENSE for
-// details.
-//
-//===----------------------------------------------------------------------===//
-///
-/// \file
-/// This file contains the SD SPI Block Storage Provider class implementation.
-///
-//===----------------------------------------------------------------------===//
+/**
+ * \file sd-spi.cc
+ * \brief     SD SPI Store provider.
+ * \author    Chris Smeele
+ * \author    Paul Ettema
+ * \copyright Copyright (c) 2017, The R2D2 Team
+ * \license   See LICENSE
+ * SD SPI Store provider from https://github.com/cjsmeele/Picus ported to use
+ * hwlib and work inside the R2D2 Project by Paul Ettema
+ *
+ * Original file is copyright 2016 (c) Chris Smeele and licensed under GPLv3.
+ * This file is modified and relicensed under the Apache license with the
+ * original author's permission.
+ */
 #include "sd-spi.hh"
 
 #include <cstdlib>
@@ -26,7 +27,8 @@ using namespace MuStore;
 ///
 struct SdCsd {
     // Offset 0.
-    uint8_t  version    : 2; // We don't support cards below version 2 (value 0b01).
+    uint8_t  version    : 2; // We don't support cards below version 2
+                             // (value 0b01).
     uint8_t  _reserved1 : 6;
 
     // Offset 1.
@@ -278,7 +280,8 @@ spiBus(spiSclk, spiMosi, spiMiso)
             return; // Check pattern mismatch.
     }
 
-    // Wait for the card to leave idle state (wait for it to finish initializing).
+    // Wait for the card to leave idle state (wait for it to finish
+    //                                        initializing).
     int j = cmdTimeoutClocks;
     do {
         if (j-- <= 0)
