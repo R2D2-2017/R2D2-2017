@@ -59,8 +59,10 @@ namespace due {
                             const uint8_t data_out[],
                             uint8_t data_in[]) override {
 
+            sel.set(false);
             for (size_t i = 0; i < n; i++)
                 data_in[i] = write_byte(sel, data_out[i]);
+            sel.set(true);
         }
 
         spi_bus_due() {
