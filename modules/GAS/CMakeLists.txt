@@ -25,6 +25,10 @@ add_definitions(-DBMPTK_TARGET_arduino_due
                 -DBMPTK_TARGET=arduino_due
                 -DBMPTK_BAUDRATE=19200)
 
+# Copy some toolchain flags here so libs will use them.
+# Ugly, I know, but there seems to be no other way.
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -mcpu=cortex-m3 -mthumb -fomit-frame-pointer -march=armv7-m -fno-exceptions")
+
 set(mustore ../../libraries/mustore)
 add_subdirectory(${mustore} mustore)
 include_directories(${mustore}/include)
