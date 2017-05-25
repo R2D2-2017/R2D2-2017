@@ -9,6 +9,7 @@
 #include "wrap-hwlib.hh"
 
 #include "sd-spi.hh"
+#include "data-logger.hh"
 
 int main() {
     WDT->WDT_MR = WDT_MR_WDDIS;
@@ -27,6 +28,8 @@ int main() {
     auto cs = target::pin_out(target::pins::d50);
     auto spiBus = hwlib::spi_bus_bit_banged_sclk_mosi_miso(sclk, mosi, miso);
     SdSpi sd(cs, spiBus);
+
+    auto logger = DataLogger(sd);
 
     hwlib::cout << "start\r\n";
 
@@ -60,9 +63,11 @@ int main() {
     // Test writing to sd card
 
     hwlib::cout << "writing to sd card\r\n";
-    char buffer[512] = {"Test string to write\0"};
-    int ret = sd.write(0, buffer);
-    hwlib::cout << "written with return code: " << ret << "\r\n";
+    // Write slightly more than one block
+    for (int i = 0; i < 65; i++) {
+        logger.writeValue(0.0f);
+        logger.writeValue(0.5f);
+    }
 
     while (true) {
         hwlib::wait_ms(200);
