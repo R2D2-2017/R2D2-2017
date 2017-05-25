@@ -5,9 +5,9 @@
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See LICENSE
  */
-#include <memstore.hh>
 #include "wrap-hwlib.hh"
 
+#include "hwlib-due-spi.hh"
 #include "sd-spi.hh"
 #include "data-logger.hh"
 
@@ -17,62 +17,36 @@ int main() {
     namespace target = hwlib::target;
     auto a = target::pin_out(target::pins::d13);
     a.set(0);
-    hwlib::wait_ms(500);
+    hwlib::wait_ms(200);
     a.set(1);
-    hwlib::wait_ms(500);
+    hwlib::wait_ms(100);
     a.set(0);
 
-    auto sclk = target::pin_out(target::pins::sck);
-    auto mosi = target::pin_out(target::pins::mosi);
-    auto miso = target::pin_in(target::pins::miso);
-    auto cs = target::pin_out(target::pins::d50);
-    auto spiBus = hwlib::spi_bus_bit_banged_sclk_mosi_miso(sclk, mosi, miso);
+    auto cs = target::pin_out(target::pins::d7);
+
+    target::spi_bus_due spiBus;
     SdSpi sd(cs, spiBus);
 
     auto logger = DataLogger(sd);
 
     hwlib::cout << "start\r\n";
 
-    // Test MuStore with memory store backend.
-
-    char mem[1024];
-    MuStore::MemStore store(mem, 1024);
-
-    char buf[512] = {"hoi"};
-    store.write(buf);
-
-    buf[0] = '\0';
-
-    store.rewind();
-    store.read(buf);
-
-    hwlib::cout << "read: <" << buf << ">\r\n";
-
-    buf[0] = 'H';
-    store.rewind();
-    store.write(buf);
-
-    buf[0] = '\0';
-
-    store.rewind();
-    auto x = store.read(buf);
-
-    hwlib::cout << "read: <" << buf << "> (ret" << x << ")\r\n";
-    hwlib::cout << "done\r\n";
-
     // Test writing to sd card
 
     hwlib::cout << "writing to sd card\r\n";
     // Write slightly more than one block
     for (int i = 0; i < 65; i++) {
+        hwlib::cout << ".";
         logger.writeValue(0.0f);
         logger.writeValue(0.5f);
     }
 
+    hwlib::cout << "done\r\n";
+
     while (true) {
-        hwlib::wait_ms(200);
+        hwlib::wait_ms(100);
         a.set(0);
-        hwlib::wait_ms(500);
+        hwlib::wait_ms(100);
         a.set(1);
     }
 
