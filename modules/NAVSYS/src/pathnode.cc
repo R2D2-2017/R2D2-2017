@@ -8,14 +8,14 @@
 #include "pathnode.hh"
 
 PathNode::PathNode(Node n, Node goal, float g) :
-	// sets the Node
+    // sets the Node
     Node(n),
-	// sets the coordinate
+    // sets the coordinate
     coordinate(n.getCoordinate()),
-	// sets g
+    // sets g
     g(g)
 {
-	//calculate initial f
+    //calculate initial f
     calcF(goal);
 }
 

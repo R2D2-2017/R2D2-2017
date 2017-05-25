@@ -22,15 +22,15 @@ bool Vertice::operator!=(const Vertice &rhs) const {
 
 Node * Vertice::getNeighbour()
 {
-	return &node2;
+    return &node2;
 }
 
 Node * Vertice::getCurrent()
 {
-	return &node1;
+    return &node1;
 }
 
 int Vertice::getWeight()
 {
-	return weight;
+    return weight;
 }

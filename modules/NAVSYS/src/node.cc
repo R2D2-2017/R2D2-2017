@@ -27,5 +27,5 @@ float Node::euclideanDistance(const Node &other) const {
 
 Coordinate Node::getCoordinate()
 {
-	return coordinate;
+    return coordinate;
 }
