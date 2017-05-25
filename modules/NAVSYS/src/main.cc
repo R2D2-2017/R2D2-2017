@@ -12,9 +12,9 @@ int main(int argc, char **argv)
 {
     Graph g;
 
-    Node n1(Coordinate(5.f, 5.f));
-    Node n2(Coordinate(10.f, 10.f));
-    Node n3(Coordinate(5.f, 10.f));
+    Node n1(Coordinate(5.f, 5.f), "n1");
+    Node n2(Coordinate(10.f, 10.f), "n2");
+    Node n3(Coordinate(5.f, 10.f), "n3");
 
     g.addNode(n1);
     g.addNode(n2);
@@ -34,14 +34,16 @@ int main(int argc, char **argv)
     g.addVertice(v5);
     g.addVertice(v6);
 
-    std::vector<std::shared_ptr<PathNode>> path = Astar(&g, &n1, &n2);
+    std::vector<PathNode> path = Astar(&g, &n1, &n2);
 
     std::cout << "the path is:\n";
 
     for (auto it = path.begin(); it != path.end(); it++)
     {
-        std::cout << it->get()->getCoordinate() << '\n';
+        std::cout << *it << '\n';
     }
+
+
 
     return 0;
 }

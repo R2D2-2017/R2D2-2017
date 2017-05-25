@@ -2,12 +2,15 @@
 
 #include <algorithm>
 #include <limits>
+#include <queue>
 #include "coordinate.hh"
 #include "graph.hh"
 #include "node.hh"
 #include "pathnode.hh"
 #include "vertice.hh"
 
-std::vector<std::shared_ptr<PathNode>> Astar(Graph * g, Node *start, Node *goal);
+using namespace std;
 
-std::vector<std::shared_ptr<PathNode>> reconstruct(std::shared_ptr<PathNode> current);
+vector<PathNode> Astar(Graph * g, Node *start, Node *goal);
+
+vector<PathNode> reconstruct(shared_ptr<PathNode> current);

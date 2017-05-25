@@ -1,64 +1,71 @@
 #include "astar.hh"
 
-std::vector<std::shared_ptr<PathNode>> Astar(Graph * g, Node *start, Node *goal)
+vector<PathNode> Astar(Graph * g, Node *start, Node *goal)
 {
-    std::vector<std::shared_ptr<PathNode>> closedNodes;
-    std::vector<std::shared_ptr<PathNode>> openedNodes;
-    std::vector<Node> nodes = g->getNodes();
-    std::vector<Vertice> vertices = g->getVertices();
-    std::vector<Vertice> curVertice;
-    std::shared_ptr<PathNode> current;
-    float lowestF;
+	// set container variables for use during algorithm
+    vector<shared_ptr<PathNode>> closedNodes;
+	vector<shared_ptr<PathNode>> openedNodes;
+	vector<PathNode> path;
+
+	// Get all the info on the graph
+    vector<Node> nodes = g->getNodes();
+    vector<Vertice> vertices = g->getVertices();
+    vector<Vertice> curVertice;
+    shared_ptr<PathNode> current;
+
+	// set variables to use during algorithm
     bool breaker;
     bool in = false;
-
+	float lowestF;
     float path_dist = 0;
     
-    openedNodes.push_back(std::make_shared<PathNode>(PathNode(*start, *goal)));
+    openedNodes.push_back(make_shared<PathNode>(PathNode(*start, *goal)));
 
     while (!openedNodes.empty())
     {
+	   
+		// find the PathNode with lowest f value
+		// set it to current
+		lowestF = std::numeric_limits<float>::infinity();
+		for (auto it = openedNodes.begin(); it != openedNodes.end(); it++)
+		{
+			if (it->get()->getF() < lowestF)
+			{
+				lowestF = it->get()->getF();
+				current = *it;
+			}
+		}
 
-        // find the PathNode with lowest f value
-        // set it to current
-        lowestF = std::numeric_limits<float>::infinity();
-        for (auto it = openedNodes.begin(); it != openedNodes.end(); it++)
-        {
-            if (it->get()->getF() < lowestF)
-            {
-                lowestF = it->get()->getF();
-                current = *it;
-            }
-        }
-        
-        // check to see if current is the goal
         if (current->getCoordinate() == goal->getCoordinate())
         {
-            return reconstruct(current);
+			path = reconstruct(current);
+			for (auto i = openedNodes.begin(); i != openedNodes.end(); i++)
+			{
+				*i = nullptr;
+			}
+			for (auto i = closedNodes.begin(); i != closedNodes.end(); i++)
+			{
+				*i = nullptr;
+			}
+			current = nullptr;
+            return path;
         }
 
         // remove current from the opened nodes list and add it to closed
         // shows that the node has been visited
         closedNodes.push_back(current);
-        openedNodes.erase(std::remove(openedNodes.begin(), openedNodes.end(), current), openedNodes.end());
+		openedNodes.erase(std::remove(openedNodes.begin(), openedNodes.end(), current), openedNodes.end());
         
-        // check which node corresponds with this PathNode
-        // add vertices to the list of curVertice based on that
+        // check which vertice has a N1 with the same coordinates as current pathnode
+		// add that vertice to current vertices
 
-        for (auto it = nodes.begin(); it != nodes.end(); it++)
-        {
-            if (current->getCoordinate() == it->getCoordinate())
-            {
-                for (auto i = vertices.begin(); i != vertices.end(); i++)
-                {
-                    if (i->getCurrent(*it))
-                    {
-                        curVertice.push_back(*i);
-                    }
-                }
-                break;
-            }
-        }
+		for (auto it = vertices.begin(); it != vertices.end(); it++)
+		{
+			if (it->getCurrent()->getCoordinate() == current->getCoordinate())
+			{
+				curVertice.push_back(*it);
+			}
+		}
 
         // open nodes in vertice neighbouring to current node
         // set their g based on vertice weight and previous nodes g
@@ -111,7 +118,7 @@ std::vector<std::shared_ptr<PathNode>> Astar(Graph * g, Node *start, Node *goal)
 
             if (!in)
             {
-                openedNodes.push_back(std::make_shared<PathNode>(PathNode(*(it->getNeighbour()), *goal, float(it->getWeight()) + current->getG())));
+                openedNodes.push_back(make_shared<PathNode>(PathNode(*(it->getNeighbour()), *goal, float(it->getWeight()) + current->getG())));
             }
             // this path is slower than the current node continue to the next neighbour
             else if (tentative_g >= cur_g)
@@ -130,20 +137,22 @@ std::vector<std::shared_ptr<PathNode>> Astar(Graph * g, Node *start, Node *goal)
             }
         }
     }
+	return path;
 }
 
-std::vector<std::shared_ptr<PathNode>> reconstruct(std::shared_ptr<PathNode> current)
+vector<PathNode> reconstruct(shared_ptr<PathNode> current)
 {
-    std::vector<std::shared_ptr<PathNode>> path;
+    vector<PathNode> path;
 
-    path.push_back(current);
+    path.push_back(*current);
 
     while (current->getParent() != nullptr)
     {
         current = current->getParent();
-        path.push_back(current);
+        path.push_back(*current);
 
     }
-    std::reverse(path.begin(), path.end());
+    reverse(path.begin(), path.end());
+	current = nullptr;
     return path;
 }

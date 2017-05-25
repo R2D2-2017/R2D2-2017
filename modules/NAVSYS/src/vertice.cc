@@ -25,9 +25,9 @@ Node * Vertice::getNeighbour()
 	return &node2;
 }
 
-bool Vertice::getCurrent(Node & check)
+Node * Vertice::getCurrent()
 {
-	return (check == node1);
+	return &node1;
 }
 
 int Vertice::getWeight()

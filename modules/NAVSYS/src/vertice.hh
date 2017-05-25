@@ -23,7 +23,7 @@ public:
   bool operator==(const Vertice &rhs) const;
   bool operator!=(const Vertice &rhs) const;
   Node * getNeighbour();
-  bool getCurrent(Node & check);
+  Node * getCurrent();
   int getWeight();
 };
 
