@@ -247,12 +247,9 @@ StoreError SdSpi::write(const void *buffer) {
     return sendBlock((uint8_t*)buffer, 512);
 }
 
-SdSpi::SdSpi() :
-spiSclk(hwlib::target::pins::sck),
-spiMosi(hwlib::target::pins::mosi),
-spiMiso(hwlib::target::pins::miso),
-spiCs(hwlib::target::pins::d50),
-spiBus(spiSclk, spiMosi, spiMiso)
+SdSpi::SdSpi(hwlib::pin_out& cs, hwlib::spi_bus& bus) :
+spiCs(cs),
+spiBus(bus)
 {
     // Wait for the SD card to become ready.
     if (wait() != 0xff)
