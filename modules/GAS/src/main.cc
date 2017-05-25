@@ -31,11 +31,12 @@ int main() {
 
     hwlib::cout << "start\r\n";
 
-    auto cs = target::pin_out(target::pins::d5); // XXX deliberately not set to actual CS(d10) for hwspi, temporary.
+    auto cs = target::pin_out(target::pins::d7);
+
     target::spi_bus_due spiBus;
     SdSpi sd(cs, spiBus);
 
-    char buf[512] = {"hoi"};
+    char buf[512] = { "hoi" };
 
     auto x = sd.read(buf);
 

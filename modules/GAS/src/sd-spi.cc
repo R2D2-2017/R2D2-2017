@@ -1,10 +1,11 @@
 /**
- * \file sd-spi.cc
+ * \file
  * \brief     SD SPI Store provider.
  * \author    Chris Smeele
  * \author    Paul Ettema
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See LICENSE
+ *
  * SD SPI Store provider from https://github.com/cjsmeele/Picus ported to use
  * hwlib and work inside the R2D2 Project by Paul Ettema
  *
@@ -24,6 +25,9 @@ using namespace MuStore;
 /// \brief SD Card-Specific Data structure.
 ///
 /// Fields are named as in the simplified SD spec.
+///
+/// Note: This bitfield struct serves only as documentation in this
+/// file. It isn't used in code.
 ///
 struct SdCsd {
     // Offset 0.
@@ -247,10 +251,13 @@ StoreError SdSpi::write(const void *buffer) {
     return sendBlock((uint8_t*)buffer, 512);
 }
 
-SdSpi::SdSpi(hwlib::pin_out& cs, hwlib::spi_bus& bus) :
-spiCs(cs),
-spiBus(bus)
-{
+SdSpi::SdSpi(hwlib::pin_out &cs, hwlib::spi_bus &bus)
+    : spiCs(cs),
+      spiBus(bus) {
+
+    // Dummy reset command, in case the card was in a strange state.
+    send(SdCommand{0, 0});
+
     // Wait for the SD card to become ready.
     if (wait() != 0xff)
         return; // Probably no card present.
