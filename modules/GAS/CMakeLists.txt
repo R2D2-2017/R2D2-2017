@@ -33,6 +33,7 @@ link_libraries(mustore)
 set(sources
     src/wrap-hwlib.cc
     src/libc-stub.cc
+    src/sd-spi.cc
     src/main.cc
 )
 
