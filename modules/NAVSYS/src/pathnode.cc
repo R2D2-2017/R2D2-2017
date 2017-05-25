@@ -1,10 +1,21 @@
+/**
+* \file      pathnode.cc
+* \author    Luuk Steeman
+* \copyright Copyright (c) 2017, The R2D2 Team
+* \license   See LICENSE
+*/
+
 #include "pathnode.hh"
 
 PathNode::PathNode(Node n, Node goal, float g) :
+	// sets the Node
     Node(n),
+	// sets the coordinate
     coordinate(n.getCoordinate()),
+	// sets g
     g(g)
 {
+	//calculate initial f
     calcF(goal);
 }
 
