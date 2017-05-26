@@ -7,7 +7,7 @@
  */
 
 
-#include "Alarm.hh"
+#include "alarm.hh"
 
 auto led0 = hwlib::target::pin_out( hwlib::target::pins::d7 );
 

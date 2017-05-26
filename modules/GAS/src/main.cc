@@ -1,7 +1,7 @@
 #include <sam3x8e.h>
 #include "wrap-hwlib.hh" 
 
-#include "Alarm.hh"
+#include "alarm.hh"
 
 int main( void ){
 
