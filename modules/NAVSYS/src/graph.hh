@@ -1,76 +1,46 @@
 //
-// Created by Robert and jeremy on 5/19/17.
+// Created by Robert on 5/19/17.
 //
 
 #ifndef NAVIGATIONSYSTEM_GRAPH_HH
 #define NAVIGATIONSYSTEM_GRAPH_HH
 
+#include <iostream>
 #include <vector>
 #include "node.hh"
 #include "vertice.hh"
-#include "StorageManager.hh"
-
-// forward declaration of StorageMngr
-// which is necessary for the compiler make this class
-class StorageMngr;
 
 class Graph {
 private:
     std::vector<Node> nodes;
     std::vector<Vertice> vertices;
-    StorageMngr * storage = nullptr;
 
 public:
-    Graph(const std::string  nodeFilePath, const std::string  verticeFilePath);
-///author jeremy
-///
-/// This function can be used to write the current state of the graph to disk.
-///
-/// The function calls the storage manager to handle storage.
-///
-/// Output vertices and nodes saved in their respective files.
-    void writeGraphToStorage();
+
     void addNode(const Node node);
+
     void removeNode(const Node node);
+
     void addVertice(const Vertice vertice);
+
     void removeVertice(const Vertice vertice);
+
     bool containsNode(const Node node);
+
     bool containsVertice(const Vertice vertice);
-    std::vector<Node> & getNodes();
-    std::vector<Vertice> & getVertices();
 
-///author jeremy
-///
-/// This function gets a node from the graph based on id.
-///
-/// /param int id
-///
-/// This function iterates over all the node elements en returns the element where the id matches.
-/// This function is only used to close the input file streams used by the factory functions.
-///
-/// Output the iterator pointing to the node will be returned.
-///
-/// /return it
-    std::vector<Node>::iterator getNodeByID(int id);
+    std::vector<Node> getNodes();
 
-///author jeremy
-///
-/// This function can be used to add a node to the graph.
-///
-/// The function calls the storage manager to handle the input.
-///
-/// Output node added to graph.
-    void addNodeEntry();
+    std::vector<Vertice> getVertices();
 
+    void setNodes(std::vector<Node> nodes);
 
-///author jeremy
-///
-/// This function can be used to add a node to the graph.
-///
-/// The function calls the storage manager to handle the input.
-///
-/// Output node added to graph.
-    void addVerticeEntry();
+    void setVertices(std::vector<Vertice> vertices);
+
+    std::vector<Node>::iterator getNodeByName(std::string name);
+
+    void dumpGraphToDisk(const std::string nodeFilePath,const std::string verticeFilePath);
 };
+
 
 #endif //NAVIGATIONSYSTEM_GRAPH_HH

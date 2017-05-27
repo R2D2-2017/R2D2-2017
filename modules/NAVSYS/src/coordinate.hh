@@ -9,26 +9,28 @@
 
 class Coordinate {
 public:
-  Coordinate(float x, float y);
 
-  float x;
-  float y;
+    Coordinate(float x, float y);
 
-  bool operator==(const Coordinate &rhs) const;
+    float x;
+    float y;
 
-  bool operator!=(const Coordinate &rhs) const;
+    bool operator==(const Coordinate &rhs) const;
 
-  Coordinate &operator+=(const Coordinate &rhs);
+    bool operator!=(const Coordinate &rhs) const;
 
-  friend Coordinate operator+(Coordinate lhs, const Coordinate &rhs);
+    Coordinate &operator+=(const Coordinate &rhs);
 
-  Coordinate &operator-=(const Coordinate &rhs);
+    friend Coordinate operator+(Coordinate lhs, const Coordinate &rhs);
 
-  friend Coordinate operator-(Coordinate lhs, const Coordinate &rhs);
+    Coordinate &operator-=(const Coordinate &rhs);
 
-  friend std::ostream &operator<<(std::ostream &os, const Coordinate &coordinate);
+    friend Coordinate operator-(Coordinate lhs, const Coordinate &rhs);
 
-  float euclideanDistance(const Coordinate &rhs) const;
+    friend std::ostream &operator<<(std::ostream &os, const Coordinate &coordinate);
+
+    float euclideanDistance(const Coordinate &rhs) const;
+
 
 };
 
