@@ -7,13 +7,30 @@
 
 #include <ostream>
 
+/**
+ * \brief 2D Coordinate class
+ * \details
+ * Coordinate class for coordinates on a 2d plane.
+ */
 class Coordinate {
 public:
+  /**
+   * Instantiate a Coordinate
+   * \param x X position
+   * \param y Y position
+   */
+  Coordinate(float x, float y);
 
-    Coordinate(float x, float y);
+  /**
+   * X position of Coordinate
+   */
+  float x;
+  /**
+   * Y position of Coordinate
+   */
 
-    float x;
-    float y;
+  float y;
+
 
     bool operator==(const Coordinate &rhs) const;
 
@@ -29,7 +46,18 @@ public:
 
     friend std::ostream &operator<<(std::ostream &os, const Coordinate &coordinate);
 
-    float euclideanDistance(const Coordinate &rhs) const;
+
+
+  /**
+   * \brief Get the euclidean distance between Coordinates
+   * \details
+   * Returns the euclidean distance calculated with the following function:
+   * \f$(x_1,y_1)\f$ and \f$(x_2,y_2)\f$
+   * \param rhs Other coordinate
+   * \return Distance between Coordinates
+   */
+
+  float euclideanDistance(const Coordinate &rhs) const;
 
 
 };

@@ -10,6 +10,12 @@
 #include "node.hh"
 #include "vertice.hh"
 
+/**
+ * \brief Graph class
+ * \details
+ * Container class for nodes and vertices in the same graph
+ */
+
 class Graph {
 private:
     std::vector<Node> nodes;

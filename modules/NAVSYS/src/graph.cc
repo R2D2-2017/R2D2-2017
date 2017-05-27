@@ -23,7 +23,6 @@ void Graph::addVertice(const Vertice vertice) {
     }
 }
 
-
 void Graph::removeVertice(const Vertice vertice) {
     vertices.erase(std::remove(vertices.begin(), vertices.end(), vertice), vertices.end());
 }
@@ -100,9 +99,4 @@ void Graph::dumpGraphToDisk(const std::string nodeFilePath,const std::string ver
 
     fclose(verticeFile);
 }
-
-
-
-
-
 

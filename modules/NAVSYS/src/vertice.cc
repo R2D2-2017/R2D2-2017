@@ -1,6 +1,4 @@
-//
 // Created by Robert  on 5/19/17.
-//
 
 #include "vertice.hh"
 
@@ -22,6 +20,7 @@ bool Vertice::operator!=(const Vertice &rhs) const {
 Node * Vertice::getNeighbour()
 {
     return &node2;
+
 }
 
 Node * Vertice::getCurrent()
@@ -33,5 +32,4 @@ int Vertice::getWeight()
 {
     return weight;
 }
-
 

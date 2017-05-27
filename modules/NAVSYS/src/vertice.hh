@@ -6,6 +6,7 @@
 #define NAVIGATIONSYSTEM_VERTICE_HH
 
 #include <ostream>
+#include <vector>
 #include "node.hh"
 /**
  * \brief Vertice class
@@ -14,6 +15,7 @@
  */
 class Vertice {
 private:
+
     Node node1;
     Node node2;
     int weight;
@@ -29,6 +31,7 @@ public:
     Node *getNeighbour();
 
     Node *getCurrent();
+
 
     int getWeight();
 

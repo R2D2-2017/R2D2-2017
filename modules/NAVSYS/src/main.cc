@@ -1,12 +1,12 @@
 /**
  * \file
  * \brief     INSERT A DESCRIPTION HERE
- * \author
+ * \author    INSERT YOUR NAME HERE
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See LICENSE
  */
 #include <iostream>
-#include <algorithm>
+//#include <algorithm>
 #include "graph.hh"
 #include "graphfactory.hh"
 #include "graphinput.hh"
@@ -38,4 +38,5 @@ int main(int argc, char **argv) {
     std::cout << "exit\n";
     return 0;
 }
+
 
