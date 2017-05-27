@@ -8,22 +8,27 @@
 #include <iostream>
 #include <algorithm>
 #include "graph.hh"
-
+#include "graphfactory.hh"
+#include "graphinput.hh"
 
 
 
 int main(int argc, char **argv) {
 
-    string nodeFilePath = "../debug/node.txt";
-    string verticeFilePath = "../debug/vertice.txt";
+    std::string nodeFilePath = "../debug/node.txt";
+    std::string verticeFilePath = "../debug/vertice.txt";
 
-    Graph graph(nodeFilePath, verticeFilePath);
+    graphinput input = graphinput();
+    graphfactory factory = graphfactory(nodeFilePath, verticeFilePath);
+    Graph * graph = factory.createGraph();
+
 
     try {
-        //graph.addNodeEntry();
-        //graph.addVerticeEntry();
-        //graph.addVerticeEntry();
-        graph.writeGraphToStorage();
+        std::cout<< "trying....\n";
+        //input.getNodeEntryFromScreen(graph);
+        //input.getVerticeEntryFromScreen(graph);
+        graph->dumpGraphToDisk(nodeFilePath,verticeFilePath);
+
     }
     catch (const std::bad_alloc& e) {
         std::cout << "Allocation failed: " << e.what() << '\n';
@@ -31,8 +36,6 @@ int main(int argc, char **argv) {
 
 
     std::cout << "exit\n";
-
-
     return 0;
 }
 
