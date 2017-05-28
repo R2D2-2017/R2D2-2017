@@ -39,12 +39,26 @@ public:
 
     std::vector<Vertice> getVertices();
 
+    /**
+ * \brief function to set the nodes vector
+ */
     void setNodes(std::vector<Node> nodes);
 
+    /**
+ * \brief function to set the vertice vector
+ */
     void setVertices(std::vector<Vertice> vertices);
 
+    /**
+  * \brief function to get a element of the nodes vector by name
+  */
     std::vector<Node>::iterator getNodeByName(std::string name);
 
+    /**
+* \brief function to write the graph to the disk at the specified filepaths.
+     * \param [in]nodeFilePath the node filepath
+     * \param [in]verticeFilePath the vertice filepath
+*/
     void dumpGraphToDisk(const std::string nodeFilePath,const std::string verticeFilePath);
 };
 

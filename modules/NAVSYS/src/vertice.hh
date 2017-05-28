@@ -32,7 +32,6 @@ public:
 
     Node *getCurrent();
 
-
     int getWeight();
 
 };

@@ -32,12 +32,6 @@ Coordinate Node::getCoordinate()
 
 }
 
-///author jeremy
-///
-/// This function can be used to get the name of a node.
-///
-///
-/// Output node name returned.
 std::string Node::getNodeName() const{
     return name;
 }

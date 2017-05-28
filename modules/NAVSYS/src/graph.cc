@@ -64,6 +64,7 @@ void Graph::dumpGraphToDisk(const std::string nodeFilePath,const std::string ver
     nodeFile = fopen(nodeFilePath.c_str(),"w");
     std::cout<< "saving nodes on disk\n";
 
+    // for each node in the graph create the format string and write it the the correct file.
     std::for_each (nodes.begin(), nodes.end(), [nodeFile](Node node){
         std::string tmp = "";
         tmp+="(";
@@ -84,6 +85,7 @@ void Graph::dumpGraphToDisk(const std::string nodeFilePath,const std::string ver
     verticeFile = fopen(verticeFilePath.c_str(),"w");
     std::cout<< "saving vertices on disk\n";
 
+    // for each node in the graph create the format string and write it the the correct file.
     std::for_each (vertices.begin(), vertices.end(), [verticeFile](Vertice vertice) {
         std::string tmp = "";
         tmp+="(";

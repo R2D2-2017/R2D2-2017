@@ -15,8 +15,8 @@
 
 int main(int argc, char **argv) {
 
-    std::string nodeFilePath = "../debug/node.txt";
-    std::string verticeFilePath = "../debug/vertice.txt";
+    std::string nodeFilePath = "../src/node.txt";
+    std::string verticeFilePath = "../src/vertice.txt";
 
     graphinput input = graphinput();
     graphfactory factory = graphfactory(nodeFilePath, verticeFilePath);

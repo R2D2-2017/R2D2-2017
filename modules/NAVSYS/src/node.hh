@@ -28,12 +28,9 @@ public:
     float euclideanDistance(const Node &other) const;
     Coordinate getCoordinate();
 
-///author jeremy
-///
-/// This function can be used to get the name of a node.
-///
-///
-/// Output node name returned.
+/**
+ * \brief function to get the name of a node
+ */
     std::string getNodeName() const;
 };
 

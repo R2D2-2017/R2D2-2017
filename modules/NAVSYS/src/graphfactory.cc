@@ -1,7 +1,10 @@
-//
-// Created by datz on 26-5-17.
-//
-
+/**
+ * \file
+ * \brief     This file includes contains the implementations for the graphfactory class
+ * \author    Jeremy
+ * \copyright Copyright (c) 2017, The R2D2 Team
+ * \license   See LICENSE
+ */
 #include "graphfactory.hh"
 
 
@@ -38,11 +41,7 @@ bool graphfactory::containsVertice(const Vertice vertice) {
 }
 
 
-///author jeremy
-///
-/// This function calles the necessary parts to create a graph.
-///
-/// /return graph
+
 Graph* graphfactory::createGraph(){
 
     RunGraphFactory();
@@ -53,11 +52,6 @@ Graph* graphfactory::createGraph(){
     return graph;
 }
 
-///author jeremy
-///
-/// This function closes all files opened by the factory.
-///
-/// Output files are closed
 void graphfactory::closeFiles() {
     if (nodeFileStreamIn.is_open()){
         nodeFileStreamIn.close();
@@ -68,11 +62,6 @@ void graphfactory::closeFiles() {
 
 }
 
-///author jeremy
-///
-/// This function finds a node based on name .
-///
-/// /return iterator to node
 
 std::vector<Node>::iterator graphfactory::getNodeByName(std::string name) {
     std::vector<Node>::iterator it;
@@ -103,17 +92,18 @@ std::vector<Node>::iterator graphfactory::getNodeByName(std::string name) {
 void graphfactory::RunNodeFactory() {
 
     string nodeEntry = "";
+    //get line out of file
     while (getline (nodeFileStreamIn,nodeEntry)) {
         string nodeName = "";
         string nodePosX = "";
         string nodePosY = "";
 
-
+        // flags to to deside based on specific chars, which data element is being read.
         bool nameFlag = 0;
         bool coordinateFlagX = 0;
         bool coordinateFlagY = 0;
 
-
+        // for each char in line
         unsigned int i = 0;
         while (i < nodeEntry.length()) {
 
@@ -151,7 +141,7 @@ void graphfactory::RunNodeFactory() {
 
         float tmpPosX = std::stof(nodePosX);
         float tmpPosY = std::stof(nodePosY);
-
+        // add created node to vector
         Node newNode = Node(tmpPosX,tmpPosY,  nodeName);
         addNode(newNode);
 
@@ -181,16 +171,21 @@ void graphfactory::RunNodeFactory() {
 void graphfactory::RunVerticeFactory() {
 
     string verticeEntry = "";
+    //get line out of file
     while (getline (verticeFileStreamIn,verticeEntry)) {
+
+        // strings to store chars read
         string nodeA = "";
         string nodeB = "";
         string weight = "";
 
+
+        // flags to to deside based on specific chars, which data element is being read.
         bool nodeFlagA = 0;
         bool nodeFlagB = 0;
         bool weightFlag = 0;
 
-
+        // for each char in line
         unsigned int i = 0;
         while (i < verticeEntry.length()) {
             char c = verticeEntry.at(i);
@@ -231,7 +226,7 @@ void graphfactory::RunVerticeFactory() {
         }
 
         int tmpWeight =  atoi(weight.c_str());
-
+        // add created vertice to vector
         addVertice(Vertice( Node( getNodeByName(nodeA)->getCoordinate().x, getNodeByName(nodeA)->getCoordinate().y,
                                   getNodeByName(nodeA)->getNodeName()),
                             Node( getNodeByName(nodeB)->getCoordinate().x, getNodeByName(nodeB)->getCoordinate().y,
@@ -241,15 +236,7 @@ void graphfactory::RunVerticeFactory() {
     }
 }
 
-///author jeremy
-///
-/// This function is used to start the graph factory
-///
-/// This function opens the fil streams in append mode
-/// and calles the independent node and vertice factories.
-/// Afterwards it will close the file streams.
-///
-/// Output graph is stored in memory
+
 void graphfactory::RunGraphFactory() {
 
     nodeFileStreamIn.open(nodeFilePath,std::ios_base::app);
