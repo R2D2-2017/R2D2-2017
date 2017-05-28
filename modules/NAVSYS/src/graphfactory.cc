@@ -6,64 +6,31 @@
  * \license   See LICENSE
  */
 #include "graphfactory.hh"
-
-
- graphfactory::graphfactory(const std::string nodeFilePath,const std::string verticeFilePath):
-        nodeFilePath(nodeFilePath),verticeFilePath(verticeFilePath)
-{
-
-}
-
-
-void graphfactory::addNode(const Node node) {
-    if (!containsNode(node)) {
-        nodes.push_back(node);
-    } else {
-        throw std::runtime_error("Node already in list");
-    }
-}
-
-
-void graphfactory::addVertice(const Vertice vertice) {
-    if (!containsVertice(vertice)) {
-        vertices.push_back(vertice);
-    } else {
-        throw std::runtime_error("Vertice already in list");
-    }
-}
-
-bool graphfactory::containsNode(const Node node) {
-    return std::find(nodes.begin(), nodes.end(), node) != nodes.end();
-}
-
-bool graphfactory::containsVertice(const Vertice vertice) {
-    return std::find(vertices.begin(), vertices.end(), vertice) != vertices.end();
-}
+#include <algorithm>
 
 
 
-Graph* graphfactory::createGraph(){
 
-    RunGraphFactory();
+Graph* graphfactory::createGraph(std::string nodeFilePath,std::string verticeFilePath ){
+
+    ifstream nodeFileStreamIn;
+    ifstream verticeFileStreamIn;
+
+    nodeFileStreamIn.open(nodeFilePath,std::ios_base::app);
+    verticeFileStreamIn.open(verticeFilePath,std::ios_base::app);
+
     Graph * graph = new Graph();
-    graph->setNodes(nodes);
-    graph->setVertices(vertices);
+    graph->setNodes(RunNodeFactory(&nodeFileStreamIn));
+    graph->setVertices(RunVerticeFactory(&verticeFileStreamIn,graph->getNodes()));
+
+    nodeFileStreamIn.close();
+    verticeFileStreamIn.close();
 
     return graph;
 }
 
-void graphfactory::closeFiles() {
-    if (nodeFileStreamIn.is_open()){
-        nodeFileStreamIn.close();
-    }
-    if (verticeFileStreamIn.is_open()){
-        verticeFileStreamIn.close();
-    }
 
-}
-
-
-std::vector<Node>::iterator graphfactory::getNodeByName(std::string name) {
+std::vector<Node>::iterator graphfactory::getNodeByName(std::string name, std::vector<Node> nodes) {
     std::vector<Node>::iterator it;
     it = std::find_if(std::begin(nodes), std::end(nodes),[&](const Node & node) -> bool{
         return node.getNodeName() == name;
@@ -89,11 +56,11 @@ std::vector<Node>::iterator graphfactory::getNodeByName(std::string name) {
 ///
 /// Output nodes are stored in graph
 
-void graphfactory::RunNodeFactory() {
-
+std::vector<Node> graphfactory::RunNodeFactory(ifstream* nodeFileStreamIn) {
+    std::vector<Node> nodes;
     string nodeEntry = "";
     //get line out of file
-    while (getline (nodeFileStreamIn,nodeEntry)) {
+    while (getline (*nodeFileStreamIn,nodeEntry)) {
         string nodeName = "";
         string nodePosX = "";
         string nodePosY = "";
@@ -143,9 +110,11 @@ void graphfactory::RunNodeFactory() {
         float tmpPosY = std::stof(nodePosY);
         // add created node to vector
         Node newNode = Node(tmpPosX,tmpPosY,  nodeName);
-        addNode(newNode);
+        //addNode(newNode);
+        nodes.push_back(newNode);
 
     }
+    return nodes;
 }
 
 
@@ -168,11 +137,11 @@ void graphfactory::RunNodeFactory() {
 /// !!!
 ///
 /// Output vertices are stored in graph
-void graphfactory::RunVerticeFactory() {
-
+std::vector<Vertice> graphfactory::RunVerticeFactory(ifstream* verticeFileStreamIn, std::vector<Node> nodes) {
+    std::vector<Vertice> vertices;
     string verticeEntry = "";
     //get line out of file
-    while (getline (verticeFileStreamIn,verticeEntry)) {
+    while (getline (*verticeFileStreamIn,verticeEntry)) {
 
         // strings to store chars read
         string nodeA = "";
@@ -227,22 +196,14 @@ void graphfactory::RunVerticeFactory() {
 
         int tmpWeight =  atoi(weight.c_str());
         // add created vertice to vector
-        addVertice(Vertice( Node( getNodeByName(nodeA)->getCoordinate().x, getNodeByName(nodeA)->getCoordinate().y,
-                                  getNodeByName(nodeA)->getNodeName()),
-                            Node( getNodeByName(nodeB)->getCoordinate().x, getNodeByName(nodeB)->getCoordinate().y,
-                                  getNodeByName(nodeB)->getNodeName()),
+        //addVertice(Vertice( Node( getNodeByName(nodeA)->getCoordinate().x, getNodeByName(nodeA)->getCoordinate().y,
+        vertices.push_back(Vertice( Node( getNodeByName(nodeA,nodes)->getCoordinate().x, getNodeByName(nodeA,nodes)->getCoordinate().y,
+                                  getNodeByName(nodeA,nodes)->getNodeName()),
+                            Node( getNodeByName(nodeB,nodes)->getCoordinate().x, getNodeByName(nodeB,nodes)->getCoordinate().y,
+                                  getNodeByName(nodeB,nodes)->getNodeName()),
                             tmpWeight ));
 
     }
+    return vertices;
 }
 
-
-void graphfactory::RunGraphFactory() {
-
-    nodeFileStreamIn.open(nodeFilePath,std::ios_base::app);
-    verticeFileStreamIn.open(verticeFilePath,std::ios_base::app);
-    RunNodeFactory();
-    RunVerticeFactory();
-    closeFiles();
-
-}

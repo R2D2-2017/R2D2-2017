@@ -8,10 +8,8 @@
 
 #ifndef NAVSYS_GRAPHFACTORY_HH
 #define NAVSYS_GRAPHFACTORY_HH
-
 #include <iostream>
 #include <fstream>
-#include <algorithm>
 #include <vector>
 #include "graph.hh"
 #include "node.hh"
@@ -22,27 +20,12 @@ class graphfactory {
 private:
 
 
-    std::vector<Node> nodes;
-    std::vector<Vertice> vertices;
-
-    string nodeFilePath;
-    string verticeFilePath;
-
-
-    ifstream nodeFileStreamIn;
-    ifstream verticeFileStreamIn;
-
-    void addVertice(const Vertice vertice);
-    void addNode(const Node node);
-    bool containsNode(const Node node);
-    bool containsVertice(const Vertice vertice);
-
 /**
- * \brief    This function finds a node in the node and vertice vectors by name
+ * \brief    This function finds a node in the node  vector by name
  * \param[in] name name of node
  * \return  it  iterator to node element
  */
-    std::vector<Node>::iterator getNodeByName(std::string name);
+    std::vector<Node>::iterator getNodeByName(std::string name, std::vector<Node> nodes);
 
 
 /**
@@ -64,7 +47,7 @@ private:
  *
  * \return   vector with vertice elements filled.
  */
-    void RunNodeFactory();
+    std::vector<Node> RunNodeFactory(ifstream* nodeFileStreamIn);
 
 
 
@@ -89,39 +72,17 @@ private:
  *
  * \return   vector with vertice elements filled.
  */
-    void RunVerticeFactory();
+    std::vector<Vertice> RunVerticeFactory(ifstream* verticeFileStreamIn, std::vector<Node> nodes);
 
-/**
- * \brief    This function closes al files used by the factory
- */
-    void closeFiles();
-
-
-/**
- * \brief    This function opens the files in append mode and calles the nodefactory and vetice factory
- *
- */
-    void RunGraphFactory();
 
 public:
-
-
-/**
-
- * \brief    constructor of graphfactory
-    \param [in] nodeFilePath  filepath to node file
-    \param [in] verticeFilePath filepath to vertice file
- */
-
-    graphfactory(const std::string nodeFilePath, const std::string verticeFilePath);
-
 
 
 /**
  * \brief    This function asks the factory to create a graph
  * \return graph* a pointer to the new created graph by the factory
  */
-    Graph* createGraph();
+    Graph* createGraph(std::string nodeFilePath,std::string verticeFilePath);
 
 
 };

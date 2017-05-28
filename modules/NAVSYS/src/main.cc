@@ -18,9 +18,9 @@ int main(int argc, char **argv) {
     std::string nodeFilePath = "../src/node.txt";
     std::string verticeFilePath = "../src/vertice.txt";
 
-    graphinput input = graphinput();
-    graphfactory factory = graphfactory(nodeFilePath, verticeFilePath);
-    Graph * graph = factory.createGraph();
+    //graphinput input = graphinput();
+    graphfactory factory = graphfactory();
+    Graph * graph = factory.createGraph(nodeFilePath,verticeFilePath);
 
 
     try {
