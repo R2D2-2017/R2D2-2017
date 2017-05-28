@@ -1,17 +1,10 @@
-//===-- mysql.cc - MySql class definition -------*- C++ -*-===//
-//
-//                     The R2D2 Compiler Infrastructure
-//
-// This file is distributed under the R2D2 Open Source
-// License. See LICENSE.TXT for details.
-//
-//===----------------------------------------------------------------------===//
-///
-/// \file
-/// This file contains the definition of the MySql class. It handles all mysql
-///  database connectivity.
-///
-//===----------------------------------------------------------------------===//
+/**
+ * \file
+ * \brief     Mysql library with error checking that uses the mysqlcppconn library
+ * \author    Tim IJntema
+ * \copyright Copyright (c) 2017, The R2D2 Team
+ * \license   See LICENSE
+ */
 
 #include "mysql.hh"
 

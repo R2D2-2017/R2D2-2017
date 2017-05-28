@@ -1,17 +1,10 @@
-//===-- mysql.hh - MySql class declaration -------*- C++ -*-===//
-//
-//                     The R2D2 Compiler Infrastructure
-//
-// This file is distributed under the R2D2 Open Source
-// License. See LICENSE.TXT for details.
-//
-//===----------------------------------------------------------------------===//
-///
-/// \file
-/// This file contains the declaration of the MySql class. It handles all mysql
-///  database connectivity.
-///
-//===----------------------------------------------------------------------===//
+/**
+ * \file
+ * \brief     Mysql library with error checking that uses the mysqlcppconn library
+ * \author    Tim IJntema
+ * \copyright Copyright (c) 2017, The R2D2 Team
+ * \license   See LICENSE
+ */
 
 #pragma once
 
@@ -24,6 +17,17 @@
 
 #include <string>
 
+
+/**
+ * \brief Sql class with error checking
+ *
+ * This class uses the mysqlcppconn library to connect to a mysql database.
+ * This library by itself dus not have error handling, therefore that is beeing
+ *  handled in this class. The class also minimizes the amount of work a 
+ * programmer has to do by automatically deleting the variables after use and
+ *  calling any functions that always have to be called and do not need input 
+ * information. 
+ */
 class MySql{
 private:
     sql::Driver * driver;
