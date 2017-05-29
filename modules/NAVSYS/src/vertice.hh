@@ -22,6 +22,9 @@ public:
   friend std::ostream &operator<<(std::ostream &os, const Vertice &vertice);
   bool operator==(const Vertice &rhs) const;
   bool operator!=(const Vertice &rhs) const;
+  Node * getNeighbour();
+  Node * getCurrent();
+  int getWeight();
 };
 
 #endif //NAVIGATIONSYSTEM_VERTICE_HH

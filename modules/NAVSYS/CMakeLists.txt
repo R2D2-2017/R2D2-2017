@@ -13,7 +13,7 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 include_directories(${SFML_INCLUDE_DIR})
 set(sources
-    src/main.cc src/node.cc src/node.hh src/coordinate.cc src/coordinate.hh src/vertice.cc src/vertice.hh src/graph.cc src/graph.hh src/graphnodes.hpp src/graphnodes.cpp src/vertices.hpp src/vertices.cpp  )
+    src/main.cc src/node.cc src/node.hh src/coordinate.cc src/coordinate.hh src/vertice.cc src/vertice.hh src/graph.cc src/graph.hh src/graphicsnodes.hh src/graphicsnodes.cc src/graphicsvertices.hh src/graphicsvertices.cc src/graphicsgraph.cc src/graphicsgraph.hh )
 
 find_package(SFML 2 REQUIRED graphics window system network audio)
 add_executable(${exe_name} ${sources})

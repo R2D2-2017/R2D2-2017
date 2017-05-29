@@ -1,8 +1,8 @@
 #include <SFML/Graphics.hpp>
-#include "vertices.hpp"
+#include "graphicsvertices.hh"
 #include <iostream>
 #include "math.h"
-#include "graphnodes.hpp" 
+#include "graphicsnodes.hh" 
 vertices::vertices(sf::Vector2f positiona,sf::Vector2f positionb) :
 	positiona{ positiona},
 	positionb{positionb}

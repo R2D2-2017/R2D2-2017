@@ -1,8 +1,8 @@
 #include <SFML/Graphics.hpp>
-#include "graphnodes.hpp"
+#include "graphicsnodes.hh"
 #include <iostream>
-graphnodes::graphnodes( int id, sf::Vector2f position,float size) :
-	id{id},
+graphnodes::graphnodes( sf::Vector2f position,float size) :
+
 	position{ position },
 	size{size}
 {
@@ -12,7 +12,7 @@ graphnodes::graphnodes( int id, sf::Vector2f position,float size) :
 void graphnodes::draw( sf::RenderWindow & window )  {
 	circle.setRadius(size);
 	circle.setPosition(position);
-	//circle.setOrigin(position.x+5,position.y+5);
+	circle.setOrigin(size,size);
 	circle.setOutlineColor(sf::Color::Red);
 	circle.setOutlineThickness(2);
 
@@ -35,7 +35,6 @@ bool graphnodes::pressed(sf::RenderWindow & window){
 	std::cerr<<m.y<<" \n" ;
 	if (circle.getGlobalBounds().contains(m)){
 		circle.setFillColor(sf::Color::Blue);
-		std::cout<<id<<" is been pressed"; 
 		return true;
 	}
 	return false;

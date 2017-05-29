@@ -7,7 +7,7 @@
 class graphnodes: public super {
 public:
 
-	graphnodes( int id,sf::Vector2f position,float size = 10.0);
+	graphnodes( sf::Vector2f position,float size = 10.0);
 
 	void draw( sf::RenderWindow & window ) override;
 	bool pressed(sf::RenderWindow & window);
@@ -17,7 +17,7 @@ public:
 
    
 private:
-	int id;
+	
 	sf::Vector2f position;
 	sf::CircleShape circle;
 

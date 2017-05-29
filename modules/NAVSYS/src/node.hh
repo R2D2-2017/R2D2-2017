@@ -6,6 +6,7 @@
 #define NAVIGATIONSYSTEM_NODE_HH
 
 #include <ostream>
+#include <string>
 #include "coordinate.hh"
 /**
  * \brief Node class
@@ -23,6 +24,7 @@ public:
   bool operator==(const Node &rhs) const;
   bool operator!=(const Node &rhs) const;
   float euclideanDistance(const Node &other) const;
+  Coordinate getCoordinate();
 };
 
 #endif //NAVIGATIONSYSTEM_NODE_HH
