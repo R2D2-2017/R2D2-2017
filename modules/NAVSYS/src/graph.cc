@@ -43,10 +43,10 @@ std::vector<Vertice> Graph::getVertices() {
     return vertices;
 }
 
-void  Graph::setNodes(std::vector<Node> newNodes) {
+void  Graph::setNodes(std::vector<Node>  newNodes) {
     nodes = newNodes;
 }
-void  Graph::setVertices(std::vector<Vertice> newVertices) {
+void  Graph::setVertices(std::vector<Vertice>  newVertices) {
     vertices = newVertices;
 }
 

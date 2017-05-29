@@ -19,7 +19,7 @@
 
 using namespace std;
 
-class graphinput {
+class GraphInput {
 private:
 
 public:
@@ -53,3 +53,4 @@ public:
 };
 
 #endif //NAVSYS_GRAPHINPUT_HH
+

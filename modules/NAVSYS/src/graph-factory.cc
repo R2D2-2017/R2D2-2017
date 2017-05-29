@@ -5,32 +5,23 @@
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See LICENSE
  */
-#include "graphfactory.hh"
+#include "graph-factory.hh"
 #include <algorithm>
 
 
 
 
-Graph* graphfactory::createGraph(std::string nodeFilePath,std::string verticeFilePath ){
-
-    ifstream nodeFileStreamIn;
-    ifstream verticeFileStreamIn;
-
-    nodeFileStreamIn.open(nodeFilePath,std::ios_base::app);
-    verticeFileStreamIn.open(verticeFilePath,std::ios_base::app);
+Graph* GraphFactory::createGraph(std::string nodeFilePath,std::string verticeFilePath ){
 
     Graph * graph = new Graph();
-    graph->setNodes(RunNodeFactory(&nodeFileStreamIn));
-    graph->setVertices(RunVerticeFactory(&verticeFileStreamIn,graph->getNodes()));
-
-    nodeFileStreamIn.close();
-    verticeFileStreamIn.close();
+    graph->setNodes(RunNodeFactory(nodeFilePath));
+    graph->setVertices(RunVerticeFactory(verticeFilePath,graph->getNodes()));
 
     return graph;
 }
 
 
-std::vector<Node>::iterator graphfactory::getNodeByName(std::string name, std::vector<Node> nodes) {
+std::vector<Node>::iterator GraphFactory::getNodeByName(std::string name, std::vector<Node> nodes) {
     std::vector<Node>::iterator it;
     it = std::find_if(std::begin(nodes), std::end(nodes),[&](const Node & node) -> bool{
         return node.getNodeName() == name;
@@ -54,13 +45,17 @@ std::vector<Node>::iterator graphfactory::getNodeByName(std::string name, std::v
 /// This causes undefined behavior when iterating over elements in other functions.
 /// !!!
 ///
-/// Output nodes are stored in graph
+/// Output vector of nodes are returned
 
-std::vector<Node> graphfactory::RunNodeFactory(ifstream* nodeFileStreamIn) {
+std::vector<Node>  GraphFactory::RunNodeFactory(std::string nodeFilePath) {
     std::vector<Node> nodes;
+
+    ifstream nodeFileStreamIn;
+    nodeFileStreamIn.open(nodeFilePath,std::ios_base::app);
+
     string nodeEntry = "";
     //get line out of file
-    while (getline (*nodeFileStreamIn,nodeEntry)) {
+    while (getline (nodeFileStreamIn,nodeEntry)) {
         string nodeName = "";
         string nodePosX = "";
         string nodePosY = "";
@@ -110,10 +105,11 @@ std::vector<Node> graphfactory::RunNodeFactory(ifstream* nodeFileStreamIn) {
         float tmpPosY = std::stof(nodePosY);
         // add created node to vector
         Node newNode = Node(tmpPosX,tmpPosY,  nodeName);
-        //addNode(newNode);
         nodes.push_back(newNode);
 
     }
+
+    nodeFileStreamIn.close();
     return nodes;
 }
 
@@ -137,11 +133,15 @@ std::vector<Node> graphfactory::RunNodeFactory(ifstream* nodeFileStreamIn) {
 /// !!!
 ///
 /// Output vertices are stored in graph
-std::vector<Vertice> graphfactory::RunVerticeFactory(ifstream* verticeFileStreamIn, std::vector<Node> nodes) {
+std::vector<Vertice> GraphFactory::RunVerticeFactory(std::string verticeFilePath, std::vector<Node> nodes) {
     std::vector<Vertice> vertices;
+
+    ifstream verticeFileStreamIn;
+    verticeFileStreamIn.open(verticeFilePath,std::ios_base::app);
+
     string verticeEntry = "";
     //get line out of file
-    while (getline (*verticeFileStreamIn,verticeEntry)) {
+    while (getline (verticeFileStreamIn,verticeEntry)) {
 
         // strings to store chars read
         string nodeA = "";
@@ -196,7 +196,6 @@ std::vector<Vertice> graphfactory::RunVerticeFactory(ifstream* verticeFileStream
 
         int tmpWeight =  atoi(weight.c_str());
         // add created vertice to vector
-        //addVertice(Vertice( Node( getNodeByName(nodeA)->getCoordinate().x, getNodeByName(nodeA)->getCoordinate().y,
         vertices.push_back(Vertice( Node( getNodeByName(nodeA,nodes)->getCoordinate().x, getNodeByName(nodeA,nodes)->getCoordinate().y,
                                   getNodeByName(nodeA,nodes)->getNodeName()),
                             Node( getNodeByName(nodeB,nodes)->getCoordinate().x, getNodeByName(nodeB,nodes)->getCoordinate().y,
@@ -204,6 +203,8 @@ std::vector<Vertice> graphfactory::RunVerticeFactory(ifstream* verticeFileStream
                             tmpWeight ));
 
     }
+    verticeFileStreamIn.close();
     return vertices;
 }
+
 

@@ -8,18 +8,17 @@
 #include <iostream>
 //#include <algorithm>
 #include "graph.hh"
-#include "graphfactory.hh"
-#include "graphinput.hh"
+#include "graph-factory.hh"
+#include "graph-input.hh"
 
 
 
 int main(int argc, char **argv) {
-
     std::string nodeFilePath = "../src/node.txt";
     std::string verticeFilePath = "../src/vertice.txt";
 
-    //graphinput input = graphinput();
-    graphfactory factory = graphfactory();
+    //GraphInput input = GraphInput();
+    GraphFactory factory = GraphFactory();
     Graph * graph = factory.createGraph(nodeFilePath,verticeFilePath);
 
 
@@ -38,5 +37,6 @@ int main(int argc, char **argv) {
     std::cout << "exit\n";
     return 0;
 }
+
 
 

@@ -6,9 +6,9 @@
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See LICENSE
  */
-#include "graphinput.hh"
+#include "graph-input.hh"
 
-void graphinput::getNodeEntryFromScreen(Graph * graph) {
+void GraphInput::getNodeEntryFromScreen(Graph * graph) {
 
     string name = "";
     string coordinateX = "";
@@ -25,7 +25,7 @@ void graphinput::getNodeEntryFromScreen(Graph * graph) {
 }
 
 
-void graphinput::getVerticeEntryFromScreen(Graph * graph) {
+void GraphInput::getVerticeEntryFromScreen(Graph * graph) {
 
     string node1 = "";
     string node2 = "";
@@ -53,6 +53,7 @@ void graphinput::getVerticeEntryFromScreen(Graph * graph) {
                                 std::stoi(weight) ));
 
 }
+
 
 
 

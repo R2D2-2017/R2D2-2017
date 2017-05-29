@@ -16,7 +16,7 @@
 
 using namespace std;
 
-class graphfactory {
+class GraphFactory {
 private:
 
 
@@ -45,9 +45,9 @@ private:
  * This causes undefined behavior when iterating over elements in other functions.
  * !!!
  *
- * \return   vector with vertice elements filled.
+ * \return nodes  vector with vertice elements filled.
  */
-    std::vector<Node> RunNodeFactory(ifstream* nodeFileStreamIn);
+    std::vector<Node>  RunNodeFactory(std::string nodeFilePath);
 
 
 
@@ -70,9 +70,9 @@ private:
  * This causes undefined behavior when iterating over elements in other functions.
  * !!!
  *
- * \return   vector with vertice elements filled.
+ * \return  vertices  vector with vertice elements filled.
  */
-    std::vector<Vertice> RunVerticeFactory(ifstream* verticeFileStreamIn, std::vector<Node> nodes);
+    std::vector<Vertice> RunVerticeFactory(std::string verticeFilePath, std::vector<Node> nodes);
 
 
 public:
@@ -80,7 +80,7 @@ public:
 
 /**
  * \brief    This function asks the factory to create a graph
- * \return graph* a pointer to the new created graph by the factory
+ * \return graph a pointer to the new created graph by the factory
  */
     Graph* createGraph(std::string nodeFilePath,std::string verticeFilePath);
 
@@ -89,3 +89,4 @@ public:
 
 
 #endif //NAVSYS_GRAPHFACTORY_HH
+
