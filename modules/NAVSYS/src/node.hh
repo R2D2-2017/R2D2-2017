@@ -6,6 +6,7 @@
 #define NAVIGATIONSYSTEM_NODE_HH
 
 #include <ostream>
+#include <string>
 #include "coordinate.hh"
 /**
  * \brief Node class
@@ -13,7 +14,7 @@
  * Node class used in the constructions of a \ref Graph and \ref Vertice classes
  */
 class Node {
-private:
+protected:
   Coordinate coordinate;
   std::string name;
 public:
@@ -23,6 +24,8 @@ public:
   bool operator==(const Node &rhs) const;
   bool operator!=(const Node &rhs) const;
   float euclideanDistance(const Node &other) const;
+  Coordinate getCoordinate();
+  std::string getName();
 };
 
 #endif //NAVIGATIONSYSTEM_NODE_HH
