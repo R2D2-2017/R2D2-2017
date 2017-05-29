@@ -224,6 +224,3 @@ public:
      */
     bool isTagPresent();
 };
-
-
-

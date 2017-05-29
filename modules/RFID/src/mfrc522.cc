@@ -5,7 +5,6 @@
  *\license See LICENSE
  */
 
-
 #include "mfrc522.hh"
 
 #include <wiringPi.h>
@@ -141,4 +140,3 @@ bool Mfrc522::isTagPresent(){
     }
     return 0;
 }
-
