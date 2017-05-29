@@ -125,7 +125,7 @@ std::vector<PathNode> aStar(Graph & g, Node &start, Node &goal)
             float tentativeG = current->getPathDistance() + it->getWeight();
 
             // get what the neighbouring nodes current g is.
-            float curG;
+            float curG = 0;
             for (auto i = openedNodes.begin(); i != openedNodes.end(); i++)
             {
                 if (i->get()->getCoordinate() == it->getNeighbour()->getCoordinate())

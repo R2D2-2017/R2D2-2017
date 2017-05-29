@@ -29,7 +29,7 @@
 * \param goal a pointer to the chose goal node
 * \return a vector of PathNodes showing the path from start to goal
 */
-std::vector<PathNode> aStar(const Graph & g, const Node &start, const Node &goal);
+std::vector<PathNode> aStar(Graph & g, Node &start, Node &goal);
 
 /**
 * Reconstructs the path based on PathNodes parents starting from current
