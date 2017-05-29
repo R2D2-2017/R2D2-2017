@@ -28,6 +28,8 @@ add_definitions(-DBMPTK_TARGET_arduino_due
 set(sources
     src/wrap-hwlib.cc
     src/libc-stub.cc
+    src/stepper.cc
+        src/robot-arm.cc
     src/main.cc
 )
 
