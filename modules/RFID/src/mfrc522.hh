@@ -1,7 +1,7 @@
 /**
  *\file
  *\brief Mfrc522 library is a library for interfacing with the Mfrc522 module
- *\author Stefan de Beer
+ *\author Stefan de Beer, Arco Gelderblom
  *\copyright Copyright (c) 2017, The R2D2 Team
  *\license See LICENSE
  */
