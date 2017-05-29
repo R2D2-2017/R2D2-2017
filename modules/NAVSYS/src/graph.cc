@@ -61,6 +61,7 @@ std::vector<Node>::iterator Graph::getNodeByName(std::string name) {
 void Graph::dumpGraphToDisk(const std::string nodeFilePath,const std::string verticeFilePath) {
 
     FILE* nodeFile;
+
     nodeFile = fopen(nodeFilePath.c_str(),"w");
     std::cout<< "saving nodes on disk\n";
 

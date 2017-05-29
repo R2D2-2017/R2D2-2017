@@ -6,6 +6,7 @@
 #define NAVIGATIONSYSTEM_NODE_HH
 
 #include <ostream>
+#include <string>
 #include "coordinate.hh"
 
 /**

@@ -6,6 +6,7 @@
 #define NAVIGATIONSYSTEM_GRAPH_HH
 
 #include <iostream>
+#include <string>
 #include <vector>
 #include "node.hh"
 #include "vertice.hh"

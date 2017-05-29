@@ -10,6 +10,7 @@
 #define NAVSYS_GRAPHFACTORY_HH
 #include <iostream>
 #include <fstream>
+#include <string>
 #include <vector>
 #include "graph.hh"
 #include "node.hh"
