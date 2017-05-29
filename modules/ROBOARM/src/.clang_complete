@@ -1,0 +1,3 @@
+-I../../../libraries/hwlib/library/
+-I../../../toolchain/targets/arm32/cm3/deps
+-I../../../toolchain/targets/arm32/cm3/atmel/sam3x/deps
