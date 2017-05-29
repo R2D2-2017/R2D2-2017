@@ -1,6 +1,6 @@
 /**
  * \file
- * \brief     Using the MySql library to make a database connection and get a echo.
+ * \brief     Combination of the work of sprint 1
  * \author    Tim IJntema
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See LICENSE
@@ -8,6 +8,7 @@
  
 #include "mysql.hh"
 #include "mfrc522.hh"
+#include "encryption.hh"
 
 #include <wiringPi.h>
 #include <wiringPiSPI.h>
@@ -32,6 +33,7 @@ int main(int argc, char **argv) {
     Mfrc522 rfid;
     rfid.init();
 
+    Encryptie encryption(65341);
 
     while(1){
         std::cout << "\n\nWaiting for rfid tag: \n";
@@ -46,7 +48,13 @@ int main(int argc, char **argv) {
         }
         
         std::cout << "Database information: "
-                  << connection.getPreviousResponseColumn("CARD_ID") << '\n';
+                  << connection.getPreviousResponseColumn("CARD_ID")
+                  << '\n';
+        
+        std::cout << "String before encryption: R2D2 project\n";
+        std::cout << "String after encryption: "
+                  << encryption.Encrypt("R2D2 project")
+                  << '\n';
         
         delay(1000);
     }
