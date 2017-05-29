@@ -14,7 +14,7 @@
 
 int main(int argc, char **argv) {
     wiringPiSetup();
-    wiringPiSPISetup(0, 4000000);//max speed for mfrc522 is 10Mhz
+    wiringPiSPISetup(0, 10000000);//max speed for mfrc522 is 10Mhz
     Mfrc522 rfid;
     rfid.init();
     while(true){

@@ -10,6 +10,10 @@
 
 #include <stdint.h>
 
+/**
+ *\brief This library is for interfacing with the mfrc522.
+ */
+
 class Mfrc522{
 public:
   
@@ -32,7 +36,7 @@ public:
     };
     
     /**
-     * \brief An enum for various commands. these commands can be written to the lower 4 bits of register commandReg to be executed.
+     * \brief An enum for various commands. these commands can be written to the lower 4 bits of the register commandReg to be executed.
      */
     enum mfrc522Commands{
         idle            = 0x00, /**No action, cancels current command execution.*/
@@ -121,41 +125,48 @@ public:
 	testDAC2Reg		= 0x3A,	/** defines the test value for TestDAC2*/
 	testADCReg		= 0x3B  /** shows the value of ADC I and Q channels*/
     };
-    
+    /**
+	 * \brief This is an enum containing various return codes used in this library.
     enum statusCodes{
-        statusOk = 0x00,
-        statusError = 0x01,
-        statusTimeout = 0x02
+        statusOk = 0x00, /** No errors */
+        statusError = 0x01, /** An error occurred */
+        statusTimeout = 0x02 /** connection to tag timed out */
         
     };
     
     /**
      * \brief A function for writing an unsigned char to an address in the mfrc522.
-     * \param address The address in the mfrc522 value should be written to.
-     * \param value The value to be written to the mfrc522 register
+     * \param[in] address The address in the mfrc522 value should be written to.
+     * \param[in] value The value to be written to the mfrc522 register
      */
     void writeRegister(unsigned char address, unsigned char value);
-    
+
+    /**
+     *\brief A function for writing multiple bytes to the mfrc522
+     *\param[in] address The address of the register in the mfrc522 to write the bytes to.
+     *\param[in] value The array of data to be written to the mfrc522.
+     *\param[in] len The length of the data to be written.
+     */
     void writeRegister(unsigned char address, unsigned char * value, unsigned int len);
     
     /**
      * \brief A function for reading an unsigned char from a register in the mfrc522.
-     * \param address The address the data should be read from.
+     * \param[in] address The address the data should be read from.
      * \return Returns an unsigned char read from the mfrc522. 
      */
     unsigned char readRegister(unsigned char address);
     
     /**
      * \brief A function for setting only the selected bits
-     * @param address The address in the mfrc522 the mask should be written to.
-     * @param mask The Mask that should be written to the register.
+     * \param[in] address The address in the mfrc522 the mask should be written to.
+     * \param[in] mask The Mask that should be written to the register.
      */
     void setRegisterBitMask(unsigned char address, unsigned char mask);
     
     /**
      * \brief A function for clearing the selected bits.
-     * @param address The address in the mfrc522 the mask should be written to.
-     * @param mask The Mask that should be written to the register.
+     * \param[in] address The address in the mfrc522 the mask should be written to.
+     * \param[in] mask The Mask that should be written to the register.
      */
     void clearRegisterBitMask(unsigned char address, unsigned char mask);
     
@@ -181,24 +192,24 @@ public:
     
     /**
      * \brief A function for setting the antenna gain
-     * @param value The antenna gain to be set. Possible values can be found in the mfrc522 datasheet at page 59.
+     * \param[in] value The antenna gain to be set. Possible values can be found in the mfrc522 datasheet at page 59.
      */
     void setAntennaGain(unsigned char value);
     
     /**
      * \brief A function for getting the antenna gain
-     * @return The antenna gain
+     * \return The antenna gain
      */
     unsigned char getAntennaGain();
     
     /**
      * \brief A function for communicating with an rfid tag.
-     * @param command The command to be executed. e.g. transceive
-     * @param sendData The data to be send to the tag. The first element should be the command the tag should execute
-     * @param sendDataLen The size of sendData
-     * @param receiveData A container for storing the data received from the tag in
-     * @param receiveDataLen The size of receiveData
-     * @return The function return a status code. statusOk for succes, statusTimeout if no tag was found or a statusError if something else went wrong
+     * \param[in] command The command to be executed. e.g. transceive
+     * \param[in] sendData The data to be send to the tag. The first element should be the command the tag should execute
+     * \param[in] sendDataLen The size of sendData
+     * \param[out] receiveData A container for storing the data received from the tag
+     * \param[in] receiveDataLen The size of receiveData
+     * \return The function return a status code. statusOk for succes, statusTimeout if no tag was found or a statusError if something else went wrong
      */
     unsigned char communicateWithTag(unsigned char command,
                        unsigned char * sendData, 
@@ -208,7 +219,7 @@ public:
     
     /**
      * \brief A function for checking if there is a tag that can be communicated with.
-     * @return Returns true if a tag was found, false if no tag was found.
+     * \return Returns true if a tag was found, false if no tag was found.
      */
     bool isTagPresent();
 };
