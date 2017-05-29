@@ -9,16 +9,17 @@
 #ifndef SERVER
 #define SERVER
 
-#include <sfml/Network.hpp>
+#include <SFML/Network.hpp>
 #include <vector>
 #include <memory>
 #include <string>
+#include <iostream>
 
 class Server{
 private:
     uint16_t port;
     sf::TcpListener socketListener;
-    std::vector<std::shared_ptr<sf::TcpSocket>> connectedClientSockets;
+    std::vector<sf::TcpSocket*> connectedClientSockets;
     sf::SocketSelector socketSelector;
 
 public:

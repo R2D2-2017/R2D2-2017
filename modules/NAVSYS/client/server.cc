@@ -31,13 +31,14 @@ void Server::run(){
         if(socketSelector.wait()){
 
             if(socketSelector.isReady(socketListener)){
-                auto client = std::make_shared<sf::TcpSocket>(sf::TcpSocket());
+                auto client = new sf::TcpSocket;
 
                 if(socketListener.accept(*client) == sf::Socket::Done){
                     connectedClientSockets.push_back(client);
                     socketSelector.add(*client);
                 } else{
                     std::cout << "Something went wrong connecting to a new socket, please try again" << std::endl;
+                    delete client;
                 }
 
             } else{
@@ -48,6 +49,7 @@ void Server::run(){
                             std::cout << "Hooray, you received a package" << std::endl;
                             std::cout << p << std::endl;
                             // HandleInput will be called here usually, not set up yet, cause I dont know what everything is gonna be doing in the end
+                            handleInput();
                         }
                     }
                 }
@@ -62,6 +64,7 @@ void Server::killEveryLittleThingIsGonnaBeAlright(){
     if(!connectedClientSockets.empty()){
         for(auto &s : connectedClientSockets){
             s->disconnect();
+            delete s;
         }
     }
 }

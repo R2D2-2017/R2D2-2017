@@ -5,6 +5,8 @@
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See ../../LICENSE
  */
+
+#include "server.hh"
 #include <iostream>
 
 int main(int argc, char **argv) {
