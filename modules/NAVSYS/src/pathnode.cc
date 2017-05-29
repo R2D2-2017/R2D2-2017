@@ -9,7 +9,7 @@
 
 PathNode::PathNode(Node n, Node goal, float g) :
     // sets the Node
-    Node(n.getCoordinate()),
+    Node(n.getCoordinate(), n.getName()),
     // sets g
     pathDistance(pathDistance)
 {
@@ -45,4 +45,16 @@ void PathNode::setParent(std::shared_ptr<PathNode> dad)
 std::shared_ptr<PathNode> PathNode::getParent()
 {
     return parent;
+}
+
+std::ostream &operator<<(std::ostream & os, PathNode node)
+{
+	os << "Node: ";
+	if (node.name != "")
+	{
+		os << "[" << node.name << "]";
+	}
+
+	os << " @ " << node.coordinate;
+	return os;
 }

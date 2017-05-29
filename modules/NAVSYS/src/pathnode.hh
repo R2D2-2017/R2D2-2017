@@ -12,6 +12,8 @@
 #pragma once
 
 #include <memory>
+#include <ostream>
+#include <string>
 #include "node.hh"
 
 class PathNode : public Node
@@ -87,4 +89,5 @@ public:
     */
     std::shared_ptr<PathNode> getParent();
 
+	friend std::ostream &operator<<(std::ostream & os, PathNode node);
 };

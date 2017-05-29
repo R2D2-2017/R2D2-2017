@@ -29,3 +29,8 @@ Coordinate Node::getCoordinate()
 {
     return coordinate;
 }
+
+std::string Node::getName()
+{
+	return name;
+}
