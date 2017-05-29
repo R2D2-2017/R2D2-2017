@@ -16,7 +16,7 @@ void Server::broadcastMessage(const std::string &message){
         p << message;
         for(auto &s : connectedClientSockets){
             if(s->send(p) != sf::Socket::Done){
-                std::cout << "Doomptiedoo you done goofed, sending broadcast failed" << std::endl;
+                std::cout << "Sending message failed" << std::endl;
             }
         }
     }
@@ -28,6 +28,8 @@ void Server::run(){
     socketSelector.add(socketListener);
 
     while(true){
+        sf::sleep(sf::milliseconds(100));
+
         if(socketSelector.wait()){
 
             if(socketSelector.isReady(socketListener)){
@@ -38,6 +40,7 @@ void Server::run(){
 
                     connectedClientSockets.push_back(client);
                     socketSelector.add(*client);
+                    broadcastMessage("Client added, so we got that going for us, which is nice");
                 } else{
                     std::cout << "Something went wrong connecting to a new socket, please try again" << std::endl;
                     delete client;
@@ -47,11 +50,13 @@ void Server::run(){
                 for(auto &s : connectedClientSockets){
                     if(socketSelector.isReady(*s)){
                         sf::Packet p;
+                        std::string str;
                         if(s->receive(p) == sf::Socket::Done){
                             std::cout << "Hooray, you received a package" << std::endl;
-                            std::cout << p << std::endl;
-                            // HandleInput will be called here usually, not set up yet, cause I dont know what everything is gonna be doing in the end
-                            handleInput();
+                            p >> str;
+                            std::cout << str << std::endl;
+                            // This is not a nice way to do things, but there needs to be something that works
+                            handleInput(str);
                         }
                     }
                 }
@@ -60,22 +65,8 @@ void Server::run(){
     }
 }
 
-void Server::killEveryLittleThingIsGonnaBeAlright(){
-    socketSelector.clear();
-    socketListener.close();
-    if(!connectedClientSockets.empty()){
-        for(auto &s : connectedClientSockets){
-            s->disconnect();
-            delete s;
-        }
+void Server::handleInput(const std::string & input){
+    if(input == "REQUEST_GRAPH"){
+        broadcastMessage("Ik ben een graaf");         //Placeholder
     }
-}
-
-void Server::handleInput(){
-    //Im doing nothing and im proud of it
-    bool handledInput = true;
-    if(handledInput){
-        std::cout << "Ye we handled some input alright" << std::endl;
-    }
-    broadcastMessage("Handled input by the server");
 }

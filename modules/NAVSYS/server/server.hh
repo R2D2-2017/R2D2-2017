@@ -26,8 +26,7 @@ public:
     Server(const uint16_t port);
     void broadcastMessage(const std::string & message);
     void run();
-    void killEveryLittleThingIsGonnaBeAlright();
-    void handleInput();
+    void handleInput(const std::string & input);
 };
 
 #endif //SERVER

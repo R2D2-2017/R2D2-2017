@@ -23,6 +23,7 @@ private:
 public:
 	Client(const sf::IpAddress ipAddress, uint16_t port);
 	void run();
+	void requestGraph();
 };
 
 #endif //CLIENT

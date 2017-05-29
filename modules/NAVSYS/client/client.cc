@@ -17,6 +17,9 @@ void Client::run(){
 	}
 
 	sf::Packet receivedMessage;
+	std::string messageString;
+
+	requestGraph();
 
 	while(true){
 		sf::sleep(sf::milliseconds(100));
@@ -24,8 +27,16 @@ void Client::run(){
 		if(socket.receive(receivedMessage) != sf::Socket::Done){
 			std::cout << "Something went wrong with receiving" << std::endl;
 		} else{
-			std::cout << receivedMessage << std::endl;
+			receivedMessage >> messageString;
+			std::cout << messageString << std::endl;
 		}
 	}
+}
 
+void Client::requestGraph(){
+	sf::Packet p;
+	p << std::string("REQUEST_GRAPH");
+	if(socket.send(p) != sf::Socket::Done){
+		std::cout << "Something went wrong while sending your message, please try again later" << std::endl;
+	}
 }
