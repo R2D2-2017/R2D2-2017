@@ -10,9 +10,6 @@
 
 #include "wrap-hwlib.hh" 
 
-/// just a magic number at the moment
-int gasValueThreshold = 100;
-
 /// /brief Check if the gass value is above the threshold then trigger the alarm
 /// Take the gass value and call triggerAlarm() when it's above the
 /// threshold or disableAlarm() when it's below said threshold.

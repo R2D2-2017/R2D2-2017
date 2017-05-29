@@ -9,7 +9,11 @@
 
 #include "alarm.hh"
 
+// Magicly decided on which pin to use. Feel free to change.
 auto led0 = hwlib::target::pin_out( hwlib::target::pins::d7 );
+
+/// Just a magic number at the moment
+int gasValueThreshold = 100;
 
 void checkGasValue(int gasValue) {
     if (gasValue > gasValueThreshold) {
