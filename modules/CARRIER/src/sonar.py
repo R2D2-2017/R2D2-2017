@@ -1,4 +1,4 @@
-                        import RPi.GPIO as GPIO                    #Import GPIO library
+import RPi.GPIO as GPIO                    #Import GPIO library
 import time                                #Import time library
 GPIO.setmode(GPIO.BCM)                     #Set GPIO pin numbering 
 GPIO.setup(23,GPIO.OUT)                  	#Set pin as GPIO out
@@ -29,11 +29,6 @@ def Sonar(trigger, echo):                            	#Associate pin 23 to trigg
 		return int(distance - 0.5)  		#Print distance with 0.5 cm calibration
 	else:
    		return 404                  		#display out of range
-
-
-
-
-
 
 
 
