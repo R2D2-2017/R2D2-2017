@@ -29,7 +29,7 @@ set(sources
     src/wrap-hwlib.cc
     src/libc-stub.cc
     src/stepper.cc
-        src/robot-arm.cc
+    src/robot-arm.cc
     src/main.cc
 )
 
