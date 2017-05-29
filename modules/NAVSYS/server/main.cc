@@ -6,13 +6,13 @@
  * \license   See ../../LICENSE
  */
 
-#include "client.hh"
+#include "server.hh"
 #include <iostream>
 
 int main() {
     std::cout << "Hello world!\n";
 
-    Client(sf::IpAddress::LocalHost, 5000).run();
+    Server(5000).run();
 
     return 0;
 }

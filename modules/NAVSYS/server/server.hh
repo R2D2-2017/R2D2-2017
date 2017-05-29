@@ -6,8 +6,8 @@
  * \license   See ../../LICENSE
  */
 
-#ifndef SERVER
-#define SERVER
+#ifndef NAVIGATIONSYSTEM_SERVER
+#define NAVIGATIONSYSTEM_SERVER
 
 #include <SFML/Network.hpp>
 #include <vector>

@@ -8,10 +8,7 @@
 
 #include "server.hh"
 
-Server::Server(const uint16_t port): port(port){
-    socketListener.listen(port);
-    socketSelector.add(socketListener);
-}
+Server::Server(const uint16_t port): port(port){}
 
 void Server::broadcastMessage(const std::string &message){
     if(!connectedClientSockets.empty()){
@@ -27,6 +24,9 @@ void Server::broadcastMessage(const std::string &message){
 
 void Server::run(){
     //Running in the nineties
+    socketListener.listen(port);
+    socketSelector.add(socketListener);
+
     while(true){
         if(socketSelector.wait()){
 
@@ -34,6 +34,8 @@ void Server::run(){
                 auto client = new sf::TcpSocket;
 
                 if(socketListener.accept(*client) == sf::Socket::Done){
+                    std::cout << "New client hype" << std::endl;
+
                     connectedClientSockets.push_back(client);
                     socketSelector.add(*client);
                 } else{
@@ -75,4 +77,5 @@ void Server::handleInput(){
     if(handledInput){
         std::cout << "Ye we handled some input alright" << std::endl;
     }
+    broadcastMessage("Handled input by the server");
 }
