@@ -2,51 +2,40 @@
 import RPi.GPIO as GPIO
 import time
 
-# Mockup for stateMachine
-class StateMachine:
-	def driveForward(self):
-		print("FORWARD")
-
-	def driveBackward(self):
-		print("BACKWARD")	
-
-	def rotateLeft(self):
-		print("LEFT")
-
-	def rotateRight(self):
-		print("RIGHT")
-
-	def idle(self):
-		print("IDLE")
-
-#button Class
+# Button Class
 class Button:
 	# Constructor requires number of pin
 	def __init__(self, pin):
 		self.buttonPin = pin
 		GPIO.setup(buttonUpPin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-
+	# Check if button pressed
 	def isPressed(self):
 		return GPIO.input(self.buttonPin)
 
-# Instance of state machine
-state = StateMachine()
-
 # Buttons
-buttonUp = Button(15)
+buttonUp = Button(19)
 buttonDown = Button(16)
 buttonLeft = Button(17)
 buttonRight = Button(18)
 
+lastButton = ""
+
 # Loop
 while True:
-	if buttonUp.isPressed():
-		state.driveForward()
-	elif buttonDown.isPressed():
-		state.driveBackward()
-	elif buttonRight.isPressed():
-		state.rotateRight()
-	elif buttonLeft.isPressed():
-		state.rotateLeft()
+	if buttonUp.isPressed() && lastButton != "UP":
+		print("button up pressed")
+		lastButton = "UP"
+		
+	elif buttonDown.isPressed() && lastButton != "DOWN":
+		print("button down pressed")
+		lastButton = "DOWN"
+		
+	elif buttonRight.isPressed()&& lastButton != "RIGHT":
+		print("button right pressed")
+		lastButton = "RIGHT"
+		
+	elif buttonLeft.isPressed() && lastButton != "LEFT":
+		print("button left pressed")
+		lastButton = "LEFT"
 	else:
-		state.idle()
+		print("nothing is pressed")
