@@ -2,6 +2,7 @@
 // Created by Robert on 5/19/17.
 //
 #include <algorithm>
+#include <stdexcept>
 #include "graph.hh"
 void Graph::addNode(const Node node) {
     if (!containsNode(node)) {
