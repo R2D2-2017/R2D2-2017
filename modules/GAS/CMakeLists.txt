@@ -16,6 +16,7 @@ include_directories(
 set(sources
     src/wrap-hwlib.cc
     src/main.cc
+	src/alarm.cc
 )
 
 # Location of the flash tool if it's not in your path
