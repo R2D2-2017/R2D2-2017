@@ -9,34 +9,32 @@
 
 PathNode::PathNode(Node n, Node goal, float g) :
     // sets the Node
-    Node(n),
-    // sets the coordinate
-    coordinate(n.getCoordinate()),
+    Node(n.getCoordinate(), n.getName()),
     // sets g
-    g(g)
+    pathDistance(pathDistance)
 {
     //calculate initial f
-    calcF(goal);
+    calcPriority(goal);
 }
 
-void PathNode::calcF(Node goal)
+void PathNode::calcPriority(Node goal)
 {
-    f = g + euclideanDistance(goal);
+    priority = pathDistance + euclideanDistance(goal);
 }
 
-void PathNode::setG(float dist)
+void PathNode::setPathDistance(float dist)
 {
-    g = dist;
+    pathDistance = dist;
 }
 
-float PathNode::getF()
+float PathNode::getPriority()
 {
-    return f;
+    return priority;
 }
 
-float PathNode::getG()
+float PathNode::getPathDistance()
 {
-    return g;
+    return pathDistance;
 }
 
 void PathNode::setParent(std::shared_ptr<PathNode> dad)
@@ -47,4 +45,16 @@ void PathNode::setParent(std::shared_ptr<PathNode> dad)
 std::shared_ptr<PathNode> PathNode::getParent()
 {
     return parent;
+}
+
+std::ostream &operator<<(std::ostream & os, PathNode node)
+{
+	os << "Node: ";
+	if (node.name != "")
+	{
+		os << "[" << node.name << "]";
+	}
+
+	os << " @ " << node.coordinate;
+	return os;
 }
