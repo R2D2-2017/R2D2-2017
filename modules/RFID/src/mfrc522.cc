@@ -98,7 +98,7 @@ unsigned char Mfrc522::communicateWithTag(unsigned char command,
     writeRegister(commandReg, idle);		// Stop any active command.
     writeRegister(comIrqReg, 0x7F);			// Clear all seven interrupt request bits
     setRegisterBitMask(FIFOLevelReg, 0x80);     // flush the buffer
-    writeRegister(FIFODataReg, mifareReqIdle);	// Write sendData to the FIFO
+    writeRegister(FIFODataReg, sendData, sendDataLen);	// Write sendData to the FIFO
     writeRegister(commandReg, command); 
     
     if(command == transceive){
