@@ -17,10 +17,9 @@ buttonUp = Button(19)
 buttonDown = Button(16)
 buttonLeft = Button(17)
 buttonRight = Button(18)
-
 lastButton = ""
 
-# Loop
+# Loop for test button
 while True:
 	if buttonUp.isPressed() AND lastButton != "UP":
 		print("button up pressed")
