@@ -24,7 +24,7 @@ int main(int argc, char **argv)
     Node n10(Coordinate(7.f, 3.f), "J");
     Node n11(Coordinate(6.f, 4.f), "K");
     Node n12(Coordinate(6.f, 2.f), "L");
-    Node n13(Coordinate(.1f, 0.f), "S");
+    Node n13(Coordinate(1.0f, 0.f), "S");
 
     g.addNode(n1);
     g.addNode(n2);
@@ -118,7 +118,7 @@ int main(int argc, char **argv)
     g.addVertice(v37);
     g.addVertice(v38);
 
-    std::vector<PathNode> path = aStar(&g, &n13, &n5);
+    std::vector<PathNode> path = aStar(g, n13, n5);
 
     std::cout << "the path is:\n";
 

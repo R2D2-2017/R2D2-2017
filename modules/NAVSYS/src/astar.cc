@@ -1,28 +1,28 @@
 #include "astar.hh"
 
-vector<PathNode> aStar(Graph * g, Node *start, Node *goal)
+std::vector<PathNode> aStar(Graph & g, Node &start, Node &goal)
 {
     // set container variables for use during algorithm
 
     // closedNodes are the nodes which have been visited
-    vector<shared_ptr<PathNode>> closedNodes;
+    std::vector<std::shared_ptr<PathNode>> closedNodes;
 
     // openedNodes are the nodes which have been looked at from other nodes
     // but not yet visited.
-    vector<shared_ptr<PathNode>> openedNodes;
+    std::vector<std::shared_ptr<PathNode>> openedNodes;
 
     // the path to return once the algorithm is done
-    vector<PathNode> path;
+    std::vector<PathNode> path;
 
     // Get all the information from the graph
-    vector<Node> nodes = g->getNodes();
-    vector<Vertice> vertices = g->getVertices();
+    std::vector<Node> nodes = g.getNodes();
+    std::vector<Vertice> vertices = g.getVertices();
 
     // curVertice is where the vertices the current node is part of are temporarily stored.
-    vector<Vertice> curVertice;
+    std::vector<Vertice> curVertice;
 
     // current is the node the algorithm is currently looking out from, towards its neighbours
-    shared_ptr<PathNode> current;
+    std::shared_ptr<PathNode> current;
 
     // set variables to use during algorithm
 
@@ -36,7 +36,7 @@ vector<PathNode> aStar(Graph * g, Node *start, Node *goal)
     float lowestF;
     
     // open the start node
-    openedNodes.push_back(make_shared<PathNode>(PathNode(*start, *goal)));
+    openedNodes.push_back(std::make_shared<PathNode>(PathNode(start, goal)));
 
     // Algorithm loop
     while (!openedNodes.empty())
@@ -47,9 +47,9 @@ vector<PathNode> aStar(Graph * g, Node *start, Node *goal)
         lowestF = std::numeric_limits<float>::infinity();
         for (auto it = openedNodes.begin(); it != openedNodes.end(); it++)
         {
-            if (it->get()->getF() < lowestF)
+            if (it->get()->getPriority() < lowestF)
             {
-                lowestF = it->get()->getF();
+                lowestF = it->get()->getPriority();
                 current = *it;
             }
         }
@@ -59,7 +59,7 @@ vector<PathNode> aStar(Graph * g, Node *start, Node *goal)
         // set all shared_ptrs in the opened- and closedNodes vectors to nullptr to free memory
         // set current to nullptr to free memory
         // return the path
-        if (current->getCoordinate() == goal->getCoordinate())
+        if (current->getCoordinate() == goal.getCoordinate())
         {
             path = reconstruct(current);
             for (auto i = openedNodes.begin(); i != openedNodes.end(); i++)
@@ -122,7 +122,7 @@ vector<PathNode> aStar(Graph * g, Node *start, Node *goal)
             }
 
             // calculate what g would be if the neighbour is connected through the current node
-            float tentativeG = current->getG() + it->getWeight();
+            float tentativeG = current->getPathDistance() + it->getWeight();
 
             // get what the neighbouring nodes current g is.
             float curG;
@@ -130,14 +130,14 @@ vector<PathNode> aStar(Graph * g, Node *start, Node *goal)
             {
                 if (i->get()->getCoordinate() == it->getNeighbour()->getCoordinate())
                 {
-                    curG = i->get()->getG();
+                    curG = i->get()->getPathDistance();
                 }
             }
 
             // open the node if it isn't opened yet, setting its g based on the vertice weight and the current nodes g
             if (!opened)
             {
-                openedNodes.push_back(make_shared<PathNode>(PathNode(*(it->getNeighbour()), *goal, float(it->getWeight()) + current->getG())));
+                openedNodes.push_back(std::make_shared<PathNode>(PathNode(*(it->getNeighbour()), goal, float(it->getWeight()) + current->getPathDistance())));
             }
             
             // check if the new possible path is faster or not, if not skip this neighbour.
@@ -153,8 +153,8 @@ vector<PathNode> aStar(Graph * g, Node *start, Node *goal)
                 if (i->get()->getCoordinate() == it->getNeighbour()->getCoordinate())
                 {
                     i->get()->setParent(current);
-                    i->get()->setG(tentativeG);
-                    i->get()->calcF(*goal);
+                    i->get()->setPathDistance(tentativeG);
+                    i->get()->calcPriority(goal);
                 }
             }
         }
@@ -162,10 +162,10 @@ vector<PathNode> aStar(Graph * g, Node *start, Node *goal)
     return path;
 }
 
-vector<PathNode> reconstruct(shared_ptr<PathNode> current)
+std::vector<PathNode> reconstruct(std::shared_ptr<PathNode> current)
 {
     // The path to be returned
-    vector<PathNode> path;
+    std::vector<PathNode> path;
 
     // Add the goal node first
     path.push_back(*current);
@@ -179,7 +179,7 @@ vector<PathNode> reconstruct(shared_ptr<PathNode> current)
     }
 
     // Reverse the path to show it in the correct order from start to goal
-    reverse(path.begin(), path.end());
+    std::reverse(path.begin(), path.end());
 
     // set the pointer to nullptr
     current = nullptr;

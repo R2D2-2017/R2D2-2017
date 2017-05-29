@@ -17,8 +17,6 @@
 #include "pathnode.hh"
 #include "vertice.hh"
 
-using namespace std;
-
 /**
 * A* algorithm that finds a fast path from start node to goal node
 * aStar() is the implementation of the A* pathfinding algorithm
@@ -31,7 +29,7 @@ using namespace std;
 * \param goal a pointer to the chose goal node
 * \return a vector of PathNodes showing the path from start to goal
 */
-vector<PathNode> aStar(Graph * g, Node *start, Node *goal);
+std::vector<PathNode> aStar(const Graph & g, const Node &start, const Node &goal);
 
 /**
 * Reconstructs the path based on PathNodes parents starting from current
@@ -43,4 +41,4 @@ vector<PathNode> aStar(Graph * g, Node *start, Node *goal);
 * \param current The PathNode from which to reconstruct the path.
 * \return The vector of PathNodes depicting the fastest path from start- to goal node
 */
-vector<PathNode> reconstruct(shared_ptr<PathNode> current);
+std::vector<PathNode> reconstruct(std::shared_ptr<PathNode> current);
