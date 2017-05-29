@@ -10,24 +10,27 @@
 
 #include "wrap-hwlib.hh"
 #include "stepper.hh"
+
 #define STEP_SIZE 1.8
 
 
 //Enum class for the different axes on the robot arm
-enum class RobotAxis {X, Y, Z};
+enum class RobotAxis {
+    X, Y, Z
+};
 
 ///\brief Robot Arm Controller to control 3 different stepper motors
 class RobotArmController {
 private:
     // The different stepper motors you can use
-    Stepper& x_axis, y_axis, z_axis;
+    Stepper &x_axis, y_axis, z_axis;
 
 public:
     //Constructor for the Robot arm controller
     //\param  x_axis stepper motor that is used as the x axis
     //\param  y_axis stepper motor that is used as the y axis
     //\param  z_axis stepper motor that is used as the z axis
-    RobotArmController(Stepper& x_axis, Stepper& y_axis, Stepper& z_axis);
+    RobotArmController(Stepper &x_axis, Stepper &y_axis, Stepper &z_axis);
 
     // reset sequence to move towards the configured start position
     void reset();

@@ -1,7 +1,3 @@
-//
-// Created by endargon on 5/29/17.
-//
-
 #include "stepper.hh"
 
 Stepper::Stepper(hwlib::target::pin_out &dir_pin, hwlib::target::pin_out &stp_pin) : dir_pin(dir_pin),
@@ -19,6 +15,3 @@ void Stepper::step(int amount, bool clockwise) {
         stp_pin.set(0);
     }
 }
-
-
-
