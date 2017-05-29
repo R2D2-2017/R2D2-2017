@@ -127,6 +127,7 @@ public:
     };
     /**
 	 * \brief This is an enum containing various return codes used in this library.
+	 */
     enum statusCodes{
         statusOk = 0x00, /** No errors */
         statusError = 0x01, /** An error occurred */
