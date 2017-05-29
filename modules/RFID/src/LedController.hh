@@ -6,8 +6,7 @@
  * \license   See LICENSE
  */
 
-#ifndef  _LEDCONTROLLER_HH
-#define _LEDCONTROLLER_HH
+#pragma once
 
 class LedController{
 public:
@@ -21,5 +20,3 @@ public:
 
     void blinkLed(int pin,int time);
 };
-
-#endif;
