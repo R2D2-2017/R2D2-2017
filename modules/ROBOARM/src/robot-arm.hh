@@ -19,7 +19,7 @@ enum class RobotAxis {
     X, Y, Z
 };
 
-///\brief Robot Arm Controller to control 3 different stepper motors
+//\brief Robot Arm Controller to control 3 different stepper motors
 class RobotArmController {
     private:
         // The different stepper motors you can use
