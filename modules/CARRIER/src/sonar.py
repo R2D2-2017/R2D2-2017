@@ -1,4 +1,4 @@
-"""@
+"""@ Authors: Mike Hilhorst, David de Jong, Wilco Louwerse, Robbie Valkenburg, Nicky van Steensel van der Aa, Bram van Bergeijk, Earde Bearde
 This is a test code for the sonar sensor, using a function (GetSonarDistance) to measure the distance to an object.
 """
 import RPi.GPIO as GPIO                    #Import GPIO library
