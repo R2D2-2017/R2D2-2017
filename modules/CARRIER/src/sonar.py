@@ -1,4 +1,7 @@
-"""@ Authors: Mike Hilhorst, David de Jong, Wilco Louwerse, Robbie Valkenburg, Nicky van Steensel van der Aa, Bram van Bergeijk, Earde Bearde
+"""@ 
+Authors: Mike Hilhorst, David de Jong, Wilco Louwerse, Robbie Valkenburg, Nicky van Steensel van der Aa, Bram van Bergeijk, Earde Bearde
+Wiki: https://github.com/R2D2-2017/R2D2-2017/wiki/HC-SR04-Ultrasone-sensor
+Trello: https://trello.com/c/FxRxNblW/7-6-make-the-platform-stop-when-the-sonar-sensor-detects-something-within-its-working-area
 This is a test code for the sonar sensor, using a function (GetSonarDistance) to measure the distance to an object.
 """
 import RPi.GPIO as GPIO                    #Import GPIO library
