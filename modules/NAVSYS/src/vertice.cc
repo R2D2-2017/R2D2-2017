@@ -11,7 +11,7 @@ std::ostream &operator<<(std::ostream &os, const Vertice &vertice) {
 }
 bool Vertice::operator==(const Vertice &rhs) const {
     return node1 == rhs.node1 &&
-        node2 == rhs.node2 && weight == rhs.weight;
+           node2 == rhs.node2 && weight == rhs.weight;
 }
 bool Vertice::operator!=(const Vertice &rhs) const {
     return !(rhs == *this);
@@ -32,4 +32,3 @@ int Vertice::getWeight()
 {
     return weight;
 }
-

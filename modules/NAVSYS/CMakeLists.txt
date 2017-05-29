@@ -11,8 +11,8 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 set(sources
 
-    src/main.cc src/node.cc src/node.hh src/coordinate.cc src/coordinate.hh src/vertice.cc src/vertice.hh src/graph.cc src/graph.hh src/graph-input.cc src/graph-input.hh src/graph-factory.cc src/graph-factory.hh)
 
+    src/main.cc src/node.cc src/node.hh src/coordinate.cc src/coordinate.hh src/vertice.cc src/vertice.hh src/graph.cc src/graph.hh src/graph-input.cc src/graph-input.hh src/graph-factory.cc src/graph-factory.hh)
 
 
 add_executable(${exe_name} ${sources})

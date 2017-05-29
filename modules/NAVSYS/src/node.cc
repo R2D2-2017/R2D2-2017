@@ -3,9 +3,9 @@
 //
 #include "node.hh"
 Node::Node(const Coordinate &coordinate, const std::string &name)
-    : coordinate(coordinate), name(name) {}
+        : coordinate(coordinate), name(name) {}
 Node::Node(const float x, const float y,  const std::string &name)
-    : coordinate(x, y),  name(name) {}
+        : coordinate(x, y),  name(name) {}
 std::ostream &operator<<(std::ostream &os, const Node &node) {
     os << "Node";
     if (node.name != "")
@@ -35,5 +35,3 @@ Coordinate Node::getCoordinate()
 std::string Node::getNodeName() const{
     return name;
 }
-
-

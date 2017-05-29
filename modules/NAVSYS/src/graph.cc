@@ -102,4 +102,3 @@ void Graph::dumpGraphToDisk(const std::string nodeFilePath,const std::string ver
 
     fclose(verticeFile);
 }
-
