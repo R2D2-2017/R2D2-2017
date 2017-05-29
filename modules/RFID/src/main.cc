@@ -1,4 +1,4 @@
-/**
+ /**
  * \file
  * \brief     Combination of the work of sprint 1
  * \author    Tim IJntema
@@ -9,6 +9,7 @@
 #include "mysql.hh"
 #include "mfrc522.hh"
 #include "encryption.hh"
+#include "led-controller.hh"
 
 #include <wiringPi.h>
 #include <wiringPiSPI.h>
@@ -35,6 +36,8 @@ int main(int argc, char **argv) {
 
     Encryptie encryption(65341);
 
+    LedController led;
+
     while(1){
         std::cout << "\n\nWaiting for rfid tag: \n";
 
@@ -55,8 +58,8 @@ int main(int argc, char **argv) {
         std::cout << "String after encryption: "
                   << encryption.Encrypt("R2D2 project")
                   << '\n';
-        
-        delay(1000);
+
+        led.blinkLed(0, 5000);
     }
     return 0;
 }

@@ -20,7 +20,9 @@ set(sources
     src/mfrc522.hh
     src/mfrc522.cc
     src/encryption.hh
-    src/encryption.cc)
+    src/encryption.cc
+    src/led-controller.hh
+    src/led-controller.cc)
 
 add_executable(${exe_name} ${sources})
 target_link_libraries(${exe_name} mysqlcppconn)
