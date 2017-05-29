@@ -22,19 +22,19 @@ lastButton = ""
 
 # Loop
 while True:
-	if buttonUp.isPressed() && lastButton != "UP":
+	if buttonUp.isPressed() AND lastButton != "UP":
 		print("button up pressed")
 		lastButton = "UP"
 		
-	elif buttonDown.isPressed() && lastButton != "DOWN":
+	elif buttonDown.isPressed() AND lastButton != "DOWN":
 		print("button down pressed")
 		lastButton = "DOWN"
 		
-	elif buttonRight.isPressed()&& lastButton != "RIGHT":
+	elif buttonRight.isPressed() AND lastButton != "RIGHT":
 		print("button right pressed")
 		lastButton = "RIGHT"
 		
-	elif buttonLeft.isPressed() && lastButton != "LEFT":
+	elif buttonLeft.isPressed() AND lastButton != "LEFT":
 		print("button left pressed")
 		lastButton = "LEFT"
 	else:
