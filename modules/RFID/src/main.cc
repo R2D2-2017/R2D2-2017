@@ -32,11 +32,6 @@ int main(int argc, char **argv) {
     while(result->next()){
         std::cout << "Card ID: " << result->getString(2) << '\n';
     }
-    
-    if(!connection.executeQueryNoResult("INSERT INTO RFID (CARD_ID) VALUES ('[51,187,188,221,233]')")){
-        std::cout << "Failed to insert data\n";
-        exit(0);
-    }
 
     return 0;
 }
