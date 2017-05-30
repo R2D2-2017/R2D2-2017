@@ -1,18 +1,20 @@
 /**
  * \file
- * \brief     main.cc
- * \author    jeremy
+ * \brief     Main of the NAVSYS feature branch
+ * \author    Philippe Zwietering
  * \copyright Copyright (c) 2017, The R2D2 Team
- * \license   See LICENSE
+ * \license   See ../../LICENSE
  */
+
+#include "server.hh"
 #include <iostream>
 #include <algorithm>
 #include "graph.hh"
 #include "graph-factory.hh"
 #include "graph-input.hh"
 #include "astar.hh"
-int main(int argc, char **argv)
-{
+
+int main() {
     std::string nodeFilePath = "../src/node.txt";
     std::string verticeFilePath = "../src/vertice.txt";
 
@@ -67,12 +69,9 @@ int main(int argc, char **argv)
         std::cout<< "1::add node 2::add vertice 3::find shortest route q::save and exit\n"; 
         getline(std::cin,choice);
     }
+
+
+    Server(5000).run();
+
     return 0;
 }
-
-
-        
-
-
-
-
