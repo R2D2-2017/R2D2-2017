@@ -51,12 +51,12 @@ void  Graph::setVertices(std::vector<Vertice>  newVertices) {
     vertices = newVertices;
 }
 
-std::vector<Node>::iterator Graph::getNodeByName(std::string name) {
+Node & Graph::getNodeByName(std::string name) {
     std::vector<Node>::iterator it;
     it = std::find_if(std::begin(nodes), std::end(nodes),[&]( Node & node) -> bool{
         return node.getName() == name;
     });
-    return it;
+    return *it;
 }
 
 void Graph::dumpGraphToDisk(const std::string nodeFilePath,const std::string verticeFilePath) {

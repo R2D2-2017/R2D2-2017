@@ -45,12 +45,12 @@ void GraphInput::getVerticeEntryFromScreen(Graph & graph) {
     * to call the get functions of the nodes they point to a new node is made with the same
     * data.
     */
-    graph.addVertice(Vertice(  Node( graph.getNodeByName(node1)->getCoordinate().x,
-                                      graph.getNodeByName(node1)->getCoordinate().y,
-                                      graph.getNodeByName(node1)->getName()),
-                                Node( graph.getNodeByName(node1)->getCoordinate().x,
-                                      graph.getNodeByName(node1)->getCoordinate().y,
-                                      graph.getNodeByName(node1)->getName()),
+    graph.addVertice(Vertice(  Node( graph.getNodeByName(node1).getCoordinate().x,
+                                      graph.getNodeByName(node1).getCoordinate().y,
+                                      graph.getNodeByName(node1).getName()),
+                                Node( graph.getNodeByName(node1).getCoordinate().x,
+                                      graph.getNodeByName(node1).getCoordinate().y,
+                                      graph.getNodeByName(node1).getName()),
                                 std::stoi(weight) ));
 
     std::cout << "Vertice added to graph\n";

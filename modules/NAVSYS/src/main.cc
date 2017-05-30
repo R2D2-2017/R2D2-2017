@@ -70,7 +70,7 @@ int main(int argc, char **argv)
             getline(std::cin,end);
 
 
-            std::vector<PathNode> path = aStar(*g, *g->getNodeByName(start), *g->getNodeByName(end));
+            std::vector<PathNode> path = aStar(*g, g->getNodeByName(start), g->getNodeByName(end));
 
             std::cout << "the path is:\n";
 

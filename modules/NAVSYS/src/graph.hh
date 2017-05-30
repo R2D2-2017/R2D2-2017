@@ -53,7 +53,7 @@ public:
     /**
   * \brief function to get a element of the nodes vector by name
   */
-    std::vector<Node>::iterator getNodeByName(std::string name);
+    Node & getNodeByName(std::string name);
 
     /**
 * \brief function to write the graph to the disk at the specified filepaths.
