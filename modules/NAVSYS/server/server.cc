@@ -23,10 +23,22 @@ void Server::broadcastMessage(const std::string &message){
 }
 
 void Server::run(){
+
+    // nodes and vertice file path
+    std::string nodeFilePath = "../server/node.txt";
+    std::string verticeFilePath = "../server/vertice.txt";
+
+
+    //graph factory
+    std::cout << "Creating graph" << std::endl;
+    GraphFactory factory = GraphFactory();
+    Graph g = Graph();
+    factory.createGraph(nodeFilePath,verticeFilePath, g);
+    std::cout << "Initializing listener" << std::endl;
     //Running in the nineties
     socketListener.listen(port);
     socketSelector.add(socketListener);
-
+    std::cout << "Running service" << std::endl;
     while(true){
         sf::sleep(sf::milliseconds(100));
 
@@ -67,6 +79,20 @@ void Server::run(){
 
 void Server::handleInput(const std::string & input){
     if(input == "REQUEST_GRAPH"){
+        std::cout << "graph is being send\n";
         broadcastMessage("Ik ben een graaf");         //Placeholder
     }
+    else if(input == "ADD_NODE"){
+        std::cout << "node is being added to \n";
+        broadcastMessage("Node added");         //Placeholder
+    }
+    else if(input == "ADD_VERTICE"){
+        std::cout << "graph is being send\n";
+        broadcastMessage("Vertice added");         //Placeholder
+    }
+    else if(input == "SAVE_GRAPH"){
+        std::cout << "graph is being saved\n";
+        broadcastMessage("graph saved");         //Placeholder
+    }
+
 }

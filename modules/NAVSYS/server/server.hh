@@ -13,7 +13,10 @@
 #include <memory>
 #include <string>
 #include <iostream>
-
+#include "../common/graph.hh"
+#include "graph-factory.hh"
+#include "graph-input.hh"
+#include "astar.hh"
 /**
  * \brief Server class
  *
