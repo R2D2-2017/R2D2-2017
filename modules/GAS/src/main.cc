@@ -10,6 +10,7 @@
 #include "hwlib-due-spi.hh"
 #include "sd-spi.hh"
 #include "data-logger.hh"
+#include "alarm.hh"
 
 float readGasSensor(hwlib::target::pin_adc &sensor) {
     return ((float) sensor.get()) / 4095.0f * 3.3f;
@@ -18,7 +19,8 @@ float readGasSensor(hwlib::target::pin_adc &sensor) {
 int main() {
     WDT->WDT_MR = WDT_MR_WDDIS;
 
-    hwlib::target::pin_adc sensor = hwlib::target::pin_adc(hwlib::target::ad_pins::a0);
+    hwlib::target::pin_adc sensor = hwlib::target::pin_adc(
+            hwlib::target::ad_pins::a0);
     namespace target = hwlib::target;
     auto a = target::pin_out(target::pins::d13);
     a.set(0);
@@ -45,6 +47,7 @@ int main() {
         hwlib::cout << ".";
 //        hwlib::cout << (int)(readGasSensor(sensor)*100) << "\r\n"; //debug
         logger.writeValue(readGasSensor(sensor));
+        checkGasValue(readGasSensor(sensor));
         hwlib::wait_us((int_fast32_t) (5000000 - (hwlib::now_us() - time)));
     }
 
