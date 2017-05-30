@@ -22,7 +22,8 @@ private:
 
 /**
  * \brief    This function finds a node in the node  vector by name
- * \param[in] name name of node
+ * \param[in] name, name of node
+ * \param[in] nodes, list of nodes
  * \return  it  iterator to node element
  */
     Node  getNodeByName(std::string name, std::vector<Node> nodes);
@@ -45,6 +46,7 @@ private:
  * This causes undefined behavior when iterating over elements in other functions.
  * !!!
  *
+ * \param[in]nodeFilePath path to node file
  * \return nodes  vector with vertice elements filled.
  */
     std::vector<Node>  RunNodeFactory(std::string nodeFilePath);
@@ -69,7 +71,8 @@ private:
  * with a new line. This will cause the vertice factory to read an additional empty entry and store it.
  * This causes undefined behavior when iterating over elements in other functions.
  * !!!
- *
+ *\param[in]verticeFilePath path to vertice file
+ * \param[in]nodes list of nodes
  * \return  vertices  vector with vertice elements filled.
  */
     std::vector<Vertice> RunVerticeFactory(std::string verticeFilePath, std::vector<Node> nodes);

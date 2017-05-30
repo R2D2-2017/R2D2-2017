@@ -32,7 +32,7 @@ public:
  * The created node class is then passed to the graph.
  * Output node is added to graph
  *
- * \param[in] graph*
+ * \param[in] graph&
  */
     void getNodeEntryFromScreen(Graph & graph);
 
@@ -45,7 +45,7 @@ public:
  * The created vertice class is then passed to the graph.
  * Output vertice is added to graph.
  *
- * \param[in] graph*
+ * \param[in] graph&
  */
     void getVerticeEntryFromScreen(Graph & graph);
 
