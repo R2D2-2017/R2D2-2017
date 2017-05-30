@@ -15,7 +15,6 @@
 #include "graph.hh"
 #include "node.hh"
 
-using namespace std;
 
 class GraphFactory {
 private:

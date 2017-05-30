@@ -29,38 +29,20 @@ std::vector<Node>::iterator GraphFactory::getNodeByName(std::string name, std::v
     return it;
 }
 
-/*author jeremy
-*
-* This function handle the parsing of lines found in the node file and the creation of nodes
-*
-* This function wil keep getting lines from the file from which it wil extract the node information.
-* This information is stored in strings named after the information they contain.
-* After parsing a line from the file, a node object is created with the data found.
-* This created node is then passed to the graph.
-* This repeats untill there are no more lines in the file.
-*
-*!!!
-* If the user enters an entry directly in the file itself, make sure not to end the last
-* with a new line. This will cause the node factories to read an additional empty entry and store it.
-* This causes undefined behavior when iterating over elements in other functions.
-* !!!
-*
-* Output vector of nodes are returned
-*/
 
 std::vector<Node>  GraphFactory::RunNodeFactory(std::string nodeFilePath) {
     std::vector<Node> nodes;
 
-    ifstream nodeFileStreamIn;
+    std::ifstream nodeFileStreamIn;
     nodeFileStreamIn.open(nodeFilePath,std::ios_base::app);
 
 
-    string nodeEntry = "";
+    std::string nodeEntry = "";
     //get line out of file
     while (getline (nodeFileStreamIn,nodeEntry)) {
-        string nodeName = "";
-        string nodePosX = "";
-        string nodePosY = "";
+        std::string nodeName = "";
+        std::string nodePosX = "";
+        std::string nodePosY = "";
 
         // flags to to deside based on specific chars, which data element is being read.
         bool nameFlag = 0;
@@ -116,40 +98,21 @@ std::vector<Node>  GraphFactory::RunNodeFactory(std::string nodeFilePath) {
 }
 
 
-/* author jeremy
-*
-* This function handle the parsing of lines found in the vertice file and the creation of vertices
-*
-* This function wil keep getting lines from the file from which it wil extract the vertice information.
-* This information is stored in strings named after the information they contain.
-* After parsing a line from the file, a vertice object is created with the data found.
-* in the case of the involved nodes this is done by calling the graph to return the *ptr to the nodes  in the vertice.
-* This is done based on node id.
-* This created vertice is then passed to the graph.
-* This repeats until there are no more lines in the file.
-*
-* !!!
-* If the user enters an entry directly in the file itself, make sure not to end the last
-* with a new line. This will cause the node factories to read an additional empty entry and store it.
-* This causes undefined behavior when iterating over elements in other functions.
-* !!!
-*
-* Output vertices are stored in graph
-*/
+
 std::vector<Vertice> GraphFactory::RunVerticeFactory(std::string verticeFilePath, std::vector<Node> nodes) {
     std::vector<Vertice> vertices;
 
-    ifstream verticeFileStreamIn;
+    std::ifstream verticeFileStreamIn;
     verticeFileStreamIn.open(verticeFilePath,std::ios_base::app);
 
-    string verticeEntry = "";
+    std::string verticeEntry = "";
     //get line out of file
     while (getline (verticeFileStreamIn,verticeEntry)) {
 
         // strings to store chars read
-        string nodeA = "";
-        string nodeB = "";
-        string weight = "";
+        std::string nodeA = "";
+        std::string nodeB = "";
+        std::string weight = "";
 
 
         // flags to to deside based on specific chars, which data element is being read.
