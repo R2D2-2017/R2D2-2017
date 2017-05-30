@@ -7,6 +7,7 @@
  */
 #include <iostream>
 #include <algorithm>
+#include <memory>
 #include "graph.hh"
 #include "graph-factory.hh"
 #include "graph-input.hh"
@@ -22,8 +23,7 @@ int main(int argc, char **argv)
 
     //graph factory
     GraphFactory factory = GraphFactory();
-    Graph * g = factory.createGraph(nodeFilePath,verticeFilePath);
-
+    std::unique_ptr<Graph> g(factory.createGraph(nodeFilePath,verticeFilePath));
 
     std::cout<< "1::add node 2::add vertice 3::find shortest route(FIRST RUN ONLY) q::save and exit\n";
 
