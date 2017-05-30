@@ -1,5 +1,5 @@
 //
-// Created by Robert  on 5/19/17 and jeremy.
+// Created by Robert  on 5/19/17.
 //
 
 #ifndef NAVIGATIONSYSTEM_VERTICE_HH
