@@ -21,6 +21,8 @@ int main() {
 
     hwlib::target::pin_adc sensor = hwlib::target::pin_adc(
             hwlib::target::ad_pins::a0);
+    auto alarmled = hwlib::target::pin_out(hwlib::target::pins::d8);
+    Alarm alarm = Alarm(2.7f, alarmled);
     namespace target = hwlib::target;
     auto a = target::pin_out(target::pins::d13);
     a.set(0);
@@ -47,7 +49,7 @@ int main() {
         hwlib::cout << ".";
 //        hwlib::cout << (int)(readGasSensor(sensor)*100) << "\r\n"; //debug
         logger.writeValue(readGasSensor(sensor));
-        checkGasValue(readGasSensor(sensor));
+        alarm.checkGasValue(readGasSensor(sensor));
         hwlib::wait_us((int_fast32_t) (5000000 - (hwlib::now_us() - time)));
     }
 

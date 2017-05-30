@@ -9,13 +9,12 @@
 
 #include "alarm.hh"
 
-// Magicly decided on which pin to use. Feel free to change.
-auto led0 = hwlib::target::pin_out( hwlib::target::pins::d7 );
+Alarm::Alarm(float gasValueThreshold, hwlib::target::pin_out &alarmLed) :
+        alarmLed(alarmLed),
+        gasValueThreshold(gasValueThreshold) {
+}
 
-/// Just a magic number at the moment
-float gasValueThreshold = 2.0f;
-
-void checkGasValue(float gasValue) {
+void Alarm::checkGasValue(float gasValue) {
     if (gasValue > gasValueThreshold) {
         triggerAlarm();
     } else {
@@ -23,10 +22,10 @@ void checkGasValue(float gasValue) {
     }
 }
 
-void triggerAlarm() {
-    led0.set( 1 );
+void Alarm::triggerAlarm() {
+    alarmLed.set(1);
 }
 
-void disableAlarm() {
-    led0.set( 0 );
+void Alarm::disableAlarm() {
+    alarmLed.set(0);
 }
