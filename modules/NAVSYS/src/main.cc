@@ -25,7 +25,7 @@ int main(int argc, char **argv)
     Graph * g = factory.createGraph(nodeFilePath,verticeFilePath);
 
 
-    cout<< "1::add node 2::add vertice 3::find shortest route q::save and exit\n";
+    cout<< "1::add node 2::add vertice 3::find shortest route(FIRST RUN ONLY) q::save and exit\n";
 
     string choice = "";
     getline(cin,choice);
@@ -93,7 +93,7 @@ int main(int argc, char **argv)
     return 0;
 }
 
-    
+
         
 
 
