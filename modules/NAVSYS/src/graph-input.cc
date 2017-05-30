@@ -21,7 +21,7 @@ void GraphInput::getNodeEntryFromScreen(Graph * graph) {
     getline(cin, coordinateY);
 
     graph->addNode(Node(std::stof(coordinateX), std::stof(coordinateY), name ));
-
+    cout << "Node added to graph\n";
 }
 
 
@@ -47,11 +47,13 @@ void GraphInput::getVerticeEntryFromScreen(Graph * graph) {
     */
     graph->addVertice(Vertice(  Node( graph->getNodeByName(node1)->getCoordinate().x,
                                       graph->getNodeByName(node1)->getCoordinate().y,
-                                      graph->getNodeByName(node1)->getNodeName()),
+                                      graph->getNodeByName(node1)->getName()),
                                 Node( graph->getNodeByName(node1)->getCoordinate().x,
                                       graph->getNodeByName(node1)->getCoordinate().y,
-                                      graph->getNodeByName(node1)->getNodeName()),
+                                      graph->getNodeByName(node1)->getName()),
                                 std::stoi(weight) ));
+
+    cout << "Vertice added to graph\n";
 
 }
 

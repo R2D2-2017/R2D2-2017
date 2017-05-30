@@ -52,8 +52,8 @@ void  Graph::setVertices(std::vector<Vertice>  newVertices) {
 
 std::vector<Node>::iterator Graph::getNodeByName(std::string name) {
     std::vector<Node>::iterator it;
-    it = std::find_if(std::begin(nodes), std::end(nodes),[&](const Node & node) -> bool{
-        return node.getNodeName() == name;
+    it = std::find_if(std::begin(nodes), std::end(nodes),[&]( Node & node) -> bool{
+        return node.getName() == name;
     });
     return it;
 }
@@ -69,7 +69,7 @@ void Graph::dumpGraphToDisk(const std::string nodeFilePath,const std::string ver
     std::for_each (nodes.begin(), nodes.end(), [nodeFile](Node node){
         std::string tmp = "";
         tmp+="(";
-        tmp.append(node.getNodeName());
+        tmp.append(node.getName());
         tmp+=")[";
         tmp.append(std::to_string((int)node.getCoordinate().x));
         tmp+=",";
@@ -90,9 +90,9 @@ void Graph::dumpGraphToDisk(const std::string nodeFilePath,const std::string ver
     std::for_each (vertices.begin(), vertices.end(), [verticeFile](Vertice vertice) {
         std::string tmp = "";
         tmp+="(";
-        tmp.append(vertice.getCurrent()->getNodeName());
+        tmp.append(vertice.getCurrent()->getName());
         tmp+=")-(";
-        tmp.append(vertice.getNeighbour()->getNodeName());
+        tmp.append(vertice.getNeighbour()->getName());
         tmp+=")[";
         tmp.append(std::to_string(vertice.getWeight()));
         tmp+="]\n";

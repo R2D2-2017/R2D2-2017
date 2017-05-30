@@ -15,24 +15,20 @@
  * Node class used in the constructions of a \ref Graph and \ref Vertice classes
  */
 class Node {
-private:
-    Coordinate coordinate;
-    std::string name;
 
-
+protected:
+  Coordinate coordinate;
+  std::string name;
 public:
-    Node(const Coordinate &coordinate,  const std::string &name = "");
-    Node(const float x, const float y,  const std::string &name = "");
-    friend std::ostream &operator<<(std::ostream &os, const Node &node);
-    bool operator==(const Node &rhs) const;
-    bool operator!=(const Node &rhs) const;
-    float euclideanDistance(const Node &other) const;
-    Coordinate getCoordinate();
+  Node(const Coordinate &coordinate, const std::string &name = "");
+  Node(const float x, const float y, const std::string &name = "");
+  friend std::ostream &operator<<(std::ostream &os, const Node &node);
+  bool operator==(const Node &rhs) const;
+  bool operator!=(const Node &rhs) const;
+  float euclideanDistance(const Node &other) const;
+  Coordinate getCoordinate();
+  std::string getName();
 
-/**
- * \brief function to get the name of a node
- */
-    std::string getNodeName() const;
 };
 
 

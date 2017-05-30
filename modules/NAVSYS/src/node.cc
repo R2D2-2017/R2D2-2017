@@ -2,12 +2,13 @@
 // Created by Robert  5/19/17.
 //
 #include "node.hh"
+
 Node::Node(const Coordinate &coordinate, const std::string &name)
         : coordinate(coordinate), name(name) {}
 Node::Node(const float x, const float y,  const std::string &name)
         : coordinate(x, y),  name(name) {}
 std::ostream &operator<<(std::ostream &os, const Node &node) {
-    os << "Node";
+    os<< "Node";
     if (node.name != "")
         os << " [" << node.name  <<"]";
     os << " @ " << node.coordinate << "\n";
@@ -29,9 +30,9 @@ float Node::euclideanDistance(const Node &other) const {
 Coordinate Node::getCoordinate()
 {
     return coordinate;
-
 }
 
-std::string Node::getNodeName() const{
-    return name;
+std::string Node::getName()
+{
+	return name;
 }

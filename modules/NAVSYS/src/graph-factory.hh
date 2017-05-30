@@ -83,7 +83,7 @@ public:
  * \brief    This function asks the factory to create a graph
  * \return graph a pointer to the new created graph by the factory
  */
-    Graph* createGraph(std::string nodeFilePath,std::string verticeFilePath);
+    Graph * createGraph(std::string nodeFilePath,std::string verticeFilePath);
 
 
 };
