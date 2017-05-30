@@ -48,9 +48,9 @@ void GraphInput::getVerticeEntryFromScreen(Graph & graph) {
     graph.addVertice(Vertice(  Node( graph.getNodeByName(node1).getCoordinate().x,
                                       graph.getNodeByName(node1).getCoordinate().y,
                                       graph.getNodeByName(node1).getName()),
-                                Node( graph.getNodeByName(node1).getCoordinate().x,
-                                      graph.getNodeByName(node1).getCoordinate().y,
-                                      graph.getNodeByName(node1).getName()),
+                                Node( graph.getNodeByName(node2).getCoordinate().x,
+                                      graph.getNodeByName(node2).getCoordinate().y,
+                                      graph.getNodeByName(node2).getName()),
                                 std::stoi(weight) ));
 
     std::cout << "Vertice added to graph\n";
