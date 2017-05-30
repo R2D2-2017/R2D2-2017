@@ -7,7 +7,6 @@
  */
 #include <iostream>
 #include <algorithm>
-#include <memory>
 #include "graph.hh"
 #include "graph-factory.hh"
 #include "graph-input.hh"
