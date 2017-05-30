@@ -17,7 +17,8 @@
 #include "graph-factory.hh"
 #include "graph-input.hh"
 #include "astar.hh"
-int main(int argc, char **argv)
+
+int main()
 {
 
     std::string nodeFilePath = "../src/node.txt";
@@ -85,7 +86,7 @@ int main(int argc, char **argv)
             }
         }
 		else if (choice == "4") {
-			graphicalfactory dis;
+			GraphDrawer dis;
 			dis.reload(&g);
 			dis.draw();		
 		}

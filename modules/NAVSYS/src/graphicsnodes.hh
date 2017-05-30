@@ -9,26 +9,24 @@
 #pragma once 
 
 #include <SFML/Graphics.hpp>
-#include "super.hpp"
 
-
-class graphnodes: public super {
+class GraphNode{
 public:
 
 	/**
-	*costructor for the graphnodes class 
+	*constructor for the graphnodes class 
 	*
 	* the constructor contains twe parameters, The first one is the position of the node in the sfml window.
 	* the second parameter is the size of the node in the window, this paramter has a default value of 10.
 	*
 	*/
-	graphnodes( sf::Vector2f position,float size = 10.0);
+	GraphNode( sf::Vector2f position, float size = 10.0);
 	/**
 	*draw function
 	*
 	*the draw function will draw the node on the window with the adress of the parameter. 
 	*/
-	void draw( sf::RenderWindow & window ) override;
+	void draw( sf::RenderWindow & window ) ;
 	
 
 	
@@ -36,7 +34,7 @@ public:
 	*function that wil return the position of the node in the window.
 	*returning an sf::Vector2f
 	*/
-	sf::Vector2f getposition();
+	sf::Vector2f getPosition();
 
    
 private:
@@ -44,7 +42,7 @@ private:
 	sf::Vector2f position;
 	sf::CircleShape circle;
 
-float size;
+	float size;
 	
 
 };
