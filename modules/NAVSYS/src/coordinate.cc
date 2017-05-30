@@ -1,6 +1,3 @@
-//
-// Created by Robert on 5/19/17.
-//
 #include <math.h>
 #include "coordinate.hh"
 
