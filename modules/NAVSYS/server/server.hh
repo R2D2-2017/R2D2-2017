@@ -14,6 +14,11 @@
 #include <string>
 #include <iostream>
 
+/**
+ * \brief Server class
+ *
+ * This class handles everything an API server should do, it accepts new clients over TCP and sends messages to them after requests.
+ */
 class Server{
 private:
     uint16_t port;

@@ -12,12 +12,16 @@
 #include <iostream>
 #include <string>
 
+/**
+ * \brief Client class
+ *
+ * This class should contain all the functionality a navigation system should ever want to have. It makes a connection with a server object via TCP and in the future will handle user input.
+ */
 class Client{
 private:
 	sf::IpAddress ipAddress;
 	uint16_t port;
 	sf::TcpSocket socket;
-	sf::Socket::Status connectionStatus;
 
 public:
 /**

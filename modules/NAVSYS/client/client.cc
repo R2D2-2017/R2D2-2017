@@ -11,7 +11,7 @@
 Client::Client(sf::IpAddress ipAddress, uint16_t port): ipAddress(ipAddress), port(port){}
 
 void Client::run(){
-	connectionStatus = socket.connect(ipAddress, port);
+	sf::Socket::Status connectionStatus = socket.connect(ipAddress, port);
 	if(connectionStatus != sf::Socket::Done){
 		std::cout << "Connection failed" << std::endl;
 	}
