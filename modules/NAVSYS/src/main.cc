@@ -25,10 +25,10 @@ int main(int argc, char **argv)
     Graph * g = factory.createGraph(nodeFilePath,verticeFilePath);
 
 
-    cout<< "1::add node 2::add vertice 3::find shortest route(FIRST RUN ONLY) q::save and exit\n";
+    std::cout<< "1::add node 2::add vertice 3::find shortest route(FIRST RUN ONLY) q::save and exit\n";
 
-    string choice = "";
-    getline(cin,choice);
+    std::string choice = "";
+    getline(std::cin,choice);
     while( choice != "1" || "2" || "3" || "q") {
 
         if(choice == "q"){
@@ -36,10 +36,10 @@ int main(int argc, char **argv)
             break;
         }
         else if (choice == "1") {
-            input.getNodeEntryFromScreen(g);
+            input.getNodeEntryFromScreen(*g);
         }
         else if (choice == "2") {
-            input.getVerticeEntryFromScreen(g);
+            input.getVerticeEntryFromScreen(*g);
         }
         else if (choice == "3") {
             /*bug on second entry to this part of code
@@ -63,11 +63,11 @@ int main(int argc, char **argv)
 
             std::cout<< "start>\n";
             std::string start = "";
-            getline(cin,start);
+            getline(std::cin,start);
 
             std::cout<< "end>\n";
             std::string end   = "";
-            getline(cin,end);
+            getline(std::cin,end);
 
 
             std::vector<PathNode> path = aStar(*g, *g->getNodeByName(start), *g->getNodeByName(end));
@@ -80,7 +80,7 @@ int main(int argc, char **argv)
         }
 
         std::cout<< "1::add node 2::add vertice  q::save and exit\n";
-        getline(cin,choice);
+        getline(std::cin,choice);
 
         /*
          * program crashes on re-entry to the last else if clause if a second attempt

@@ -34,7 +34,7 @@ public:
  *
  * \param[in] graph*
  */
-    void getNodeEntryFromScreen(Graph * graph);
+    void getNodeEntryFromScreen(Graph & graph);
 
 
 /**
@@ -47,7 +47,7 @@ public:
  *
  * \param[in] graph*
  */
-    void getVerticeEntryFromScreen(Graph * graph);
+    void getVerticeEntryFromScreen(Graph & graph);
 
 };
 
