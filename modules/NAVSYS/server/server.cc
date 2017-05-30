@@ -30,15 +30,16 @@ void Server::run(){
 
 
     //graph factory
-    std::cout << "Creating graph" << std::endl;
+
     GraphFactory factory = GraphFactory();
     Graph g = Graph();
     factory.createGraph(nodeFilePath,verticeFilePath, g);
-    std::cout << "Initializing listener" << std::endl;
+
     //Running in the nineties
     socketListener.listen(port);
     socketSelector.add(socketListener);
-    std::cout << "Running service" << std::endl;
+
+
     while(true){
         sf::sleep(sf::milliseconds(100));
 
