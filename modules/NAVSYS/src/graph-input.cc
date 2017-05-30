@@ -10,33 +10,33 @@
 
 void GraphInput::getNodeEntryFromScreen(Graph * graph) {
 
-    string name = "";
-    string coordinateX = "";
-    string coordinateY = "";
-    cout << "Please enter node name: >";
-    getline(cin, name);
-    cout << "Please enter node coordinate x: >";
-    getline(cin, coordinateX);
-    cout << "Please enter node coordinate y: >";
-    getline(cin, coordinateY);
+    std::string name = "";
+    std::string coordinateX = "";
+    std::string coordinateY = "";
+    std::cout << "Please enter node name: >";
+    getline(std::cin, name);
+    std::cout << "Please enter node coordinate x: >";
+    getline(std::cin, coordinateX);
+    std::cout << "Please enter node coordinate y: >";
+    getline(std::cin, coordinateY);
 
     graph->addNode(Node(std::stof(coordinateX), std::stof(coordinateY), name ));
-    cout << "Node added to graph\n";
+    std::cout << "Node added to graph\n";
 }
 
 
 void GraphInput::getVerticeEntryFromScreen(Graph * graph) {
 
-    string node1 = "";
-    string node2 = "";
-    string weight = "";
+    std::string node1 = "";
+    std::string node2 = "";
+    std::string weight = "";
 
-    cout << "Please enter name of from node x: >";
-    getline(cin, node1);
-    cout << "Please enter name of to node x: >";
-    getline(cin, node2);
-    cout << "Please enter path weight x: >";
-    getline(cin, weight);
+    std::cout << "Please enter name of from node x: >";
+    getline(std::cin, node1);
+    std::cout << "Please enter name of to node x: >";
+    getline(std::cin, node2);
+    std::cout << "Please enter path weight x: >";
+    getline(std::cin, weight);
 
     /* based on the node names given as input, the information of those nodes are used
     * to create the nodes of the vertices needed for the construction of a vertice
@@ -53,7 +53,7 @@ void GraphInput::getVerticeEntryFromScreen(Graph * graph) {
                                       graph->getNodeByName(node1)->getName()),
                                 std::stoi(weight) ));
 
-    cout << "Vertice added to graph\n";
+    std::cout << "Vertice added to graph\n";
 
 }
 

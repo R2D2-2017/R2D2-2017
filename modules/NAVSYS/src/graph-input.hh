@@ -17,7 +17,6 @@
 #include "graph.hh"
 
 
-using namespace std;
 
 class GraphInput {
 private:
