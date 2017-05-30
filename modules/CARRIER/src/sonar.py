@@ -6,23 +6,33 @@ This is a test code for the sonar sensor, using a function (GetSonarDistance) to
 """
 import RPi.GPIO as GPIO                    #Import GPIO library
 import time                                #Import time library
-GPIO.setmode(GPIO.BCM)                     #Set GPIO pin numbering 
-GPIO.setup(23,GPIO.OUT)                    #Set pin as GPIO out
-GPIO.setup(24,GPIO.IN)                     #Set pin as GPIO in
+
+triggerPin = 23                            #the pin wich we use to trigger the sonar
+echoPin = 24                               #the pin on which we listen to the sonar
 
 
-def GetSonarDistance(trigger, echo):            #Associate pin 23 to trigger and 24 to ECHO
+def setup(outPin, inPin):
+        """
+        This function instantiates all pins in the correct way
+        """
+        GPIO.setmode(GPIO.BCM)                  #Set GPIO pin numbering 
+        GPIO.setup(outPin,GPIO.OUT)             #Set pin as GPIO out
+        GPIO.setup(inPin,GPIO.IN)               #Set pin as GPIO in
+        GPIO.output(outPin, False)              #Set TRIG as LOW 
+	time.sleep(0.001)                       #Small delay
+  
+
+
+def GetSonarDistance(trigger, echo):            #Associate the triggerpins 
 	"""
 	A function that returns the distance to the nearest object in cm, measured by the sonar sensor.
-	trigger = the trigger pin, the sonar sends a signal through this.
-	echo = the echo pin,  the sonar receives a signal through this.
-	return = the distance in cm or an 404 when no object is detected in range.
+	trigger = the trigger pin, the program sends a signal through this to the sensor.
+	echo = the echo pin,  the sonar sends a signal through this to the program.
+	return = the distance in cm or a 404 when no object is detected in range.
 	"""
-	GPIO.output(trigger, False)                 #Set TRIG as LOW
-	time.sleep(0.001)                           #Delay of x seconds
-  
+	
 	GPIO.output(trigger, True)                  #Set TRIG as HIGH
-	time.sleep(0.001)                  	   		#Delay of 0.00001 seconds
+	time.sleep(0.001)                  	    #Delay of 0.00001 seconds
 	GPIO.output(trigger, False)                 #Set TRIG as LOW
 	
 	
@@ -41,12 +51,13 @@ def GetSonarDistance(trigger, echo):            #Associate pin 23 to trigger and
 	else:
    		return 404                  		#display out of range
 
+setup(triggerPin, echoPin)
 
 while True:
 	"""
 	a simple while loop for testing the GetSonarDistance function.
 	"""
-	distance = GetSonarDistance(23, 24)
+	distance = GetSonarDistance(triggerPin, echoPin)
 	if(distance<3):
 		print("FORCE STOP", distance)
 	elif(distance<25):
