@@ -1,6 +1,7 @@
 //
 // Created by Robert on 5/19/17.
 //
+#include <fstream>
 #include <algorithm>
 #include "graph.hh"
 void Graph::addNode(const Node node) {
@@ -60,13 +61,15 @@ std::vector<Node>::iterator Graph::getNodeByName(std::string name) {
 
 void Graph::dumpGraphToDisk(const std::string nodeFilePath,const std::string verticeFilePath) {
 
-    FILE* nodeFile;
 
-    nodeFile = fopen(nodeFilePath.c_str(),"w");
     std::cout<< "saving nodes on disk\n";
 
+    std::ofstream nodeFile;
+    nodeFile.open(nodeFilePath);
+
+
     // for each node in the graph create the format string and write it the the correct file.
-    std::for_each (nodes.begin(), nodes.end(), [nodeFile](Node node){
+    std::for_each (nodes.begin(), nodes.end(), [&nodeFile](Node node){
         std::string tmp = "";
         tmp+="(";
         tmp.append(node.getName());
@@ -77,17 +80,19 @@ void Graph::dumpGraphToDisk(const std::string nodeFilePath,const std::string ver
         tmp+="]";
         tmp+="\n";
         std::cout << tmp;
-        fputs(tmp.c_str(),nodeFile );
+        nodeFile << tmp;
     });
 
-    fclose(nodeFile);
+    nodeFile.close();
 
-    FILE* verticeFile;
-    verticeFile = fopen(verticeFilePath.c_str(),"w");
+    std::ofstream verticeFile;
+    verticeFile.open(verticeFilePath);
+
+
     std::cout<< "saving vertices on disk\n";
 
     // for each node in the graph create the format string and write it the the correct file.
-    std::for_each (vertices.begin(), vertices.end(), [verticeFile](Vertice vertice) {
+    std::for_each (vertices.begin(), vertices.end(), [&verticeFile](Vertice vertice) {
         std::string tmp = "";
         tmp+="(";
         tmp.append(vertice.getCurrent()->getName());
@@ -97,8 +102,8 @@ void Graph::dumpGraphToDisk(const std::string nodeFilePath,const std::string ver
         tmp.append(std::to_string(vertice.getWeight()));
         tmp+="]\n";
         std::cout << tmp;
-        fputs(tmp.c_str(),verticeFile );
+        verticeFile << tmp;
     });
 
-    fclose(verticeFile);
+    verticeFile.close();
 }
