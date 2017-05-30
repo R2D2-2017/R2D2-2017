@@ -20,7 +20,8 @@ private:
 	Graph * g;
 	std::vector<graphnodes> graphicalnodes;
 	std::vector<vertices>graphicalvertices;
-	
+	sf::RenderWindow window{ sf::VideoMode{ 1000, 1000}, "SFML window" };
+
 public:
 	/**
 	*constructor of the grahicalfactory.
@@ -37,7 +38,7 @@ public:
 	*/
 	
 
-	void draw(sf::RenderWindow & window);
+	void draw();
 	
 
 	

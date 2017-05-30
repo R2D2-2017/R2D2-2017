@@ -12,8 +12,7 @@ include(../../flags.cmake)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 include_directories(${SFML_INCLUDE_DIR})
-set(sources
-    src/main.cc src/node.cc src/node.hh src/coordinate.cc src/coordinate.hh src/vertice.cc src/vertice.hh src/graph.cc src/graph.hh src/graphicsnodes.hh src/graphicsnodes.cc src/graphicsvertices.hh src/graphicsvertices.cc src/graphicsgraph.cc src/graphicsgraph.hh )
+set(sources src/main.cc src/node.cc src/node.hh src/coordinate.cc src/coordinate.hh src/vertice.cc src/vertice.hh src/graph.cc src/graph.hh src/pathnode.cc src/pathnode.hh src/astar.cc src/astar.hh src/graph-input.cc src/graph-input.hh src/graph-factory.cc src/graph-factory.hh src/graphicsnodes.hh src/graphicsnodes.cc src/graphicsvertices.hh src/graphicsvertices.cc src/graphicsgraph.cc src/graphicsgraph.hh)
 
 find_package(SFML 2 REQUIRED graphics window system network audio)
 add_executable(${exe_name} ${sources})

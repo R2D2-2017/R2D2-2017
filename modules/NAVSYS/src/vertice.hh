@@ -1,11 +1,14 @@
-//
-// Created by Robert on 5/19/17.
-//
+/**
+ * \file
+ * \brief     This file contains the \see Vertice class
+ * \author    Robert
+ * \copyright Copyright (c) 2017, The R2D2 Team
+ * \license   See LICENSE
+ */
 
-#ifndef NAVIGATIONSYSTEM_VERTICE_HH
-#define NAVIGATIONSYSTEM_VERTICE_HH
-
+#pragma once
 #include <ostream>
+#include <vector>
 #include "node.hh"
 /**
  * \brief Vertice class
@@ -14,10 +17,12 @@
  */
 class Vertice {
 private:
-  Node node1;
-  Node node2;
-  int weight;
+
+    Node node1;
+    Node node2;
+    int weight;
 public:
+
   Vertice(const Node &node1, const Node &node2, int weight = 1);
   friend std::ostream &operator<<(std::ostream &os, const Vertice &vertice);
   bool operator==(const Vertice &rhs) const;
@@ -25,6 +30,5 @@ public:
   Node * getNeighbour();
   Node * getCurrent();
   int getWeight();
-};
 
-#endif //NAVIGATIONSYSTEM_VERTICE_HH
+};

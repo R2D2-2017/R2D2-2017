@@ -1,19 +1,23 @@
-//
-// Created by Robert on 5/19/17.
-//
+/**
+ * \file
+ * \brief     This file contains the \see Node graph
+ * \author    Robert
+ * \copyright Copyright (c) 2017, The R2D2 Team
+ * \license   See LICENSE
+ */
 
-#ifndef NAVIGATIONSYSTEM_NODE_HH
-#define NAVIGATIONSYSTEM_NODE_HH
-
+#pragma once
 #include <ostream>
 #include <string>
 #include "coordinate.hh"
+
 /**
  * \brief Node class
  * \details
  * Node class used in the constructions of a \ref Graph and \ref Vertice classes
  */
 class Node {
+
 protected:
   Coordinate coordinate;
   std::string name;
@@ -27,5 +31,3 @@ public:
   Coordinate getCoordinate();
   std::string getName();
 };
-
-#endif //NAVIGATIONSYSTEM_NODE_HH
