@@ -1,6 +1,10 @@
 from motor import MotorControl
+from sonar import Sonar
 from enum import Enum
+import RPi.GPIO as GPIO
 import serial
+import time
+GPIO.setmode(GPIO.BCM)
 
 
 class States(Enum):
@@ -12,8 +16,11 @@ class States(Enum):
 s = serial.Serial("/dev/ttyAMA0", 38400, timeout=0.5)
 motor = MotorControl(s)
 
+echoLocation = Sonar(23, 24) # pin 23 as triggerpin 24 as echopin
+
 state = States.idle
 pressed = 0
+
 
 while True:
     if state == States.idle:
@@ -39,16 +46,20 @@ while True:
             pressed = input()
 
     if state == States.driving:
-        #sonar goes here
-
-        
+  
         if pressed == 'f':
             motor.forward(63)
-            motor.stop()
         elif pressed == 'b':
             motor.reverse(63)
-            motor.stop()
-
+            
+        for i in range(0, 10):
+            time.sleep(0.2)
+            distance = echoLocation.getDistance()
+            print(distance)
+            if distance < 25:
+                break
+                
+        motor.stop()
         pressed = 0
         state = States.idle
 
