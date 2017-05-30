@@ -1,14 +1,12 @@
 /**
  *\file
- *\author Stefan de Beer
+ *\author Stefan de Beer, Arco Gelderblom
  *\copyright Copyright (c) 2017, The R2D2 Team
  *\license See LICENSE
  */
 
-
 #include "mfrc522.hh"
 
-#include <iostream>
 #include <wiringPi.h>
 #include <wiringPiSPI.h>
 
@@ -98,29 +96,28 @@ unsigned char Mfrc522::communicateWithTag(unsigned char command,
     writeRegister(commandReg, idle);		// Stop any active command.
     writeRegister(comIrqReg, 0x7F);			// Clear all seven interrupt request bits
     setRegisterBitMask(FIFOLevelReg, 0x80);     // flush the buffer
-    writeRegister(FIFODataReg, mifareReqIdle);	// Write sendData to the FIFO
+    writeRegister(FIFODataReg, sendData, sendDataLen);	// Write sendData to the FIFO
     writeRegister(commandReg, command); 
     
     if(command == transceive){
         setRegisterBitMask(bitFramingReg, 0x80);
     }
     int i = 100000;
-    while (1) {
+    while(1){
         unsigned char n = readRegister(comIrqReg);	
-        if (n & 0x30) {
+        if(n & 0x30){
             break; // Tag found
         }
-        else if (n & 0x01) {	
+        else if(n & 0x01){	
             return statusTimeout; // no Tag found
         }
-        if (--i == 0) {	
+        if(--i == 0){	
             return statusError; // something went wrong. Is the mfrc522 connected properly?
         }
     }
     if(receiveData){ // if receiveData is not NULL
         unsigned int recievedLen = readRegister(FIFOLevelReg);
         if(receiveDataLen >= recievedLen){ // does the data fit in the given container?
-            std::cout<<"hi"<<std::endl;
             for(unsigned int i = 0;i < recievedLen;i++){
                 receiveData[i] = readRegister(FIFODataReg); // copy data
             }
@@ -143,4 +140,3 @@ bool Mfrc522::isTagPresent(){
     }
     return 0;
 }
-

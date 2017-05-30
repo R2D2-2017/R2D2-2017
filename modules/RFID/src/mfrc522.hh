@@ -1,7 +1,7 @@
 /**
  *\file
  *\brief Mfrc522 library is a library for interfacing with the Mfrc522 module
- *\author Stefan de Beer
+ *\author Stefan de Beer, Arco Gelderblom
  *\copyright Copyright (c) 2017, The R2D2 Team
  *\license See LICENSE
  */
@@ -126,8 +126,8 @@ public:
 	testADCReg		= 0x3B  /** shows the value of ADC I and Q channels*/
     };
     /**
-    * \brief This is an enum containing various return codes used in this library.
-    */
+	 * \brief This is an enum containing various return codes used in this library.
+	 */
     enum statusCodes{
         statusOk = 0x00, /** No errors */
         statusError = 0x01, /** An error occurred */
@@ -224,6 +224,3 @@ public:
      */
     bool isTagPresent();
 };
-
-
-
