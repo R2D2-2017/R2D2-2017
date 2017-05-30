@@ -23,7 +23,8 @@ int main(int argc, char **argv)
 
     //graph factory
     GraphFactory factory = GraphFactory();
-    std::unique_ptr<Graph> g(factory.createGraph(nodeFilePath,verticeFilePath));
+    Graph g = Graph();
+    factory.createGraph(nodeFilePath,verticeFilePath, g);
 
     std::cout<< "1::add node 2::add vertice 3::find shortest route(FIRST RUN ONLY) q::save and exit\n";
 
@@ -32,14 +33,14 @@ int main(int argc, char **argv)
     while( choice != "1" || "2" || "3" || "q") {
 
         if(choice == "q"){
-            g->dumpGraphToDisk(nodeFilePath,verticeFilePath);
+            g.dumpGraphToDisk(nodeFilePath,verticeFilePath);
             break;
         }
         else if (choice == "1") {
-            input.getNodeEntryFromScreen(*g);
+            input.getNodeEntryFromScreen(g);
         }
         else if (choice == "2") {
-            input.getVerticeEntryFromScreen(*g);
+            input.getVerticeEntryFromScreen(g);
         }
         else if (choice == "3") {
             /*bug on second entry to this part of code
@@ -50,7 +51,7 @@ int main(int argc, char **argv)
             /*
              * this find_if is used to print only the nodes with valid names
              */
-            find_if(g->getNodes().begin(), g->getNodes().end(), [](Node & node){
+            find_if(g.getNodes().begin(), g.getNodes().end(), [](Node & node){
                    if(node.getName() == "") {
                        return true;
                    }
@@ -70,7 +71,7 @@ int main(int argc, char **argv)
             getline(std::cin,end);
 
 
-            std::vector<PathNode> path = aStar(*g, g->getNodeByName(start), g->getNodeByName(end));
+            std::vector<PathNode> path = aStar(g, g.getNodeByName(start), g.getNodeByName(end));
 
             std::cout << "the path is:\n";
 

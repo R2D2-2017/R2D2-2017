@@ -80,9 +80,12 @@ public:
 
 /**
  * \brief    This function asks the factory to create a graph
- * \return graph a pointer to the new created graph by the factory
+ * \param[in]nodeFilePath path to node file
+ * \param[in]verticeFilePath path to vertice file
+ * \param[in]graph reference to the graph to be filled by the factory
+ * \param [out] graph g reference to the filled graph
  */
-    Graph * createGraph(std::string nodeFilePath,std::string verticeFilePath);
+    void createGraph(std::string nodeFilePath,std::string verticeFilePath,Graph & graph);
 
 
 };

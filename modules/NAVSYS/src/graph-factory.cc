@@ -11,13 +11,10 @@
 
 
 
-Graph * GraphFactory::createGraph(std::string nodeFilePath,std::string verticeFilePath ){
+void GraphFactory::createGraph(std::string nodeFilePath,std::string verticeFilePath, Graph & graph ){
 
-    Graph  * graph = new Graph();
-    graph->setNodes(RunNodeFactory(nodeFilePath));
-    graph->setVertices(RunVerticeFactory(verticeFilePath,graph->getNodes()));
-
-    return graph;
+    graph.setNodes(RunNodeFactory(nodeFilePath));
+    graph.setVertices(RunVerticeFactory(verticeFilePath,graph.getNodes()));
 }
 
 
