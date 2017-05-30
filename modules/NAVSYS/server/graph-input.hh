@@ -8,9 +8,7 @@
  */
 
 
-#ifndef NAVSYS_GRAPHINPUT_HH
-#define NAVSYS_GRAPHINPUT_HH
-
+#pragma once
 #include <iostream>
 #include "node.hh"
 #include "vertice.hh"
@@ -51,5 +49,4 @@ public:
 
 };
 
-#endif //NAVSYS_GRAPHINPUT_HH
 

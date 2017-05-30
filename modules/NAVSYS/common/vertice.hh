@@ -1,10 +1,12 @@
-//
-// Created by Robert  on 5/19/17.
-//
+/**
+ * \file
+ * \brief     This file contains the \see Vertice class
+ * \author    Robert
+ * \copyright Copyright (c) 2017, The R2D2 Team
+ * \license   See LICENSE
+ */
 
-#ifndef NAVIGATIONSYSTEM_VERTICE_HH
-#define NAVIGATIONSYSTEM_VERTICE_HH
-
+#pragma once
 #include <ostream>
 #include <vector>
 #include "node.hh"
@@ -30,6 +32,3 @@ public:
   int getWeight();
 
 };
-
-
-#endif //NAVIGATIONSYSTEM_VERTICE_HH

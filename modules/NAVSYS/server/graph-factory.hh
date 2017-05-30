@@ -6,8 +6,7 @@
  * \license   See LICENSE
  */
 
-#ifndef NAVSYS_GRAPHFACTORY_HH
-#define NAVSYS_GRAPHFACTORY_HH
+#pragma once
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -92,7 +91,3 @@ public:
 
 
 };
-
-
-#endif //NAVSYS_GRAPHFACTORY_HH
-

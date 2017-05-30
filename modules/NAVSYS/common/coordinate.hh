@@ -1,10 +1,11 @@
-//
-// Created by Robert on 5/19/17.
-//
-
-#ifndef NAVIGATIONSYSTEM_COORDINATE_HH
-#define NAVIGATIONSYSTEM_COORDINATE_HH
-
+/**
+ * \file
+ * \brief     This file contains the coordinate class definition
+ * \author    Robert
+ * \copyright Copyright (c) 2017, The R2D2 Team
+ * \license   See LICENSE
+ */
+#pragma once
 #include <ostream>
 
 /**
@@ -14,23 +15,21 @@
  */
 class Coordinate {
 public:
-  /**
-   * Instantiate a Coordinate
-   * \param x X position
-   * \param y Y position
-   */
-  Coordinate(float x, float y);
+    /**
+     * Instantiate a Coordinate
+     * \param x X position
+     * \param y Y position
+     */
+    Coordinate(float x, float y);
 
-  /**
-   * X position of Coordinate
-   */
-  float x;
-  /**
-   * Y position of Coordinate
-   */
-
-  float y;
-
+    /**
+     * X position of Coordinate
+     */
+    float x;
+    /**
+     * Y position of Coordinate
+     */
+    float y;
 
     bool operator==(const Coordinate &rhs) const;
 
@@ -46,20 +45,14 @@ public:
 
     friend std::ostream &operator<<(std::ostream &os, const Coordinate &coordinate);
 
-
-
-  /**
-   * \brief Get the euclidean distance between Coordinates
-   * \details
-   * Returns the euclidean distance calculated with the following function:
-   * \f$(x_1,y_1)\f$ and \f$(x_2,y_2)\f$
-   * \param rhs Other coordinate
-   * \return Distance between Coordinates
-   */
-
-  float euclideanDistance(const Coordinate &rhs) const;
-
+    /**
+     * \brief Get the euclidean distance between Coordinates
+     * \details
+     * Returns the euclidean distance calculated with the following function:
+     * \f$(x_1,y_1)\f$ and \f$(x_2,y_2)\f$
+     * \param rhs Other coordinate
+     * \return Distance between Coordinates
+     */
+    float euclideanDistance(const Coordinate &rhs) const;
 
 };
-
-#endif //NAVIGATIONSYSTEM_COORDINATE_HH
