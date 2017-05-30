@@ -40,6 +40,7 @@ set(sources
     src/sd-spi.cc
     src/data-logger.cc
     src/main.cc
+	src/alarm.cc
 )
 
 # The target chip that is compiled for:
