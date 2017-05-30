@@ -67,23 +67,23 @@ public:
      * Get a vector with all nodes in the graph
      * \return vector of all nodes
      */
-    std::vector<Node> getNodes();
+    std::vector<Node>  getNodes();
 
     /**
      * Get a vector with all vertices in the graph
      * \return all vertices
      */
-    std::vector<Vertice> getVertices();
+    std::vector<Vertice>  getVertices();
 
     /**
     * \brief function to set the nodes vector
     */
-    void setNodes(std::vector<Node> nodes);
+    void setNodes(std::vector<Node>  newNodes);
 
     /**
     * \brief function to set the vertice vector
     */
-    void setVertices(std::vector<Vertice> vertices);
+    void setVertices(std::vector<Vertice>  newVertices);
 
     /**
     * \brief function to get a element of the nodes vector by name
