@@ -20,7 +20,7 @@ void Client::run(){
 	std::string messageString;
 
 	requestGraph();
-
+    
 	while(true){
 		sf::sleep(sf::milliseconds(100));
 
@@ -36,6 +36,30 @@ void Client::run(){
 void Client::requestGraph(){
 	sf::Packet p;
 	p << std::string("REQUEST_GRAPH");
+	if(socket.send(p) != sf::Socket::Done){
+		std::cout << "Something went wrong while sending your message, please try again later" << std::endl;
+	}
+}
+
+void Client::addNode(){
+	sf::Packet p;
+	p << std::string("ADD_NODE");
+	if(socket.send(p) != sf::Socket::Done){
+		std::cout << "Something went wrong while sending your message, please try again later" << std::endl;
+	}
+}
+
+void Client::addVertice(){
+	sf::Packet p;
+	p << std::string("ADD_VERTICE");
+	if(socket.send(p) != sf::Socket::Done){
+		std::cout << "Something went wrong while sending your message, please try again later" << std::endl;
+	}
+}
+
+void Client::saveGraph(){
+	sf::Packet p;
+	p << std::string("SAVE_GRAPH");
 	if(socket.send(p) != sf::Socket::Done){
 		std::cout << "Something went wrong while sending your message, please try again later" << std::endl;
 	}
