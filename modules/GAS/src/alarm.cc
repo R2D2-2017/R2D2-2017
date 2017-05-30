@@ -13,9 +13,9 @@
 auto led0 = hwlib::target::pin_out( hwlib::target::pins::d7 );
 
 /// Just a magic number at the moment
-int gasValueThreshold = 100;
+float gasValueThreshold = 2.0f;
 
-void checkGasValue(int gasValue) {
+void checkGasValue(float gasValue) {
     if (gasValue > gasValueThreshold) {
         triggerAlarm();
     } else {

@@ -14,7 +14,7 @@
 /// Take the gass value and call triggerAlarm() when it's above the
 /// threshold or disableAlarm() when it's below said threshold.
 /// @param gasValue the gas value
-void checkGasValue(int gasValue);
+void checkGasValue(float gasValue);
 
 /// /brief turn the alarm on
 void triggerAlarm();
