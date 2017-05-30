@@ -6,12 +6,13 @@ This is a test code for the sonar sensor, using a function (GetSonarDistance) to
 """
 import RPi.GPIO as GPIO                    #Import GPIO library
 import time                                #Import time library
+GPIO.setwarnings(False) 
 
 triggerPin = 23                            #the pin wich we use to trigger the sonar
 echoPin = 24                               #the pin on which we listen to the sonar
 
 
-def setup(outPin, inPin):
+        def setup(outPin, inPin):
         """
         This function instantiates all pins in the correct way
         """
@@ -19,11 +20,11 @@ def setup(outPin, inPin):
         GPIO.setup(outPin,GPIO.OUT)             #Set pin as GPIO out
         GPIO.setup(inPin,GPIO.IN)               #Set pin as GPIO in
         GPIO.output(outPin, False)              #Set TRIG as LOW 
-	time.sleep(0.001)                       #Small delay
+        time.sleep(0.001)                       #Small delay
   
 
 
-def GetSonarDistance(trigger, echo):            #Associate the triggerpins 
+        def GetSonarDistance(trigger, echo):            #Associate the triggerpins 
 	"""
 	A function that returns the distance to the nearest object in cm, measured by the sonar sensor.
 	trigger = the trigger pin, the program sends a signal through this to the sensor.
@@ -38,33 +39,24 @@ def GetSonarDistance(trigger, echo):            #Associate the triggerpins
 	
 	while GPIO.input(echo)==0:               	#Check whether the ECHO is LOW
 		pulse_start = time.time()               #Saves the last known time of LOW pulse
+		
 	
 	while GPIO.input(echo)==1:               	#Check whether the ECHO is HIGH
-		pulse_end = time.time()                 #Saves the last known time of HIGH pulse 
+		pulse_end = time.time()                 #Saves the last known time of HIGH pulse
+		
 	
 	pulse_duration = pulse_end - pulse_start 	#Get pulse duration to a variable
 	
 	distance = pulse_duration * 17150        	#Multiply pulse duration by 17150 to get distance
+
 	
 	if distance > 2 and distance < 400:      	#Check whether the distance is within range
 		return int(distance - 0.5)  		#Print distance with 0.5 cm calibration
 	else:
    		return 404                  		#display out of range
 
-setup(triggerPin, echoPin)
 
-while True:
-	"""
-	a simple while loop for testing the GetSonarDistance function.
-	"""
-	distance = GetSonarDistance(triggerPin, echoPin)
-	if(distance<3):
-		print("FORCE STOP", distance)
-	elif(distance<25):
-		print("STOP: ", distance)
 
-	time.sleep(0.01)
-	
-	
+
 	
 	
