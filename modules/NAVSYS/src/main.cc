@@ -85,9 +85,9 @@ int main(int argc, char **argv)
             }
         }
 		else if (choice == "4") {
-		
-			graphicalfactory displaying(&g);
-			displaying.draw();		
+			graphicalfactory dis;
+			dis.reload(&g);
+			dis.draw();		
 		}
 
         std::cout<< "1::add node 2::add vertice  q::save and exit\n";
