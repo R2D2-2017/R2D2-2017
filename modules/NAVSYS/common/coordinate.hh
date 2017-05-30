@@ -6,6 +6,7 @@
 #define NAVIGATIONSYSTEM_COORDINATE_HH
 
 #include <ostream>
+
 /**
  * \brief 2D Coordinate class
  * \details
@@ -27,21 +28,25 @@ public:
   /**
    * Y position of Coordinate
    */
+
   float y;
 
-  bool operator==(const Coordinate &rhs) const;
 
-  bool operator!=(const Coordinate &rhs) const;
+    bool operator==(const Coordinate &rhs) const;
 
-  Coordinate &operator+=(const Coordinate &rhs);
+    bool operator!=(const Coordinate &rhs) const;
 
-  friend Coordinate operator+(Coordinate lhs, const Coordinate &rhs);
+    Coordinate &operator+=(const Coordinate &rhs);
 
-  Coordinate &operator-=(const Coordinate &rhs);
+    friend Coordinate operator+(Coordinate lhs, const Coordinate &rhs);
 
-  friend Coordinate operator-(Coordinate lhs, const Coordinate &rhs);
+    Coordinate &operator-=(const Coordinate &rhs);
 
-  friend std::ostream &operator<<(std::ostream &os, const Coordinate &coordinate);
+    friend Coordinate operator-(Coordinate lhs, const Coordinate &rhs);
+
+    friend std::ostream &operator<<(std::ostream &os, const Coordinate &coordinate);
+
+
 
   /**
    * \brief Get the euclidean distance between Coordinates
@@ -51,7 +56,9 @@ public:
    * \param rhs Other coordinate
    * \return Distance between Coordinates
    */
+
   float euclideanDistance(const Coordinate &rhs) const;
+
 
 };
 

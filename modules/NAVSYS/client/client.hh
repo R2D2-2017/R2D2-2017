@@ -6,8 +6,7 @@
  * \license   See ../../LICENSE
  */
 
-#ifndef NAVIGATIONSYSTEM_CLIENT
-#define NAVIGATIONSYSTEM_CLIENT
+#pragma once
 
 #include <SFML/Network.hpp>
 #include <iostream>
@@ -43,5 +42,3 @@ public:
  */
 	void requestGraph();
 };
-
-#endif //CLIENT

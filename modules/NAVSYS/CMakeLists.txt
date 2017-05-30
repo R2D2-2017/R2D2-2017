@@ -17,7 +17,7 @@ set(client_sources
 	client/main.cc client/client.cc client/client.hh)
 
 set(server_sources
-	server/main.cc server/server.cc server/server.hh)
+	server/main.cc server/server.cc server/server.hh server/pathnode.cc server/pathnode.hh server/astar.cc server/astar.hh server/graph-input.cc server/graph-input.hh server/graph-factory.cc server/graph-factory.hh)
 
 find_package(SFML 2 REQUIRED system window graphics network audio)
 

@@ -6,8 +6,7 @@
  * \license   See ../../LICENSE
  */
 
-#ifndef NAVIGATIONSYSTEM_SERVER
-#define NAVIGATIONSYSTEM_SERVER
+#pragma once
 
 #include <SFML/Network.hpp>
 #include <vector>
@@ -54,5 +53,3 @@ public:
  */
     void handleInput(const std::string & input);
 };
-
-#endif //SERVER
