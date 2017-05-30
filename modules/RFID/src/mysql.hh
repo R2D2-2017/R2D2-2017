@@ -1,5 +1,5 @@
 /**
- * \file
+ * \file      mysql.hh
  * \brief     Mysql library with error checking that uses the mysqlcppconn library
  * \author    Tim IJntema
  * \copyright Copyright (c) 2017, The R2D2 Team
@@ -31,9 +31,9 @@
 class MySql{
 private:
     sql::Driver * driver;
-    sql::Connection * con;
-    sql::Statement * stmt;
-    sql::ResultSet * res;
+    sql::Connection * connection;
+    sql::Statement * statement;
+    sql::ResultSet * result;
     
     
     /// Checks for errors when executing function of template type T.
@@ -65,6 +65,7 @@ public:
     
     /// Destructs the mysql class
     ~MySql();
+    
     
     /// Connects to a mysql server
     ///

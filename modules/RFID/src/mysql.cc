@@ -1,5 +1,5 @@
 /**
- * \file
+ * \file      mysql.cc
  * \brief     Mysql library with error checking that uses the mysqlcppconn library
  * \author    Tim IJntema
  * \copyright Copyright (c) 2017, The R2D2 Team
@@ -13,9 +13,9 @@ MySql::MySql(){
 }
 
 MySql::~MySql(){
-    delete res;
-    delete stmt;
-    delete con;
+    delete result;
+    delete statement;
+    delete connection;
 }
 
 template <typename T>
@@ -32,57 +32,57 @@ bool MySql::errorCheck(T function){
 
 bool MySql::connectTo(std::string url, std::string username, std::string password){
     return errorCheck([&](){
-        con = driver->connect(url.c_str(), username.c_str(), password.c_str());
-        stmt = con->createStatement();
+        connection = driver->connect(url.c_str(), username.c_str(), password.c_str());
+        statement = connection->createStatement();
     });
 }
 
 bool MySql::selectDatabase(std::string databaseName){
     return errorCheck([&](){
-        con->setSchema(databaseName.c_str());
+        connection->setSchema(databaseName.c_str());
     });   
 }
 
 bool MySql::executeQuery(std::string query){
     return errorCheck([&](){
-        res = stmt->executeQuery(query.c_str());
+        result = statement->executeQuery(query.c_str());
     });
 }
 
 bool MySql::executeQueryNoResult(std::string query){
     return errorCheck([&](){
-        stmt->execute(query.c_str());
+        statement->execute(query.c_str());
     });
 }
 
 std::string MySql::getPreviousResponseColumn(unsigned int columnNumber){
     std::string columnInformation = "";
-    bool has_worked = errorCheck([&](){
-        if(res->next()){
-            columnInformation = res->getString(columnNumber);
+    bool hasWorked = errorCheck([&](){
+        if(result->next()){
+            columnInformation = result->getString(columnNumber);
         }
     });
     
-    if(!has_worked){
-        res->previous();
+    if(!hasWorked){
+        result->previous();
     }
     return columnInformation;
 }
 
 std::string MySql::getPreviousResponseColumn(std::string columnName){
     std::string columnInformation = "";
-    bool has_worked = errorCheck([&](){
-        if(res->next()){
-            columnInformation = res->getString(columnName);
+    bool hasWorked = errorCheck([&](){
+        if(result->next()){
+            columnInformation = result->getString(columnName);
         }
     });
     
-    if(!has_worked){
-        res->previous();
+    if(!hasWorked){
+        result->previous();
     }
     return columnInformation;
 }
 
 sql::ResultSet * MySql::getFullResult(){
-    return res;
+    return result;
 }
