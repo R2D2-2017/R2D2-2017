@@ -11,8 +11,8 @@
 #include "sd-spi.hh"
 #include "data-logger.hh"
 
-float readGasSensor(hwlib::target::pin_adc &sensor){
-    return ((float)sensor.get())/4095.0f*3.3f;
+float readGasSensor(hwlib::target::pin_adc &sensor) {
+    return ((float) sensor.get()) / 4095.0f * 3.3f;
 }
 
 int main() {
@@ -40,10 +40,12 @@ int main() {
 
     hwlib::cout << "writing to sd card\r\n";
     // Write slightly more than one block
-    for (int i = 0; i < 65; i++) {
+    for (int i = 0; i < 65; ++i) {
+        uint64_t time = hwlib::now_us();
         hwlib::cout << ".";
 //        hwlib::cout << (int)(readGasSensor(sensor)*100) << "\r\n"; //debug
         logger.writeValue(readGasSensor(sensor));
+        hwlib::wait_us((int_fast32_t) (5000000 - (hwlib::now_us() - time)));
     }
 
     hwlib::cout << "done\r\n";
