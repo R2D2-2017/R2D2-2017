@@ -25,7 +25,7 @@ private:
  * \param[in] name name of node
  * \return  it  iterator to node element
  */
-    std::vector<Node>::iterator getNodeByName(std::string name, std::vector<Node> nodes);
+    Node  getNodeByName(std::string name, std::vector<Node> nodes);
 
 
 /**

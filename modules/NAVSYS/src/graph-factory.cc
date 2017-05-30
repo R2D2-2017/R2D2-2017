@@ -21,14 +21,15 @@ Graph * GraphFactory::createGraph(std::string nodeFilePath,std::string verticeFi
 }
 
 
-std::vector<Node>::iterator GraphFactory::getNodeByName(std::string name, std::vector<Node> nodes) {
+
+
+Node  GraphFactory::getNodeByName(std::string name, std::vector<Node> nodes) {
     std::vector<Node>::iterator it;
     it = std::find_if(std::begin(nodes), std::end(nodes),[&]( Node & node) -> bool{
         return node.getName() == name;
     });
-    return it;
+    return *it;
 }
-
 
 std::vector<Node>  GraphFactory::RunNodeFactory(std::string nodeFilePath) {
     std::vector<Node> nodes;
@@ -162,10 +163,10 @@ std::vector<Vertice> GraphFactory::RunVerticeFactory(std::string verticeFilePath
 
         int tmpWeight =  atoi(weight.c_str());
         // add created vertice to vector
-        vertices.push_back(Vertice( Node( getNodeByName(nodeA,nodes)->getCoordinate().x, getNodeByName(nodeA,nodes)->getCoordinate().y,
-                                  getNodeByName(nodeA,nodes)->getName()),
-                            Node( getNodeByName(nodeB,nodes)->getCoordinate().x, getNodeByName(nodeB,nodes)->getCoordinate().y,
-                                  getNodeByName(nodeB,nodes)->getName()),
+        vertices.push_back(Vertice( Node( getNodeByName(nodeA,nodes).getCoordinate().x, getNodeByName(nodeA,nodes).getCoordinate().y,
+                                  getNodeByName(nodeA,nodes).getName()),
+                            Node( getNodeByName(nodeB,nodes).getCoordinate().x, getNodeByName(nodeB,nodes).getCoordinate().y,
+                                  getNodeByName(nodeB,nodes).getName()),
                             tmpWeight ));
 
     }
