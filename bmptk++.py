@@ -196,16 +196,27 @@ def check(args):
         [print(error) for error in check_one(cc_database)]
 
 
+def build_one(module):
+    print('Building ' + module)
+
+    os.chdir('modules/' + module + '/build')
+    os.system('make')
+    os.chdir(running_dir)
+
 def build(args):
     if args.module:
         if not os.path.exists('modules/{0}/.bmptkpp'.format(args.module.upper())):
-            print('No module named {0}'.format(args.module))
+            print('no module named {0}'.format(args.module))
+            return
+        if not os.path.exists('modules/{0}/build/compile_commands.json'.format(args.module.upper())):
+            print('module is not yet generated. Generate first')
             return
 
+        build_one(module)
+
     else:
-        for module in get_modules():
-            print('Building ' + module)
-            # TODO
+        for module in get_modules(only_generated = True):
+            build_one(module)
 
 
 def console(parser, subcommands):
