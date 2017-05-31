@@ -1,11 +1,11 @@
 ##
 #\file
 #\brief		This is a module for reading the HC-SR04 Ultrasonic Sensor.
-#\author		Mike Hilhorst, David de Jong, Wilco Louwerse, Robbie Valkenburg, Nicky van Steensel van der Aa, Bram van Bergeijk
+#\author	Mike Hilhorst, David de Jong, Wilco Louwerse, Robbie Valkenburg, Nicky van Steensel van der Aa, Bram van Bergeijk.
 #\copyright	Copyright (c) 2017, The R2D2 Team.
 #\license	See LICENSE.
 #\wiki		https://github.com/R2D2-2017/R2D2-2017/wiki/HC-SR04-Ultrasonic-sensor
-#\Trello		https://trello.com/c/FxRxNblW/7-6-make-the-platform-stop-when-the-sonar-sensor-detects-something-within-its-working-area
+#\Trello	https://trello.com/c/FxRxNblW/7-6-make-the-platform-stop-when-the-sonar-sensor-detects-something-within-its-working-area
 
 import RPi.GPIO as GPIO                                 	#Import GPIO library
 import time                                                	#Import time library
@@ -17,8 +17,8 @@ class Sonar:
 	##
 	#\brief Setup Ultrasonic Sensor class with a given trigger and echo pin.
 	#
-	#\param	triggerPin		The pin used to send signals to the Ultrasonic Sensor
-	#\param	echoPin			The pin used to receive singals from the Ultrasonic Sensor
+	#\param	triggerPin		The pin used to send signals to the Ultrasonic Sensor.
+	#\param	echoPin			The pin used to receive singals from the Ultrasonic Sensor.
 	def __init__(self, triggerPin, echoPin):				
 			
 			self.trigger = triggerPin
@@ -30,7 +30,7 @@ class Sonar:
 			time.sleep(0.001)                               #Small delay
 
 	##
-	#\brief This function gets the distance to the closest object measured by the Ultrasonic Sensor
+	#\brief This function gets the distance to the closest object measured by the Ultrasonic Sensor.
 	#
 	#\return the distance in cm or a 404 when no object is detected in range.
 	def getDistance(self):                                  #Associate the triggerpins 
