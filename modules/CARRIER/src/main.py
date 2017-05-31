@@ -56,7 +56,7 @@ while True:
             time.sleep(0.2)
             distance = echoLocation.getDistance()
             print(distance)
-            if distance < 25:
+            if distance < 40:
                 break
                 
         motor.stop()
