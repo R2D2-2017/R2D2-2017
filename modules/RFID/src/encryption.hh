@@ -1,24 +1,24 @@
 /**
- * \file	  encryption.hh
+ * \file	  Encryptie.hh
  * \brief     Class that applys simple non safe encryption
  * \author    Rik Honcoop
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See LICENSE
  */
 
-#ifndef ENCRYPTIE_HH
-#define ENCRYPTIE_HH
+#ifndef ENCRYPTION_HH
+#define ENCRYPTION_HH
 
 #include <string>
 using namespace std;
 
-class Encryptie{
+class Encryption{
 public:
     
     /**
      * \brief Constructor for it using your own key code.
      */
-	Encryptie();
+	Encryption();
 
 
 	/*
@@ -26,9 +26,9 @@ public:
 	 *
 	 * \param[in] Key that will be used by the object for standaart encryption
 	 */
-    Encryptie(int encryptionKey);
+	Encryption(int encryptionKey);
     
-    /**
+   /**
      * \brief Can encrypt a string, with a give keycode.
      * 
      * \param[in,out] Input string that will be encrypted
@@ -37,7 +37,7 @@ public:
      */
     string Encrypt(string input, int keyCode);
     
-    /**
+   /**
      * \brief can encrypt a string if the enqryption key is given with the constuctor.
      * 
      * \param[in,out] Input string that will be encrypted with a give encryption key in constructor or later set with setEncryptionKey().
@@ -73,5 +73,5 @@ private:
     int encryptKey;
 };
 
-#endif /* ENCRYPTIE_HH */
+#endif /* ENCRYPTION_HH */
 

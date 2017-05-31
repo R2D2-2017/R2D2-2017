@@ -1,20 +1,20 @@
 /**
- * \file	  encryption.cc
+ * \file	  Encryption.cc
  * \author    Rik Honcoop
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See LICENSE
  */
-#include "encryption.hh"
+#include "Encryption.hh"
 
-Encryptie::Encryptie(){
-    encryptKey = 1;
+Encryption::Encryption(){
+encryptKey = 1;
 }
 
-Encryptie::Encryptie(int encryptionKey){
-    encryptKey = encryptionKey;
+Encryption::Encryption(int encryptionKey){
+encryptKey = encryptionKey;
 }
 
-string Encryptie::Decrypt(string input, int keyCode){
+string Encryption::Decrypt(string input, int keyCode){
     string restr = input;
 
     for(unsigned int i =0; i <= input.length() -1; i ++){
@@ -24,7 +24,7 @@ string Encryptie::Decrypt(string input, int keyCode){
     return restr;
 }
 
-string Encryptie::Decrypt(string input){
+string Encryption::Decrypt(string input){
     string restr = input;
 
     for(unsigned int i =0; i <= input.length() -1; i ++){
@@ -34,7 +34,7 @@ string Encryptie::Decrypt(string input){
     return restr;
 }
 
-string Encryptie::Encrypt(string input, int keyCode){
+string Encryption::Encrypt(string input, int keyCode){
     string restr = input;
 
     for(unsigned int i =0; i <= input.length() -1; i ++){
@@ -44,7 +44,7 @@ string Encryptie::Encrypt(string input, int keyCode){
     return restr;
 }
 
-string Encryptie::Encrypt(string input){
+string Encryption::Encrypt(string input){
     string restr = input;
 
     for(unsigned int i =0; i <= input.length() -1; i ++){
@@ -54,6 +54,6 @@ string Encryptie::Encrypt(string input){
     return restr;
 }
 
-void Encryptie::setEncryptionKey(int encryptionKey){
+void Encryption::setEncryptionKey(int encryptionKey){
 	encryptKey = encryptionKey;
 }
