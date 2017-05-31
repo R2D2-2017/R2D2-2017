@@ -1,5 +1,5 @@
-#include "wrap-hwlib.hh"
 #include "fast-cout.hh"
+#include "wrap-hwlib.hh"
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wmissing-noreturn"
 

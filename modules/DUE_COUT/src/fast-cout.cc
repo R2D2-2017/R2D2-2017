@@ -7,10 +7,10 @@ namespace hwlib {
 bool uart_char_available() {
     return (bool) (UART->UART_SR & UART_SR_RXRDY);
 }
-char getc() {
+char uart_getc() {
     return (char) (UART->UART_RHR & UART_RHR_RXCHR_Msk);
 }
-void putc(char c) {
+void uart_putc(char c) {
     while (!(UART->UART_SR & UART_SR_TXRDY));
     UART->UART_THR = static_cast<uint32_t>(c);
 }
