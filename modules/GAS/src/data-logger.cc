@@ -64,12 +64,8 @@ void DataLogger::writeValue(float value) {
     }
 }
 
-DataLogger::DataLogger(SdSpi& sd) :
-sd(sd),
-totalMeasurements(0),
-index(0),
-blockIndex(1)
-{
+DataLogger::DataLogger(SdSpi &sd)
+    : sd(sd), totalMeasurements(0), index(0), blockIndex(1) {
     loadHeader();
     loadBuffer();
 }

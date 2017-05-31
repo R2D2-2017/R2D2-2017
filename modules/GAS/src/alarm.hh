@@ -8,32 +8,31 @@
 
 #pragma once
 
-#include "wrap-hwlib.hh" 
+#include "wrap-hwlib.hh"
 
 class Alarm {
 public:
 
-	/// /brief Constructor for Alarm
+	/// \brief Constructor for Alarm
 	/// initializes gasValueThreshold and alarmLed
-	Alarm(float gasValueThreshold, hwlib::target::pin_out& alarmLed);
+	Alarm(float gasValueThreshold, hwlib::pin_out &alarmLed)
+        : alarmLed(alarmLed), gasValueThreshold(gasValueThreshold) {}
 
-	/// /brief Check if the gass value is above the threshold then trigger the alarm
-	/// Take the gass value and call triggerAlarm() when it's above the
+    /// \brief Check if gas value is above the threshold then trigger the alarm
+	/// Take the gas value and call triggerAlarm() when it's above the
 	/// threshold or disableAlarm() when it's below said threshold.
-	/// @param gasValue the gas value
+	/// \param gasValue the gas value
 	void checkGasValue(float gasValue);
 private:
 
-	// Magicly decided on which pin to use. Feel free to change.
-	hwlib::target::pin_out alarmLed;
+    /// The pin the alarm is connected to
+	hwlib::pin_out &alarmLed;
 
-	/// Just a magic number at the moment
+	/// Alarm threshold set by constructor
 	float gasValueThreshold;
 
-	/// /brief turn the alarm on
+	/// \brief Turn the alarm on
 	void triggerAlarm();
-	/// turn the alarm off
+	/// \brief Turn the alarm off
 	void disableAlarm();
 };
-
-

@@ -9,11 +9,6 @@
 
 #include "alarm.hh"
 
-Alarm::Alarm(float gasValueThreshold, hwlib::target::pin_out &alarmLed) :
-        alarmLed(alarmLed),
-        gasValueThreshold(gasValueThreshold) {
-}
-
 void Alarm::checkGasValue(float gasValue) {
     if (gasValue > gasValueThreshold) {
         triggerAlarm();

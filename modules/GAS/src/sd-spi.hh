@@ -32,9 +32,9 @@ class SdSpi : public MuStore::Store {
     bool inited = false;
 
     /// The cs the sd card is connected to
-    hwlib::pin_out& spiCs;
+    hwlib::pin_out &spiCs;
     /// The spi bus the sd card is connected to
-    hwlib::spi_bus& spiBus;
+    hwlib::spi_bus &spiBus;
 
     /// Wait for the sd card to become ready for accepting new commands.
     /// \returns the value received from the spi bus
@@ -102,6 +102,6 @@ public:
     /// Creates a SD SPI Block Provider
     /// \param cs The CS pin the sd card reader is connected to
     /// \param bus The spi bus the sd card reader is connected to
-    SdSpi(hwlib::pin_out& cs, hwlib::spi_bus& bus);
+    SdSpi(hwlib::pin_out &cs, hwlib::spi_bus &bus);
     ~SdSpi() = default;
 };

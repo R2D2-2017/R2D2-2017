@@ -11,7 +11,7 @@
 
 class DataLogger {
 
-    SdSpi& sd;
+    SdSpi &sd;
     uint32_t header[512 / sizeof(uint32_t)];
     float buffer[512 / sizeof(float)];
     unsigned int totalMeasurements;
@@ -40,5 +40,5 @@ public:
 
     /// \brief Creates a data logger object to write sensor data to a sd card
     /// \param sd The SD card to write the data to
-    DataLogger(SdSpi& sd);
+    DataLogger(SdSpi &sd);
 };
