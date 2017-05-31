@@ -42,6 +42,15 @@ def ask_question(question, validator, error):
             print(error)
     return inp
 
+def get_modules(only_generated=False):
+    modules = (re.sub(r'modules[/\\]', '', x) for x in glob.iglob('modules/*')
+               if  os.path.isdir(x)
+               and not x.startswith('modules/template-')
+               and not '~' in x
+               and os.path.exists(x +  '/.bmptkpp'))
+
+    return ((x for x in modules if os.path.exists('modules/' + x + '/build/compile_commands.json'))
+               if only_generated else modules)
 
 def create(args):
     module_name = ask_question('Module name (shortname): ',
@@ -95,11 +104,9 @@ def generate_one(path, override_generator=None):
 
 
 def generate(args):
-    for filename in glob.iglob('modules/*/.bmptkpp'):
-        if 'template' not in filename:
-            print('Generating build directory for {0}'.format(
-                re.sub(r"modules[/\\](.*)[/\\].bmptkpp", r"\1", filename)))
-            generate_one(re.sub(r"[\\/].bmptkpp", "", filename), args.override_generator)
+    for module in get_modules():
+        print('Generating build directory for ' + module)
+        generate_one('modules/' + module, args.override_generator)
 
 
 class CheckError:
@@ -189,6 +196,18 @@ def check(args):
         [print(error) for error in check_one(cc_database)]
 
 
+def build(args):
+    if args.module:
+        if not os.path.exists('modules/{0}/.bmptkpp'.format(args.module.upper())):
+            print('No module named {0}'.format(args.module))
+            return
+
+    else:
+        for module in get_modules():
+            print('Building ' + module)
+            # TODO
+
+
 def console(parser, subcommands):
     print(header)
     print("Running in command mode type command to use")
@@ -229,6 +248,10 @@ if __name__ == '__main__':
     check_command = subcom.add_parser('check', help="Check source files for errors")
     check_command.set_defaults(func=check)
     check_command.add_argument('-m', '--module', help="Name of the module to check")
+
+    build_command = subcom.add_parser('build', help="Build modules")
+    build_command.set_defaults(func=build)
+    build_command.add_argument('-m', '--module', help="Name of the module to build")
 
     if len(sys.argv) > 1:
         parser.formatter_class = argparse.RawDescriptionHelpFormatter
