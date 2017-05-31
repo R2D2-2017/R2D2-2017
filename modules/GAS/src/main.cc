@@ -2,6 +2,8 @@
  * \file
  * \brief     GAS module main
  * \author    Chris Smeele
+ * \author    David Driessen
+ * \author    Paul Ettema
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See LICENSE
  */
