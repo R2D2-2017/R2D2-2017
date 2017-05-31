@@ -87,17 +87,22 @@ def generate_one(path, override_generator=None):
     if override_generator:
         if '-G' not in cmake_params:
             cmake_params += " -G\"{0}\"".format(override_generator)
+        else:
+            re.sub(r"-G\".*\"","-G\"{0}\"".format(override_generator))
 
     os.system('cmake .. {0}'.format(cmake_params))
     os.chdir(running_dir)
 
 
 def generate(args):
-    for filename in glob.iglob('modules/*/.bmptkpp'):
-        if 'template' not in filename:
-            print('Generating build directory for {0}'.format(
-                re.sub(r"modules[/\\](.*)[/\\].bmptkpp", r"\1", filename)))
-            generate_one(re.sub(r"[\\/].bmptkpp", "", filename), args.override_generator)
+    if args.module:
+        generate_one("modules/{0}".format(args.module.upper()),args.override_generator)
+    else:
+        for filename in glob.iglob('modules/*/.bmptkpp'):
+            if 'template' not in filename:
+                print('Generating build directory for {0}'.format(
+                    re.sub(r"modules[/\\](.*)[/\\].bmptkpp", r"\1", filename)))
+                generate_one(re.sub(r"[\\/].bmptkpp", "", filename), args.override_generator)
 
 
 def console(parser, subcommands):
@@ -134,6 +139,7 @@ if __name__ == '__main__':
 
     generate_command = subcom.add_parser('generate', help="Generate all the build files")
     generate_command.set_defaults(func=generate)
+    generate_command.add_argument('-m','--module',help="only generate one module")
     generate_command.add_argument('--override-generator',
                                   help="Overwrite the default cmake generator used, does not work for some targets")
 
