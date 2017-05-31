@@ -16,7 +16,7 @@
 float readGasSensor(hwlib::target::pin_adc &sensor);
 
 float readGasSensor(hwlib::target::pin_adc &sensor) {
-    return ((float) sensor.get()) / 4096.0f * 3.3f;
+    return ((float)sensor.get()) / 4096.0f * 3.3f;
 }
 
 int main() {
