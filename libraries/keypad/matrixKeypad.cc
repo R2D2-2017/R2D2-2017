@@ -8,48 +8,44 @@
 #include "matrixKeypad.hh"
 
 matrixKeypad::matrixKeypad( 
-		hwlib::pin_in_out & p0,
-		hwlib::pin_in_out & p1,
-		hwlib::pin_in_out & p2,
-		hwlib::pin_in_out & p3,
-		hwlib::pin_in_out & p4,
-		hwlib::pin_in_out & p5,
-		hwlib::pin_in_out & p6,
-		int colSize
-	):
-	pinColumn{&p4, &p5, &p6},
-	pinRow{&p0, &p1, &p2, &p3},
+        const int * row, 
+        const int * column, 
+        int colSize 
+        ):
+	column(column),
+	row(row),
 	colSize(colSize)
 {}
 
 char matrixKeypad::getKey(){
-		for (int i = 0; i < colSize; i++){
-			pinColumn[i]->direction_set_output();
-			pinColumn[i]->set(0);
+		for (int i = 0; i < colSize; ++i){
+                    pinMode(column[i], OUTPUT);
+                    pullUpDnControl(column[i], PUD_OFF);
 		}
 		
-		for (auto & pin : pinRow){ 
-			pin->direction_set_input(); 
-		}
+                for(int i = 0; i < rowSize; ++i){
+                    pinMode(row[i], INPUT);
+                }
+		
 		keypadRow = -1;
-		for (int i = 0; i < rowSize; i++){
-			if (pinRow[i]->get() == 0){
-				keypadRow = i;
-			}
+		for (int i = 0; i < rowSize; ++i){
+                    if(digitalRead(row[i]) == 1){
+                        keypadRow = i;
+                    }
 		}
 		
-		for (int i = 0; i < colSize; i++){
-			pinColumn[i]->direction_set_input();
+		for (int i = 0; i < colSize; ++i){
+                    pinMode(column[i], INPUT);
 		}
 		
-		pinRow[keypadRow]->direction_set_output();
-		pinRow[keypadRow]->set(0);
+                pinMode(row[keypadRow], OUTPUT);
+                pullUpDnControl(row[keypadRow], PUD_OFF);
 		
 		keypadColumn = -1;
 		for (int i = 0; i <  colSize; i++){
-			if (pinColumn[i]->get() == 0){
-				keypadColumn = i;
-			}
+                    if(digitalRead(column[i]) == 1){
+                        keypadColumn = i;
+                    }
 		}
 		
 		if ((keypadRow != -1) && (keypadColumn != -1)){
@@ -58,18 +54,18 @@ char matrixKeypad::getKey(){
 		return 'h';
 }
 
-int matrixKeypad::getString(char * chararray, int lenCharArray){
+int matrixKeypad::getString(char * charArray, int lenCharArray){
 	char pressedKey;
 	int i = 0;
 	
 	while((pressedKey = getKey()) != '#' && i < (lenCharArray-1)){
 		if (keypadColumn != -1 && pressedKey != 'h'){
-			chararray[i] = pressedKey;
-			i++;
-			 hwlib::cout << pressedKey; //for debugging
-			while (pinColumn[keypadColumn]->get() == 0){}
+			charArray[i] = pressedKey;
+			++i;
+			 //std::cout << pressedKey; //for debugging
+                        while(digitalRead(column[keypadColumn]) == 1){}
 		}
 	}
-	chararray[i] = '\0';
+	charArray[i] = '\0';
 	return i;
 }

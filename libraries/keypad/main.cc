@@ -9,55 +9,54 @@
 // (See accompanying file LICENSE_1_0.txt or copy at 
 // http://www.boost.org/LICENSE_1_0.txt)
 
-#include "hwlib.hpp"
-#include "matrixKeypad.hpp"
 
-int main(){
-	//Kill the watchdog
-	WDT->WDT_MR = WDT_MR_WDDIS;
+#include <wiringPi.h>
+#include <stdio.h>
+#include <iostream>
+
+#include "matrixKeypad.hh"
+
+//Keypad Row pinSetup
+const int row1 = 6;
+const int row2 = 15;
+const int row3 = 16;
+const int row4 = 5;
+
+//Keypad Column pinSetup
+const int column1 = 5;
+const int column2 = 10;
+const int column3 = 1;
+
+
+using namespace std;
+
+int main(int argc, char** argv){
 	
-	//Keypad variables
-	//const int maxLen = 10;
-	//char PWD[maxLen][maxLen] = {"9735"};
-	//int PWDLen[maxLen] = {5};
-	//char password[maxLen];
-	
-	//Keypad rows
-	auto keypad0 = hwlib::target::pin_in_out(hwlib::target::pins::d32);
-	auto keypad1 = hwlib::target::pin_in_out(hwlib::target::pins::d22);
-	auto keypad2 = hwlib::target::pin_in_out(hwlib::target::pins::d24);
-	auto keypad3 = hwlib::target::pin_in_out(hwlib::target::pins::d28);
-	
-	//Keypad columns
-	auto keypad4 = hwlib::target::pin_in_out(hwlib::target::pins::d30);
-	auto keypad5 = hwlib::target::pin_in_out(hwlib::target::pins::d34);
-	auto keypad6 = hwlib::target::pin_in_out(hwlib::target::pins::d26);
-	auto keypad7 = hwlib::pin_in_out_dummy;//Had to create this pin because I'm using a buzzer
-	
-	//Remaining pins
-	auto ledGreen = hwlib::target::pin_out(hwlib::target::pins::d3);
-	auto ledRed = hwlib::target::pin_out(hwlib::target::pins::d4);
-	auto buzzerPin = hwlib::target::pin_out(hwlib::target::pins::d6);
-	
-	//Keypad objects
-	matrixKeypad keypad(keypad0, keypad1, keypad2, keypad3, keypad4, keypad5, keypad6, keypad7, 3, buzzerPin);
-	
-	
-	while(1){
-		hwlib::cout 
-		<< "Pressed key: " << keypad.getKey() << "\n"
-		<< "Number of keys pressed: " << keypad.getString() << "\n"
-		<< "Pressed password: ";
-		
-		for(int i = 0; i < maxLen; i++){
-			hwlib::cout << password[i];
-		}
-		
-		hwlib::cout 
-			<< "\n" 
-			<< "======================" << "\n\n";
-		
-		hwlib::wait_ms(10);
-	}
-	return 0;
+    wiringPiSetupGpio();
+    
+    //Keypad variables
+    const int maxLen = 10;
+    char password[maxLen];
+    int pwdLen;
+    
+    //Keypad pinSetup
+    const int keypadRow[] = {row1,row2,row3,row4};
+    const int keypadColumn[] = {column1, column2, column3};
+
+    //Keypad objects
+    matrixKeypad keypad(keypadRow, keypadColumn, 3);
+
+    
+    while(1){
+        std::cout << "\nKeyPressed"<< keypad.getKey() << "\n";
+        
+        pwdLen = keypad.getString(password, maxLen);
+        std::cout << "Number of keys pressed: " << pwdLen << "\n";
+        
+        for(int i = 0; i < pwdLen; ++i){
+            std::cout << password[i];
+        }
+        delay(10);
+    }
+    return 0;
 }
