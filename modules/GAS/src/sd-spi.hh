@@ -21,6 +21,12 @@
 /// \brief Provides a SD SPI Block Storage Provider
 class SdSpi : public MuStore::Store {
 
+public:
+    /// XXX Temporary: Needed for static arrays in data logger code.
+    ///                Remove when switching to filesystem usage!
+    static constexpr size_t tmpBlockSize = 512;
+private:
+
     struct SdCommand {
         uint8_t cmd;
         uint32_t arg;

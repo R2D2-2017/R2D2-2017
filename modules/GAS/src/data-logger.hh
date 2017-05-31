@@ -12,8 +12,8 @@
 class DataLogger {
 
     SdSpi &sd;
-    uint32_t header[512 / sizeof(uint32_t)];
-    float buffer[512 / sizeof(float)];
+    uint32_t header[SdSpi::tmpBlockSize / sizeof(uint32_t)];
+    float buffer[SdSpi::tmpBlockSize / sizeof(float)];
     unsigned int totalMeasurements;
     unsigned int index;
     unsigned int blockIndex;
