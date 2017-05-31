@@ -15,9 +15,16 @@
 #include "alarm.hh"
 
 // TODO: Move to separate file (Temporary warning fix)
+/**
+ * \brief Reads the gas sensor data
+ * \param sensor The analog pin the gas sensor is connected to
+ * \returns The measured data as float voltage
+ */
 float readGasSensor(hwlib::target::pin_adc &sensor);
 
 float readGasSensor(hwlib::target::pin_adc &sensor) {
+    // 4096.0f is previous max value
+    // 3.3f is new max value
     return ((float)sensor.get()) / 4096.0f * 3.3f;
 }
 

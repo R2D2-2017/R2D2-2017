@@ -8,7 +8,7 @@
 #include "data-logger.hh"
 
 void DataLogger::clearHeader() {
-    for (unsigned int i = 0; i < 512 / sizeof(uint32_t); i++) {
+    for (unsigned int i = 0; i < SdSpi::tmpBlockSize / sizeof(uint32_t); i++) {
         header[i] = 0;
     }
 }
@@ -31,11 +31,11 @@ void DataLogger::loadHeader() {
     }
 
     blockIndex = header[1];
-    index = totalMeasurements % (512 / sizeof(float));
+    index = totalMeasurements % (SdSpi::tmpBlockSize / sizeof(float));
 }
 
 void DataLogger::clearBuffer() {
-    for (unsigned int i = 0; i < 512 / sizeof(float); i++) {
+    for (unsigned int i = 0; i < SdSpi::tmpBlockSize / sizeof(float); i++) {
         buffer[i] = 0;
     }
 }
@@ -57,7 +57,7 @@ void DataLogger::writeValue(float value) {
     sd.write(0, header);
 
     // If the next index is overflowing move to next block
-    if (index >= 512 / sizeof(float)) {
+    if (index >= SdSpi::tmpBlockSize / sizeof(float)) {
         index = 0;
         blockIndex++;
         clearBuffer();
