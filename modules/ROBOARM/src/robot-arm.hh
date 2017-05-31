@@ -11,7 +11,14 @@
 #include "wrap-hwlib.hh"
 #include "stepper.hh"
 
-#define STEP_SIZE 1.8
+const float stepSize = 1.8;
+const int microSteps = 32;
+const int smallBaseGear = 21;
+const int smallArmGear = 11;
+
+const int bigGear = 45;
+const float baseStepRatio = bigGear/smallBaseGear;
+const float armStepRatio = bigGear/smallArmGear;
 
 
 //Enum class for the different axes on the robot arm

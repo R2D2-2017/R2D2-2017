@@ -11,15 +11,13 @@ int main() {
 
     Stepper s(dir, step);
     RobotArmController r(s, s, s);
-
-    while(true) {
-        //Rotate the X axis 90 degrees clockwise
+    //Rotate the X axis 90 degrees clockwise
+    int degrees = 90;
+    while(1) {
         hwlib::wait_ms(500);
-        r.rotateAxis(RobotAxis::X, 90, true);
-
-        //Rotate the X axis 90 degrees counter clockwise
+        r.rotateAxis(RobotAxis::Z, degrees, false);
         hwlib::wait_ms(500);
-        r.rotateAxis(RobotAxis::X, 90, false);
+        r.rotateAxis(RobotAxis::Z, degrees, true);
     }
     return 0;
 }
