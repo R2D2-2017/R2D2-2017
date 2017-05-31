@@ -7,6 +7,7 @@ import shutil
 import platform
 import argparse
 import json
+import re
 import sys
 import subprocess
 
@@ -96,9 +97,9 @@ def generate_one(path, override_generator=None):
 def generate(args):
     for filename in glob.iglob('modules/*/.bmptkpp'):
         if 'template' not in filename:
-            print('Generating build directory for {0}...'.format(
-                filename.replace('modules/', '').replace('/.bmptkpp', '')))
-            generate_one(filename.replace("/.bmptkpp", ""), args.override_generator)
+            print('Generating build directory for {0}'.format(
+                re.sub(r"modules[/\\](.*)[/\\].bmptkpp", r"\1", filename)))
+            generate_one(re.sub(r"[\\/].bmptkpp", "", filename), args.override_generator)
 
 
 class CheckError:
