@@ -8,8 +8,8 @@ class MotorControl:
         self.serialport = serial
 
     def forward(self, speed):
-        self.serialport.write(bytes([0xAA, 0x0A, 0x08, speed]))
         self.serialport.write(bytes([0xAA, 0x0A, 0x0C, speed]))
+        self.serialport.write(bytes([0xAA, 0x0A, 0x08, speed]))
   
 
     def reverse(self, speed):

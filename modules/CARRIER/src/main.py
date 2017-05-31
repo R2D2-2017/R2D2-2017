@@ -1,5 +1,6 @@
 from motor import MotorControl
 from sonar import Sonar
+from hallsensor import HallSensor
 from enum import Enum
 import RPi.GPIO as GPIO
 import serial
@@ -11,12 +12,14 @@ class States(Enum):
     idle = 1
     driving = 2
     turning = 3
-    shutdown = 4
+    sensing = 4
+    shutdown = 5
 
 s = serial.Serial("/dev/ttyAMA0", 38400, timeout=0.5)
 motor = MotorControl(s)
 
 echoLocation = Sonar(23, 24) # pin 23 as triggerpin 24 as echopin
+hallSensor = HallSensor(5, 27, 22) # pin 27 as red led and 22 as green led
 
 state = States.idle
 pressed = 0
@@ -37,6 +40,9 @@ while True:
 
         elif pressed == 'l':
             state = States.turning
+
+        elif pressed == 'h':
+            state = States.sensing
 
         elif pressed == 's':
             state = States.shutdown
@@ -72,6 +78,14 @@ while True:
             motor.left(63)
             motor.stop()
             
+        pressed = 0
+        state = States.idle
+
+    if state == States.sensing:
+        for i in range(0, 1000):
+            hallSensor.isMagnetDetected()
+            time.sleep(0.01)
+
         pressed = 0
         state = States.idle
 

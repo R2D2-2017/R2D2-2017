@@ -28,6 +28,7 @@ class Sonar:
 			GPIO.setup(echoPin,GPIO.IN)                     #Set pin as GPIO in
 			GPIO.output(triggerPin, False)                  #Set TRIG as LOW 
 			time.sleep(0.001)                               #Small delay
+			
 
 	##
 	#\brief This function gets the distance to the closest object measured by the Ultrasonic Sensor
@@ -38,7 +39,6 @@ class Sonar:
 			GPIO.output(self.trigger, True)                 #Set TRIG as HIGH
 			time.sleep(0.001)                  	        	#Delay of 0.00001 seconds
 			GPIO.output(self.trigger, False)                #Set TRIG as LOW
-			
 			
 			while GPIO.input(self.echo)==0:               	#Check whether the ECHO is LOW
 					pulse_start = time.time()               #Saves the last known time of LOW pulse

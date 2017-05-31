@@ -38,10 +38,12 @@ class HallSensor:
                 if GPIO.input(self.hallSensorPin): # == True
                         GPIO.output(self.ledOne, 0)
                         GPIO.output(self.ledTwo, 1)
-                        time.sleep(1)
+                        time.sleep(0.2)
                 else:
                         GPIO.output(self.ledOne, 1)
                         GPIO.output(self.ledTwo, 0)
+
+                
 
 
 
