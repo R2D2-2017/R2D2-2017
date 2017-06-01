@@ -1,5 +1,5 @@
 /**
- * \file	  Encryptie.hh
+ * \file	  encryption.hh
  * \brief     Class that applys simple non safe encryption
  * \author    Rik Honcoop
  * \copyright Copyright (c) 2017, The R2D2 Team
@@ -10,7 +10,6 @@
 #define ENCRYPTION_HH
 
 #include <string>
-using namespace std;
 
 class Encryption{
 public:
@@ -35,7 +34,7 @@ public:
      * \param[in,out] keyCode that will be used the encrypt the string with a specific key
      * \return string
      */
-    string Encrypt(string input, int keyCode);
+    std::string Encrypt(std::string input, int keyCode);
     
    /**
      * \brief can encrypt a string if the enqryption key is given with the constuctor.
@@ -43,7 +42,7 @@ public:
      * \param[in,out] Input string that will be encrypted with a give encryption key in constructor or later set with setEncryptionKey().
      * \return string
      */
-    string Encrypt(string input);
+    std::string Encrypt(std::string input);
     
     /**
      * \brief Can solve the previously encrypted string
@@ -52,7 +51,7 @@ public:
      * \param[in,out] keyCode that will be used the decrypt the string with a specific key
      * \return Returns a Decrypted string if the keyCode is the same as applyd in the encryption.
      */
-    string Decrypt(string input, int keyCode);
+    std::string Decrypt(std::string input, int keyCode);
     
     /**
      * \brief Can solve the previously encrypted string
@@ -60,7 +59,7 @@ public:
      * \param[in,out] Input string that will be decrypted
      * \return Returns a Decrypted string.
      */
-    string Decrypt(string input);
+    std::string Decrypt(std::string input);
     
     /**
      * \brief Set the encryption key if not given in constructor
