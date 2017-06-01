@@ -10,7 +10,6 @@
 #include <iostream>
 
 int main() {
-    std::cout << "Hello world!\n";
 
     Client(sf::IpAddress::LocalHost, 5000).run();
 

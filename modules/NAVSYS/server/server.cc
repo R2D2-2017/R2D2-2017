@@ -6,6 +6,9 @@
  * \license   See ../../LICENSE
  */
 
+#include <iterator>
+#include <algorithm>
+#include <fstream>
 #include "server.hh"
 
 Server::Server(const uint16_t port): port(port){}
@@ -24,22 +27,13 @@ void Server::broadcastMessage(const std::string &message){
 
 void Server::run(){
 
-    // nodes and vertice file path
-    std::string nodeFilePath = "../server/node.txt";
-    std::string verticeFilePath = "../server/vertice.txt";
-
-
-    // graph factory
-    GraphFactory factory = GraphFactory();
-    Graph g = Graph();
-    factory.createGraph(nodeFilePath,verticeFilePath, g);
-
     // Running in the nineties
     socketListener.listen(port);
     socketSelector.add(socketListener);
 
 
     while(true){
+
         sf::sleep(sf::milliseconds(100));
 
 
@@ -53,7 +47,7 @@ void Server::run(){
 
                     connectedClientSockets.push_back(client);
                     socketSelector.add(*client);
-                    broadcastMessage("Client added, so we got that going for us, which is nice");
+
                 } else{
                     std::cout << "Something went wrong connecting to a new socket, please try again" << std::endl;
                     delete client;
@@ -69,7 +63,8 @@ void Server::run(){
                             p >> str;
                             std::cout << str << std::endl;
                             // This is not a nice way to do things, but there needs to be something that works
-                            handleInput(str, g);
+                            handleInput(str);
+
                         }
                     }
                 }
@@ -78,24 +73,46 @@ void Server::run(){
     }
 }
 
-void Server::handleInput(const std::string & input, Graph & graph){
-    if(input == "REQUEST_GRAPH"){
-        std::cout << "graph is being send\n";
-        broadcastMessage("Ik ben een graaf");         //Placeholder
+
+void Server::handleInput(const std::string & input){
+    if(input == "REQUEST_NODES"){
+        std::cout << "nodes are being send\n";
+        broadcastMessage(readNodesAsString());         //Placeholder
     }
-    else if(input == "ADD_NODE"){
-        std::cout << "node is being added to \n";
-        //graph.addnode(newNode);
-        broadcastMessage("Node added");         //Placeholder
+    if(input == "REQUEST_VERTICES"){
+        std::cout << "vertices are  being send\n";
+        broadcastMessage(readVerticesAsString());         //Placeholder
     }
-    else if(input == "ADD_VERTICE"){
-        std::cout << "graph is being send\n";
-        //graph.addvertice(newVertice);
-        broadcastMessage("Vertice added");         //Placeholder
+
+}
+
+std::string Server::readNodesAsString(){
+
+    std::string nodeFilePath = "../server/node.txt";
+    std::ifstream nodes(nodeFilePath);
+
+    char n;
+    std::string stringOfNodes = "";
+    while( nodes.get(n) ){
+        stringOfNodes+= n;
     }
-    else if(input == "SAVE_GRAPH"){
-        std::cout << "graph is being saved\n";
-        broadcastMessage("graph saved");         //Placeholder
+    nodes.close();
+    return stringOfNodes;
+
+
+}
+
+std::string Server::readVerticesAsString(){
+
+    std::string verticeFilePath = "../server/vertice.txt";
+    std::ifstream vertices(verticeFilePath);
+
+    char v;
+    std::string stringOfVertices = "";
+    while( vertices.get(v) ){
+        stringOfVertices+= v;
     }
+    vertices.close();
+    return stringOfVertices;
 
 }

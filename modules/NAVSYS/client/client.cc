@@ -8,7 +8,10 @@
 
 #include "client.hh"
 
+
 Client::Client(sf::IpAddress ipAddress, uint16_t port): ipAddress(ipAddress), port(port){}
+
+
 
 void Client::run(){
 	sf::Socket::Status connectionStatus = socket.connect(ipAddress, port);
@@ -16,10 +19,22 @@ void Client::run(){
 		std::cout << "Connection failed" << std::endl;
 	}
 
-	sf::Packet receivedMessage;
-	std::string messageString;
 
-	requestGraph();
+    getDatabaseFromServer();
+
+    std::string nodeFilePath = "../client/node.txt";
+    std::string verticeFilePath = "../client/vertice.txt";
+
+    GraphFactory factory =  GraphFactory();
+    Graph g = Graph();
+    factory.createGraph(nodeFilePath,verticeFilePath, g);
+    std::cout << "Graph created\n";
+
+    //print graph to screen
+
+    sf::Packet receivedMessage;
+    std::string messageString;
+
     
 	while(true){
 		sf::sleep(sf::milliseconds(100));
@@ -33,34 +48,61 @@ void Client::run(){
 	}
 }
 
-void Client::requestGraph(){
+
+void Client::getDatabaseFromServer(){
+
+    sf::Packet receivedMessage;
+    std::string messageString;
+
+    // nodes and vertice file path
+    std::string nodeFilePath = "../client/node.txt";
+    std::ofstream nodeStream(nodeFilePath);
+
+    requestNodes();
+
+    if(socket.receive(receivedMessage) != sf::Socket::Done){
+        std::cout << "Something went wrong with receiving" << std::endl;
+    }
+    else{
+        receivedMessage >> messageString;
+        nodeStream << messageString;
+        std::cout << "Nodes read\n";
+    }
+    nodeStream.close();
+
+    std::string verticeFilePath = "../client/vertice.txt";
+    std::ofstream verticeStream(verticeFilePath);
+
+    requestVertices();
+
+    if(socket.receive(receivedMessage) != sf::Socket::Done){
+        std::cout << "Something went wrong with receiving" << std::endl;
+    }
+    else{
+        receivedMessage >> messageString;
+        verticeStream << messageString;
+        std::cout << "Vertices read\n";
+    }
+
+    verticeStream.close();
+
+}
+
+
+void Client::requestNodes(){
 	sf::Packet p;
-	p << std::string("REQUEST_GRAPH");
+	p << std::string("REQUEST_NODES");
 	if(socket.send(p) != sf::Socket::Done){
 		std::cout << "Something went wrong while sending your message, please try again later" << std::endl;
 	}
 }
 
-void Client::addNode(){
+
+void Client::requestVertices(){
 	sf::Packet p;
-	p << std::string("ADD_NODE");
+	p << std::string("REQUEST_VERTICES");
 	if(socket.send(p) != sf::Socket::Done){
 		std::cout << "Something went wrong while sending your message, please try again later" << std::endl;
 	}
 }
 
-void Client::addVertice(){
-	sf::Packet p;
-	p << std::string("ADD_VERTICE");
-	if(socket.send(p) != sf::Socket::Done){
-		std::cout << "Something went wrong while sending your message, please try again later" << std::endl;
-	}
-}
-
-void Client::saveGraph(){
-	sf::Packet p;
-	p << std::string("SAVE_GRAPH");
-	if(socket.send(p) != sf::Socket::Done){
-		std::cout << "Something went wrong while sending your message, please try again later" << std::endl;
-	}
-}

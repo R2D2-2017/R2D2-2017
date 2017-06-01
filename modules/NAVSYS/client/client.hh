@@ -10,7 +10,9 @@
 
 #include <SFML/Network.hpp>
 #include <iostream>
+#include <fstream>
 #include <string>
+#include "../common/graph-factory.hh"
 
 
 /**
@@ -41,31 +43,27 @@ public:
 	void run();
 
 /**
- * \brief Requests a graph from the server
+
+ * \brief Requests  nodes from the server
  *
- * Sends a request for a graph from the server, by just sending a sf::Packet with a std::string.
+ * Sends a request for nodes from the server, by just sending a sf::Packet with a std::string.
  */
-	void requestGraph();
+	void requestNodes();
 
     /**
- * \brief Requests a graph from the server
+ * \brief Requests vertices from the server
  *
- * Sends a node for the graph to the server, by just sending node data.
+ * Sends a request for vertices to the server, by just sending a sf::Packet with a std::string.
  */
-    void addNode();
+    void requestVertices();
 
-/**
- * \brief Requests a graph from the server
- *
- * Sends a vertice for the graph to the server, by just sending vertice data.
- */
-    void addVertice();
+	/**
+* \brief Requests the database from the server
+*
+* this function sends the requests for  the data contained in the node and vertices file.
 
-/**
- * \brief Requests to save graph on the server
- *
- * Sends a command  to the server to save the graph..
- */
-    void saveGraph();
+*/
+    void getDatabaseFromServer();
+
 };
 
