@@ -4,7 +4,7 @@
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See LICENSE
  */
-#include "Encryption.hh"
+#include "encryption.hh"
 
 Encryption::Encryption(){
 encryptKey = 1;
