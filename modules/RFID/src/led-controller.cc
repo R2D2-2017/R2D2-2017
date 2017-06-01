@@ -7,6 +7,8 @@
 
 #include "led-controller.hh"
 
+#include <wiringPi.h>
+
 void LedController::blinkLed(int pin,int time){
     pinMode(pin, OUTPUT);   //set GPIO pin to output
     digitalWrite(pin,1);    //turns led on

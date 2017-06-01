@@ -8,8 +8,6 @@
 
 #pragma once
 
-#include <wiringPi.h>
-
 class LedController{
 public:
     LedController(){}
@@ -19,6 +17,5 @@ public:
  * \param[in]     pin     the wiringPi pin number
  * \param[in]     time    duration the led will be on in MS
  */
-
     void blinkLed(int pin, int time);
 };
