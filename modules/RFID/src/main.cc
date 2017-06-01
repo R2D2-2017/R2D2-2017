@@ -43,7 +43,7 @@ int main(int argc, char **argv) {
     MatrixKeypad keypad(keypadRow, keypadColumn, 4);
     char c;
 
-    Encryptie encryption(65341);
+    Encryption encryption(65341);
 
     LedController led;
 
@@ -74,5 +74,6 @@ int main(int argc, char **argv) {
                   << '\n';
 
         led.blinkLed(0, 5000);
-    return 0;
+	}    
+return 0;
 }
