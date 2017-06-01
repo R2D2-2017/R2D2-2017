@@ -10,7 +10,13 @@
 
 #include <SFML/Graphics.hpp>
 
-class GraphNode{
+private:
+	
+	sf::Vector2f position;
+	sf::CircleShape circle;
+
+	float size;class GraphNode{
+	
 public:
 
 	/**
@@ -37,12 +43,7 @@ public:
 	sf::Vector2f getPosition();
 
    
-private:
-	
-	sf::Vector2f position;
-	sf::CircleShape circle;
 
-	float size;
 	
 
 };

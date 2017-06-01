@@ -11,6 +11,11 @@
 #include <SFML/Graphics.hpp>
 
 class GraphVertice{
+	
+private:
+	sf::Vector2f positiona;
+	sf::Vector2f positionb;
+	
 public:
 	/**
 	* constructor of the vertices class C	*
@@ -25,9 +30,6 @@ public:
 	*/
 	void draw( sf::RenderWindow & window ) ;
 
-private:
-	sf::Vector2f positiona;
-	sf::Vector2f positionb;
 
 };
 
