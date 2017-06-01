@@ -7,9 +7,16 @@
 
 #include "led-controller.hh"
 
-void blinkLed(int pin,int time)
+#include <wiringPi.h>
+
+LedController::LedController(int p) {
+    pin = p;
+}
+
+
+void LedController::blinkLed(int time)
 {
-    pinMode(pin,OUTPUTE);   //set GPIO pin to outpute
+    pinMode(pin,OUTPUT);   //set GPIO pin to output
     digitalWrite(pin,1);    //turns led on
     delay(time);            //delays for time in ms
     digitalWrite(pin,0);    //turns led off

@@ -5,6 +5,6 @@
 int main (void)
 {
     wiringPiSetup ();
-    LedControler();
-    blinkLed(0,1000); // wiringPi pin 0 is BCM_GPIO 17. 1000 ms = 1 sec
+    LedControler led(0);
+    led.blinkLed(1000); // wiringPi pin 0 is BCM_GPIO 17. 1000 ms = 1 sec
 }
