@@ -4,7 +4,7 @@
 #\author	Mike Hilhorst, David de Jong, Wilco Louwerse.
 #\copyright	Copyright (c) 2017, The R2D2 Team.
 #\license	See LICENSE.
-#\wiki		...
+#\wiki		https://github.com/R2D2-2017/R2D2-2017/wiki/Qik-2s12v10-motor-controller
 #\Trello(1)	https://trello.com/c/KL8lOZvJ/2-4-allowing-control-of-the-engines-as-to-spin-them-forwards-and-backwards
 #\Trello(2) https://trello.com/c/N8kg309G/3-1-allowing-the-engines-to-be-set-to-spin-in-opposite-directions-so-the-platform-can-turn
 
