@@ -133,7 +133,6 @@ bool Mfrc522::isTagPresent(){
     unsigned char data[1];
     data[0] = mifareReqIdle; // first element is the command to send to the tag. Here we request every tag that is in idle
     
-    unsigned char status = communicateWithTag(transceive, data, 1, nullptr, 0); // NULL beacause we do not need ro read data from the tag.
     unsigned char status = communicateWithTag(transceive, data, 1, nullptr, 0); // nullptr beacause we do not need ro read data from the tag.
 
     if(status == statusOk){
