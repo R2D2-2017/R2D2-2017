@@ -1,6 +1,6 @@
 #include "parser.hh"
 
-Error parseCommand(hwlib::string<12> command) {
+Error parseCommand(hwlib::string<0> command) {
     uint8_t space = 0;
 
     for (; command[space] < command.length(); space++)

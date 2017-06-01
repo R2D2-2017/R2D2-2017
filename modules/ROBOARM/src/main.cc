@@ -5,7 +5,7 @@
 int main() {
     WDT->WDT_MR = WDT_MR_WDDIS;
 
-    parseCommand("left 42");
+    parseCommand(hwlib::string<12>("x 42"));
 
 
     return 0;
