@@ -21,7 +21,7 @@ MatrixKeypad::MatrixKeypad(
 char MatrixKeypad::getKey(){
     for (int i = 0; i < colSize; ++i){
         pinMode(column[i], OUTPUT);
-        pullUpDnControl(column[i], PUD_DOWN);
+        digitalWrite(column[i], 0);
     }
 
     for(int i = 0; i < rowSize; ++i){
@@ -31,9 +31,13 @@ char MatrixKeypad::getKey(){
 
     keypadRow = -1;
     for (int i = 0; i < rowSize; ++i){
-        if(digitalRead(row[i]) == 1){
+        if(digitalRead(row[i]) == 0){
             keypadRow = i;
         }
+    }
+
+    if (keypadRow == -1){
+        return 'h';
     }
 
     for (int i = 0; i < colSize; ++i){
@@ -42,11 +46,11 @@ char MatrixKeypad::getKey(){
     }
 
     pinMode(row[keypadRow], OUTPUT);
-    pullUpDnControl(row[keypadRow], PUD_DOWN);
-
+    digitalWrite(column[keypadRow], 0);
+    
     keypadColumn = -1;
     for (int i = 0; i <  colSize; i++){
-        if(digitalRead(column[i]) == 1){
+        if(digitalRead(column[i]) == 0){
             keypadColumn = i;
         }
     }

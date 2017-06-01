@@ -13,8 +13,8 @@
 #include "matrix-keypad.hh"
 
 int main(int argc, char** argv){
-    wiringPiSetupGpio();
-    
+    wiringPiSetup();
+
     //Keypad pinSetup
     const int keypadRow[] = {29, 28, 27, 26};
     const int keypadColumn[] = {31, 11, 10, 6};
@@ -25,7 +25,7 @@ int main(int argc, char** argv){
 
     while(1){
         if( (c = keypad.getKey()) != 'h' ){
-            std::cout << "A key has been pressed\n" << c << '\n';
+            std::cout << "A key has been pressed\n";
         }
         delay(100);
     }
