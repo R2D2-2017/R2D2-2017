@@ -18,21 +18,23 @@ class Mfrc522{
 public:
   
     /**
-     *\brief An Enum for commands that an rfid tag can execute. the commands can be send to the rfid tag.
+     *\brief An Enum for commands that an rfid tag can execute. the commands can be send to the rfid tag. 
+	 *These commands can be used with function communicateWithTag and should be placed in the first element of the sendData parameter. 
+	 *The other element should contain the arguments to the command. After the command is executed by the rfid card, the rfid card will give a response.
      */ 
     enum mifareCommands{
-        mifareReqAll    = 0x52,
-        mifareReqIdle   = 0x26,
-        mifareAntiColl  = 0x93,
-        mifareSelect    = 0x93,
-        mifareAuthen    = 0x60,
-        mifareRead      = 0x30,
-        mifareWrite     = 0xA0,
-        mifareDecr      = 0xC0,
-        mifareIncr      = 0xC1,
-        mifareRest      = 0xC2,
-        mifareTrans     = 0xB0,
-        mifareHalt      = 0x50
+        mifareReqAll    = 0x52, /** Request all tag in idle. argument=none, response=tag type*/
+        mifareReqIdle   = 0x26, /** Request all tags in state idle. argument=none, response=tag type*/
+        mifareAntiColl  = 0x93, /** Get UID from all tags for anticollision. argument=(optional part of tags UID), response = (rest of)UID*/
+        mifareSelect    = 0x93, /** Select a RFID tag in range of reader. argument=UID, responce=answer to select*/
+        mifareAuthen    = 0x60, /** Authenticate RFID tag. argument=block address, response=acknowledge*/
+        mifareRead      = 0x30, /** Read one memory block. argument=block address, respons=16 bytes of data*/
+        mifareWrite     = 0xA0, /** Write one memory blovk. argument=block address and 16 byte of data, response=acknowledge*/
+        mifareDecr      = 0xC0, /** Decrements the contents of a block and stores the result in the internal Transfer Buffer. argument=block address and 4 byte value, response=acknowledge*/
+        mifareIncr      = 0xC1, /** Increments the contents of a block and stores the result in the internal Transfer Buffer. argument=block address and 4 byte value, response=acknowledge*/
+        mifareRest      = 0xC2, /** Reads the contents of a block into the internal Transfer Buffer. argument=block address and 4 byte dummy, response=acknowledge*/
+        mifareTrans     = 0xB0, /** Writes the contents of the internal Transfer Buffer to a block. argument=block address, response=acknowledge*/
+        mifareHalt      = 0x50  /** Send selected tag into halt mode. argument=dummy address, repsonse=None*/
     };
     
     /**
@@ -210,7 +212,7 @@ public:
      * \param[in] sendDataLen The size of sendData
      * \param[out] receiveData A container for storing the data received from the tag
      * \param[in] receiveDataLen The size of receiveData
-     * \return The function return a status code. statusOk for succes, statusTimeout if no tag was found or a statusError if something else went wrong
+     * \return The function returns a status code. statusOk for succes, statusTimeout if no tag was found or a statusError if something else went wrong
      */
     unsigned char communicateWithTag(unsigned char command,
                        unsigned char * sendData, 

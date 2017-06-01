@@ -57,11 +57,11 @@ void Mfrc522::init(){
     
     writeRegister(tModeReg, 0x80);			// TAuto=1; timer starts automatically at the end of the transmission in all communication modes at all speeds
     writeRegister(tPrescalerReg, 0xA9);		// TPreScaler = TModeReg[3..0]:TPrescalerReg, ie 0x0A9 = 169 => f_timer=40kHz, ie a timer period of 25�s.
-    writeRegister(tReloadRegH, 0x03);		// Reload timer with 0x3E8 = 1000, ie 25ms before timeout.
+    writeRegister(tReloadRegH, 0x03);		// Reload timer with 0x3E8 = 1000, 25ms before timeout.
     writeRegister(tReloadRegL, 0xE8);
 	
     writeRegister(txAskReg, 0x40);		// Default 0x00. Force a 100 % ASK modulation independent of the ModGsPReg register setting
-    writeRegister(modeReg, 0x3D);		// Default 0x3F. Set the preset value for the CRC coprocessor for the CalcCRC command to 0x6363 (ISO 14443-3 part 6.2.4)
+    writeRegister(modeReg, 0x3D);		// Default 0x3F. Set the preset value for the CRC coprocessor for the CalcCRC command to 0x6363
     antennaOn(); 						// enable antenna
     setAntennaGain(0x70);				// set the antenna gain
 }
@@ -97,12 +97,12 @@ unsigned char Mfrc522::communicateWithTag(unsigned char command,
     writeRegister(comIrqReg, 0x7F);			// Clear all seven interrupt request bits
     setRegisterBitMask(FIFOLevelReg, 0x80);     // flush the buffer
     writeRegister(FIFODataReg, sendData, sendDataLen);	// Write sendData to the FIFO
-    writeRegister(commandReg, command); 
+    writeRegister(commandReg, command); //execute command
     
     if(command == transceive){
-        setRegisterBitMask(bitFramingReg, 0x80);
+        setRegisterBitMask(bitFramingReg, 0x80); //start send
     }
-    int i = 100000;
+    int i = 50; //max ~50 milliseconds timeout
     while(1){
         unsigned char n = readRegister(comIrqReg);	
         if(n & 0x30){
@@ -114,6 +114,7 @@ unsigned char Mfrc522::communicateWithTag(unsigned char command,
         if(--i == 0){	
             return statusError; // something went wrong. Is the mfrc522 connected properly?
         }
+		delay(1);
     }
     if(receiveData){ // if receiveData is not nullptr
         unsigned int recievedLen = readRegister(FIFOLevelReg);
