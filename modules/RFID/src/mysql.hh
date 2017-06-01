@@ -1,9 +1,5 @@
 /**
-<<<<<<< HEAD
  * \file      mysql.hh
-=======
- * \file
->>>>>>> origin/feat-rfid-database
  * \brief     Mysql library with error checking that uses the mysqlcppconn library
  * \author    Tim IJntema
  * \copyright Copyright (c) 2017, The R2D2 Team
@@ -35,15 +31,9 @@
 class MySql{
 private:
     sql::Driver * driver;
-<<<<<<< HEAD
     sql::Connection * connection;
     sql::Statement * statement;
     sql::ResultSet * result;
-=======
-    sql::Connection * con;
-    sql::Statement * stmt;
-    sql::ResultSet * res;
->>>>>>> origin/feat-rfid-database
     
     
     /// Checks for errors when executing function of template type T.

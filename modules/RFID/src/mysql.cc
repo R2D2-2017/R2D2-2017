@@ -1,9 +1,5 @@
 /**
-<<<<<<< HEAD
  * \file      mysql.cc
-=======
- * \file
->>>>>>> origin/feat-rfid-database
  * \brief     Mysql library with error checking that uses the mysqlcppconn library
  * \author    Tim IJntema
  * \copyright Copyright (c) 2017, The R2D2 Team
@@ -88,10 +84,5 @@ std::string MySql::getPreviousResponseColumn(std::string columnName){
 }
 
 sql::ResultSet * MySql::getFullResult(){
-<<<<<<< HEAD
     return result;
 }
-=======
-    return res;
-}
->>>>>>> origin/feat-rfid-database
