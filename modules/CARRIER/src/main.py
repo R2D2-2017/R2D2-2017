@@ -41,7 +41,6 @@ pressed = 0
 #\brief The state machien
 while True:
 	if state == States.idle:
-		
 		if pressed == 'f':
 			state = States.driving
 
