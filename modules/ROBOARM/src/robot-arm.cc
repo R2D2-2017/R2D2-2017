@@ -15,7 +15,7 @@ void RobotArmController::rotateAxis(RobotAxis axis, int degrees, bool clockwise)
 
     //This isn't the degrees the robot will turn at the moment.
     //TODO Make the steps based on the gears inside of the robot
-    int steps = microSteps * (degrees * armStepRatio) / stepSize;
+    int steps = microStepsArms * (degrees * armStepRatio) / stepSize;
     switch (axis) {
         case RobotAxis::X:
             x_axis.step(steps, clockwise);
@@ -24,7 +24,7 @@ void RobotArmController::rotateAxis(RobotAxis axis, int degrees, bool clockwise)
             y_axis.step(steps, clockwise);
             break;
         case RobotAxis::Z:
-            steps = microSteps * ((degrees * baseStepRatio) / stepSize);
+            steps = microStepsBase * (degrees * baseStepRatio) / stepSize;
             z_axis.step(steps, clockwise);
             break;
 
