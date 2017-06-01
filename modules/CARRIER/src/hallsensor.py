@@ -11,7 +11,10 @@
 import RPi.GPIO as GPIO
 import time 
 GPIO.setmode(GPIO.BCM)
-GPIO.setwarnings(False) 
+GPIO.setwarnings(False)
+
+# the time delay 
+sleepTime = 0.2 
 
 ##
 #\brief A class for reading if the hall sensor detected any form of magnetism.
@@ -20,9 +23,11 @@ class HallSensor:
     ##
     #\brief Setup HallSensor class with a given pin.
     #
-    #\param[in] pin     the hall sensor pin to be read.
-    def __init__(self, pin, ledOne, ledTwo):
-        self.hallSensorPin = pin
+    #\param[in] sensorPin     the hall sensor pin to be read.
+    #\param[in] ledOne        the first signal led pin
+    #\param[in] ledTwo        the second signal led pin
+    def __init__(self, sensorPin, ledOne, ledTwo):
+        self.hallSensorPin = sensorPin
         self.ledOne = ledOne
         self.ledTwo = ledTwo
 
@@ -33,12 +38,11 @@ class HallSensor:
     #\brief This function checks if the hall sensor detected magnetism.
     #
     #\return Returns true if the hall sensor detected magnetism.
-
     def isMagnetDetected(self):
         if GPIO.input(self.hallSensorPin): # == True
             GPIO.output(self.ledOne, 0)
             GPIO.output(self.ledTwo, 1)
-            time.sleep(0.2)
+            time.sleep(sleepTime)
         else:
             GPIO.output(self.ledOne, 1)
             GPIO.output(self.ledTwo, 0)
