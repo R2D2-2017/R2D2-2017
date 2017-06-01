@@ -54,12 +54,10 @@ int main(int argc, char **argv) {
         
         std::cout<<"Hello tag\n";
         
-        while(1){
-            if( (c = keypad.getKey()) != 'h' ){
-                std::cout << "A key has been pressed\n";
-            }
+        while((c = keypad.getKey()) == 'h'){
             delay(100);
         }
+        std::cout << "A key has been pressed\n";
 
         if(!connection.executeQuery("SELECT * FROM RFID")){
             std::cout << "Can not execute query\n";
