@@ -29,19 +29,19 @@ void Server::run(){
     std::string verticeFilePath = "../server/vertice.txt";
 
 
-    //graph factory
-
+    // graph factory
     GraphFactory factory = GraphFactory();
     Graph g = Graph();
     factory.createGraph(nodeFilePath,verticeFilePath, g);
 
-    //Running in the nineties
+    // Running in the nineties
     socketListener.listen(port);
     socketSelector.add(socketListener);
 
 
     while(true){
         sf::sleep(sf::milliseconds(100));
+
 
         if(socketSelector.wait()){
 
@@ -69,7 +69,7 @@ void Server::run(){
                             p >> str;
                             std::cout << str << std::endl;
                             // This is not a nice way to do things, but there needs to be something that works
-                            handleInput(str);
+                            handleInput(str, g);
                         }
                     }
                 }
@@ -78,17 +78,19 @@ void Server::run(){
     }
 }
 
-void Server::handleInput(const std::string & input){
+void Server::handleInput(const std::string & input, Graph & graph){
     if(input == "REQUEST_GRAPH"){
         std::cout << "graph is being send\n";
         broadcastMessage("Ik ben een graaf");         //Placeholder
     }
     else if(input == "ADD_NODE"){
         std::cout << "node is being added to \n";
+        //graph.addnode(newNode);
         broadcastMessage("Node added");         //Placeholder
     }
     else if(input == "ADD_VERTICE"){
         std::cout << "graph is being send\n";
+        //graph.addvertice(newVertice);
         broadcastMessage("Vertice added");         //Placeholder
     }
     else if(input == "SAVE_GRAPH"){

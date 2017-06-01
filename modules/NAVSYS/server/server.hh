@@ -59,5 +59,5 @@ public:
  * 
  * \param[in]     input    std::string that states the message received from a client
  */
-    void handleInput(const std::string & input);
+    void handleInput(const std::string & input, Graph & graph);
 };

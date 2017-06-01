@@ -12,6 +12,7 @@
 #include <iostream>
 #include <string>
 
+
 /**
  * \brief Client class
  *
@@ -45,4 +46,26 @@ public:
  * Sends a request for a graph from the server, by just sending a sf::Packet with a std::string.
  */
 	void requestGraph();
+
+    /**
+ * \brief Requests a graph from the server
+ *
+ * Sends a node for the graph to the server, by just sending node data.
+ */
+    void addNode();
+
+/**
+ * \brief Requests a graph from the server
+ *
+ * Sends a vertice for the graph to the server, by just sending vertice data.
+ */
+    void addVertice();
+
+/**
+ * \brief Requests to save graph on the server
+ *
+ * Sends a command  to the server to save the graph..
+ */
+    void saveGraph();
 };
+
