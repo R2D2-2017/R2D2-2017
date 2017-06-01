@@ -13,10 +13,6 @@
 #include <memory>
 #include <string>
 #include <iostream>
-//#include "../client/graph.hh"
-//#include "graph-factory.hh"
-//#include "graph-input.hh"
-//#include "astar.hh"
 
 /**
  * \brief Server class
@@ -63,8 +59,16 @@ public:
 
     void handleInput(const std::string & input);
 
+    /**
+ * \brief this function reads the node file in a string
+ *
+ */
     std::string readNodesAsString();
 
+    /**
+ * \brief this function reads the vertice file in a string
+ *
+ */
     std::string readVerticesAsString();
 
 

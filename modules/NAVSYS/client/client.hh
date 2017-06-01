@@ -57,6 +57,12 @@ public:
  */
     void requestVertices();
 
+	/**
+* \brief Requests the database from the server
+*
+* this function sends the requests for  the data contained in the node and vertices file.
+
+*/
     void getDatabaseFromServer();
 
 };

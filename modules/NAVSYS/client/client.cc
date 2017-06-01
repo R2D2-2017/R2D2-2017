@@ -28,7 +28,7 @@ void Client::run(){
     GraphFactory factory =  GraphFactory();
     Graph g = Graph();
     factory.createGraph(nodeFilePath,verticeFilePath, g);
-    std::cout << "graph created\n";
+    std::cout << "Graph created\n";
 
     //print graph to screen
 
@@ -66,7 +66,7 @@ void Client::getDatabaseFromServer(){
     else{
         receivedMessage >> messageString;
         nodeStream << messageString;
-        std::cout << "nodes read\n";
+        std::cout << "Nodes read\n";
     }
     nodeStream.close();
 
@@ -81,7 +81,7 @@ void Client::getDatabaseFromServer(){
     else{
         receivedMessage >> messageString;
         verticeStream << messageString;
-        std::cout << "vertices read\n";
+        std::cout << "Vertices read\n";
     }
 
     verticeStream.close();

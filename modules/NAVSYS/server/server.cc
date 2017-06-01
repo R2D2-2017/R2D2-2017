@@ -26,7 +26,7 @@ void Server::broadcastMessage(const std::string &message){
 }
 
 void Server::run(){
-    
+
     // Running in the nineties
     socketListener.listen(port);
     socketSelector.add(socketListener);
@@ -87,7 +87,6 @@ void Server::handleInput(const std::string & input){
 }
 
 std::string Server::readNodesAsString(){
-
 
     std::string nodeFilePath = "../server/node.txt";
     std::ifstream nodes(nodeFilePath);
