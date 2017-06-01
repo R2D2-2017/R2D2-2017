@@ -9,13 +9,13 @@
 #pragma once 
 
 #include <SFML/Graphics.hpp>
-
+class GraphNode{
 private:
 	
 	sf::Vector2f position;
 	sf::CircleShape circle;
 
-	float size;class GraphNode{
+	float size;
 	
 public:
 
