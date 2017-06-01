@@ -17,6 +17,7 @@
 //#include "graph-factory.hh"
 //#include "graph-input.hh"
 //#include "astar.hh"
+
 /**
  * \brief Server class
  *
@@ -59,6 +60,7 @@ public:
  * 
  * \param[in]     input    std::string that states the message received from a client
  */
+
     void handleInput(const std::string & input);
 
     std::string readNodesAsString();
@@ -67,4 +69,5 @@ public:
 
 
 };
+
 

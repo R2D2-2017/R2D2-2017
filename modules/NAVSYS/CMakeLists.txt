@@ -19,6 +19,7 @@ set(client_sources
 set(server_sources
 	server/main.cc server/server.cc server/server.hh common/pathnode.cc common/pathnode.hh common/astar.cc common/astar.hh common/graph-input.cc common/graph-input.hh common/graph-factory.cc common/graph-factory.hh)
 
+
 find_package(SFML 2 REQUIRED system window graphics network audio)
 
 add_executable(${exe_client} ${common_sources} ${client_sources})

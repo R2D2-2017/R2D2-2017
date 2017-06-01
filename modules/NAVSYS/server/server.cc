@@ -5,6 +5,7 @@
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See ../../LICENSE
  */
+
 #include <iterator>
 #include <algorithm>
 #include <fstream>
@@ -23,9 +24,9 @@ void Server::broadcastMessage(const std::string &message){
         }
     }
 }
-//
-void Server::run(){
 
+void Server::run(){
+    
     // Running in the nineties
     socketListener.listen(port);
     socketSelector.add(socketListener);
@@ -34,6 +35,7 @@ void Server::run(){
     while(true){
 
         sf::sleep(sf::milliseconds(100));
+
 
         if(socketSelector.wait()){
 
@@ -45,6 +47,7 @@ void Server::run(){
 
                     connectedClientSockets.push_back(client);
                     socketSelector.add(*client);
+
                 } else{
                     std::cout << "Something went wrong connecting to a new socket, please try again" << std::endl;
                     delete client;
@@ -52,7 +55,6 @@ void Server::run(){
 
             } else{
                 for(auto &s : connectedClientSockets){
-
                     if(socketSelector.isReady(*s)){
                         sf::Packet p;
                         std::string str;
@@ -62,6 +64,7 @@ void Server::run(){
                             std::cout << str << std::endl;
                             // This is not a nice way to do things, but there needs to be something that works
                             handleInput(str);
+
                         }
                     }
                 }
@@ -69,6 +72,7 @@ void Server::run(){
         }
     }
 }
+
 
 void Server::handleInput(const std::string & input){
     if(input == "REQUEST_NODES"){

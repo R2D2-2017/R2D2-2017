@@ -14,6 +14,7 @@
 #include <string>
 #include "../common/graph-factory.hh"
 
+
 /**
  * \brief Client class
  *
@@ -42,6 +43,7 @@ public:
 	void run();
 
 /**
+
  * \brief Requests  nodes from the server
  *
  * Sends a request for nodes from the server, by just sending a sf::Packet with a std::string.
@@ -56,6 +58,6 @@ public:
     void requestVertices();
 
     void getDatabaseFromServer();
-//
+
 };
 

@@ -34,6 +34,7 @@ void Client::run(){
 
     sf::Packet receivedMessage;
     std::string messageString;
+
     
 	while(true){
 		sf::sleep(sf::milliseconds(100));
@@ -46,6 +47,7 @@ void Client::run(){
 		}
 	}
 }
+
 
 void Client::getDatabaseFromServer(){
 
@@ -95,6 +97,7 @@ void Client::requestNodes(){
 	}
 }
 
+
 void Client::requestVertices(){
 	sf::Packet p;
 	p << std::string("REQUEST_VERTICES");
@@ -102,3 +105,4 @@ void Client::requestVertices(){
 		std::cout << "Something went wrong while sending your message, please try again later" << std::endl;
 	}
 }
+
