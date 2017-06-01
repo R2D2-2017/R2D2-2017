@@ -21,23 +21,23 @@ int main(int argc, char **argv) {
     MySql connection;
 
     if(!connection.connectTo("192.168.2.50", "R2D2", "BB8")){
-        std::cout << "Can not connect\n";
+        std::cerr << "Can not connect\n";
         exit(0);
     }
     
     if(!connection.selectDatabase("R2D2")){
-        std::cout << "Database unknown\n";
+        std::cerr << "Database unknown\n";
         exit(0);
     }
-    
+    std::cout<<"Made connection to the database\n";
     wiringPiSetup();
     wiringPiSPISetup(0, 10000000);//max speed for mfrc522 is 10Mhz
     Mfrc522 rfid;
     rfid.init();
 
     //Keypad pinSetup
-    const int keypadRow[] = {29, 28, 27, 26};
-    const int keypadColumn[] = {31, 11, 10, 6};
+    const int keypadRow[] = {24, 25, 22, 31};
+    const int keypadColumn[] = {26, 27, 28, 29};
 
     //Keypad objects
     MatrixKeypad keypad(keypadRow, keypadColumn, 4);
@@ -53,7 +53,7 @@ int main(int argc, char **argv) {
         while(!rfid.isTagPresent()){}
         
         std::cout<<"Hello tag\n";
-        
+        std::cout<<"Waiting for key press\n";
         while((c = keypad.getKey()) == 'h'){
             delay(100);
         }
