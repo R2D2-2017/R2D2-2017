@@ -1,7 +1,7 @@
  /**
  * \file
  * \brief     Combination of the work of sprint 1
- * \author    Tim IJntema
+ * \author    Tim IJntema, Stefan de Beer, Arco Gelderblom
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See LICENSE
  */

@@ -115,7 +115,11 @@ unsigned char Mfrc522::communicateWithTag(unsigned char command,
             return statusError; // something went wrong. Is the mfrc522 connected properly?
         }
     }
+<<<<<<< HEAD
     if(receiveData){ // if receiveData is not NULL
+=======
+    if(receiveData){ // if receiveData is not nullptr
+>>>>>>> origin/feat-rfid-card-detection
         unsigned int recievedLen = readRegister(FIFOLevelReg);
         if(receiveDataLen >= recievedLen){ // does the data fit in the given container?
             for(unsigned int i = 0;i < recievedLen;i++){
@@ -133,7 +137,11 @@ bool Mfrc522::isTagPresent(){
     unsigned char data[1];
     data[0] = mifareReqIdle; // first element is the command to send to the tag. Here we request every tag that is in idle
     
+<<<<<<< HEAD
     unsigned char status = communicateWithTag(transceive, data, 1, nullptr, 0); // NULL beacause we do not need ro read data from the tag.
+=======
+    unsigned char status = communicateWithTag(transceive, data, 1, nullptr, 0); // nullptr beacause we do not need ro read data from the tag.
+>>>>>>> origin/feat-rfid-card-detection
 
     if(status == statusOk){
         return 1;
