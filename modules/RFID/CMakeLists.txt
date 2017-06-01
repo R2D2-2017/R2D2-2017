@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 2.6)
 
-project(template-pc)
+project(rfid)
 set(exe_name "rfid")
 include(../../flags.cmake)
 
@@ -22,7 +22,9 @@ set(sources
     src/encryption.hh
     src/encryption.cc
     src/led-controller.hh
-    src/led-controller.cc)
+    src/led-controller.cc
+    src/matrix-keypad.hh
+    src/matrix-keypad.cc)
 
 add_executable(${exe_name} ${sources})
 target_link_libraries(${exe_name} mysqlcppconn)

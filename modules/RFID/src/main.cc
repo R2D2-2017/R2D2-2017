@@ -10,6 +10,7 @@
 #include "mfrc522.hh"
 #include "encryption.hh"
 #include "led-controller.hh"
+#include "matrix-keypad.hh"
 
 #include <wiringPi.h>
 #include <wiringPiSPI.h>
@@ -60,6 +61,20 @@ int main(int argc, char **argv) {
                   << '\n';
 
         led.blinkLed(0, 5000);
+
+    //Keypad pinSetup
+    const int keypadRow[] = {29, 28, 27, 26};
+    const int keypadColumn[] = {31, 11, 10, 6};
+
+    //Keypad objects
+    MatrixKeypad keypad(keypadRow, keypadColumn, 4);
+    char c;
+
+    while(1){
+        if( (c = keypad.getKey()) != 'h' ){
+            std::cout << "A key has been pressed\n";
+        }
+        delay(100);
     }
     return 0;
 }
