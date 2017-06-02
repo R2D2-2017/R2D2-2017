@@ -1,12 +1,11 @@
 #include <sam3x8e.h>
 #include "wrap-hwlib.hh"
-#include "stepper.hh"
-#include "robot-arm.hh"
 #include "parser.hh"
-
+#include "robot-arm.hh"
+#include "stepper.hh"
 int main() {
     WDT->WDT_MR = WDT_MR_WDDIS;
-
+    hwlib::cout << "help" << "\n";
     auto stepX = hwlib::target::pin_out(hwlib::target::pins::d20);
     auto dirX = hwlib::target::pin_out(hwlib::target::pins::d21);
 
@@ -57,6 +56,13 @@ int main() {
     Stepper y(dirY, stepY);
     Stepper z(dirZ, stepZ);
     RobotArmController r(x, y, z, xLimitSwitch, yLimitSwitch);
+//    x.setMaxSpeed(250);
+//    x.setAcceleration(100);
+//    y.setMaxSpeed(250);
+//    y.setAcceleration(100);
+//    z.setMaxSpeed(1000);
+//    z.setAcceleration(100);
+
 
     hwlib::cout << "START SEQUENCE" << "\n";
     r.reset();
