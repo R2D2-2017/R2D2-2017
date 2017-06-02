@@ -13,7 +13,7 @@ Stepper::Stepper(hwlib::target::pin_out &dir_pin, hwlib::target::pin_out &stp_pi
     currentPosition = 0;
 
     lastStepTime = 0;
-    minPulseWidth = 100;
+    minPulseWidth = 50;
     stepIntervalTime = 1000000 / maxSpeed;//0;
     clockwise = true;
 }
@@ -27,12 +27,13 @@ void Stepper::step() {
 }
 
 void Stepper::setTarget(int amount, bool clockwise) {
-    targetPosition = amount;
+    currentPosition = 0;
+    targetPosition = clockwise ? amount : -amount;
     this->clockwise = clockwise;
 }
 
 void Stepper::run() {
-    if (!stepIntervalTime) {
+    if (!stepIntervalTime || currentPosition == targetPosition) {
         return;
     }
 
