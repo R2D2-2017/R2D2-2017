@@ -23,33 +23,27 @@ class States(Enum):
 	turning = 3
 	sensing = 4
 	shutdown = 5
-# Baudrate used in the serial communication
-baudRate = 38400
+	
+class Var(Enum):
+	baudRate = 38400		# Baudrate used in the serial communication
+	motorSpeed = 63			# The motor speed
+	sonarDetectionRange = 40	# The range the sonar has to stop at
+	halReadAmmount = 1000		# The times the hallsensor reads
+	sleepTime = 0.2			# The time used for delays
+	halSleepTime = 0.01		# The time used for delays
+
 
 # Serialport for communication with the rosbee motor controller 
-s = serial.Serial("/dev/ttyAMA0", baudRate, timeout=0.5)
+s = serial.Serial("/dev/ttyAMA0", Var.baudRate, timeout=0.5)
 
 # Making object with the correct pins
 motor = MotorControl(s)                         # Serialport
 echoLocation = Sonar(23, 24)                    # Pin 23 as triggerpin 24 as echopin
 hallSensor = HallSensor(5, 27, 22)              # Pin 27 as red led and 22 as green led
 
-# The motor speed
-motorSpeed = 63
-
-# The range the sonar has to stop at
-sonarDetectionRange = 40
-
-# The times the hallsensor reads
-halReadAmmount = 1000
-
 # Statemachien default
 state = States.idle
 pressed = 0
-
-# The time used for delays
-sleepTime = 0.2
-halSleepTime = 0.01
 
 ##
 #\brief The statemachine
@@ -74,15 +68,15 @@ while True:
 	if state == States.driving:                     # Drive state
   
 		if pressed == 'f':                          # Forwards
-			motor.forward(motorSpeed)           # Set motor speed 
+			motor.forward(Var.motorSpeed)           # Set motor speed 
 		elif pressed == 'b':                        # Backwards
-			motor.reverse(motorSpeed)
+			motor.reverse(Var.motorSpeed)
 			
 		for i in range(0, 10):
-			time.sleep(sleepTime)
+			time.sleep(Var.sleepTime)
 			distance = echoLocation.getDistance()   # Get sonar value
 			print(distance)
-			if distance < sonarDetectionRange:      # If the carrier is closer than sonarDetectionRange in cm the loop will break
+			if distance < Var.sonarDetectionRange:      # If the carrier is closer than sonarDetectionRange in cm the loop will break
 				break
 				
 		motor.stop()                                # If the loop in finished or broken the motor stops
@@ -92,10 +86,10 @@ while True:
 	if state == States.turning:                     # Turning state
 
 		if pressed == 'r':                          # Right
-			motor.right(motorSpeed)                 
+			motor.right(Var.motorSpeed)                 
 			motor.stop()                            # Stop
 		elif pressed == 'l':                        # Left
-			motor.left(motorSpeed)
+			motor.left(Var.motorSpeed)
 			motor.stop()                            # Stop
 			
 		pressed = 0                                 # Back to default values
@@ -103,9 +97,9 @@ while True:
 
 	
 	if state == States.sensing:                     #Hallsensor state
-		for i in range(0, halReadAmmount):                    
+		for i in range(0, Var.halReadAmmount):                    
 			hallSensor.isMagnetDetected()           # Make green led turn on when magneticfield is found, default red turned on
-			time.sleep(halSleepTime)
+			time.sleep(Var.halSleepTime)
 
 		pressed = 0                                 # Back to default values
 		state = States.idle                         # Back to default values
