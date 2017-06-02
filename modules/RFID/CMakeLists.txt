@@ -13,6 +13,10 @@ find_library(WIRINGPI_LIBRARIES NAMES wiringPi)
 find_path(WIRINGPI_INCLUDE_DIRS NAMES wiringPi.h)
 include_directories(${WIRINGPI_INCLUDE_DIRS})
 
+#find_library(MYSQL_LIBRARY NAMES mysqlcppconn)
+#find_path(MYSQL_INCLUDE_DIRS NAMES mysql_connection.h cppconn/driver.h cppconn/exception.h cppconn/resultset.h cppconn/statement.h)
+#include_directories(${MYSQL_INCLUDE_DIRS})
+
 set(sources
     src/main.cc
     src/mysql.cc)

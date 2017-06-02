@@ -11,27 +11,22 @@
 #include <iostream>
 
 int main(int argc, char **argv) {
-    MySql connection;
+    try {
+        MySql connection;
 
-    if(!connection.connectTo("192.168.2.50", "R2D2", "BB8")){
-        std::cout << "Can not connect\n";
+        connection.connectTo("192.168.2.50", "R2D2", "BB8");
+        connection.selectDatabase("R2D2");
+        connection.executeQuery("SELECT * FROM RFID");
+        
+        auto & result = connection.getFullResult();
+        while(result->next()){
+            std::cout << "Card ID: " << result->getString(2) << '\n';
+        }
+    } catch(...) {
+        std::cout << "something went wrong\n";
         exit(0);
-    }
-    
-    if(!connection.selectDatabase("R2D2")){
-        std::cout << "Database unknown\n";
-        exit(0);
-    }
-    
-    if(!connection.executeQuery("SELECT * FROM RFID")){
-        std::cout << "Can not execute query\n";
-        exit(0);
-    }
-    
-    sql::ResultSet * result = connection.getFullResult();
-    while(result->next()){
-        std::cout << "Card ID: " << result->getString(2) << '\n';
     }
 
     return 0;
 }
+
