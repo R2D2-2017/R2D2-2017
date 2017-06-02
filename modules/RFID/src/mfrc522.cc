@@ -10,32 +10,32 @@
 #include <wiringPi.h>
 #include <wiringPiSPI.h>
 
-void Mfrc522::writeRegister(unsigned char address, unsigned char value){
+void Mfrc522::writeRegister(uint8_t address, uint8_t value){
     address <<= 1;
-    unsigned char data[2] = {address, value}; // clearing address byte for writing
+    uint8_t data[2] = {address, value}; // clearing address byte for writing
     wiringPiSPIDataRW (0, data, 2);
 }
 
-void Mfrc522::writeRegister(unsigned char address, unsigned char * value, unsigned int len){
-    for(unsigned int i = 0;i<len; i++){
+void Mfrc522::writeRegister(uint8_t address, uint8_t * value, unsigned int len){
+    for(uint8_t i = 0;i<len; i++){
       writeRegister(address, value[i]);
     }
 }
 
-unsigned char Mfrc522::readRegister(unsigned char address){
-    unsigned char data[2];
+unsigned char Mfrc522::readRegister(uint8_t address){
+    uint8_t data[2];
     data[0] = 0x80 | (address<<1); //Setting address byte for reading
     wiringPiSPIDataRW(0, data, 2);
     return data[1];
 }
   
-void Mfrc522::setRegisterBitMask(unsigned char address, unsigned char mask){
-    unsigned char buffer = readRegister(address);
+void Mfrc522::setRegisterBitMask(uint8_t address, uint8_t mask){
+    uint8_t buffer = readRegister(address);
     writeRegister(address, buffer|mask);
 }
 
-void Mfrc522::clearRegisterBitMask(unsigned char address, unsigned char mask){
-    unsigned char buffer = readRegister(address);
+void Mfrc522::clearRegisterBitMask(uint8_t address, uint8_t mask){
+    uint8_t buffer = readRegister(address);
     buffer &= (~mask);
     writeRegister(address, buffer);
 }
@@ -67,16 +67,16 @@ void Mfrc522::init(){
 }
 
 void Mfrc522::antennaOn(){
-    unsigned char value = readRegister(txControlReg);
+    uint8_t value = readRegister(txControlReg);
     writeRegister(txControlReg, value |= 0x03); // set lower 2 bits
 }
 
 void Mfrc522::antennaOff(){
-    unsigned char value = readRegister(txControlReg);
+    uint8_t value = readRegister(txControlReg);
     writeRegister(txControlReg, value&0xFC); // clear lower 2 bits
 }
 
-void Mfrc522::setAntennaGain(unsigned char value){
+void Mfrc522::setAntennaGain(uint8_t value){
     if(getAntennaGain() != value){
         clearRegisterBitMask(rfcFgReg, (0x07<<4));
 	setRegisterBitMask(rfcFgReg, value & (0x07<<4));
@@ -87,11 +87,11 @@ unsigned char Mfrc522::getAntennaGain(){
     return readRegister(rfcFgReg) & (0x07 << 4);
 }
 
-unsigned char Mfrc522::communicateWithTag(unsigned char command,
-                            unsigned char * sendData, 
-                            unsigned int sendDataLen,
-                            unsigned char * receiveData,
-                            unsigned int receiveDataLen){
+unsigned char Mfrc522::communicateWithTag(uint8_t command,
+                            uint8_t * sendData, 
+                            uint8_t sendDataLen,
+                            uint8_t * receiveData,
+                            uint8_t receiveDataLen){
     
     writeRegister(commandReg, idle);		// Stop any active command.
     writeRegister(comIrqReg, 0x7F);			// Clear all seven interrupt request bits
@@ -104,7 +104,7 @@ unsigned char Mfrc522::communicateWithTag(unsigned char command,
     }
     int i = 50; //max ~50 milliseconds timeout
     while(1){
-        unsigned char n = readRegister(comIrqReg);	
+        uint8_t n = readRegister(comIrqReg);	
         if(n & 0x30){
             break; // Tag found
         }
@@ -117,9 +117,9 @@ unsigned char Mfrc522::communicateWithTag(unsigned char command,
 		delay(1);
     }
     if(receiveData){ // if receiveData is not nullptr
-        unsigned int recievedLen = readRegister(FIFOLevelReg);
+        uint8_t recievedLen = readRegister(FIFOLevelReg);
         if(receiveDataLen >= recievedLen){ // does the data fit in the given container?
-            for(unsigned int i = 0;i < recievedLen;i++){
+            for(uint8_t i = 0;i < recievedLen;i++){
                 receiveData[i] = readRegister(FIFODataReg); // copy data
             }
         }
@@ -131,10 +131,10 @@ unsigned char Mfrc522::communicateWithTag(unsigned char command,
 bool Mfrc522::isTagPresent(){
     writeRegister(bitFramingReg, 0x07);
     
-    unsigned char data[1];
+    uint8_t data[1];
     data[0] = mifareReqIdle; // first element is the command to send to the tag. Here we request every tag that is in idle
     
-    unsigned char status = communicateWithTag(transceive, data, 1, nullptr, 0); // nullptr beacause we do not need ro read data from the tag.
+    uint8_t status = communicateWithTag(transceive, data, 1, nullptr, 0); // nullptr beacause we do not need ro read data from the tag.
 
     if(status == statusOk){
         return 1;

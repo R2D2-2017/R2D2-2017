@@ -142,7 +142,7 @@ public:
      * \param[in] address The address in the mfrc522 value should be written to.
      * \param[in] value The value to be written to the mfrc522 register
      */
-    void writeRegister(unsigned char address, unsigned char value);
+    void writeRegister(uint8_t address, uint8_t value);
 
     /**
      *\brief A function for writing multiple bytes to the mfrc522
@@ -150,28 +150,28 @@ public:
      *\param[in] value The array of data to be written to the mfrc522.
      *\param[in] len The length of the data to be written.
      */
-    void writeRegister(unsigned char address, unsigned char * value, unsigned int len);
+  void writeRegister(uint8_t address, uint8_t * value, unsigned int len);
     
     /**
      * \brief A function for reading an unsigned char from a register in the mfrc522.
      * \param[in] address The address the data should be read from.
      * \return Returns an unsigned char read from the mfrc522. 
      */
-    unsigned char readRegister(unsigned char address);
+    unsigned char readRegister(uint8_t address);
     
     /**
      * \brief A function for setting only the selected bits
      * \param[in] address The address in the mfrc522 the mask should be written to.
      * \param[in] mask The Mask that should be written to the register.
      */
-    void setRegisterBitMask(unsigned char address, unsigned char mask);
+    void setRegisterBitMask(uint8_t address, uint8_t mask);
     
     /**
      * \brief A function for clearing the selected bits.
      * \param[in] address The address in the mfrc522 the mask should be written to.
      * \param[in] mask The Mask that should be written to the register.
      */
-    void clearRegisterBitMask(unsigned char address, unsigned char mask);
+    void clearRegisterBitMask(uint8_t  address, uint8_t mask);
     
     /**
      * \brief A function for performing a software reset.
@@ -197,7 +197,7 @@ public:
      * \brief A function for setting the antenna gain
      * \param[in] value The antenna gain to be set. Possible values can be found in the mfrc522 datasheet at page 59.
      */
-    void setAntennaGain(unsigned char value);
+    void setAntennaGain(uint8_t value);
     
     /**
      * \brief A function for getting the antenna gain
@@ -214,11 +214,11 @@ public:
      * \param[in] receiveDataLen The size of receiveData
      * \return The function returns a status code. statusOk for succes, statusTimeout if no tag was found or a statusError if something else went wrong
      */
-    unsigned char communicateWithTag(unsigned char command,
-                       unsigned char * sendData, 
-                       unsigned int sendDataLen,
-                       unsigned char * receiveData,
-                       unsigned int receiveDataLen);
+    unsigned char communicateWithTag(uint8_t command,
+                       uint8_t * sendData, 
+                       uint8_t sendDataLen,
+                       uint8_t * receiveData,
+                       uint8_t receiveDataLen);
     
     /**
      * \brief A function for checking if there is a tag that can be communicated with.
