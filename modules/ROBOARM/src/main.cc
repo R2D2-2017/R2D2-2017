@@ -16,32 +16,62 @@ int main() {
     auto stepZ = hwlib::target::pin_out(hwlib::target::pins::d3);
     auto dirZ = hwlib::target::pin_out(hwlib::target::pins::d2);
 
-    auto switch1 = hwlib::target::pin_in(hwlib::target::pins::d31);
-    auto switch2 = hwlib::target::pin_in(hwlib::target::pins::d33);
+    auto xLimitSwitch = hwlib::target::pin_in(hwlib::target::pins::d31);
+    auto yLimitSwitch = hwlib::target::pin_in(hwlib::target::pins::d33);
 
     //TODO parser requires this hwlib fix - https://github.com/wovo/hwlib/pull/6
-    hwlib::string<12> commandList[12] = {
-            "WAIT_S 2", "Z 45",
-            "WAIT_S 2", "Z -45",
-            "WAIT_S 2", "X 45",
-            "WAIT_S 2", "X -45",
-            "WAIT_S 2", "Y 45",
-            "WAIT_S 2", "Y -45",
+    hwlib::string<12> commandList[24] = {
+            // Z axis test
+            "WAIT_S 2",
+            "Z 90",
+            "WAIT_S 2",
+            "Z -90",
+            "WAIT_S 2",
+            "Z 180",
+            "WAIT_S 2",
+            "Z -180",
+            "WAIT_S 2",
+
+            //Y axis test
+            "Y 90",
+            "WAIT_S 2",
+            "Y -90",
+            "WAIT_S 2",
+            "Y 180",
+            "WAIT_S 2",
+            "Y -180",
+            "WAIT_S 2",
+
+            //X axis test
+            "X 90",
+            "WAIT_S 2",
+            "X -90",
+            "WAIT_S 2",
+            "X 180",
+            "WAIT_S 2",
+            "X -240"
     };
 
 
     Stepper x(dirX, stepX);
     Stepper y(dirY, stepY);
     Stepper z(dirZ, stepZ);
-    RobotArmController r(x, y, z, switch1, switch2);
+    RobotArmController r(x, y, z, xLimitSwitch, yLimitSwitch);
 
+    hwlib::cout << "START SEQUENCE" << "\n";
+    r.reset();
+    hwlib::cout << "Position has been reset" << "\n";
     for (auto command: commandList) {
         Status result = parseCommand(command, r);
         switch(result) {
             case Status::SyntaxError:
                 hwlib::cout << "Syntax error" << "\n";
             break;
+            case Status::Succesful:break;
+            case Status::Limit:break;
         }
     }
+    hwlib::cout << "END SEQUENCE" << "\n";
+    r.reset();
     return 0;
 }
