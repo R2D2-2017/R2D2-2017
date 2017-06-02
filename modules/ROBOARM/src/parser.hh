@@ -26,8 +26,8 @@ Status parseCommand(const hwlib::string<0> &command, const T executor) {
 
     const auto start = command.begin();
     const auto end   = command.end();
-    hwlib::string<8> action = command.range(start, start + space - 1);
-    hwlib::string<4> amount = command.range(start + space + 1, end);
+    const hwlib::string<8> action = command.range(start, start + space - 1);
+    const hwlib::string<4> amount = command.range(start + space + 1, end);
 
     int16_t intAmount = 0;
     { // string to int routine because no stdlib and not present in hwlib :(
