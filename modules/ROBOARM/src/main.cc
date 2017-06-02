@@ -16,10 +16,13 @@ int main() {
     auto dirZ = hwlib::target::pin_out(hwlib::target::pins::d2);
 
 
+    auto p1 = hwlib::target::pin_in(hwlib::target::pins::d31);
+    auto p2 = hwlib::target::pin_in(hwlib::target::pins::d32);
+
     Stepper x(dirX, stepX);
     Stepper y(dirY, stepY);
     Stepper z(dirZ, stepZ);
-    RobotArmController r(x, y, z);
+    RobotArmController r(x, y, z, p1, p2);
     //Rotate the X axis 90 degrees clockwise
     while(1) {
         hwlib::wait_ms(500);

@@ -21,16 +21,21 @@ void RobotArmController::rotateAxis(RobotAxis axis, int degrees, bool clockwise)
     int steps = microStepsArms * (degrees * armStepRatio) / stepSize;
     switch (axis) {
         case RobotAxis::X:
-            x_axis.step(steps, clockwise);
+            x_axis.setTarget(steps, clockwise);
             break;
         case RobotAxis::Y:
-            y_axis.step(steps, clockwise);
+            y_axis.setTarget(steps, clockwise);
             break;
         case RobotAxis::Z:
             steps = microStepsBase * (degrees * baseStepRatio) / stepSize;
-            z_axis.step(steps, clockwise);
+            z_axis.setTarget(steps, clockwise);
             break;
 
+    }
+    while (x_axis.inMotion() || y_axis.inMotion() || z_axis.inMotion()) {
+        x_axis.run();
+        y_axis.run();
+        z_axis.run();
     }
 }
 
