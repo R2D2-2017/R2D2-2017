@@ -22,5 +22,4 @@ set(sources
     src/matrix-keypad.cc)
 
 add_executable(${exe_name} ${sources})
-target_link_libraries(${exe_name} mysqlcppconn)
-target_link_libraries(${exe_name} ${WIRINGPI_LIBRARIES})
+target_link_libraries(${exe_name} ${WIRINGPI_LIBRARIES} mysqlcppconn)
