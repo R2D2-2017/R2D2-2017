@@ -57,5 +57,10 @@ void RobotArmController::startup(){
     while(!ky101.get()) {
         rotateAxis(RobotAxis::Z, 1, 1);
     }
-    while(!())
+    while(!firstStepperSwitch.get()){
+        rotateAxis(RobotAxis::);
+    }
+    while(!secondStepperSwitch.get()){
+        rotateAxis(RobotAxis::);
+    }
 };
