@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include <stdint.h>
+#include <cstdint>
 
 /**
  *\brief This library is for interfacing with the mfrc522.
@@ -150,14 +150,14 @@ public:
      *\param[in] value The array of data to be written to the mfrc522.
      *\param[in] len The length of the data to be written.
      */
-  void writeRegister(uint8_t address, uint8_t * value, unsigned int len);
+    void writeRegister(uint8_t address, uint8_t * value, unsigned int len);
     
     /**
      * \brief A function for reading an unsigned char from a register in the mfrc522.
      * \param[in] address The address the data should be read from.
      * \return Returns an unsigned char read from the mfrc522. 
      */
-    unsigned char readRegister(uint8_t address);
+    uint8_t readRegister(uint8_t address);
     
     /**
      * \brief A function for setting only the selected bits
@@ -214,7 +214,7 @@ public:
      * \param[in] receiveDataLen The size of receiveData
      * \return The function returns a status code. statusOk for succes, statusTimeout if no tag was found or a statusError if something else went wrong
      */
-    unsigned char communicateWithTag(uint8_t command,
+    statusCodes communicateWithTag(uint8_t command,
                        uint8_t * sendData, 
                        uint8_t sendDataLen,
                        uint8_t * receiveData,

@@ -41,7 +41,7 @@ void Mfrc522::clearRegisterBitMask(uint8_t address, uint8_t mask){
 }
 
 void Mfrc522::softReset(){
-    writeRegister(0x01, 0x0F); //Send softReset command.
+    writeRegister(0x01, mfrcSoftReset); //Send softReset command.
     delay(50); //wait while resetting.
     while(readRegister(0x01)&(1<<4)); //wait for bit 4(powerDown bit) to clear if not reset yet.
 }
@@ -83,11 +83,11 @@ void Mfrc522::setAntennaGain(uint8_t value){
     }
 }
 
-unsigned char Mfrc522::getAntennaGain(){
+uint8_t Mfrc522::getAntennaGain(){
     return readRegister(rfcFgReg) & (0x07 << 4);
 }
 
-unsigned char Mfrc522::communicateWithTag(uint8_t command,
+Mfrc522::statusCodes Mfrc522::communicateWithTag(uint8_t command,
                             uint8_t * sendData, 
                             uint8_t sendDataLen,
                             uint8_t * receiveData,
@@ -103,7 +103,7 @@ unsigned char Mfrc522::communicateWithTag(uint8_t command,
         setRegisterBitMask(bitFramingReg, 0x80); //start send
     }
     int i = 50; //max ~50 milliseconds timeout
-    while(1){
+    while(true){
         uint8_t n = readRegister(comIrqReg);	
         if(n & 0x30){
             break; // Tag found
@@ -114,7 +114,7 @@ unsigned char Mfrc522::communicateWithTag(uint8_t command,
         if(--i == 0){	
             return statusError; // something went wrong. Is the mfrc522 connected properly?
         }
-		delay(1);
+        delay(1);
     }
     if(receiveData){ // if receiveData is not nullptr
         uint8_t recievedLen = readRegister(FIFOLevelReg);
@@ -131,13 +131,12 @@ unsigned char Mfrc522::communicateWithTag(uint8_t command,
 bool Mfrc522::isTagPresent(){
     writeRegister(bitFramingReg, 0x07);
     
-    uint8_t data[1];
-    data[0] = mifareReqIdle; // first element is the command to send to the tag. Here we request every tag that is in idle
+    uint8_t data = mifareReqIdle; // first element is the command to send to the tag. Here we request every tag that is in idle
     
-    uint8_t status = communicateWithTag(transceive, data, 1, nullptr, 0); // nullptr beacause we do not need ro read data from the tag.
+    statusCodes status = communicateWithTag(transceive, &data, 1, nullptr, 0); // nullptr beacause we do not need ro read data from the tag.
 
     if(status == statusOk){
-        return 1;
+        return true;
     }
-    return 0;
+    return false;
 }
