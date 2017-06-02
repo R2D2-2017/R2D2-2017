@@ -15,7 +15,6 @@ include_directories(${WIRINGPI_INCLUDE_DIRS})
 
 set(sources
     src/main.cc
-    src/mysql.hh
     src/mysql.cc)
 
 add_executable(${exe_name} ${sources})
