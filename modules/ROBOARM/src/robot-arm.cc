@@ -1,10 +1,11 @@
 #include "robot-arm.hh"
 
-RobotArmController::RobotArmController(Stepper &x_axis, Stepper &y_axis, Stepper &z_axis) : x_axis(x_axis),
-                                                                                            y_axis(y_axis),
-                                                                                            z_axis(z_axis) {
-
-}
+RobotArmController::RobotArmController(Stepper &x_axis, Stepper &y_axis, Stepper &z_axis, KY101 & ky101) :
+        x_axis(x_axis),
+        y_axis(y_axis),
+        z_axis(z_axis),
+        ky101(ky101)
+{}
 
 
 void RobotArmController::reset() {
@@ -29,3 +30,10 @@ void RobotArmController::rotateAxis(RobotAxis axis, int degrees, bool clockwise)
 
     }
 }
+
+void RobotArmController::startup(){
+    while(!ky101.get()) {
+        rotateAxis(RobotAxis::Z, 1, 1);
+    }
+    while(!())
+};

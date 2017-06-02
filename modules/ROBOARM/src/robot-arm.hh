@@ -10,6 +10,7 @@
 
 #include "wrap-hwlib.hh"
 #include "stepper.hh"
+#include "KY101.hh"
 
 #define STEP_SIZE 1.8
 
@@ -24,12 +25,13 @@ class RobotArmController {
 private:
     // The different stepper motors you can use
     Stepper &x_axis, y_axis, z_axis;
+    KY101 ky101;
 public:
     //Constructor for the Robot arm controller
     //\param  x_axis stepper motor that is used as the x axis
     //\param  y_axis stepper motor that is used as the y axis
     //\param  z_axis stepper motor that is used as the z axis
-    RobotArmController(Stepper &x_axis, Stepper &y_axis, Stepper &z_axis);
+    RobotArmController(Stepper &x_axis, Stepper &y_axis, Stepper &z_axis, KY101 & ky101);
 
     // reset sequence to move towards the configured start position
     void reset();
@@ -39,4 +41,6 @@ public:
     //\param degrees how many degrees you want to rotate
     //\param clockwise the direction the axis will rotate
     void rotateAxis(RobotAxis axis, int degrees, bool clockwise);
+
+    void startup();
 };
