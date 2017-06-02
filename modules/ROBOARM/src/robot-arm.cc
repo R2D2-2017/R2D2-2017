@@ -13,44 +13,35 @@ RobotArmController::RobotArmController(Stepper &x_axis, Stepper &y_axis, Stepper
 
 
 void RobotArmController::reset() {
-    rotateAxis(RobotAxis::Y, 20, false);
+    rotateAxis(RobotAxis::Y, 250, false);
 }
 
 void RobotArmController::rotateAxis(RobotAxis axis, int degrees, bool clockwise) {
-
-    //This isn't the degrees the robot will turn at the moment.
-    //TODO Make the steps based on the gears inside of the robot
 
     int requiredSteps = microStepsArms * (degrees * armStepRatio) / stepSize;
     if(axis == RobotAxis::Z) {
       requiredSteps = microStepsBase * (degrees * baseStepRatio) / stepSize;
     }
-    //TODO add limitation check
-    switch (axis) {
-        case RobotAxis::X:
-            x_axis.setTarget(requiredSteps, clockwise);
-            break;
-        case RobotAxis::Y:
-            y_axis.setTarget(requiredSteps, clockwise);
-            break;
-        case RobotAxis::Z:
-            z_axis.setTarget(requiredSteps, clockwise);
-            break;
-    }
+    for(uint16_t stepsTaken = 0; stepsTaken<requiredSteps; stepsTaken++) {
+        //TODO add limitation check
+        switch (axis) {
+            case RobotAxis::X:
+                if((checkLimitations() == 3 || checkLimitations() == 1) && !clockwise) {
+                    break;
+                }
+                x_axis.step(clockwise);
+                break;
+            case RobotAxis::Y:
+                if((checkLimitations() == 3 || checkLimitations() == 2) && !clockwise) {
+                    break;
+                }
+                y_axis.step(clockwise);
+                break;
+            case RobotAxis::Z:
+                z_axis.step(clockwise);
+                break;
 
-    while (x_axis.inMotion() || y_axis.inMotion() || z_axis.inMotion()) {
-        if(checkLimitations() > 0) {
-            if(checkLimitations() == 3 || checkLimitations() == 1) {
-                x_axis.resetPosition();
-            }
-            if(checkLimitations() == 3 || checkLimitations() == 2) {
-                y_axis.resetPosition();
-            }
-        } else {
-            x_axis.run();
-            y_axis.run();
         }
-        z_axis.run();
     }
 }
 
