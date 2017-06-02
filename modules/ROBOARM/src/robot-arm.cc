@@ -1,11 +1,13 @@
 #include "robot-arm.hh"
 
-RobotArmController::RobotArmController(Stepper &x_axis, Stepper &y_axis, Stepper &z_axis, hwlib::target::pin_in & firstStepperSwitch, hwlib::target::pin_in & secondStepperSwitch) :
+RobotArmController::RobotArmController(Stepper &x_axis, Stepper &y_axis, Stepper &z_axis,
+                                       hwlib::target::pin_in &firstStepperSwitch,
+                                       hwlib::target::pin_in &secondStepperSwitch) :
         x_axis(x_axis),
         y_axis(y_axis),
         z_axis(z_axis),
         firstStepperSwitch(firstStepperSwitch),
-        secondStepperSwitch(secondStepperSwitch){
+        secondStepperSwitch(secondStepperSwitch) {
 
 }
 
@@ -18,20 +20,24 @@ void RobotArmController::rotateAxis(RobotAxis axis, int degrees, bool clockwise)
 
     //This isn't the degrees the robot will turn at the moment.
     //TODO Make the steps based on the gears inside of the robot
-    int steps = microStepsArms * (degrees * armStepRatio) / stepSize;
+
+    int requiredSteps = microStepsArms * (degrees * armStepRatio) / stepSize;
+    if(axis == RobotAxis::Z) {
+      requiredSteps = microStepsBase * (degrees * baseStepRatio) / stepSize;
+    }
+    //TODO add limitation check
     switch (axis) {
         case RobotAxis::X:
-            x_axis.setTarget(steps, clockwise);
+            x_axis.setTarget(requiredSteps, clockwise);
             break;
         case RobotAxis::Y:
-            y_axis.setTarget(steps, clockwise);
+            y_axis.setTarget(requiredSteps, clockwise);
             break;
         case RobotAxis::Z:
-            steps = microStepsBase * (degrees * baseStepRatio) / stepSize;
-            z_axis.setTarget(steps, clockwise);
+            z_axis.setTarget(requiredSteps, clockwise);
             break;
-
     }
+
     while (x_axis.inMotion() || y_axis.inMotion() || z_axis.inMotion()) {
         x_axis.run();
         y_axis.run();
@@ -39,14 +45,14 @@ void RobotArmController::rotateAxis(RobotAxis axis, int degrees, bool clockwise)
     }
 }
 
-bool RobotArmController::checkLimitations() {
-    if(firstStepperSwitch.get() && secondStepperSwitch.get()){
+int RobotArmController::checkLimitations() {
+    if (!firstStepperSwitch.get() && !secondStepperSwitch.get()) {
         return 3;
-    }else if(firstStepperSwitch.get()){
+    } else if (!firstStepperSwitch.get()) {
         return 1;
-    }else if (secondStepperSwitch.get()){
+    } else if (!secondStepperSwitch.get()) {
         return 2;
-    }else{
+    } else {
         return 0;
     }
 
