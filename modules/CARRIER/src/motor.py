@@ -10,6 +10,7 @@
 
 import serial
 import time
+from enum import Enum
 
 ##
 #\brief A class for controlling the motors to be able to make the platfom move forward, backward, stop it and make it turn.
@@ -27,6 +28,15 @@ import time
 # 0x0A = Device ID
 # 0x08 / 0x0C = rotate motor forward            (motor 0 / motor 1)
 # 0x0A / 0x0E = rotate motor backwards/reversed (motor 0 / motor 1)
+class MotorCommand(Enum): 
+    startBit = 0xAA
+    deviceId = 0x0A
+    forwardMotorOne = 0x08
+    forwardMotorTwo = 0x0C
+    backwardMotorOne = 0X0A
+    backwardMotorTwo = 0x0E
+
+
 class MotorControl:
     ##
     #\brief Setup MotorControl class with a given serial port.
@@ -40,24 +50,24 @@ class MotorControl:
     #
     #\param speed       [0-127], The speed at which both the motors will rotate forward.
     def forward(self, speed):
-        self.serialport.write(bytes([0xAA, 0x0A, 0x0C, speed]))
-        self.serialport.write(bytes([0xAA, 0x0A, 0x08, speed]))
+        self.serialport.write(bytes([startBit, deviceId, fowardMotorOne, speed]))
+        self.serialport.write(bytes([startBit, deviceId, fowardMotorTwo, speed]))
     
     ##
     #\brief This function makes both motors rotate backward with a given speed, making the platfom move backward.
     #
     #\param speed       [0-127], The speed at which both the motors will rotate backward.
     def reverse(self, speed):
-        self.serialport.write(bytes([0xAA, 0x0A, 0x0A, speed]))
-        self.serialport.write(bytes([0xAA, 0x0A, 0x0E, speed]))
+        self.serialport.write(bytes([startBit, deviceId, backwardMotorOne, speed]))
+        self.serialport.write(bytes([startBit, deviceId, backwardMotorTwo, speed]))
 
     ##
     #\brief This function makes the right motor rotate forward and the left motor backward, both with the same given speed. This makes the platfom turn left.
     #
     #\param speed       [0-127], The speed at which both the motors will rotate.
     def left(self, speed):
-        self.serialport.write(bytes([0xAA, 0x0A, 0x08, speed]))
-        self.serialport.write(bytes([0xAA, 0x0A, 0x0E, speed]))
+        self.serialport.write(bytes([startBit, deviceId, fowardMotorOne, speed]))
+        self.serialport.write(bytes([startBit, deviceId, backwardMotorTwo, speed]))
         time.sleep(2)
 
     ##
@@ -65,12 +75,12 @@ class MotorControl:
     #
     #\param speed       [0-127], The speed at which both the motors will rotate.
     def right(self, speed):
-        self.serialport.write(bytes([0xAA, 0x0A, 0x0A, speed]))
-        self.serialport.write(bytes([0xAA, 0x0A, 0x0C, speed]))
+        self.serialport.write(bytes([startBit, deviceId, backwardMotorOne, speed]))
+        self.serialport.write(bytes([startBit, deviceId, fowardMotorTwo, speed]))
         time.sleep(2)
 
     ##
     #\brief This function sets both motors speed to 0, stopping the platform from moving.
     def stop(self):
-        self.serialport.write(bytes([0xAA, 0x0A, 0x08, 0]))
-        self.serialport.write(bytes([0xAA, 0x0A, 0x0C, 0]))
+        self.serialport.write(bytes([startBit, deviceId, fowardMotorOne, 0]))
+        self.serialport.write(bytes([startBit, deviceId, fowardMotorTwo, 0]))
