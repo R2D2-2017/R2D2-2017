@@ -25,9 +25,11 @@ private:
     unsigned long lastStepTime;
 
     // The current position in steps
+    // Positive for clockwise, negative for counterclockwise
     int currentPosition;
 
     // Target position
+    // Positive for clockwise, negative for counterclockwise
     long targetPosition;
 
     // Interval between steps in microseconds
@@ -37,9 +39,26 @@ private:
     bool clockwise;
 
     
+    // The current speed in steps per second
     float speed;
+
+    // The maximum speed in steps per second
     float maxSpeed;
+
+    // The acceleration in steps per second
     float acceleration;
+
+    // Used in calculating the speed:
+    // The number of steps taken
+    long stepsTaken;
+    // First step time in microseconds
+    float firstStepTime;
+    // Previous step time in microseconds
+    float prevStepTime;
+    // Minimal step time based on the maximum speed
+    float minStepTime;
+
+    void calculateSpeed();
 
 public:
     //Constructor for the stepper motor
@@ -68,4 +87,12 @@ public:
     // Indicates if the motor is in motion
     // \return true if in motion, otherwise false
     bool inMotion();
+
+    // Sets the acceleration
+    // \param acceleration the acceleration in steps per second
+    void setAcceleration(float acceleration);
+
+    // Sets the maximum speed
+    // \param speed the maximum speed in steps per second
+    void setMaxSpeed(float speed);
 };

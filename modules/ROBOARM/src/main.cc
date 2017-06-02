@@ -33,6 +33,12 @@ int main() {
     Stepper x(dirX, stepX);
     Stepper y(dirY, stepY);
     Stepper z(dirZ, stepZ);
+    x.setMaxSpeed(250);
+    x.setAcceleration(100);
+    y.setMaxSpeed(250);
+    y.setAcceleration(100);
+    z.setMaxSpeed(250);
+    z.setAcceleration(100);
 
     RobotArmController r(x, y, z, switch1, switch2);
     //Rotate the X axis 90 degrees clockwise
