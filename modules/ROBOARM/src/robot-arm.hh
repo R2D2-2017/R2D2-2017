@@ -23,7 +23,7 @@ const float armStepRatio = bigGear/smallArmGear;
 
 
 //Enum class for the different axes on the robot arm
-enum class RobotAxis {
+enum class RobotAxis : uint8_t {
     X, Y, Z
 };
 
@@ -50,5 +50,5 @@ public:
     //\param clockwise the direction the axis will rotate
     void rotateAxis(RobotAxis axis, int degrees, bool clockwise);
 
-    bool checkLimitations();
+    int checkLimitations();
 };
