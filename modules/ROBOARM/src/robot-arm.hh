@@ -33,8 +33,8 @@ class RobotArmController {
 private:
     // The different stepper motors you can use
     Stepper &x_axis, y_axis, z_axis;
-    hwlib::target::pin_in & firstStepperSwitch;
-    hwlib::target::pin_in & secondStepperSwitch;
+    hwlib::target::pin_in & xLimitSwitch;
+    hwlib::target::pin_in & yLimitSwitch;
     KY101 ky101;
 
 public:
@@ -42,7 +42,8 @@ public:
     //\param  x_axis stepper motor that is used as the x axis
     //\param  y_axis stepper motor that is used as the y axis
     //\param  z_axis stepper motor that is used as the z axis
-    RobotArmController(Stepper &x_axis, Stepper &y_axis, Stepper &z_axis, hwlib::target::pin_in & firstStepperSwitch, hwlib::target::pin_in & secondStepperSwitch, KY101 & ky101));
+
+    RobotArmController(Stepper &x_axis, Stepper &y_axis, Stepper &z_axis, hwlib::target::pin_in & xLimitSwitch, hwlib::target::pin_in & yLimitSwitch, KY101 & ky101);
 
     // reset sequence to move towards the configured start position
     void reset();
