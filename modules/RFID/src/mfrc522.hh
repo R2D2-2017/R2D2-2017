@@ -22,117 +22,113 @@ public:
 	 *These commands can be used with function communicateWithTag and should be placed in the first element of the sendData parameter. 
 	 *The other element should contain the arguments to the command. After the command is executed by the rfid card, the rfid card will give a response.
      */ 
-    enum mifareCommands{
-        mifareReqAll    = 0x52, /** Request all tag in idle. argument=none, response=tag type*/
-        mifareReqIdle   = 0x26, /** Request all tags in state idle. argument=none, response=tag type*/
-        mifareAntiColl  = 0x93, /** Get UID from all tags for anticollision. argument=(optional part of tags UID), response = (rest of)UID*/
-        mifareSelect    = 0x93, /** Select a RFID tag in range of reader. argument=UID, responce=answer to select*/
-        mifareAuthen    = 0x60, /** Authenticate RFID tag. argument=block address, response=acknowledge*/
-        mifareRead      = 0x30, /** Read one memory block. argument=block address, respons=16 bytes of data*/
-        mifareWrite     = 0xA0, /** Write one memory blovk. argument=block address and 16 byte of data, response=acknowledge*/
-        mifareDecr      = 0xC0, /** Decrements the contents of a block and stores the result in the internal Transfer Buffer. argument=block address and 4 byte value, response=acknowledge*/
-        mifareIncr      = 0xC1, /** Increments the contents of a block and stores the result in the internal Transfer Buffer. argument=block address and 4 byte value, response=acknowledge*/
-        mifareRest      = 0xC2, /** Reads the contents of a block into the internal Transfer Buffer. argument=block address and 4 byte dummy, response=acknowledge*/
-        mifareTrans     = 0xB0, /** Writes the contents of the internal Transfer Buffer to a block. argument=block address, response=acknowledge*/
-        mifareHalt      = 0x50  /** Send selected tag into halt mode. argument=dummy address, repsonse=None*/
+    enum class mifareCommands{
+        reqAll    = 0x52, /** Request all tag in idle. argument=none, response=tag type*/
+        reqIdle   = 0x26, /** Request all tags in state idle. argument=none, response=tag type*/
+        antiColl  = 0x93, /** Get UID from all tags for anticollision. argument=(optional part of tags UID), response = (rest of)UID*/
+        select    = 0x93, /** Select a RFID tag in range of reader. argument=UID, responce=answer to select*/
+        authen    = 0x60, /** Authenticate RFID tag. argument=block address, response=acknowledge*/
+        read      = 0x30, /** Read one memory block. argument=block address, respons=16 bytes of data*/
+        write     = 0xA0, /** Write one memory blovk. argument=block address and 16 byte of data, response=acknowledge*/
+        decrement = 0xC0, /** Decrements the contents of a block and stores the result in the internal Transfer Buffer. argument=block address and 4 byte value, response=acknowledge*/
+        increment = 0xC1, /** Increments the contents of a block and stores the result in the internal Transfer Buffer. argument=block address and 4 byte value, response=acknowledge*/
+        restore   = 0xC2, /** Reads the contents of a block into the internal Transfer Buffer. argument=block address and 4 byte dummy, response=acknowledge*/
+        transfer  = 0xB0, /** Writes the contents of the internal Transfer Buffer to a block. argument=block address, response=acknowledge*/
+        halt      = 0x50  /** Send selected tag into halt mode. argument=dummy address, repsonse=None*/
     };
     
     /**
      * \brief An enum for various commands. these commands can be written to the lower 4 bits of the register commandReg to be executed.
      */
-    enum mfrc522Commands{
-        idle            = 0x00, /**No action, cancels current command execution.*/
-        Mem             = 0x01, /**Stores 25 bytes into internal buffer.*/
-        genRandomId     = 0x02, /**Generates a 10-byte random ID number.*/
-        calcCrc         = 0x03, /**Activates the CRC coprocessor or performs a self test.*/
-        Transmit        = 0x04, /**Transmit data from the FIFO buffer.*/
-        noCmdChange     = 0x07, /**No command change, can be used for modifing CommandReg without affecting the command.*/
-        receive         = 0x08, /**Activates the receiver circuits.*/
-        transceive      = 0x0C, /**Transmit data from FIFO buffer to antenna and activate reiver after tranmission.*/
-        mfAuthent       = 0x0E, /**Performs the MIFARE standard authentication.*/
-        mfrcSoftReset   = 0x0F  /**Resets the mfrc522.*/       
+    enum class mfrc522Commands{
+        idle          = 0x00, /**No action, cancels current command execution.*/
+        mem           = 0x01, /**Stores 25 bytes into internal buffer.*/
+        genRandomId   = 0x02, /**Generates a 10-byte random ID number.*/
+        calcCrc       = 0x03, /**Activates the CRC coprocessor or performs a self test.*/
+        transmit      = 0x04, /**Transmit data from the FIFO buffer.*/
+        noCmdChange   = 0x07, /**No command change, can be used for modifing CommandReg without affecting the command.*/
+        receive       = 0x08, /**Activates the receiver circuits.*/
+        transceive    = 0x0C, /**Transmit data from FIFO buffer to antenna and activate reiver after tranmission.*/
+        mfAuthent     = 0x0E, /**Performs the MIFARE standard authentication.*/
+        softReset     = 0x0F  /**Resets the mfrc522.*/       
     };
     
     /**
      * \brief An enum for various types of tags with their hex value.
      */
-    enum PICC_Type {
-	PICC_TYPE_UNKNOWN	= 0,
-	PICC_TYPE_ISO_14443_4	= 1,	/** PICC compliant with ISO/IEC 14443-4*/ 
-	PICC_TYPE_ISO_18092	= 2, 	/** PICC compliant with ISO/IEC 18092 (NFC)*/
-	PICC_TYPE_MIFARE_MINI	= 3,	/** MIFARE Classic protocol, 320 bytes*/
-	PICC_TYPE_MIFARE_1K	= 4,	/** MIFARE Classic protocol, 1KB*/
-	PICC_TYPE_MIFARE_4K	= 5,	/** MIFARE Classic protocol, 4KB*/
-	PICC_TYPE_MIFARE_UL	= 6,	/** MIFARE Ultralight or Ultralight C*/
-	PICC_TYPE_MIFARE_PLUS	= 7,	/** MIFARE Plus*/
-	PICC_TYPE_TNP3XXX	= 8,	/** Only mentioned in NXP AN 10833 MIFARE Type Identification Procedure*/
-	PICC_TYPE_NOT_COMPLETE	= 255	/** SAK indicates UID is not complete.*/
+    enum class PICC_Type : uint8_t {
+        unkown	    = 0,
+	    mifareMini	= 3,	/** MIFARE Classic protocol, 320 bytes*/
+	    mifare1K	= 4,	/** MIFARE Classic protocol, 1KB*/
+	    mifare4K	= 5,	/** MIFARE Classic protocol, 4KB*/
+	    mifareUl	= 6,	/** MIFARE Ultralight or Ultralight C*/
+	    mifarePlus	= 7,	/** MIFARE Plus*/
     };
     
     /**
      * \brief An enum for all unreserved registers in the mfrc522.
      */
-    enum mfrc522Registers{
-        commandReg		= 0x01,	/** starts and stops command execution*/
-        comIEnReg		= 0x02,	/** enable and disable interrupt request control bits*/
-	divIEnReg		= 0x03,	/** enable and disable interrupt request control bits*/
-	comIrqReg		= 0x04,	/** interrupt request bits*/
-	divIrqReg		= 0x05,	/** interrupt request bits*/
-	errorReg		= 0x06,	/**error bits showing the error status of the last command executed*/ 
-	status1Reg		= 0x07,	/** communication status bits*/
-	status2Reg		= 0x08,	/** receiver and transmitter status bits*/
-	FIFODataReg             = 0x09,	/** input and output of 64 byte FIFO buffer*/
-	FIFOLevelReg            = 0x0A,	/** number of bytes stored in the FIFO buffer*/
-	waterLevelReg           = 0x0B,	/** level for FIFO underflow and overflow warning*/
-	controlReg		= 0x0C,	/** miscellaneous control registers*/
-	bitFramingReg           = 0x0D,	/** adjustments for bit-oriented frames*/
-	collReg			= 0x0E,	/** bit position of the first bit-collision detected on the RF interface*/
+    enum class mfrc522Registers : uint8_t{
+        command	        = 0x01,	/** starts and stops command execution*/
+        comIEn          = 0x02,	/** enable and disable interrupt request control bits*/
+        divIEn          = 0x03,	/** enable and disable interrupt request control bits*/
+        comIrq  	    = 0x04,	/** interrupt request bits*/
+        divIrq          = 0x05,	/** interrupt request bits*/
+        error           = 0x06,	/**error bits showing the error status of the last command executed*/ 
+        status1         = 0x07,	/** communication status bits*/
+        status2		    = 0x08,	/** receiver and transmitter status bits*/
+        FIFOData        = 0x09,	/** input and output of 64 byte FIFO buffer*/
+        FIFOLevel       = 0x0A,	/** number of bytes stored in the FIFO buffer*/
+        waterLevel      = 0x0B,	/** level for FIFO underflow and overflow warning*/
+        control         = 0x0C,	/** miscellaneous control registers*/
+        bitFraming      = 0x0D,	/** adjustments for bit-oriented frames*/
+        coll            = 0x0E,	/** bit position of the first bit-collision detected on the RF interface*/
 
-	modeReg			= 0x11,	/** defines general modes for transmitting and receiving */
-	txModeReg		= 0x12,	/**defines transmission data rate and framing*/
-	rxModeReg		= 0x13,	/** defines reception data rate and framing*/
-	txControlReg            = 0x14,	/** controls the logical behavior of the antenna driver pins TX1 and TX2*/
-	txAskReg		= 0x15,	/** controls the setting of the transmission modulation*/
-	txSelReg		= 0x16,	/** selects the internal sources for the antenna driver*/
-	rxSelReg		= 0x17,	/** selects internal receiver settings*/
-	rxThresholdReg          = 0x18,	/** selects thresholds for the bit decoder*/
-	demodReg		= 0x19,	/** defines demodulator settings*/
-	mfTxReg			= 0x1C,	/** controls some MIFARE communication transmit parameters*/
-	mfRxReg			= 0x1D,	/** controls some MIFARE communication receive parameters*/
-	serialSpeedReg          = 0x1F,	/** selects the speed of the serial UART interface*/
+        mode            = 0x11,	/** defines general modes for transmitting and receiving */
+        txMode		    = 0x12,	/**defines transmission data rate and framing*/
+        rxMode		    = 0x13,	/** defines reception data rate and framing*/
+        txControl       = 0x14,	/** controls the logical behavior of the antenna driver pins TX1 and TX2*/
+        txAsk		    = 0x15,	/** controls the setting of the transmission modulation*/
+        txSel		    = 0x16,	/** selects the internal sources for the antenna driver*/
+        rxSel		    = 0x17,	/** selects internal receiver settings*/
+        rxThreshold     = 0x18,	/** selects thresholds for the bit decoder*/
+        demod           = 0x19,	/** defines demodulator settings*/
+        mfTx            = 0x1C,	/** controls some MIFARE communication transmit parameters*/
+        mfRx            = 0x1D,	/** controls some MIFARE communication receive parameters*/
+        serialSpeed     = 0x1F,	/** selects the speed of the serial UART interface*/
 
-	crcResultRegH           = 0x21,	/** shows the MSB and LSB values of the CRC calculation*/
-	crcResultRegL           = 0x22,
-	modWidthReg		= 0x24,	/** controls the ModWidth setting*/
-	rfcFgReg		= 0x26,	/** configures the receiver gain*/
-	gsNReg			= 0x27,	/** selects the conductance of the antenna driver pins TX1 and TX2 for modulation */
-	cwGsPReg		= 0x28,	/** defines the conductance of the p-driver output during periods of no modulation*/
-	modGsPReg		= 0x29,	/** defines the conductance of the p-driver output during periods of modulation*/
-	tModeReg		= 0x2A,	/** defines settings for the internal timer*/
-	tPrescalerReg           = 0x2B,	/** the lower 8 bits of the TPrescaler value. The 4 high bits are in TModeReg.*/
-	tReloadRegH		= 0x2C,	/** defines the 16-bit timer reload value*/
-	tReloadRegL		= 0x2D,
-	tCounterValueRegH       = 0x2E,	/** shows the 16-bit timer value*/
-	tCounterValueRegL       = 0x2F,
+        crcResultH      = 0x21,	/** shows the MSB and LSB values of the CRC calculation*/
+        crcResultL      = 0x22,
+        modWidth        = 0x24,	/** controls the ModWidth setting*/
+        rfcFg           = 0x26,	/** configures the receiver gain*/
+        gsNReg          = 0x27,	/** selects the conductance of the antenna driver pins TX1 and TX2 for modulation */
+        cwGsP           = 0x28,	/** defines the conductance of the p-driver output during periods of no modulation*/
+        modGsP          = 0x29,	/** defines the conductance of the p-driver output during periods of modulation*/
+        tMode           = 0x2A,	/** defines settings for the internal timer*/
+        tPrescaler      = 0x2B,	/** the lower 8 bits of the TPrescaler value. The 4 high bits are in TModeReg.*/
+        tReloadH        = 0x2C,	/** defines the 16-bit timer reload value*/
+        tReloadL        = 0x2D,
+        tCounterValue   = 0x2E,	/** shows the 16-bit timer value*/
+        tCounterValueL  = 0x2F,
 	
-        testSel1Reg             = 0x31,	/** general test signal configuration*/
-	testSel2Reg		= 0x32,	/** general test signal configuration*/
-	testPinEnReg            = 0x33,	/** enables pin output driver on pins D1 to D7*/
-	testPinValueReg         = 0x34,	/** defines the values for D1 to D7 when it is used as an I/O bus*/
-	testBusReg              = 0x35,	/** shows the status of the internal test bus*/
-	autoTestReg		= 0x36,	/** controls the digital self test*/
-	versionReg		= 0x37,	/** shows the software version*/
-	analogTestReg           = 0x38,	/** controls the pins AUX1 and AUX2*/
-	testDAC1Reg		= 0x39,	/** defines the test value for TestDAC1*/
-	testDAC2Reg		= 0x3A,	/** defines the test value for TestDAC2*/
-	testADCReg		= 0x3B  /** shows the value of ADC I and Q channels*/
+        testSel1        = 0x31,	/** general test signal configuration*/
+        testSel2        = 0x32,	/** general test signal configuration*/
+        testPinEn       = 0x33,	/** enables pin output driver on pins D1 to D7*/
+        testPinValue    = 0x34,	/** defines the values for D1 to D7 when it is used as an I/O bus*/
+        testBus         = 0x35,	/** shows the status of the internal test bus*/
+        autoTest        = 0x36,	/** controls the digital self test*/
+        version         = 0x37,	/** shows the software version*/
+        analogTest      = 0x38,	/** controls the pins AUX1 and AUX2*/
+        testDAC1        = 0x39,	/** defines the test value for TestDAC1*/
+        testDAC2        = 0x3A,	/** defines the test value for TestDAC2*/
+        testADC         = 0x3B  /** shows the value of ADC I and Q channels*/
     };
     /**
 	 * \brief This is an enum containing various return codes used in this library.
 	 */
-    enum statusCodes{
-        statusOk = 0x00, /** No errors */
-        statusError = 0x01, /** An error occurred */
+    enum class statusCodes : uint8_t{
+        statusOk      = 0x00, /** No errors */
+        statusError   = 0x01, /** An error occurred */
         statusTimeout = 0x02 /** connection to tag timed out */
         
     };
@@ -142,7 +138,7 @@ public:
      * \param[in] address The address in the mfrc522 value should be written to.
      * \param[in] value The value to be written to the mfrc522 register
      */
-    void writeRegister(uint8_t address, uint8_t value);
+    void writeRegister(mfrc522Registers reg, uint8_t value);
 
     /**
      *\brief A function for writing multiple bytes to the mfrc522
@@ -150,28 +146,28 @@ public:
      *\param[in] value The array of data to be written to the mfrc522.
      *\param[in] len The length of the data to be written.
      */
-    void writeRegister(uint8_t address, uint8_t * value, unsigned int len);
+    void writeRegister(mfrc522Registers reg, uint8_t * value, unsigned int len);
     
     /**
      * \brief A function for reading an unsigned char from a register in the mfrc522.
      * \param[in] address The address the data should be read from.
      * \return Returns an unsigned char read from the mfrc522. 
      */
-    uint8_t readRegister(uint8_t address);
+    uint8_t readRegister(mfrc522Registers reg);
     
     /**
      * \brief A function for setting only the selected bits
      * \param[in] address The address in the mfrc522 the mask should be written to.
      * \param[in] mask The Mask that should be written to the register.
      */
-    void setRegisterBitMask(uint8_t address, uint8_t mask);
+    void setRegisterBitMask(mfrc522Registers reg, uint8_t mask);
     
     /**
      * \brief A function for clearing the selected bits.
      * \param[in] address The address in the mfrc522 the mask should be written to.
      * \param[in] mask The Mask that should be written to the register.
      */
-    void clearRegisterBitMask(uint8_t  address, uint8_t mask);
+    void clearRegisterBitMask(mfrc522Registers reg, uint8_t mask);
     
     /**
      * \brief A function for performing a software reset.
@@ -214,7 +210,7 @@ public:
      * \param[in] receiveDataLen The size of receiveData
      * \return The function returns a status code. statusOk for succes, statusTimeout if no tag was found or a statusError if something else went wrong
      */
-    statusCodes communicateWithTag(uint8_t command,
+    statusCodes communicateWithTag(mfrc522Commands command,
                        uint8_t * sendData, 
                        uint8_t sendDataLen,
                        uint8_t * receiveData,
