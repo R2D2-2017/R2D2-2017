@@ -57,12 +57,12 @@ public:
      * \brief An enum for various types of tags with their hex value.
      */
     enum class PICC_Type : uint8_t {
-        unkown	    = 0,
-	    mifareMini	= 3,	/** MIFARE Classic protocol, 320 bytes*/
-	    mifare1K	= 4,	/** MIFARE Classic protocol, 1KB*/
-	    mifare4K	= 5,	/** MIFARE Classic protocol, 4KB*/
-	    mifareUl	= 6,	/** MIFARE Ultralight or Ultralight C*/
-	    mifarePlus	= 7,	/** MIFARE Plus*/
+        unkown	    = 0x00,
+	    mifareMini	= 0x03,	/** MIFARE Classic protocol, 320 bytes*/
+	    mifare1K	= 0x04,	/** MIFARE Classic protocol, 1KB*/
+	    mifare4K	= 0x05,	/** MIFARE Classic protocol, 4KB*/
+	    mifareUl	= 0x06,	/** MIFARE Ultralight or Ultralight C*/
+	    mifarePlus	= 0x07,	/** MIFARE Plus*/
     };
     
     /**
@@ -138,7 +138,7 @@ public:
      * \param[in] address The address in the mfrc522 value should be written to.
      * \param[in] value The value to be written to the mfrc522 register
      */
-    void writeRegister(mfrc522Registers reg, uint8_t value);
+    void writeRegister(const mfrc522Registers reg, const uint8_t value);
 
     /**
      *\brief A function for writing multiple bytes to the mfrc522
@@ -146,28 +146,28 @@ public:
      *\param[in] value The array of data to be written to the mfrc522.
      *\param[in] len The length of the data to be written.
      */
-    void writeRegister(mfrc522Registers reg, uint8_t * value, unsigned int len);
+    void writeRegister(const mfrc522Registers reg, const uint8_t * value, const unsigned int len);
     
     /**
      * \brief A function for reading an unsigned char from a register in the mfrc522.
      * \param[in] address The address the data should be read from.
      * \return Returns an unsigned char read from the mfrc522. 
      */
-    uint8_t readRegister(mfrc522Registers reg);
+    uint8_t readRegister(const mfrc522Registers reg);
     
     /**
      * \brief A function for setting only the selected bits
      * \param[in] address The address in the mfrc522 the mask should be written to.
      * \param[in] mask The Mask that should be written to the register.
      */
-    void setRegisterBitMask(mfrc522Registers reg, uint8_t mask);
+    void setRegisterBitMask(const mfrc522Registers reg, const uint8_t mask);
     
     /**
      * \brief A function for clearing the selected bits.
      * \param[in] address The address in the mfrc522 the mask should be written to.
      * \param[in] mask The Mask that should be written to the register.
      */
-    void clearRegisterBitMask(mfrc522Registers reg, uint8_t mask);
+    void clearRegisterBitMask(const mfrc522Registers reg, const uint8_t mask);
     
     /**
      * \brief A function for performing a software reset.
@@ -193,7 +193,7 @@ public:
      * \brief A function for setting the antenna gain
      * \param[in] value The antenna gain to be set. Possible values can be found in the mfrc522 datasheet at page 59.
      */
-    void setAntennaGain(uint8_t value);
+    void setAntennaGain(const uint8_t value);
     
     /**
      * \brief A function for getting the antenna gain
@@ -208,13 +208,17 @@ public:
      * \param[in] sendDataLen The size of sendData
      * \param[out] receiveData A container for storing the data received from the tag
      * \param[in] receiveDataLen The size of receiveData
-     * \return The function returns a status code. statusOk for succes, statusTimeout if no tag was found or a statusError if something else went wrong
+     * \retval statusCodes::statusOk No errors.
+     * \retval statusCodes::statusTimeout No tag was found
+     * \retval statusCodes::statusError something else went wrong
      */
-    statusCodes communicateWithTag(mfrc522Commands command,
-                       uint8_t * sendData, 
-                       uint8_t sendDataLen,
-                       uint8_t * receiveData,
-                       uint8_t receiveDataLen);
+    statusCodes communicateWithTag(
+        const mfrc522Commands command,
+        const uint8_t * sendData, 
+        const uint8_t sendDataLen,
+        uint8_t * receiveData,
+        const uint8_t receiveDataLen
+    );
     
     /**
      * \brief A function for checking if there is a tag that can be communicated with.

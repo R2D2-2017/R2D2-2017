@@ -10,32 +10,32 @@
 #include <wiringPi.h>
 #include <wiringPiSPI.h>
 
-void Mfrc522::writeRegister(mfrc522Registers reg, uint8_t value){
+void Mfrc522::writeRegister(const mfrc522Registers reg, const uint8_t value){
     uint8_t address = static_cast<uint8_t>(reg);
     address <<= 1;
     uint8_t data[2] = {address, value}; // clearing address byte for writing
     wiringPiSPIDataRW (0, data, 2);
 }
 
-void Mfrc522::writeRegister(mfrc522Registers reg, uint8_t * value, unsigned int len){
+void Mfrc522::writeRegister(const mfrc522Registers reg, const uint8_t * value, const unsigned int len){
     for(uint8_t i = 0;i<len; i++){
       writeRegister(reg, value[i]);
     }
 }
 
-unsigned char Mfrc522::readRegister(mfrc522Registers reg){
+unsigned char Mfrc522::readRegister(const mfrc522Registers reg){
     uint8_t data[2];
     data[0] = 0x80 | (static_cast<uint8_t>(reg)<<1); //Setting address byte for reading
     wiringPiSPIDataRW(0, data, 2);
     return data[1];
 }
   
-void Mfrc522::setRegisterBitMask(mfrc522Registers reg, uint8_t mask){
+void Mfrc522::setRegisterBitMask(const mfrc522Registers reg, const uint8_t mask){
     uint8_t buffer = readRegister(reg);
     writeRegister(reg, buffer|mask);
 }
 
-void Mfrc522::clearRegisterBitMask(mfrc522Registers reg, uint8_t mask){
+void Mfrc522::clearRegisterBitMask(const mfrc522Registers reg, const uint8_t mask){
     uint8_t buffer = readRegister(reg);
     buffer &= (~mask);
     writeRegister(reg, buffer);
@@ -88,11 +88,11 @@ uint8_t Mfrc522::getAntennaGain(){
     return readRegister(mfrc522Registers::rfcFg) & (0x07 << 4);
 }
 
-Mfrc522::statusCodes Mfrc522::communicateWithTag(mfrc522Commands command,
-                            uint8_t * sendData, 
-                            uint8_t sendDataLen,
-                            uint8_t * receiveData,
-                            uint8_t receiveDataLen){
+Mfrc522::statusCodes Mfrc522::communicateWithTag(const mfrc522Commands command,
+                                                 const uint8_t * sendData, 
+                                                 const uint8_t sendDataLen,
+                                                 uint8_t * receiveData,
+                                                 const uint8_t receiveDataLen){
     
     writeRegister(mfrc522Registers::command, static_cast<uint8_t>(mfrc522Commands::idle));		// Stop any active command.
     writeRegister(mfrc522Registers::comIrq, 0x7F);			// Clear all seven interrupt request bits
