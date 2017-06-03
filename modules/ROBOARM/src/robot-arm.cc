@@ -55,14 +55,16 @@ int RobotArmController::checkLimitations() {
 
 }
 
+// The amounts of steps in rotateAxis functions is yet to be determined through testing.
+//TODO test variables
 void RobotArmController::startup(){
     while(!ky101.get()) {
-        rotateAxis(RobotAxis::Z, 1, 1);
+        rotateAxis(RobotAxis::Z, 1, true);
     }
     while(!xLimitSwitch.get()){
-        rotateAxis(RobotAxis::);
+        rotateAxis(RobotAxis::X,1,true);
     }
     while(!yLimitSwitch.get()){
-        rotateAxis(RobotAxis::);
+        rotateAxis(RobotAxis::Y,1,true);
     }
 };

@@ -54,7 +54,10 @@ public:
     //\param clockwise the direction the axis will rotate
     void rotateAxis(RobotAxis axis, int degrees, bool clockwise);
 
+    // Set up the robot at its starting positions
     void startup();
+
+    // Function check if the robot has reached it's limitations
     int checkLimitations();
 
 };
