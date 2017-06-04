@@ -20,6 +20,8 @@
  */
 class FileFactory {
 private:
+    std::string nameCurrentFile;
+    int lineCurrentFile;
     std::ifstream file;
     std::string input;
     
@@ -38,7 +40,21 @@ private:
      * \param [in] toCheck A comparrison with a boolean type as result
      * \param [in] line The line the error occured on
      */
-    void incorrectLineCheck(const bool & toCheck, const int & line);
+    void incorrectLineCheck(const bool & toCheck, const std::string & fileName, const int & line);
+    
+    /**
+     * \brief Checks if the file is open
+     *
+     * If the file is not open an error is returned using throw in the form of a
+     *  const std::string. This function can be used to check if the file is open
+     *  before you try to read something from it.
+     *
+     * Typical usage:
+     * \code
+     *     fileOpenCheck();
+     * \endcode
+     */
+    void fileOpenCheck();
 public:
     /**
      * \brief Constructor with filename
@@ -96,6 +112,20 @@ public:
      * \param [out] password The password to be read from the file
      */
     void loadDatabaseSettings(std::string & ip, std::string & username, std::string & password);
+    
+    /**
+     * \brief Load the encryption key from a file
+     *
+     * If an error occurs, a const std::string will be thrown with the line the
+     *  error occured on.
+     *
+     * Typical usage:
+     * \code
+     *     int encryptionKey;
+     *     loadDatabaseSettings(encryptionKey);
+     * \endcode
+     *
+     * \param [out] encryptionKey The encryption key to be read from the file
+     */
+    void loadEncryptionSettings(int & encryptionKey);
 };
-
-
