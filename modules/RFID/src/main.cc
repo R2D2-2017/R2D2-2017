@@ -16,8 +16,8 @@ int main(int argc, char** argv){
     wiringPiSetup();
 
     //Keypad pinSetup
-    const int keypadRow[] = {29, 28, 27, 26};
-    const int keypadColumn[] = {31, 11, 10, 6};
+    const int keypadRow[] = {24, 25, 22, 31};
+    const int keypadColumn[] = {26, 27, 28, 29};
 
     //Keypad objects
     MatrixKeypad keypad(keypadRow, keypadColumn, 4);
