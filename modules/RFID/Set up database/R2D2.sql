@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: May 29, 2017 at 03:01 PM
+-- Generation Time: Jun 02, 2017 at 01:49 PM
 -- Server version: 5.5.54-0+deb8u1
 -- PHP Version: 5.6.30-0+deb8u1
 
@@ -28,8 +28,8 @@ SET time_zone = "+00:00";
 
 CREATE TABLE IF NOT EXISTS `EMPLOYEE` (
   `ID` int(11) NOT NULL,
-  `NAAM` text NOT NULL,
-  `FUNCTIE` text NOT NULL,
+  `NAME` text NOT NULL,
+  `FUNCTION` text NOT NULL,
   `ADRESS` text NOT NULL,
   `POSTALCODE` text NOT NULL,
   `STREET` text NOT NULL,

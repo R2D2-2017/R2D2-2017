@@ -11,6 +11,7 @@
 #include "encryption.hh"
 #include "led-controller.hh"
 #include "matrix-keypad.hh"
+#include "file-factory.hh"
 
 #include <wiringPi.h>
 #include <wiringPiSPI.h>
@@ -18,62 +19,73 @@
 #include <iostream>
 
 int main(int argc, char **argv) {
-    MySql connection;
-
-    if (!connection.connectTo("192.168.2.50", "R2D2", "BB8")) {
-        std::cerr << "Can not connect\n";
-        exit(0);
-    }
-    
-    if (!connection.selectDatabase("R2D2")) {
-        std::cerr << "Database unknown\n";
-        exit(0);
-    }
-    std::cout << "Made connection to the database\n";
-    wiringPiSetup();
-    wiringPiSPISetup(0, 10000000);//max speed for mfrc522 is 10Mhz
-    Mfrc522 rfid;
-    rfid.init();
-
-    //Keypad pinSetup
-    const int keypadRow[] = {24, 25, 22, 31};
-    const int keypadColumn[] = {26, 27, 28, 29};
-
-    //Keypad objects
-    MatrixKeypad keypad(keypadRow, keypadColumn, 4);
-    char c;
-
-    Encryption encryption(65341);
-
-    LedController led;
-
-    while (true) {
-        std::cout << "\n\nWaiting for rfid tag: \n";
-
-        while (!rfid.isTagPresent()) {}
+    try {
+        std::string ip;
+        std::string username;
+        std::string password;
+        int encryptionKey;
         
-        std::cout << "Hello tag\n";
-        std::cout << "Waiting for key press\n";
-        while ((c = keypad.getKey()) == 'h') {
-            delay(100);
+        FileFactory factory("database-config.txt");
+        factory.loadDatabaseSettings(ip, username, password);
+        
+        factory.changeFile("encryption-config.txt");
+        factory.loadEncryptionSettings(encryptionKey);
+        
+        MySql connection;
+        
+        connection.connectTo(ip, username, password);
+        connection.selectDatabase("R2D2");
+
+        std::cout << "Made connection to the database\n";
+        wiringPiSetup();
+        wiringPiSPISetup(0, 10000000);//max speed for mfrc522 is 10Mhz
+        Mfrc522 rfid;
+        rfid.init();
+
+        //Keypad pinSetup
+        const int keypadRow[] = {24, 25, 22, 31};
+        const int keypadColumn[] = {26, 27, 28, 29};
+
+        //Keypad objects
+        MatrixKeypad keypad(keypadRow, keypadColumn, 4);
+        char c;
+
+        Encryption encryption(encryptionKey);
+
+        LedController led;
+
+        while (true) {
+            std::cout << "\n\nWaiting for rfid tag: \n";
+
+            while (!rfid.isTagPresent()) {}
+            
+            std::cout << "Hello tag\n";
+            std::cout << "Waiting for key press\n";
+            while ((c = keypad.getKey()) == 'h') {
+                delay(100);
+            }
+            std::cout << "A key has been pressed\n";
+
+            connection.executeQuery("SELECT * FROM RFID");
+                
+            std::cout << "Database information: "
+                      << connection.getPreviousResponseColumn("CARD_ID")
+                      << '\n';
+            
+            std::cout << "String before encryption: R2D2 project\n";
+            std::cout << "String after encryption: "
+                      << encryption.Encrypt("R2D2 project")
+                      << '\n';
+
+            led.blinkLed(0, 5000);
         }
-        std::cout << "A key has been pressed\n";
-
-        if (!connection.executeQuery("SELECT * FROM RFID")) {
-            std::cout << "Can not execute query\n";
-            exit(EXIT_FAILURE);
-        }
-        
-        std::cout << "Database information: "
-                  << connection.getPreviousResponseColumn("CARD_ID")
-                  << '\n';
-        
-        std::cout << "String before encryption: R2D2 project\n";
-        std::cout << "String after encryption: "
-                  << encryption.Encrypt("R2D2 project")
-                  << '\n';
-
-        led.blinkLed(0, 5000);
-	}    
+    } catch(const std::string & error) {
+        std::cerr << error << '\n';
+        exit(EXIT_FAILURE);
+    } catch(...) {
+        std::cerr << "Something went wrong\n";
+        exit(EXIT_FAILURE);
+    }  
     return 0;
 }
+

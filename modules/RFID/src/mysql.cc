@@ -8,81 +8,73 @@
 
 #include "mysql.hh"
 
-MySql::MySql(){
+MySql::MySql() {
     driver = get_driver_instance();
 }
 
 MySql::~MySql(){
-    delete result;
-    delete statement;
-    delete connection;
 }
 
 template <typename T>
-bool MySql::errorCheck(T function){
-    try{
+void MySql::errorCheck(T function) {
+    try {
         function();
     } catch (sql::SQLException & error) {
         std::cerr << "MySQL error code: " << error.getErrorCode()
                   << ", SQLState: " << error.getSQLState() << '\n';
-        return false;
+        throw;
     }
-    return true;
 }
 
-bool MySql::connectTo(std::string url, std::string username, std::string password){
-    return errorCheck([&](){
-        connection = driver->connect(url.c_str(), username.c_str(), password.c_str());
-        statement = connection->createStatement();
+void MySql::connectTo(const std::string & url, const std::string & username, const std::string & password) {
+    errorCheck([&]() {
+        connection = std::unique_ptr<sql::Connection>(driver->connect(url.c_str(), username.c_str(), password.c_str()));
+        statement = std::unique_ptr<sql::Statement>(connection->createStatement());
     });
 }
 
-bool MySql::selectDatabase(std::string databaseName){
-    return errorCheck([&](){
+void MySql::selectDatabase(const std::string & databaseName) {
+    errorCheck([&]() {
         connection->setSchema(databaseName.c_str());
     });   
 }
 
-bool MySql::executeQuery(std::string query){
-    return errorCheck([&](){
-        result = statement->executeQuery(query.c_str());
+void MySql::executeQuery(const std::string & query) {
+    errorCheck([&]() {
+        result.reset(statement->executeQuery(query.c_str()));
     });
 }
 
-bool MySql::executeQueryNoResult(std::string query){
-    return errorCheck([&](){
+void MySql::executeQueryNoResult(const std::string & query) {
+    errorCheck([&]() {
         statement->execute(query.c_str());
     });
 }
 
-std::string MySql::getPreviousResponseColumn(unsigned int columnNumber){
-    std::string columnInformation = "";
-    bool hasWorked = errorCheck([&](){
-        if(result->next()){
+std::string MySql::getPreviousResponseColumn(const unsigned int & columnNumber) {
+    std::string columnInformation;
+    
+    errorCheck([&]() {
+        if(result->next()) {
             columnInformation = result->getString(columnNumber);
         }
     });
     
-    if(!hasWorked){
-        result->previous();
-    }
     return columnInformation;
 }
 
-std::string MySql::getPreviousResponseColumn(std::string columnName){
-    std::string columnInformation = "";
-    bool hasWorked = errorCheck([&](){
-        if(result->next()){
+std::string MySql::getPreviousResponseColumn(const std::string & columnName) {
+    std::string columnInformation;
+    
+    errorCheck([&]() {
+        if(result->next()) {
             columnInformation = result->getString(columnName);
         }
     });
     
-    if(!hasWorked){
-        result->previous();
-    }
     return columnInformation;
 }
 
-sql::ResultSet * MySql::getFullResult(){
+std::unique_ptr<sql::ResultSet> & MySql::getFullResult() {
     return result;
 }

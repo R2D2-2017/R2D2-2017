@@ -1,6 +1,4 @@
-
-#Always good to update everything
-sudo apt-get update && sudo apt-get upgrade
+#!/bin/sh
 
 #Installation of mysql server and phpmyadmin for easy management
 sudo apt-get install mysql-server phpmyadmin
