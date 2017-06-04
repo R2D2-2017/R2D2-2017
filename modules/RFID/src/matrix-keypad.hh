@@ -25,8 +25,8 @@ private:
     int keypadRow = -1;
     int keypadColumn = -1;
 
-    const int * row;
-    const int * column;
+    const int *row;
+    const int *column;
 
     char keypad[4][4] = {
         {'1', '2', '3', 'A'},
@@ -47,7 +47,7 @@ public:
     * \param[in] colSize Amount of columns on the keypad.
     *
     */
-    MatrixKeypad( const int * row, const int * column, int colSize = 3 );
+    MatrixKeypad( const int *row, const int *column, int colSize = 3 );
 
     /**
     * \brief Obtain separate keys
@@ -75,6 +75,6 @@ public:
     * \return The amount of keys that are pressed on the keypad.
     *
     */
-    int getString(char * charArray, int lenCharArray);
+    int getString(char *charArray, int lenCharArray);
 };
 

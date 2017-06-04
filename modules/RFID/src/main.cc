@@ -49,7 +49,7 @@ int main(int argc, char **argv) {
         //Keypad objects
         MatrixKeypad keypad(keypadRow, keypadColumn, 4);
         char c;
-
+        
         Encryption encryption(encryptionKey);
 
         LedController led;
