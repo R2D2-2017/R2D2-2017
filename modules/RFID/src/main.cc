@@ -7,24 +7,36 @@
  */
  
 #include "mysql.hh"
+#include "file-factory.hh"
  
 #include <iostream>
 
 int main(int argc, char **argv) {
     try {
+        std::string ip;
+        std::string username;
+        std::string password;
+        
+        FileFactory factory("database-config.txt");
+        
+        factory.loadDatabaseSettings(ip, username, password);
+        
         MySql connection;
 
-        connection.connectTo("192.168.2.50", "R2D2", "BB8");
+        connection.connectTo(ip, username, password);
         connection.selectDatabase("R2D2");
         connection.executeQuery("SELECT * FROM RFID");
         
         auto & result = connection.getFullResult();
-        while(result->next()){
+        while (result->next()) {
             std::cout << "Card ID: " << result->getString(2) << '\n';
         }
+    } catch(const std::string & error) {
+        std::cerr << error << '\n';
+        exit(EXIT_FAILURE);
     } catch(...) {
-        std::cout << "something went wrong\n";
-        exit(0);
+        std::cerr << "something went wrong\n";
+        exit(EXIT_FAILURE);
     }
 
     return 0;

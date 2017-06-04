@@ -19,7 +19,8 @@ include_directories(${WIRINGPI_INCLUDE_DIRS})
 
 set(sources
     src/main.cc
-    src/mysql.cc)
+    src/mysql.cc
+    src/file-factory.cc)
 
 add_executable(${exe_name} ${sources})
 target_link_libraries(${exe_name} ${WIRINGPI_LIBRARIES} mysqlcppconn)
