@@ -20,16 +20,16 @@
 int main(int argc, char **argv) {
     MySql connection;
 
-    if(!connection.connectTo("192.168.2.50", "R2D2", "BB8")){
+    if (!connection.connectTo("192.168.2.50", "R2D2", "BB8")) {
         std::cerr << "Can not connect\n";
         exit(0);
     }
     
-    if(!connection.selectDatabase("R2D2")){
+    if (!connection.selectDatabase("R2D2")) {
         std::cerr << "Database unknown\n";
         exit(0);
     }
-    std::cout<<"Made connection to the database\n";
+    std::cout << "Made connection to the database\n";
     wiringPiSetup();
     wiringPiSPISetup(0, 10000000);//max speed for mfrc522 is 10Mhz
     Mfrc522 rfid;
@@ -47,19 +47,19 @@ int main(int argc, char **argv) {
 
     LedController led;
 
-    while(1){
+    while (true) {
         std::cout << "\n\nWaiting for rfid tag: \n";
 
-        while(!rfid.isTagPresent()){}
+        while (!rfid.isTagPresent()) {}
         
         std::cout << "Hello tag\n";
         std::cout << "Waiting for key press\n";
-        while((c = keypad.getKey()) == 'h'){
+        while ((c = keypad.getKey()) == 'h') {
             delay(100);
         }
         std::cout << "A key has been pressed\n";
 
-        if(!connection.executeQuery("SELECT * FROM RFID")){
+        if (!connection.executeQuery("SELECT * FROM RFID")) {
             std::cout << "Can not execute query\n";
             exit(EXIT_FAILURE);
         }
@@ -75,5 +75,5 @@ int main(int argc, char **argv) {
 
         led.blinkLed(0, 5000);
 	}    
-return 0;
+    return 0;
 }
