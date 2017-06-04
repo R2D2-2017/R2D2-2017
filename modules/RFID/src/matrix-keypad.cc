@@ -7,7 +7,6 @@
  */
 
 #include "matrix-keypad.hh"
-//#include <stdlib.h>
 #include <iostream>
 
 MatrixKeypad::MatrixKeypad(const int *row, const int *column, int colSize):
