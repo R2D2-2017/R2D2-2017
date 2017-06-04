@@ -44,7 +44,7 @@ private:
     
     
     /**
-     * Checks for errors when executing function of template type T.
+     * \brief Checks for errors when executing function of template type T.
      *
      * If an error occurs, the mysql state and error code will be printed.
      *
@@ -65,7 +65,7 @@ private:
     
 public:
     /**
-     * Constructs the mysql class
+     * \brief Constructs the mysql class
      *
      * Typical usage:
      * \code
@@ -76,13 +76,13 @@ public:
     
     
     /**
-     *  Destructs the mysql class
+     *  \brief Destructs the mysql class
      */
     ~MySql();
     
     
     /**
-     * Connects to a mysql server
+     * \brief Connects to a mysql server
      *
      *
      * Typical usage:
@@ -100,7 +100,7 @@ public:
     
     
     /**
-     * Selects a database
+     * \brief Selects a database
      *
      * Typical usage:
      * \code
@@ -115,7 +115,7 @@ public:
     
     
     /**
-     * Executes a query and stores the results in a variable
+     * \brief Executes a query and stores the results in a variable
      *
      * Typical usage:
      * \code
@@ -130,7 +130,7 @@ public:
     
     
     /**
-     * Executes a query where there is no data to be received
+     * \brief Executes a query where there is no data to be received
      *
      * Typical usage:
      * \code
@@ -145,7 +145,7 @@ public:
     
     
     /**
-     * Can be used to grab the result of a previous query by column number
+     * \brief Can be used to grab the result of a previous query by column number
      *
      * Does not return the result if there is no result left. In that case it
      *  returns an empty string.
@@ -163,7 +163,7 @@ public:
     
     
     /**
-     * Can be used to grab the result of a previous query by column name
+     * \brief Can be used to grab the result of a previous query by column name
      *
      * Does not return the result if there is no result left. In that case it
      *  returns an empty string.
@@ -181,7 +181,7 @@ public:
     
     
     /**
-     * Get the full result from the previous sql query
+     * \brief Get the full result from the previous sql query
      *
      * Typical usage:
      * \code

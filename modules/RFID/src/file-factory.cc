@@ -84,7 +84,7 @@ void FileFactory::loadEncryptionSettings(int & encryptionKey){
     fileOpenCheck();
     
     file >> input;
-    incorrectLineCheck(input != "KEY");
+    incorrectLineCheck(input != "KEY:");
     file >> encryptionKey;
     incorrectLineCheck(encryptionKey == (int)"\n");
     ++lineCurrentFile;
