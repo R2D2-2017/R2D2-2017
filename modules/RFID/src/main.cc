@@ -1,6 +1,6 @@
  /**
- * \file
- * \brief     Combination of the work of sprint 1
+ * \file      main.cc
+ * \brief     Program for giving an indication when a rfid card has been detected, a database connection has been made and a string has been encrypted
  * \author    Tim IJntema, Stefan de Beer, Arco Gelderblom, Rik Honcoop, Koen de Groot
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See LICENSE
@@ -52,8 +52,8 @@ int main(int argc, char **argv) {
 
         while(!rfid.isTagPresent()){}
         
-        std::cout<<"Hello tag\n";
-        std::cout<<"Waiting for key press\n";
+        std::cout << "Hello tag\n";
+        std::cout << "Waiting for key press\n";
         while((c = keypad.getKey()) == 'h'){
             delay(100);
         }
@@ -61,7 +61,7 @@ int main(int argc, char **argv) {
 
         if(!connection.executeQuery("SELECT * FROM RFID")){
             std::cout << "Can not execute query\n";
-            exit(0);
+            exit(EXIT_FAILURE);
         }
         
         std::cout << "Database information: "
