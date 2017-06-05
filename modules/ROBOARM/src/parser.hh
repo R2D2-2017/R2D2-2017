@@ -1,7 +1,3 @@
-#include "wrap-hwlib.hh"
-#include "robot-arm.hh"
-
-#pragma once
 /**
  * \file
  * \brief     Command Parser
@@ -9,6 +5,11 @@
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See LICENSE
  */
+
+#pragma once
+
+#include "wrap-hwlib.hh"
+#include "robot-arm.hh"
 
 enum class Status : uint8_t {
     Succesful = 0,

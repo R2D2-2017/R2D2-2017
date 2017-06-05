@@ -13,38 +13,39 @@ Status parseCommand(const hwlib::string<0> &command, RobotArmController &robotAr
     const hwlib::string<4> amount = command.range(start + space + 1, end);
 
     int16_t intAmount = 0;
+    bool    direction = 0; // true if we go counterclockwise (negative value)
+
     // string to int routine because no stdlib and not present in hwlib :(
-    bool clock = 0;
     for (uint8_t i = 0; i < amount.length(); i++) {
         char t = amount[i];
 
         if (!i) { // only do this the first time
             if (t == '-') {
-                clock = true;
+                direction = true;
                 continue;
             }
         }
 
-        if (!(t >= '0' && t <= '9')) return Status::SyntaxError;
+        if (!(t >= '0' && t <= '9')) return Status::SyntaxError; // no number no parsing
 
         intAmount *= 10;
         intAmount += t - '0';
     }
 
-    hwlib::cout << action << ' ' << amount << '\n';
+    hwlib::cout << action << ' ' << amount << '\n'; // debug output for the parser
 
     if (action == "X") {
-        robotArmController.rotateAxis(RobotAxis::X, intAmount, clock);
+        robotArmController.rotateAxis(RobotAxis::X, intAmount, direction);
         return Status::Succesful;
     }
 
     if (action == "Y") {
-        robotArmController.rotateAxis(RobotAxis::Y, intAmount, clock);
+        robotArmController.rotateAxis(RobotAxis::Y, intAmount, direction);
         return Status::Succesful;
     }
 
     if (action == "Z") {
-        robotArmController.rotateAxis(RobotAxis::Z, intAmount, clock);
+        robotArmController.rotateAxis(RobotAxis::Z, intAmount, direction);
         return Status::Succesful;
     }
 
@@ -55,6 +56,11 @@ Status parseCommand(const hwlib::string<0> &command, RobotArmController &robotAr
 
     if (action == "WAIT_MS") {
         hwlib::wait_ms(intAmount);
+        return Status::Succesful;
+    }
+
+    if (action == "RESET") {
+        robotArmController.startup();
         return Status::Succesful;
     }
 
