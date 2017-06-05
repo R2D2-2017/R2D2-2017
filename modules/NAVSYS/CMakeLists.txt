@@ -13,13 +13,13 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 include_directories(${SFML_INCLUDE_DIR})
 
 set(common_sources
-    common/node.cc common/node.hh common/coordinate.cc common/coordinate.hh common/vertice.cc common/vertice.hh common/graph.cc common/graph.hh)
+    common/node.cc common/node.hh common/coordinate.cc common/coordinate.hh common/vertice.cc common/vertice.hh common/graph.cc common/graph.hh common/graph-input.cc common/graph-input.hh common/graph-factory.cc common/graph-factory.hh)
 
 set(client_sources
 	client/main.cc client/client.cc client/client.hh client/graphicsgraph.hh client/graphicsgraph.cc client/graphicsnodes.hh client/graphicsnodes.cc client/graphicsvertices.hh client/graphicsvertices.cc)
 
 set(server_sources
-	server/main.cc server/server.cc server/server.hh server/pathnode.cc server/pathnode.hh server/astar.cc server/astar.hh server/graph-input.cc server/graph-input.hh server/graph-factory.cc server/graph-factory.hh)
+	server/main.cc server/server.cc server/server.hh server/pathnode.cc server/pathnode.hh server/astar.cc server/astar.hh )
 
 find_package(SFML 2 REQUIRED system window graphics network audio)
 
