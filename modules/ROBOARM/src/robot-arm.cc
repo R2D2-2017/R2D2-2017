@@ -18,12 +18,11 @@ void RobotArmController::reset() {
 
 void RobotArmController::rotateAxis(RobotAxis axis, int degrees, bool clockwise) {
 
-    int requiredSteps = microStepsArms * (degrees * armStepRatio) / stepSize;
+    int requiredSteps = (int) (microStepsArms * (degrees * armStepRatio) / stepSize);
     if(axis == RobotAxis::Z) {
-      requiredSteps = microStepsBase * (degrees * baseStepRatio) / stepSize;
+      requiredSteps = (int) (microStepsBase * (degrees * baseStepRatio) / stepSize);
     }
     for(uint16_t stepsTaken = 0; stepsTaken<requiredSteps; stepsTaken++) {
-        //TODO add limitation check
         switch (axis) {
             case RobotAxis::X:
                 if((checkLimitations() == 3 || checkLimitations() == 1) && !clockwise) {
