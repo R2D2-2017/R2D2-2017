@@ -1,35 +1,32 @@
 #include "robot-arm.hh"
-RobotArmController::RobotArmController(Stepper &x_axis, Stepper &y_axis, Stepper &z_axis, hwlib::target::pin_in &firstStepperSwitch, hwlib::target::pin_in &secondStepperSwitch, KY101 &ky101) :
+
+RobotArmController::RobotArmController(Stepper &x_axis, Stepper &y_axis, Stepper &z_axis,
+                                       hwlib::target::pin_in &xLimitSwitch, hwlib::target::pin_in &yLimitSwitch,
+                                       Ky101 &ky101) :
         x_axis(x_axis),
         y_axis(y_axis),
         z_axis(z_axis),
         xLimitSwitch(xLimitSwitch),
         yLimitSwitch(yLimitSwitch),
-        ky101(ky101)
-        {}
-
-
-void RobotArmController::reset() {
-    rotateAxis(RobotAxis::Y, 250, false);
-}
+        ky101(ky101) { }
 
 void RobotArmController::rotateAxis(RobotAxis axis, int degrees, bool clockwise) {
 
-    int requiredSteps = microStepsArms * (degrees * armStepRatio) / stepSize;
-    if(axis == RobotAxis::Z) {
-      requiredSteps = microStepsBase * (degrees * baseStepRatio) / stepSize;
-    }
-    for(uint16_t stepsTaken = 0; stepsTaken<requiredSteps; stepsTaken++) {
+    int selectedMicroSteps = (axis == RobotAxis::Z) ? microStepsBase : microStepsArms;
+    int requiredSteps = (int) (selectedMicroSteps * (degrees * armStepRatio) / stepSize);
+    for (uint16_t stepsTaken = 0; stepsTaken < requiredSteps; stepsTaken++) {
         //TODO add limitation check
         switch (axis) {
             case RobotAxis::X:
-                if((checkLimitations() == 3 || checkLimitations() == 1) && !clockwise) {
+                if ((checkLimitations() == RobotLimitSwitch::BOTH || checkLimitations() == RobotLimitSwitch::X) &&
+                    !clockwise) {
                     break;
                 }
                 x_axis.step(clockwise);
                 break;
             case RobotAxis::Y:
-                if((checkLimitations() == 3 || checkLimitations() == 2) && !clockwise) {
+                if ((checkLimitations() == RobotLimitSwitch::BOTH || checkLimitations() == RobotLimitSwitch::Y) &&
+                    !clockwise) {
                     break;
                 }
                 y_axis.step(clockwise);
@@ -42,29 +39,29 @@ void RobotArmController::rotateAxis(RobotAxis axis, int degrees, bool clockwise)
     }
 }
 
-int RobotArmController::checkLimitations() {
+RobotLimitSwitch RobotArmController::checkLimitations() {
     if (!xLimitSwitch.get() && !yLimitSwitch.get()) {
-        return 3;
+        return RobotLimitSwitch::BOTH;
     } else if (!xLimitSwitch.get()) {
-        return 1;
+        return RobotLimitSwitch::X;
     } else if (!yLimitSwitch.get()) {
-        return 2;
+        return RobotLimitSwitch::Y;
     } else {
-        return 0;
+        return RobotLimitSwitch::NONE;
     }
 
 }
 
 // The amounts of steps in rotateAxis functions is yet to be determined through testing.
 //TODO test variables
-void RobotArmController::startup(){
-    while(!ky101.get()) {
+void RobotArmController::startup() {
+    while (!ky101.get()) {
         rotateAxis(RobotAxis::Z, 1, true);
     }
-    while(!xLimitSwitch.get()){
-        rotateAxis(RobotAxis::X,1,true);
+    while (!xLimitSwitch.get()) {
+        rotateAxis(RobotAxis::X, 1, true);
     }
-    while(!yLimitSwitch.get()){
-        rotateAxis(RobotAxis::Y,1,true);
+    while (!yLimitSwitch.get()) {
+        rotateAxis(RobotAxis::Y, 1, true);
     }
-};
+}
