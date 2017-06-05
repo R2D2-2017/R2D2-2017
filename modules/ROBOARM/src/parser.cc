@@ -1,9 +1,17 @@
+/**
+ * \file
+ * \author    Jan Halsema
+ * \copyright Copyright (c) 2017, The R2D2 Team
+ * \license   See LICENSE
+ */
+
 #include "parser.hh"
+using namespace RoboArm::Parser;
 
-Status parseCommand(const hwlib::string<0> &command, RobotArmController &robotArmController) {
-    uint8_t space = 0; // the place of the space
+Status RoboArm::Parser::parseCommand(const hwlib::string<0> &command, RobotArmController &robotArmController) {
+    size_t space = 0; // the place of the space
 
-    for (; command[space] != ' ' && space < command.length(); space++) // find space
+    for (;space < command.length() && command[space] != ' '; space++) // find space
         ;
     if (space == command.length() - 1) return Status::SyntaxError; // cry if no space is found
 
@@ -13,10 +21,10 @@ Status parseCommand(const hwlib::string<0> &command, RobotArmController &robotAr
     const hwlib::string<4> amount = command.range(start + space + 1, end);
 
     int16_t intAmount = 0;
-    bool    direction = 0; // true if we go counterclockwise (negative value)
+    bool direction = 0; // true if we go counterclockwise (negative value)
 
     // string to int routine because no stdlib and not present in hwlib :(
-    for (uint8_t i = 0; i < amount.length(); i++) {
+    for (size_t i = 0; i < amount.length(); i++) {
         char t = amount[i];
 
         if (!i) { // only do this the first time
@@ -36,32 +44,32 @@ Status parseCommand(const hwlib::string<0> &command, RobotArmController &robotAr
 
     if (action == "X") {
         robotArmController.rotateAxis(RobotAxis::X, intAmount, direction);
-        return Status::Succesful;
+        return Status::Successful;
     }
 
     if (action == "Y") {
         robotArmController.rotateAxis(RobotAxis::Y, intAmount, direction);
-        return Status::Succesful;
+        return Status::Successful;
     }
 
     if (action == "Z") {
         robotArmController.rotateAxis(RobotAxis::Z, intAmount, direction);
-        return Status::Succesful;
+        return Status::Successful;
     }
 
     if (action == "WAIT_S") {
         hwlib::wait_ms(intAmount * 1000);
-        return Status::Succesful;
+        return Status::Successful;
     }
 
     if (action == "WAIT_MS") {
         hwlib::wait_ms(intAmount);
-        return Status::Succesful;
+        return Status::Successful;
     }
 
     if (action == "RESET") {
         robotArmController.startup();
-        return Status::Succesful;
+        return Status::Successful;
     }
 
     return Status::SyntaxError;

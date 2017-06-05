@@ -1,9 +1,15 @@
+/**
+ * \file
+ * \brief     Usage example
+ * \author    Bob Thomas
+ * \copyright Copyright (c) 2017, The R2D2 Team
+ * \license   See LICENSE
+ */
 #include "ky101.hh"
 #include "parser.hh"
 #include "robot-arm.hh"
 #include "stepper.hh"
 #include "wrap-hwlib.hh"
-#include <sam3x8e.h>
 
 int main() {
     WDT->WDT_MR = WDT_MR_WDDIS;
@@ -20,10 +26,12 @@ int main() {
     auto xLimitSwitch = hwlib::target::pin_in(hwlib::target::pins::d31);
     auto yLimitSwitch = hwlib::target::pin_in(hwlib::target::pins::d33);
 
-    Ky101 ky101(ky101Pin);
 
     // TODO parser requires this hwlib fix - https://github.com/wovo/hwlib/pull/6
     hwlib::string<12> commandList[] = {
+        // Reset
+        "RESET",
+
         // Z axis test
         "WAIT_S 2", "Z 90", "WAIT_S 2", "Z -90", "WAIT_S 2", "Z 180", "WAIT_S 2", "Z -180", "WAIT_S 2",
 
@@ -37,6 +45,10 @@ int main() {
         "RESET"
     };
 
+    using namespace RoboArm;
+    using namespace RoboArm::Parser;
+
+    Ky101 ky101(ky101Pin);
     Stepper            x(dirX, stepX);
     Stepper            y(dirY, stepY);
     Stepper            z(dirZ, stepZ);
@@ -47,16 +59,14 @@ int main() {
     r.startup(); // resets the robot position
     hwlib::cout << "Position has been reset" << '\n';
 
-    for (auto command : commandList) {
+    for (const auto &command : commandList) {
         Status result = parseCommand(command, r);
 
         switch (result) {
         case Status::SyntaxError:
             hwlib::cout << "Syntax error" << '\n';
             break;
-        case Status::Succesful:
-            break;
-        case Status::Limit:
+        case Status::Successful:
             break;
         }
     }
