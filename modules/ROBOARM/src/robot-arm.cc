@@ -1,11 +1,11 @@
 #include "robot-arm.hh"
 
-RobotArmController::RobotArmController(stepper &x_axis, stepper &y_axis, stepper &z_axis,
+RobotArmController::RobotArmController(Stepper &xAxis, Stepper &yAxis, Stepper &zAxis,
                                        hwlib::target::pin_in &xLimitSwitch, hwlib::target::pin_in &yLimitSwitch,
                                        Ky101 &ky101) :
-    x_axis(x_axis),
-    y_axis(y_axis),
-    z_axis(z_axis),
+    xAxis(xAxis),
+    yAxis(yAxis),
+    zAxis(zAxis),
     xLimitSwitch(xLimitSwitch),
     yLimitSwitch(yLimitSwitch),
     ky101(ky101) {}
@@ -24,7 +24,7 @@ void RobotArmController::rotateAxis(RobotAxis axis, int degrees, bool clockwise)
 
                 break;
             }
-            x_axis.step(clockwise);
+            xAxis.step(clockwise);
             break;
         case RobotAxis::Y:
             if ((checkLimitations() == RobotLimitSwitch::BOTH ||
@@ -32,10 +32,10 @@ void RobotArmController::rotateAxis(RobotAxis axis, int degrees, bool clockwise)
                 !clockwise) {
                 break;
             }
-            y_axis.step(clockwise);
+            yAxis.step(clockwise);
             break;
         case RobotAxis::Z:
-            z_axis.step(clockwise);
+            zAxis.step(clockwise);
             break;
         }
     }

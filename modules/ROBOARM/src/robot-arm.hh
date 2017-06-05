@@ -32,17 +32,17 @@ enum class RobotLimitSwitch : uint8_t { BOTH, X, Y, NONE };
 class RobotArmController {
 private:
     // The different stepper motors you can use
-    stepper               &x_axis, &y_axis, &z_axis;
+    Stepper               &xAxis, &yAxis, &zAxis;
     hwlib::target::pin_in &xLimitSwitch;
     hwlib::target::pin_in &yLimitSwitch;
     Ky101                  ky101;
 
 public:
     // Constructor for the Robot arm controller
-    //\param[in]  x_axis  stepper motor that is used as the x axis
-    //\param[in]  y_axis  stepper motor that is used as the y axis
-    //\param[in]  z_axis  stepper motor that is used as the z axis
-    RobotArmController(stepper &x_axis, stepper &y_axis, stepper &z_axis,
+    //\param[in]  xAxis  stepper motor that is used as the x axis
+    //\param[in]  yAxis  stepper motor that is used as the y axis
+    //\param[in]  zAxis  stepper motor that is used as the z axis
+    RobotArmController(Stepper &xAxis, Stepper &yAxis, Stepper &zAxis,
                        hwlib::target::pin_in &xLimitSwitch, hwlib::target::pin_in &yLimitSwitch,
                        Ky101 &ky101);
 
