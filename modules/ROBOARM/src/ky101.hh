@@ -18,10 +18,7 @@ private:
     hwlib::target::pin_in &signal;
 
 public:
-    /// Constructor for the Ky101 classs
-    //\param signal hwlib::pin_in to read the input from
-
-    /*/
+    /**
      * \brief Constructor for the Ky101 class
      *
      * \param[in]    signal  pin to read input from
