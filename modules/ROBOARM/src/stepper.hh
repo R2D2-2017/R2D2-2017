@@ -27,5 +27,5 @@ public:
     //Let the motor step a certain amount of steps
     //\param amount the amount of steps to be taken
     //\param clockwise the direction the motor will rotate to
-    void step(int amount, bool clockwise);
+    void step(bool clockwise);
 };

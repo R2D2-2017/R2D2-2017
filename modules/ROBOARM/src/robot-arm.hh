@@ -11,11 +11,19 @@
 #include "wrap-hwlib.hh"
 #include "stepper.hh"
 
-#define STEP_SIZE 1.8
+const float stepSize = 1.65;
+const int microStepsArms = 8;
+const int microStepsBase = 16;
+const int smallBaseGear = 20;
+const int smallArmGear = 11;
+
+const int bigGear = 45;
+const float baseStepRatio = bigGear/smallBaseGear;
+const float armStepRatio = bigGear/smallArmGear;
 
 
 //Enum class for the different axes on the robot arm
-enum class RobotAxis {
+enum class RobotAxis : uint8_t {
     X, Y, Z
 };
 
@@ -24,12 +32,14 @@ class RobotArmController {
 private:
     // The different stepper motors you can use
     Stepper &x_axis, y_axis, z_axis;
+    hwlib::target::pin_in & xLimitSwitch;
+    hwlib::target::pin_in & yLimitSwitch;
 public:
     //Constructor for the Robot arm controller
     //\param  x_axis stepper motor that is used as the x axis
     //\param  y_axis stepper motor that is used as the y axis
     //\param  z_axis stepper motor that is used as the z axis
-    RobotArmController(Stepper &x_axis, Stepper &y_axis, Stepper &z_axis);
+    RobotArmController(Stepper &x_axis, Stepper &y_axis, Stepper &z_axis, hwlib::target::pin_in & xLimitSwitch, hwlib::target::pin_in & yLimitSwitch);
 
     // reset sequence to move towards the configured start position
     void reset();
@@ -39,4 +49,6 @@ public:
     //\param degrees how many degrees you want to rotate
     //\param clockwise the direction the axis will rotate
     void rotateAxis(RobotAxis axis, int degrees, bool clockwise);
+
+    int checkLimitations();
 };
