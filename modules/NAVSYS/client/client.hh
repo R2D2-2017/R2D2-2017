@@ -13,6 +13,7 @@
 #include <fstream>
 #include <string>
 #include "../common/graph-factory.hh"
+#include "graphicsgraph.hh"
 
 
 /**
