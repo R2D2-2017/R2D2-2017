@@ -11,10 +11,10 @@
 
 
 
-void GraphFactory::createGraph(std::string nodeFilePath,std::string verticeFilePath, Graph & graph ){
+void GraphFactory::createGraph(std::string nodeFilePath, std::string verticeFilepath, Graph & graph ){
 
     graph.setNodes(RunNodeFactory(nodeFilePath));
-    graph.setVertices(RunVerticeFactory(verticeFilePath,graph.getNodes()));
+    graph.setVertices(RunVerticeFactory(verticeFilepath,graph.getNodes()));
 }
 
 
@@ -29,6 +29,7 @@ Node  GraphFactory::getNodeByName(std::string name, std::vector<Node> nodes) {
 }
 
 std::vector<Node>  GraphFactory::RunNodeFactory(std::string nodeFilePath) {
+
     std::vector<Node> nodes;
 
     std::ifstream nodeFileStreamIn;
@@ -98,6 +99,7 @@ std::vector<Node>  GraphFactory::RunNodeFactory(std::string nodeFilePath) {
 
 
 std::vector<Vertice> GraphFactory::RunVerticeFactory(std::string verticeFilePath, std::vector<Node> nodes) {
+
     std::vector<Vertice> vertices;
 
     std::ifstream verticeFileStreamIn;

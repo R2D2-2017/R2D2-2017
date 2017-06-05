@@ -12,8 +12,8 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/common)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 include_directories(${SFML_INCLUDE_DIR})
 
-set(common_sources
-    common/node.cc common/node.hh common/coordinate.cc common/coordinate.hh common/vertice.cc common/vertice.hh common/graph.cc common/graph.hh common/graph-input.cc common/graph-input.hh common/graph-factory.cc common/graph-factory.hh)
+set(common_sources   
+	common/node.cc common/node.hh common/coordinate.cc common/coordinate.hh common/vertice.cc common/vertice.hh common/graph.cc common/graph.hh common/graph-input.cc common/graph-input.hh common/graph-factory.cc common/graph-factory.hh)
 
 set(client_sources
 	client/main.cc client/client.cc client/client.hh client/graphicsgraph.hh client/graphicsgraph.cc client/graphicsnodes.hh client/graphicsnodes.cc client/graphicsvertices.hh client/graphicsvertices.cc)

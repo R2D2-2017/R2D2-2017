@@ -87,7 +87,7 @@ public:
  * \param[in]graph reference to the graph to be filled by the factory
  * \param [out] graph g reference to the filled graph
  */
-    void createGraph(std::string nodeFilePath,std::string verticeFilePath,Graph & graph);
+    void createGraph(std::string nodeFilePath, std::string verticeFilePath, Graph & graph);
 
 
 };
