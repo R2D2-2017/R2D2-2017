@@ -9,13 +9,15 @@
 
 void GraphDrawer::draw(){	 
 	
-	for(auto it = graphNodes.begin(); it != graphNodes.end(); ++it) {
-		it->draw(window);
-	}
-	for(auto it = graphVertices.begin(); it != graphVertices.end(); ++it) {
-		it->draw(window);
-	}
+
 	while (window.isOpen()) {
+		for(auto it = graphNodes.begin(); it != graphNodes.end(); ++it) {
+			it->draw(window);
+		}
+		for(auto it = graphVertices.begin(); it != graphVertices.end(); ++it) {
+			it->draw(window);
+		}
+
 			
 		window.display();
 		sf::sleep( sf::milliseconds( 60 ));
