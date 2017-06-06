@@ -52,7 +52,7 @@ int main(int argc, char **argv) {
         
         Encryption encryption(encryptionKey);
 
-        LedController led;
+        LedController led(0);
 
         while (true) {
             std::cout << "\n\nWaiting for rfid tag: \n";
@@ -77,7 +77,7 @@ int main(int argc, char **argv) {
                       << encryption.Encrypt("R2D2 project")
                       << '\n';
 
-            led.blinkLed(0, 5000);
+            led.blinkLed(1000);
         }
     } catch(const std::string & error) {
         std::cerr << error << '\n';

@@ -8,14 +8,25 @@
 
 #pragma once
 
-class LedController{
+class LedController {
 public:
-    LedController(){}
+
+ /**
+ * \brief constructor for a led
+ *
+ * \param[in]     p     the wiringPi pin number the led is connected to
+ */
+
+    LedController(int p);
+    
  /**
  * \brief blink led a given time
  *
  * \param[in]     pin     the wiringPi pin number
  * \param[in]     time    duration the led will be on in MS
  */
-    void blinkLed(int pin, int time);
+    void blinkLed(int time);
+    
+private:
+    int pin;
 };
