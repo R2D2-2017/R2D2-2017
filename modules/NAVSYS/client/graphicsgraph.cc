@@ -27,11 +27,11 @@ void GraphDrawer::reload(Graph * g){
 	clear();
 	std::vector<Node> nodeVector = g->getNodes();	
 	for(auto it = nodeVector.begin(); it != nodeVector.end(); ++it) {
-		graphNodes.push_back(GraphNode(sf::Vector2f(it->getCoordinate().x*100,it->getCoordinate().y*100),it->getName() ));
+		graphNodes.push_back(GraphNode(sf::Vector2f(it->getCoordinate().x*50,it->getCoordinate().y*50),it->getName() ));
 	}
 	std::vector<Vertice> verticeVector = g->getVertices();	
 	for(auto it = verticeVector.begin(); it != verticeVector.end(); ++it) {
-		graphVertices.push_back(GraphVertice(sf::Vector2f(it->getCurrent()->getCoordinate().x*100,it->getCurrent()->getCoordinate().y*100),sf::Vector2f(it->getNeighbour()->getCoordinate().x*100,it->getNeighbour()->getCoordinate().y*100)));     
+		graphVertices.push_back(GraphVertice(sf::Vector2f(it->getCurrent()->getCoordinate().x*50,it->getCurrent()->getCoordinate().y*50),sf::Vector2f(it->getNeighbour()->getCoordinate().x*50,it->getNeighbour()->getCoordinate().y*50)));
 	}
 }
 
