@@ -44,6 +44,7 @@ void Client::run(){
     std::cout << "press Left to enter route information\n";
 
 	while(true){
+        window.clear(sf::Color::Black);
 		sf::sleep(sf::milliseconds(100));
         printOnScreen.reload(&g);
         printOnScreen.draw();
