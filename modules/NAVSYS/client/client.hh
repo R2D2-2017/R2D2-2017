@@ -13,6 +13,8 @@
 #include <fstream>
 #include <string>
 #include "../common/graph-factory.hh"
+#include "graphicsgraph.hh"
+#include "../common/graph-input.hh"
 
 
 /**
@@ -63,7 +65,14 @@ public:
 * this function sends the requests for  the data contained in the node and vertices file.
 
 */
-    void getDatabaseFromServer();
+    void getDatabaseFromServer(std::string nodeFilePath, std::string verticeFilePath);
 
+	/**
+* \brief Requests the path from the server
+*
+* this function sends the requests for  the path between two nodes.
+
+*/
+	void requestPath(std::string startNode, std::string endNode);
 };
 

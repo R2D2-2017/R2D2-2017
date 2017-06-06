@@ -10,6 +10,8 @@
 #include <algorithm>
 #include <fstream>
 #include "server.hh"
+#include "../common/astar.hh"
+#include "../common/graph-factory.hh"
 
 Server::Server(const uint16_t port): port(port){}
 
@@ -30,6 +32,8 @@ void Server::run(){
     // Running in the nineties
     socketListener.listen(port);
     socketSelector.add(socketListener);
+
+
 
 
     while(true){
@@ -76,12 +80,78 @@ void Server::run(){
 
 void Server::handleInput(const std::string & input){
     if(input == "REQUEST_NODES"){
-        std::cout << "nodes are being send\n";
-        broadcastMessage(readNodesAsString());         //Placeholder
+        broadcastMessage(readNodesAsString());
     }
     if(input == "REQUEST_VERTICES"){
-        std::cout << "vertices are  being send\n";
-        broadcastMessage(readVerticesAsString());         //Placeholder
+        broadcastMessage(readVerticesAsString());
+    }
+    // Request path
+    if(input.at(0) == 'P'){
+
+        std::string nodeFilePath = "../server/node.txt";
+        std::string verticeFilePath = "../server/vertice.txt";
+
+        GraphFactory factory =  GraphFactory();
+        Graph g = Graph();
+        factory.createGraph(nodeFilePath,verticeFilePath, g);
+
+        // strings to store chars parsed
+        std::string nodeA = "";
+        std::string nodeB = "";
+
+        // flags to to deside based on specific chars, which data element is being read
+        bool nodeFlagA = 0;
+        bool nodeFlagB = 0;
+
+        //start at index 1 because index 0 denotes the command issued
+        unsigned int i = 1;
+        while (i < input.length()) {
+            char c = input.at(i);
+
+            if (c == '(' && !nodeFlagB) {
+                nodeFlagA = 1;
+            }
+            else if (c == '(' && nodeFlagB) {
+                //nothing
+            }
+            else if (c == ')') {
+                nodeFlagA = 0;
+                nodeFlagB = 0;
+
+            }
+            else if (c == '-'){
+                nodeFlagB =1;
+            }
+            else {
+                if (nodeFlagA) {
+                    nodeA += c;
+                }
+                if (nodeFlagB) {
+                    nodeB += c;
+                }
+            }
+
+            i++;
+        }
+
+        Node start( g.getNodeByName(nodeA).getCoordinate().x, g.getNodeByName(nodeA).getCoordinate().y,
+              g.getNodeByName(nodeA).getName());
+
+        Node end( g.getNodeByName(nodeB).getCoordinate().x, g.getNodeByName(nodeB).getCoordinate().y,
+                      g.getNodeByName(nodeB).getName());
+
+        std::vector<PathNode> path = aStar(g, start, end);
+        std::string str;
+        for (auto it = path.begin(); it != path.end(); it++)
+        {
+            str.append(it->getName());
+            if(it != path.end()-1){
+                str.append(" --> ");
+            }
+        }
+
+        broadcastMessage(str);
+
     }
 
 }

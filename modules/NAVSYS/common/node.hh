@@ -30,5 +30,4 @@ public:
   float euclideanDistance(const Node &other) const;
   Coordinate getCoordinate();
   std::string getName();
-
 };

@@ -1,3 +1,4 @@
+
 /**
  * \file
  * \brief     Client side connection code for the NAVSYS API
@@ -20,42 +21,78 @@ void Client::run(){
 	}
 
 
-    getDatabaseFromServer();
-
     std::string nodeFilePath = "../client/node.txt";
     std::string verticeFilePath = "../client/vertice.txt";
+    // this loads the the files declared above with the database
+    getDatabaseFromServer(nodeFilePath,verticeFilePath);
 
+    //create the graph
     GraphFactory factory =  GraphFactory();
     Graph g = Graph();
     factory.createGraph(nodeFilePath,verticeFilePath, g);
-    std::cout << "Graph created\n";
 
-    //print graph to screen
+    //create the window
+    sf::RenderWindow  window{ sf::VideoMode{ 1000, 1000}, "SFML window" };
+    GraphDrawer printOnScreen(window);
+
 
     sf::Packet receivedMessage;
     std::string messageString;
 
-    
+    //used to let the user know a knew request can be made
+    bool printOptionsFlag =1;
 	while(true){
+        window.clear(sf::Color::Black);
 		sf::sleep(sf::milliseconds(100));
+        printOnScreen.reload(&g);
+        printOnScreen.draw();
 
-		if(socket.receive(receivedMessage) != sf::Socket::Done){
-			std::cout << "Something went wrong with receiving" << std::endl;
-		} else{
-			receivedMessage >> messageString;
-			std::cout << messageString << std::endl;
-		}
+
+        if(printOptionsFlag){
+            printOptionsFlag = 0;
+            std::cout << "press Left to enter route information\n";
+        }
+
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left)){
+            std::string startNode;
+            std::string endNode;
+            std::cout << "name of start node>";
+            std::cin >> startNode;
+            std::cout << "name of end node>";
+            std::cin >> endNode;
+
+            requestPath(startNode, endNode);
+
+            if(  socket.receive(receivedMessage) != sf::Socket::Done  ){
+                std::cout << "Something went wrong with receiving" << std::endl;
+            }
+            else{
+                receivedMessage >> messageString;
+                std::cout << messageString << std::endl;
+
+            }
+
+            //used to let the user know a knew request can be made
+            printOptionsFlag = 1;
+        }
+
+        if( window.isOpen()) {
+            	sf::Event event;
+            	while( window.pollEvent(event) ){
+                    if( event.type == sf::Event::Closed ){
+                        window.close();
+                    }
+                }
+        }
 	}
 }
 
 
-void Client::getDatabaseFromServer(){
+void Client::getDatabaseFromServer(std::string nodeFilePath, std::string verticeFilePath){
 
     sf::Packet receivedMessage;
     std::string messageString;
 
-    // nodes and vertice file path
-    std::string nodeFilePath = "../client/node.txt";
     std::ofstream nodeStream(nodeFilePath);
 
     requestNodes();
@@ -66,11 +103,9 @@ void Client::getDatabaseFromServer(){
     else{
         receivedMessage >> messageString;
         nodeStream << messageString;
-        std::cout << "Nodes read\n";
     }
     nodeStream.close();
 
-    std::string verticeFilePath = "../client/vertice.txt";
     std::ofstream verticeStream(verticeFilePath);
 
     requestVertices();
@@ -81,7 +116,6 @@ void Client::getDatabaseFromServer(){
     else{
         receivedMessage >> messageString;
         verticeStream << messageString;
-        std::cout << "Vertices read\n";
     }
 
     verticeStream.close();
@@ -104,5 +138,19 @@ void Client::requestVertices(){
 	if(socket.send(p) != sf::Socket::Done){
 		std::cout << "Something went wrong while sending your message, please try again later" << std::endl;
 	}
+}
+
+void Client::requestPath(std::string startNode, std::string endNode){
+    sf::Packet p;
+    std::string str;
+    str.append("P(");
+    str.append(startNode);
+    str.append(")-(");
+    str.append(endNode);
+    str.append(")");
+    p << str;
+    if(socket.send(p) != sf::Socket::Done){
+        std::cout << "Something went wrong while sending your message, please try again later" << std::endl;
+    }
 }
 
