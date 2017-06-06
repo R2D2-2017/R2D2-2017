@@ -4,6 +4,8 @@
 #include <fstream>
 #include <algorithm>
 #include "graph.hh"
+#include <stdexcept>
+
 void Graph::addNode(const Node node) {
     if (!containsNode(node)) {
         nodes.push_back(node);
