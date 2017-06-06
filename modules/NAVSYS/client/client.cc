@@ -20,33 +20,29 @@ void Client::run(){
 		std::cout << "Connection failed" << std::endl;
 	}
 
-    // this loads the the files declared below with the database
 
     std::string nodeFilePath = "../client/node.txt";
     std::string verticeFilePath = "../client/vertice.txt";
-
+    // this loads the the files declared above with the database
     getDatabaseFromServer(nodeFilePath,verticeFilePath);
 
-
-
+    //create the graph
     GraphFactory factory =  GraphFactory();
     Graph g = Graph();
     factory.createGraph(nodeFilePath,verticeFilePath, g);
-    std::cout << "press Left to enter route information\n";
 
-    GraphDrawer printOnScreen;
-    //printOnScreen.reload(&g);
-
-
+    //create the window
+    sf::RenderWindow  window{ sf::VideoMode{ 1000, 1000}, "SFML window" };
+    GraphDrawer printOnScreen(window);
 
 
     sf::Packet receivedMessage;
     std::string messageString;
 
-
     //used to let the user know a knew request can be made
     bool printOptionsFlag =1;
-    
+    std::cout << "press Left to enter route information\n";
+
 	while(true){
 		sf::sleep(sf::milliseconds(100));
         printOnScreen.reload(&g);
@@ -81,12 +77,14 @@ void Client::run(){
             printOptionsFlag = 1;
         }
 
-
-
-
-
-
-
+        if( window.isOpen()) {
+            	sf::Event event;
+            	while( window.pollEvent(event) ){
+                    if( event.type == sf::Event::Closed ){
+                        window.close();
+                    }
+                }
+        }
 	}
 }
 
