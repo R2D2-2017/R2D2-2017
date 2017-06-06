@@ -28,7 +28,6 @@ public:
 
     /**
      *\brief Let the motor step a certain amount of steps
-     *\param[in] amount the amount of steps to be taken
      *\param[in] clockwise the direction the motor will rotate to
      */
     void step(bool clockwise);

@@ -63,13 +63,14 @@ RobotLimitSwitch RoboArm::RobotArmController::checkLimitations() {
 // The amounts of steps in rotateAxis functions is yet to be determined through testing.
 // TODO test variables
 void RoboArm::RobotArmController::startup() {
-    while (!ky101.get()) {
-        rotateAxis(RobotAxis::Z, 1, true);
-    }
+    //TODO add new chip to the robot current one is damaged
+//    while (!ky101.get()) {
+//        rotateAxis(RobotAxis::Z, 1, true);
+//    }
     while (!xLimitSwitch.get()) {
         rotateAxis(RobotAxis::X, 1, true);
     }
     while (!yLimitSwitch.get()) {
-        rotateAxis(RobotAxis::Y, 1, true);
+        rotateAxis(RobotAxis::Y, 1, false);
     }
 }

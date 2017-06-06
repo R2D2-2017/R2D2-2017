@@ -30,7 +30,7 @@ int main() {
     // TODO parser requires this hwlib fix - https://github.com/wovo/hwlib/pull/6
     hwlib::string<12> commandList[] = {
         // Reset
-        "RESET",
+        "RESET 1",
 
         // Z axis test
         "WAIT_S 2", "Z 90", "WAIT_S 2", "Z -90", "WAIT_S 2", "Z 180", "WAIT_S 2", "Z -180", "WAIT_S 2",
@@ -42,7 +42,10 @@ int main() {
         "X 90", "WAIT_S 2", "X -90", "WAIT_S 2", "X 180", "WAIT_S 2", "X -240",
 
         // Reset
-        "RESET"
+        "RESET 1",
+
+        //BLOCKING TEST
+        "WAIT_S 2", "Z 720", "WAIT_MS 500"
     };
 
     using namespace RoboArm;
@@ -72,12 +75,6 @@ int main() {
     }
 
     hwlib::cout << "END SEQUENCE" << '\n';
-
-    //Start blocking test
-    r.rotateAxis(RobotAxis::Z, 720, true);
-    //Block the platform from turning while the platform is turning
-    hwlib::wait_ms(500);
-
 
 
     return 0;
