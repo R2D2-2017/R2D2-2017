@@ -21,13 +21,19 @@ GraphNode::GraphNode( sf::Vector2f position,  std::string name, float size) :
 
 void GraphNode::draw( sf::RenderWindow & window )  {
 
-    sf::Text nodeName;
-    nodeName.setString(name);
-    nodeName.setCharacterSize(20);
-    nodeName.setStyle(sf::Text::Bold);
-    nodeName.setColor(sf::Color::Blue);
-    nodeName.setPosition(position);
-	window.draw(nodeName);
+    sf::Font font;
+    if (!font.loadFromFile("../common/BebasNeue.otf"))
+    {
+        std::cout<< "font error\n";
+    }
+    sf::Text txt;
+    txt.setFont(font);
+    txt.setString(name);
+    txt.setCharacterSize(30);
+    txt.setStyle(sf::Text::Bold);
+    txt.setColor(sf::Color::Green);
+    txt.setPosition(position.x+20,position.y+20);
+	window.draw(txt);
 
 	circle.setRadius(size);
 	circle.setPosition(position);
