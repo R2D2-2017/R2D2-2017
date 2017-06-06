@@ -134,7 +134,12 @@ def check_one(cc_db):
         cc_json = json.load(cc_db_file)
         module = cc_db.split("/")[-3]
         for entry in cc_json:
-            tidy_command = 'clang-tidy -header-filter=.* -p={0} -checks=* {1}'.format(
+            if "startup_sam3xa.c" in entry["file"] \
+                    or "wrap-hwlib.cc" in entry["file"] \
+                    or "libc-stub.cc" in entry["file"]:
+                continue
+            tidy_command = 'clang-tidy -header-filter=^{0}[^.] -p={1} {2}'.format(
+                cc_db.replace("build/compile_commands.json", ""),
                 cc_db.replace("compile_commands.json", "")
                 , entry["file"]
             )
@@ -143,12 +148,13 @@ def check_one(cc_db):
 
             try:
                 tidy_errors = subprocess.check_output(tidy_command.split(), stderr=subprocess.DEVNULL)
-                for line in tidy_errors.decode().splitlines():
-                    if entry["file"] in line:
-                        line = line.split(":")
-                        error = CheckError("Clang-tidy", module, line[0], line[1], ":".join(line[4:]), line[3])
-                        if error not in errors:
-                            errors.append(error)
+                print(tidy_errors.decode())
+                # for line in tidy_errors.decode().splitlines():
+                #     if entry["file"] in line:
+                #         line = line.split(":")
+                #         error = CheckError("Clang-tidy", module, line[0], line[1], ":".join(line[4:]), line[3])
+                #         if error not in errors:
+                #             errors.append(error)
             except OSError as e:
                 if e.errno == os.errno.ENOENT:
                     print("clang-tidy is not found please install it\nNo checks with this checker have been run")
@@ -156,11 +162,12 @@ def check_one(cc_db):
                     raise
             try:
                 cpp_check_errors = subprocess.check_output(cpp_check_command.split(), stderr=subprocess.STDOUT)
-                for line in cpp_check_errors.decode().splitlines():
-                    line = line.split(":")
-                    error = CheckError("Cppcheck", module, line[0], line[1], line[3], line[2])
-                    if error not in errors:
-                        errors.append(error)
+                # for line in cpp_check_errors.decode().splitlines():
+                #     line = line.split(":")
+                #     error = CheckError("Cppcheck", module, line[0], line[1], line[3], line[2])
+                #     if error not in errors:
+                #         errors.append(error)
+                print(cpp_check_errors.decode())
             except OSError as e:
                 if e.errno == os.errno.ENOENT:
                     print("cppcheck is not found please install it\nNo checks with this checker have been run")
@@ -186,7 +193,22 @@ def check(args):
         print("Checking all generated modules")
         cc_databases = [filename for filename in glob.iglob('modules/*/build/compile_commands.json')]
     for cc_database in cc_databases:
-        [print(error) for error in check_one(cc_database)]
+        with open(cc_database.replace("build/compile_commands.json", ".bmptkpp")) as bmptkppfile:
+            if bmptkppfile.readline() == "arduino\n":
+                shutil.copyfile(cc_database, cc_database + ".tmp")
+                cc_json = {}
+                with open(cc_database, "r") as cc_db_file:
+                    cc_json = json.load(cc_db_file)
+                    for entry in cc_json:
+                        entry["command"] = re.sub(r"-m\S*", "", entry["command"])
+                        entry["command"] = re.sub(r"-Wno ", "", entry["command"])
+                with open(cc_database, "w") as cc_db_file:
+                    json.dump(cc_json, cc_db_file)
+                [print(error) for error in check_one(cc_database)]
+                # shutil.copyfile(cc_database + ".tmp", cc_database)
+                # os.remove(cc_database + ".tmp")
+            else:
+                [print(error) for error in check_one(cc_database)]
 
 
 def console(parser, subcommands):
