@@ -73,5 +73,12 @@ int main() {
 
     hwlib::cout << "END SEQUENCE" << '\n';
 
+    //Start blocking test
+    r.rotateAxis(RobotAxis::Z, 720, true);
+    //Block the platform from turning while the platform is turning
+    hwlib::wait_ms(500);
+
+
+
     return 0;
 }
