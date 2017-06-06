@@ -7,7 +7,7 @@
  */
  
 #include "mysql.hh"
-#include "file-factory.hh"
+#include "config-file-parser.hh"
  
 #include <iostream>
 
@@ -17,7 +17,7 @@ int main(int argc, char **argv) {
         std::string username;
         std::string password;
         
-        FileFactory factory("database-config.txt");
+        ConfigFileParser factory("database-config.txt");
         
         factory.loadDatabaseSettings(ip, username, password);
         
