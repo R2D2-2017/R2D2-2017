@@ -16,7 +16,7 @@ private:
 	sf::CircleShape circle;
 
 	float size;
-	
+	std::string name;
 public:
 
 	/**
@@ -26,7 +26,7 @@ public:
 	* the second parameter is the size of the node in the window, this paramter has a default value of 10.
 	*
 	*/
-	GraphNode( sf::Vector2f position, float size = 10.0);
+	GraphNode( sf::Vector2f position, std::string name, float size = 10.0);
 	/**
 	*draw function
 	*
