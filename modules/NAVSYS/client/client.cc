@@ -1,3 +1,4 @@
+
 /**
  * \file
  * \brief     Client side connection code for the NAVSYS API
@@ -30,6 +31,9 @@ void Client::run(){
     factory.createGraph(nodeFilePath,verticeFilePath, g);
     std::cout << "Graph created\n";
 
+    GraphDrawer printOnScreen;
+    printOnScreen.reload(&g);
+    printOnScreen.draw();
     //print graph to screen
 
     sf::Packet receivedMessage;

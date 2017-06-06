@@ -11,6 +11,7 @@ PathNode::PathNode(Node n, Node goal, float g) :
     // sets the Node
     Node(n.getCoordinate(), n.getName()),
     // sets g
+
     pathDistance(g)
 {
     //calculate initial f
