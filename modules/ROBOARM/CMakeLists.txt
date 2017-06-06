@@ -26,9 +26,11 @@ add_definitions(-DBMPTK_TARGET_arduino_due
                 -DBMPTK_BAUDRATE=19200)
 
 set(sources
+    src/parser.cc
     src/wrap-hwlib.cc
     src/libc-stub.cc
     src/stepper.cc
+    src/ky101.cc
     src/robot-arm.cc
     src/main.cc
 )
