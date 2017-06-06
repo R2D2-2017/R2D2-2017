@@ -41,8 +41,6 @@ void Client::run(){
 
     //used to let the user know a knew request can be made
     bool printOptionsFlag =1;
-    std::cout << "press Left to enter route information\n";
-
 	while(true){
         window.clear(sf::Color::Black);
 		sf::sleep(sf::milliseconds(100));

@@ -11,8 +11,7 @@ GraphDrawer::GraphDrawer(sf::RenderWindow & window):
 		window( window )
 {}
 
-void GraphDrawer::draw(){	 
-	
+void GraphDrawer::draw(){
 	for(auto it = graphNodes.begin(); it != graphNodes.end(); ++it) {
 		it->draw(window);
 	}
@@ -21,7 +20,6 @@ void GraphDrawer::draw(){
 	}
 
 	window.display();
-
 }
 
 void GraphDrawer::reload(Graph * g){
