@@ -11,7 +11,7 @@
 #include "encryption.hh"
 #include "led-controller.hh"
 #include "matrix-keypad.hh"
-#include "file-factory.hh"
+#include "config-file-parser.hh"
 
 #include <wiringPi.h>
 #include <wiringPiSPI.h>
@@ -25,7 +25,7 @@ int main(int argc, char **argv) {
         std::string password;
         int encryptionKey;
         
-        FileFactory factory("database-config.txt");
+        ConfigFileParser factory("database-config.txt");
         factory.loadDatabaseSettings(ip, username, password);
         
         factory.changeFile("encryption-config.txt");

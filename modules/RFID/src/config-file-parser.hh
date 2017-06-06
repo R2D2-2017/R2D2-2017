@@ -10,6 +10,7 @@
 
 #include <string>
 #include <fstream>
+#include <stdexcept>
 
 /**
  * \brief Factory class for files
@@ -18,7 +19,7 @@
  *  information from a file with settings. Closing files and opening them is
  *  handeled in the class.
  */
-class FileFactory {
+class ConfigFileParser {
 private:
     std::string nameCurrentFile;
     int lineCurrentFile;
@@ -40,7 +41,7 @@ private:
      * \param [in] toCheck A comparrison with a boolean type as result
      * \param [in] line The line the error occured on
      */
-    void incorrectLineCheck(const bool & toCheck, const std::string & fileName, const int & line);
+    void incorrectLineCheck(const bool & toCheck, const std::string & fileName, int line);
     
     /**
      * \brief Checks if the file is open
@@ -59,23 +60,23 @@ public:
     /**
      * \brief Constructor with filename
      * 
-     * Calls the FileFactory::changeFile() function to open the file.
+     * Calls the ConfigFileParser::changeFile() function to open the file.
      *
      * Typical usage:
      * \code
-     *     FileFactory factory("filename.txt");
+     *     ConfigFileParser factory("filename.txt");
      * \endcode
      *
      * \param [in] fileName The name of the file to open
      */
-    FileFactory(const std::string & fileName);
+    ConfigFileParser(const std::string & fileName);
     
     /**
      * \brief Destructor
      *
      * Closes the file when called
      */
-    ~FileFactory();
+    ~ConfigFileParser();
     
     /**
      * \brief Change the current file
