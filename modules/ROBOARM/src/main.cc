@@ -20,6 +20,11 @@ int main() {
         //Rotate the X axis 90 degrees counter clockwise
         hwlib::wait_ms(500);
         r.rotateAxis(RobotAxis::X, 90, false);
+
+        //Starting blocking test
+        hwlib::wait_ms(1000);
+        r.rotateAxis(RobotAxis::Z, 720, true);
+
     }
     return 0;
 }
