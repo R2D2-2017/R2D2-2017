@@ -5,7 +5,11 @@
 * \copyright Copyright (c) 2017, The R2D2 Team
 * \license   See LICENSE
 */
-#include "graphicsgraph.hh" 
+#include "graphicsgraph.hh"
+
+GraphDrawer::GraphDrawer(sf::RenderWindow & window):
+		window( window )
+{}
 
 void GraphDrawer::draw(){	 
 	

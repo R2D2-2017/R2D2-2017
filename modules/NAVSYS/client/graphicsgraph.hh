@@ -22,10 +22,10 @@ private:
 
 	std::vector<GraphNode> graphNodes;
 	std::vector<GraphVertice> graphVertices;
-	sf::RenderWindow window{ sf::VideoMode{ 1000, 1000}, "SFML window" };
+	sf::RenderWindow & window;
 
 public:
-
+	GraphDrawer(sf::RenderWindow & window);
 	/**
 	*draw function for graph
 	*
