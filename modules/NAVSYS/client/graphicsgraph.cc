@@ -24,14 +24,15 @@ void GraphDrawer::draw(){
 
 void GraphDrawer::reload(Graph * g){
 
+    int scaling = 65;
 	clear();
 	std::vector<Node> nodeVector = g->getNodes();	
 	for(auto it = nodeVector.begin(); it != nodeVector.end(); ++it) {
-		graphNodes.push_back(GraphNode(sf::Vector2f(it->getCoordinate().x*50,it->getCoordinate().y*50),it->getName() ));
+		graphNodes.push_back(GraphNode(sf::Vector2f(it->getCoordinate().x*scaling,it->getCoordinate().y*scaling),it->getName() ));
 	}
 	std::vector<Vertice> verticeVector = g->getVertices();	
 	for(auto it = verticeVector.begin(); it != verticeVector.end(); ++it) {
-		graphVertices.push_back(GraphVertice(sf::Vector2f(it->getCurrent()->getCoordinate().x*50,it->getCurrent()->getCoordinate().y*50),sf::Vector2f(it->getNeighbour()->getCoordinate().x*50,it->getNeighbour()->getCoordinate().y*50)));
+		graphVertices.push_back(GraphVertice(sf::Vector2f(it->getCurrent()->getCoordinate().x*scaling,it->getCurrent()->getCoordinate().y*scaling),sf::Vector2f(it->getNeighbour()->getCoordinate().x*scaling,it->getNeighbour()->getCoordinate().y*scaling)));
 	}
 }
 
