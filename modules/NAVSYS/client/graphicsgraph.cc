@@ -15,17 +15,9 @@ void GraphDrawer::draw(){
 	for(auto it = graphVertices.begin(); it != graphVertices.end(); ++it) {
 		it->draw(window);
 	}
-	while (window.isOpen()) {
-			
-		window.display();
-		sf::sleep( sf::milliseconds( 60 ));
-		sf::Event event;
-		while( window.pollEvent(event) ){
-			if( event.type == sf::Event::Closed ){
-				window.close();
-			}
-		}
-	}
+
+	window.display();
+
 }
 
 void GraphDrawer::reload(Graph * g){
@@ -33,7 +25,7 @@ void GraphDrawer::reload(Graph * g){
 	clear();
 	std::vector<Node> nodeVector = g->getNodes();	
 	for(auto it = nodeVector.begin(); it != nodeVector.end(); ++it) {
-		graphNodes.push_back(GraphNode(sf::Vector2f(it->getCoordinate().x*100,it->getCoordinate().y*100)));
+		graphNodes.push_back(GraphNode(sf::Vector2f(it->getCoordinate().x*100,it->getCoordinate().y*100),it->getName() ));
 	}
 	std::vector<Vertice> verticeVector = g->getVertices();	
 	for(auto it = verticeVector.begin(); it != verticeVector.end(); ++it) {
