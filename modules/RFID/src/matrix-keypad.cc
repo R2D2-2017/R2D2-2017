@@ -14,9 +14,7 @@ MatrixKeypad::MatrixKeypad(const int *row, const int *column, int colSize):
     row(row),
     column(column)
 {
-    /**
-     * Making sure the columnsize is within range
-     */
+    // Making sure the columnsize is within range
     if (colSize < 0 || colSize > 4){
         std::cerr << "Columnsize " << colSize << " higher or lower than the allowed range\n";
         exit(EXIT_FAILURE);
