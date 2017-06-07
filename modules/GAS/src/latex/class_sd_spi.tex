@@ -1,0 +1,128 @@
+\hypertarget{class_sd_spi}{}\section{Sd\+Spi Class Reference}
+\label{class_sd_spi}\index{Sd\+Spi@{Sd\+Spi}}
+
+
+Provides a SD S\+PI Block Storage Provider.  
+
+
+
+
+{\ttfamily \#include $<$sd-\/spi.\+hh$>$}
+
+Inheritance diagram for Sd\+Spi\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_sd_spi}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+Mu\+Store\+::\+Store\+Error \hyperlink{class_sd_spi_a4120c7d7ccaeba5b2726f0fca6a97e9c}{seek} (size\+\_\+t lba)
+\begin{DoxyCompactList}\small\item\em Seeks to a position within the sd card. \end{DoxyCompactList}\item 
+Mu\+Store\+::\+Store\+Error \hyperlink{class_sd_spi_a90ee59c74ce983406c769b76c0083aa4}{read} (void $\ast$buffer)
+\begin{DoxyCompactList}\small\item\em Reads a block from the sd card into a buffer. \end{DoxyCompactList}\item 
+Mu\+Store\+::\+Store\+Error \hyperlink{class_sd_spi_ab3b314f23176ef7ed1197fb73d34f86f}{write} (const void $\ast$buffer)
+\begin{DoxyCompactList}\small\item\em Writes a block from a buffer to the sd card. \end{DoxyCompactList}\item 
+\hyperlink{class_sd_spi_a5a813ec0573cab136e4248787a46541a}{Sd\+Spi} (hwlib\+::pin\+\_\+out \&cs, hwlib\+::spi\+\_\+bus \&bus)
+\begin{DoxyCompactList}\small\item\em Creates a SD S\+PI Block Provider. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static constexpr size\+\_\+t \hyperlink{class_sd_spi_a2eedef2fa6ec9844743e4e0de6f03261}{tmp\+Block\+Size} = 512
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Provides a SD S\+PI Block Storage Provider. 
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_sd_spi_a5a813ec0573cab136e4248787a46541a}\label{class_sd_spi_a5a813ec0573cab136e4248787a46541a}} 
+\index{Sd\+Spi@{Sd\+Spi}!Sd\+Spi@{Sd\+Spi}}
+\index{Sd\+Spi@{Sd\+Spi}!Sd\+Spi@{Sd\+Spi}}
+\subsubsection{\texorpdfstring{Sd\+Spi()}{SdSpi()}}
+{\footnotesize\ttfamily Sd\+Spi\+::\+Sd\+Spi (\begin{DoxyParamCaption}\item[{hwlib\+::pin\+\_\+out \&}]{cs,  }\item[{hwlib\+::spi\+\_\+bus \&}]{bus }\end{DoxyParamCaption})}
+
+
+
+Creates a SD S\+PI Block Provider. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em cs} & The CS pin the sd card reader is connected to \\
+\hline
+{\em bus} & The spi bus the sd card reader is connected to \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{class_sd_spi_a90ee59c74ce983406c769b76c0083aa4}\label{class_sd_spi_a90ee59c74ce983406c769b76c0083aa4}} 
+\index{Sd\+Spi@{Sd\+Spi}!read@{read}}
+\index{read@{read}!Sd\+Spi@{Sd\+Spi}}
+\subsubsection{\texorpdfstring{read()}{read()}}
+{\footnotesize\ttfamily Store\+Error Sd\+Spi\+::read (\begin{DoxyParamCaption}\item[{void $\ast$}]{buffer }\end{DoxyParamCaption})}
+
+
+
+Reads a block from the sd card into a buffer. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em buffer} & The buffer to read the block into \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns the status code if the reading was successful or not 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_sd_spi_a4120c7d7ccaeba5b2726f0fca6a97e9c}\label{class_sd_spi_a4120c7d7ccaeba5b2726f0fca6a97e9c}} 
+\index{Sd\+Spi@{Sd\+Spi}!seek@{seek}}
+\index{seek@{seek}!Sd\+Spi@{Sd\+Spi}}
+\subsubsection{\texorpdfstring{seek()}{seek()}}
+{\footnotesize\ttfamily Store\+Error Sd\+Spi\+::seek (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{lba }\end{DoxyParamCaption})}
+
+
+
+Seeks to a position within the sd card. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em lba} & The block to seek to onto the sd card \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns the status code if the seeking was successful or not 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_sd_spi_ab3b314f23176ef7ed1197fb73d34f86f}\label{class_sd_spi_ab3b314f23176ef7ed1197fb73d34f86f}} 
+\index{Sd\+Spi@{Sd\+Spi}!write@{write}}
+\index{write@{write}!Sd\+Spi@{Sd\+Spi}}
+\subsubsection{\texorpdfstring{write()}{write()}}
+{\footnotesize\ttfamily Store\+Error Sd\+Spi\+::write (\begin{DoxyParamCaption}\item[{const void $\ast$}]{buffer }\end{DoxyParamCaption})}
+
+
+
+Writes a block from a buffer to the sd card. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em buffer} & The buffer to read a block from \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns the status code if the writing was successful or not 
+\end{DoxyReturn}
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{class_sd_spi_a2eedef2fa6ec9844743e4e0de6f03261}\label{class_sd_spi_a2eedef2fa6ec9844743e4e0de6f03261}} 
+\index{Sd\+Spi@{Sd\+Spi}!tmp\+Block\+Size@{tmp\+Block\+Size}}
+\index{tmp\+Block\+Size@{tmp\+Block\+Size}!Sd\+Spi@{Sd\+Spi}}
+\subsubsection{\texorpdfstring{tmp\+Block\+Size}{tmpBlockSize}}
+{\footnotesize\ttfamily constexpr size\+\_\+t Sd\+Spi\+::tmp\+Block\+Size = 512\hspace{0.3cm}{\ttfamily [static]}}
+
+X\+XX Temporary\+: Needed for static arrays in data logger code. Remove when switching to filesystem usage! 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{sd-spi_8hh}{sd-\/spi.\+hh}\item 
+\hyperlink{sd-spi_8cc}{sd-\/spi.\+cc}\end{DoxyCompactItemize}
