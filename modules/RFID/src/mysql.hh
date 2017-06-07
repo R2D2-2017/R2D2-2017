@@ -22,20 +22,20 @@
  * \brief Sql class with error checking
  *
  * This class uses the mysqlcppconn library to connect to a mysql database.
- * This library by itself dus not have error handling, therefore that is beeing
- *  handled in this class. The class also minimizes the amount of work a 
+ * This library by itself dus not have error handling, therefore that is being
+ * handled in this class. The class also minimizes the amount of work a
  * programmer has to do by automatically deleting the variables after use and
- *  calling any functions that always have to be called and do not need input 
+ * calling any functions that always have to be called and do not need input
  * information.
  */
 class MySql {
 private:
-    /*
+    /**
      * \brief Can not be a smart pointer
      *
      * This variable can not be a smart pointer due to the smart pointers needing
-     *  a destructor to call. The destructor of sql::Driver is protected and therefore
-     *  cannot be reached.
+     * a destructor to call. The destructor of sql::Driver is protected and therefore
+     * cannot be reached.
      */
     sql::Driver * driver;
     std::unique_ptr<sql::Connection> connection;

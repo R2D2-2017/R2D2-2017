@@ -11,8 +11,8 @@
 
 #include <wiringPi.h>
 
-/*
- * \brief Libarary for using a 4x4 keypad
+/**
+ * \brief Library for using a 4x4 keypad
  * 
  * This library can be used to capture input from a 4x4 keypad using wiringPi.
  * 

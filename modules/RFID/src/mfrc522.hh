@@ -135,14 +135,14 @@ public:
     
     /**
      * \brief A function for writing an unsigned char to an address in the mfrc522.
-     * \param[in] address The address in the mfrc522 value should be written to.
+     * \param[in] reg The address in the mfrc522 value should be written to.
      * \param[in] value The value to be written to the mfrc522 register
      */
     void writeRegister(const mfrc522Registers reg, const uint8_t value);
 
     /**
      *\brief A function for writing multiple bytes to the mfrc522
-     *\param[in] address The address of the register in the mfrc522 to write the bytes to.
+     *\param[in] reg The address of the register in the mfrc522 to write the bytes to.
      *\param[in] value The array of data to be written to the mfrc522.
      *\param[in] len The length of the data to be written.
      */
@@ -150,21 +150,21 @@ public:
     
     /**
      * \brief A function for reading an unsigned char from a register in the mfrc522.
-     * \param[in] address The address the data should be read from.
+     * \param[in] reg The address the data should be read from.
      * \return Returns an unsigned char read from the mfrc522. 
      */
     uint8_t readRegister(const mfrc522Registers reg);
     
     /**
      * \brief A function for setting only the selected bits
-     * \param[in] address The address in the mfrc522 the mask should be written to.
+     * \param[in] reg The address in the mfrc522 the mask should be written to.
      * \param[in] mask The Mask that should be written to the register.
      */
     void setRegisterBitMask(const mfrc522Registers reg, const uint8_t mask);
     
     /**
      * \brief A function for clearing the selected bits.
-     * \param[in] address The address in the mfrc522 the mask should be written to.
+     * \param[in] reg The address in the mfrc522 the mask should be written to.
      * \param[in] mask The Mask that should be written to the register.
      */
     void clearRegisterBitMask(const mfrc522Registers reg, const uint8_t mask);

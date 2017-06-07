@@ -1,76 +1,73 @@
 /**
  * \file	  encryption.hh
- * \brief     Class that applys simple non safe encryption
+ * \brief     Class that applies simple non safe encryption
  * \author    Rik Honcoop
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See LICENSE
  */
 
-#ifndef ENCRYPTION_HH
-#define ENCRYPTION_HH
+#pragma once
 
 #include <string>
 
 class Encryption{
+private:
+    int encryptKey;
 public:
     
     /**
-     * \brief Constructor for it using your own key code.
+     * \brief Constructor for if using your own key code.
      */
 	Encryption();
 
 
-	/*
-	 * Contructor for if your using fixed key
+	/**
+	 * Contructor for if you're using fixed key
 	 *
-	 * \param[in] Key that will be used by the object for standaart encryption
+	 * \param[in]   encryptionKey   Key that will be used by the object for standard encryption
 	 */
 	Encryption(int encryptionKey);
     
    /**
-     * \brief Can encrypt a string, with a give keycode.
+     * \brief Can encrypt a string, with a given keycode
      * 
-     * \param[in,out] Input string that will be encrypted
-     * \param[in,out] keyCode that will be used the encrypt the string with a specific key
-     * \return string
+     * \param[in,out]   input   Input string that will be encrypted
+     * \param[in]   keyCode  keyCode that will be used the encrypt the string with a specific key
+     * \return Encrypted string
      */
     std::string Encrypt(std::string input, int keyCode);
     
    /**
-     * \brief can encrypt a string if the enqryption key is given with the constuctor.
+     * \brief can encrypt a string if the encryption key is given with the constuctor
      * 
-     * \param[in,out] Input string that will be encrypted with a give encryption key in constructor or later set with setEncryptionKey().
-     * \return string
+     * \param[in,out]   input   Input string that will be encrypted with a give encryption key in constructor or later set with setEncryptionKey()
+     * \return Encrypted string
      */
     std::string Encrypt(std::string input);
     
     /**
      * \brief Can solve the previously encrypted string
      * 
-     * \param[in,out] Input string that will be decrypted
-     * \param[in,out] keyCode that will be used the decrypt the string with a specific key
-     * \return Returns a Decrypted string if the keyCode is the same as applyd in the encryption.
+     * \param[in,out]   input   Input string that will be decrypted
+     * \param[in]   keyCode  keyCode that will be used the decrypt the string with a specific key
+     * \return Returns a decrypted string if the keyCode is the same as applied in the encryption
      */
     std::string Decrypt(std::string input, int keyCode);
     
     /**
-     * \brief Can solve the previously encrypted string
+     * \brief Decrypts the previously encrypted string
      * 
-     * \param[in,out] Input string that will be decrypted
-     * \return Returns a Decrypted string.
+     * \param[in,out]   input   Input string that will be decrypted
+     * \return Returns a Decrypted string
      */
     std::string Decrypt(std::string input);
     
     /**
-     * \brief Set the encryption key if not given in constructor
+     * \brief Set the encryption key
      *
-     * \param[in,out] Input string that will be decrypt with a give encryption key in constructor or later set with setEncryptionKey().
+     * \param[in,out] Input string that will be decrypt with a give encryption key in constructor or later set with setEncryptionKey()
      */
     void setEncryptionKey(int encryptionKey);
 
-private:
-    int encryptKey;
 };
-
-#endif /* ENCRYPTION_HH */
 

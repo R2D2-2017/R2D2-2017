@@ -7,11 +7,11 @@
 #include "encryption.hh"
 
 Encryption::Encryption(){
-encryptKey = 1;
+    encryptKey = 1;
 }
 
 Encryption::Encryption(int encryptionKey){
-encryptKey = encryptionKey;
+    encryptKey = encryptionKey;
 }
 
 std::string Encryption::Decrypt(std::string input, int keyCode){
