@@ -59,7 +59,7 @@ public:
  * \param[in]     input    std::string that states the message received from a client
  */
 
-    void handleInput(std::string input, command c = command(), path nodes = path()); //const string
+    void handleInput(sf::Packet & p);
 
     /**
  * \brief this function reads the node file in a string

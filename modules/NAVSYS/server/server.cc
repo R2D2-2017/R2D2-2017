@@ -62,16 +62,11 @@ void Server::run(){
                     if(socketSelector.isReady(*s)){
                         sf::Packet p;
                         
-                        //command::none due to initialization warning
-                        command c = command::none;
-                        path nodes;
-                        //std::string str;
                         if(s->receive(p) == sf::Socket::Done){
                             std::cout << "Hooray, you received a package" << std::endl;
-                            p >> c >> nodes;//str
-                            //std::cout << str << std::endl;
+                            
                             // This is not a nice way to do things, but there needs to be something that works
-                            handleInput("", c, nodes);//str);
+                            handleInput(p);
 
                         }
                     }
@@ -82,62 +77,28 @@ void Server::run(){
 }
 
 
-void Server::handleInput(std::string input, command c, path nodes){//const std::string & input){
-    if(input == "REQUEST_NODES"){
+void Server::handleInput(sf::Packet & p){
+    //command::none due to initialization warning
+    command cmd = command::none;
+    p >> cmd;
+    
+    if(cmd == command::requestNodes){
         broadcastMessage(readNodesAsString());
     }
-    if(input == "REQUEST_VERTICES"){
+    if(cmd == command::requestNodes){
         broadcastMessage(readVerticesAsString());
     }
     // Request path
-    if(c == command::requestPath) {//input.at(0) == 'P'){
-
+    if(cmd == command::requestPath) {
+        path nodes;
+        p >> nodes;
+        
         std::string nodeFilePath = "../server/node.txt";
         std::string verticeFilePath = "../server/vertice.txt";
 
         GraphFactory factory =  GraphFactory();
         Graph g = Graph();
         factory.createGraph(nodeFilePath,verticeFilePath, g);
-        
-        /*
-        // strings to store chars parsed
-        std::string nodeA = "";
-        std::string nodeB = "";
-
-        // flags to to deside based on specific chars, which data element is being read
-        bool nodeFlagA = 0;
-        bool nodeFlagB = 0;
-
-        //start at index 1 because index 0 denotes the command issued
-        unsigned int i = 1;
-        while (i < input.length()) {
-            char c = input.at(i);
-
-            if (c == '(' && !nodeFlagB) {
-                nodeFlagA = 1;
-            }
-            else if (c == '(' && nodeFlagB) {
-                //nothing
-            }
-            else if (c == ')') {
-                nodeFlagA = 0;
-                nodeFlagB = 0;
-
-            }
-            else if (c == '-'){
-                nodeFlagB =1;
-            }
-            else {
-                if (nodeFlagA) {
-                    nodeA += c;
-                }
-                if (nodeFlagB) {
-                    nodeB += c;
-                }
-            }
-
-            i++;
-        }*/
 
         Node start( g.getNodeByName(nodes.startNode).getCoordinate().x, g.getNodeByName(nodes.startNode).getCoordinate().y, //startNode == nodeA
               g.getNodeByName(nodes.startNode).getName());

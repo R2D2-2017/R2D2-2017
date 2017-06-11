@@ -41,9 +41,10 @@ void Client::run(){
 
     //used to let the user know a knew request can be made
     bool printOptionsFlag =1;
-	while(true){
+    while(true){
         window.clear(sf::Color::Black);
-		sf::sleep(sf::milliseconds(100));
+	sf::sleep(sf::milliseconds(100));
+        
         printOnScreen.reload(&g);
         printOnScreen.draw();
 
@@ -54,15 +55,13 @@ void Client::run(){
         }
 
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left)){
-            //std::string startNode;
-            //std::string endNode;
             path nodes;
             std::cout << "name of start node>";
             std::cin >> nodes.startNode;
             std::cout << "name of end node>";
             std::cin >> nodes.endNode;
 
-            requestPath(nodes);//startNode, endNode);
+            requestPath(nodes);
 
             if(  socket.receive(receivedMessage) != sf::Socket::Done  ){
                 std::cout << "Something went wrong with receiving" << std::endl;
@@ -85,7 +84,7 @@ void Client::run(){
                     }
                 }
         }
-	}
+    }
 }
 
 
@@ -126,7 +125,7 @@ void Client::getDatabaseFromServer(std::string nodeFilePath, std::string vertice
 
 void Client::requestNodes(){
 	sf::Packet p;
-	p << std::string("REQUEST_NODES");
+	p << command::requestNodes;
 	if(socket.send(p) != sf::Socket::Done){
 		std::cout << "Something went wrong while sending your message, please try again later" << std::endl;
 	}
@@ -135,7 +134,7 @@ void Client::requestNodes(){
 
 void Client::requestVertices(){
 	sf::Packet p;
-	p << std::string("REQUEST_VERTICES");
+	p << command::requestVertices;
 	if(socket.send(p) != sf::Socket::Done){
 		std::cout << "Something went wrong while sending your message, please try again later" << std::endl;
 	}
@@ -143,12 +142,6 @@ void Client::requestVertices(){
 
 void Client::requestPath(path nodes){
     sf::Packet p;
-    //std::string str;
-    //str.append("P(");
-    //str.append(nodes.startNode);
-    //str.append(")-(");
-    //str.append(nodes.endNode);
-    //str.append(")");
     p << command::requestPath << nodes;
     if(socket.send(p) != sf::Socket::Done){
         std::cout << "Something went wrong while sending your message, please try again later" << std::endl;
