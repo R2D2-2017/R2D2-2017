@@ -61,13 +61,17 @@ void Server::run(){
                 for(auto &s : connectedClientSockets){
                     if(socketSelector.isReady(*s)){
                         sf::Packet p;
-                        std::string str;
+                        
+                        //command::none due to initialization warning
+                        command c = command::none;
+                        path nodes;
+                        //std::string str;
                         if(s->receive(p) == sf::Socket::Done){
                             std::cout << "Hooray, you received a package" << std::endl;
-                            p >> str;
-                            std::cout << str << std::endl;
+                            p >> c >> nodes;//str
+                            //std::cout << str << std::endl;
                             // This is not a nice way to do things, but there needs to be something that works
-                            handleInput(str);
+                            handleInput("", c, nodes);//str);
 
                         }
                     }
@@ -78,7 +82,7 @@ void Server::run(){
 }
 
 
-void Server::handleInput(const std::string & input){
+void Server::handleInput(std::string input, command c, path nodes){//const std::string & input){
     if(input == "REQUEST_NODES"){
         broadcastMessage(readNodesAsString());
     }
@@ -86,7 +90,7 @@ void Server::handleInput(const std::string & input){
         broadcastMessage(readVerticesAsString());
     }
     // Request path
-    if(input.at(0) == 'P'){
+    if(c == command::requestPath) {//input.at(0) == 'P'){
 
         std::string nodeFilePath = "../server/node.txt";
         std::string verticeFilePath = "../server/vertice.txt";
@@ -94,7 +98,8 @@ void Server::handleInput(const std::string & input){
         GraphFactory factory =  GraphFactory();
         Graph g = Graph();
         factory.createGraph(nodeFilePath,verticeFilePath, g);
-
+        
+        /*
         // strings to store chars parsed
         std::string nodeA = "";
         std::string nodeB = "";
@@ -132,13 +137,13 @@ void Server::handleInput(const std::string & input){
             }
 
             i++;
-        }
+        }*/
 
-        Node start( g.getNodeByName(nodeA).getCoordinate().x, g.getNodeByName(nodeA).getCoordinate().y,
-              g.getNodeByName(nodeA).getName());
+        Node start( g.getNodeByName(nodes.startNode).getCoordinate().x, g.getNodeByName(nodes.startNode).getCoordinate().y, //startNode == nodeA
+              g.getNodeByName(nodes.startNode).getName());
 
-        Node end( g.getNodeByName(nodeB).getCoordinate().x, g.getNodeByName(nodeB).getCoordinate().y,
-                      g.getNodeByName(nodeB).getName());
+        Node end( g.getNodeByName(nodes.endNode).getCoordinate().x, g.getNodeByName(nodes.endNode).getCoordinate().y,
+                      g.getNodeByName(nodes.endNode).getName());
 
         std::vector<PathNode> path = aStar(g, start, end);
         std::string str;

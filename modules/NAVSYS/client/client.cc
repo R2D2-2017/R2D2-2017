@@ -54,14 +54,15 @@ void Client::run(){
         }
 
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left)){
-            std::string startNode;
-            std::string endNode;
+            //std::string startNode;
+            //std::string endNode;
+            path nodes;
             std::cout << "name of start node>";
-            std::cin >> startNode;
+            std::cin >> nodes.startNode;
             std::cout << "name of end node>";
-            std::cin >> endNode;
+            std::cin >> nodes.endNode;
 
-            requestPath(startNode, endNode);
+            requestPath(nodes);//startNode, endNode);
 
             if(  socket.receive(receivedMessage) != sf::Socket::Done  ){
                 std::cout << "Something went wrong with receiving" << std::endl;
@@ -140,15 +141,15 @@ void Client::requestVertices(){
 	}
 }
 
-void Client::requestPath(std::string startNode, std::string endNode){
+void Client::requestPath(path nodes){
     sf::Packet p;
-    std::string str;
-    str.append("P(");
-    str.append(startNode);
-    str.append(")-(");
-    str.append(endNode);
-    str.append(")");
-    p << str;
+    //std::string str;
+    //str.append("P(");
+    //str.append(nodes.startNode);
+    //str.append(")-(");
+    //str.append(nodes.endNode);
+    //str.append(")");
+    p << command::requestPath << nodes;
     if(socket.send(p) != sf::Socket::Done){
         std::cout << "Something went wrong while sending your message, please try again later" << std::endl;
     }

@@ -14,6 +14,8 @@
 #include <string>
 #include <iostream>
 
+#include "../common/protocol.hh"
+
 /**
  * \brief Server class
  *
@@ -57,7 +59,7 @@ public:
  * \param[in]     input    std::string that states the message received from a client
  */
 
-    void handleInput(const std::string & input);
+    void handleInput(std::string input, command c = command(), path nodes = path()); //const string
 
     /**
  * \brief this function reads the node file in a string

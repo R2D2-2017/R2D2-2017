@@ -16,6 +16,8 @@
 #include "graphicsgraph.hh"
 #include "../common/graph-input.hh"
 
+#include "../common/protocol.hh" //added
+
 
 /**
  * \brief Client class
@@ -73,6 +75,6 @@ public:
 * this function sends the requests for  the path between two nodes.
 
 */
-	void requestPath(std::string startNode, std::string endNode);
+	void requestPath(path nodes);//orig std::string startNode, std::string endNode
 };
 
