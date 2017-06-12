@@ -5,6 +5,8 @@
 * \license   See LICENSE
 */
 
+#include <vector>
+
 #include "pathnode.hh"
 
 PathNode::PathNode(Node n, Node goal, float g) :
@@ -57,4 +59,36 @@ std::ostream &operator<<(std::ostream & os, PathNode node)
 
 	os << " @ " << node.coordinate;
 	return os;
+}
+
+sf::Packet & operator<<(sf::Packet & lhs, const PathNode & node) {
+    lhs << node.pathDistance << node.priority << node.coordinate << node.parent << node.name;
+    return lhs;
+}
+
+sf::Packet & operator>>(sf::Packet & lhs, PathNode & node) {
+    lhs >> node.pathDistance >> node.priority >> node.coordinate >> node.parent >> node.name;
+    return lhs;
+}
+
+
+sf::Packet & operator<<(sf::Packet & lhs, const std::vector<PathNode> & pathVector) {
+    lhs << pathVector.size();
+    for (auto node : pathVector) {
+        lhs << node;
+    }
+    return lhs;
+}
+
+
+sf::Packet & operator>>(sf::Packet & lhs, std::vector<PathNode> & pathVector) {
+    int vectorSize;
+    lhs >> vectorSize;
+    
+    PathNode node;
+    for (int i = 0; i < vectorSize; i++) {
+        lhs >> node;
+        pathVector.push_back(node);
+    }
+    return lhs;
 }

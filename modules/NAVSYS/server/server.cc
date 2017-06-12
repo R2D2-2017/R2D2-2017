@@ -6,36 +6,39 @@
  * \license   See ../../LICENSE
  */
 
+#include "server.hh"
 #include <iterator>
 #include <algorithm>
-#include <fstream>
-#include "server.hh"
 #include "../common/astar.hh"
-#include "../common/graph-factory.hh"
 
-Server::Server(const uint16_t port): port(port){}
+Server::Server(const uint16_t port):
+    port(port)
+{
+    std::string nodeFilePath = "../server/node.txt";
+    std::string verticeFilePath = "../server/vertice.txt";
+    
+    GraphFactory factory;
+    factory.createGraph(nodeFilePath,verticeFilePath, g);
+}
 
-void Server::broadcastMessage(const std::string &message){
+template <typename T>
+void Server::broadcastMessage(const command &cmd, const T & message){
     if(!connectedClientSockets.empty()){
         sf::Packet p;
-        p << message;
+        p << cmd << message;
         for(auto &s : connectedClientSockets){
             if(s->send(p) != sf::Socket::Done){
                 std::cout << "Sending message failed" << std::endl;
+                exit(-1);
             }
         }
     }
 }
 
 void Server::run(){
-
-    // Running in the nineties
     socketListener.listen(port);
     socketSelector.add(socketListener);
-
-
-
-
+    
     while(true){
 
         sf::sleep(sf::milliseconds(100));
@@ -44,18 +47,15 @@ void Server::run(){
         if(socketSelector.wait()){
 
             if(socketSelector.isReady(socketListener)){
-                auto client = new sf::TcpSocket;
+                uniqueSocket_t client;
 
-                if(socketListener.accept(*client) == sf::Socket::Done){
-                    std::cout << "New client hype" << std::endl;
-
-                    connectedClientSockets.push_back(client);
-                    socketSelector.add(*client);
-
-                } else{
+                if(socketListener.accept(*client) != sf::Socket::Done){
                     std::cout << "Something went wrong connecting to a new socket, please try again" << std::endl;
-                    delete client;
                 }
+                
+                std::cout << "New client hype" << std::endl;
+                connectedClientSockets.push_back(client);
+                socketSelector.add(*client);
 
             } else{
                 for(auto &s : connectedClientSockets){
@@ -65,7 +65,6 @@ void Server::run(){
                         if(s->receive(p) == sf::Socket::Done){
                             std::cout << "Hooray, you received a package" << std::endl;
                             
-                            // This is not a nice way to do things, but there needs to be something that works
                             handleInput(p);
 
                         }
@@ -82,73 +81,22 @@ void Server::handleInput(sf::Packet & p){
     command cmd = command::none;
     p >> cmd;
     
-    if(cmd == command::requestNodes){
-        broadcastMessage(readNodesAsString());
+    if(cmd == command::requestNodes) {
+        broadcastMessage(command::responseNodes, g.getNodes());
     }
-    if(cmd == command::requestNodes){
-        broadcastMessage(readVerticesAsString());
+    else if(cmd == command::requestVertices) {
+        broadcastMessage(command::responseVertices, g.getVertices());
     }
-    // Request path
-    if(cmd == command::requestPath) {
-        path nodes;
-        p >> nodes;
+    else if(cmd == command::requestPath) {
+        StartEndNodeData pathToFind;
+        p >> pathToFind;
         
-        std::string nodeFilePath = "../server/node.txt";
-        std::string verticeFilePath = "../server/vertice.txt";
-
-        GraphFactory factory =  GraphFactory();
-        Graph g = Graph();
-        factory.createGraph(nodeFilePath,verticeFilePath, g);
-
-        Node start( g.getNodeByName(nodes.startNode).getCoordinate().x, g.getNodeByName(nodes.startNode).getCoordinate().y, //startNode == nodeA
-              g.getNodeByName(nodes.startNode).getName());
-
-        Node end( g.getNodeByName(nodes.endNode).getCoordinate().x, g.getNodeByName(nodes.endNode).getCoordinate().y,
-                      g.getNodeByName(nodes.endNode).getName());
-
+        Node start( g.getNodeByName(pathToFind.startNode) );
+        Node end( g.getNodeByName(pathToFind.endNode) );
         std::vector<PathNode> path = aStar(g, start, end);
-        std::string str;
-        for (auto it = path.begin(); it != path.end(); it++)
-        {
-            str.append(it->getName());
-            if(it != path.end()-1){
-                str.append(" --> ");
-            }
-        }
-
-        broadcastMessage(str);
+        
+//        /broadcastMessage(command::responsePath, path);
 
     }
-
-}
-
-std::string Server::readNodesAsString(){
-
-    std::string nodeFilePath = "../server/node.txt";
-    std::ifstream nodes(nodeFilePath);
-
-    char n;
-    std::string stringOfNodes = "";
-    while( nodes.get(n) ){
-        stringOfNodes+= n;
-    }
-    nodes.close();
-    return stringOfNodes;
-
-
-}
-
-std::string Server::readVerticesAsString(){
-
-    std::string verticeFilePath = "../server/vertice.txt";
-    std::ifstream vertices(verticeFilePath);
-
-    char v;
-    std::string stringOfVertices = "";
-    while( vertices.get(v) ){
-        stringOfVertices+= v;
-    }
-    vertices.close();
-    return stringOfVertices;
 
 }

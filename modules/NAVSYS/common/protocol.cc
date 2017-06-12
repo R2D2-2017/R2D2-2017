@@ -8,16 +8,16 @@ sf::Packet & operator>>(sf::Packet & lhs, command & c) {
 }
 
 sf::Packet & operator<<(sf::Packet & lhs, const command & c) {
-    lhs << static_cast<int>(c);//std::underlying_type<command>::type
+    lhs << static_cast<int>(c);
     return lhs;
 }
 
-sf::Packet & operator>>(sf::Packet & lhs, path & nodes) {
+sf::Packet & operator>>(sf::Packet & lhs, StartEndNodeData & nodes) {
     lhs >> nodes.startNode >> nodes.endNode;
     return lhs;
 }
 
-sf::Packet & operator<<(sf::Packet & lhs, const path & nodes) {
+sf::Packet & operator<<(sf::Packet & lhs, const StartEndNodeData & nodes) {
     lhs << nodes.startNode << nodes.endNode;
     return lhs;
 }
