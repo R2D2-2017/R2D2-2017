@@ -22,10 +22,19 @@
  */
 float readGasSensor(hwlib::target::pin_adc &sensor);
 
+float analogToPpm(float analogValue) {
+	float sensorVolt = analogValue / 1024 * 5.0;
+	float rsAir = (5.0 - sensorVolt) / sensorVolt; // omit *RL
+	float R0 = rsAir / 6.5; // The ratio of RS/R0 is 6.5 in a clear air from Graph (Found using WebPlotDigitizer)
+	return R0;
+	
+}
+
 float readGasSensor(hwlib::target::pin_adc &sensor) {
     // 4096.0f is previous max value
     // 3.3f is new max value
-    return ((float)sensor.get()) / 4096.0f * 3.3f;
+    float analogValue = (((float)sensor.get()) / 4096.0f * 3.3f);
+	return analogToPpm(analogValue);
 }
 
 int main() {
@@ -45,6 +54,7 @@ int main() {
     auto logger = DataLogger(sd);
 
     Alarm alarm = Alarm(2.7f, alarmled);
+	float sensorValue;
 
     // Startup blink
     a.set(0);
@@ -52,16 +62,17 @@ int main() {
     a.set(1);
     hwlib::wait_ms(100);
     a.set(0);
-
     hwlib::cout << "writing to sd card\r\n";
+	
     while (true) {
         uint64_t time = hwlib::now_us();
-
         // For debugging print a . for each measurement
-        hwlib::cout << ".";
+		sensorValue = readGasSensor(sensor);
+        hwlib::cout << (char)sensorValue;
 
-        logger.writeValue(readGasSensor(sensor));
-        alarm.checkGasValue(readGasSensor(sensor));
+        logger.writeValue(sensorValue);
+        alarm.checkGasValue(sensorValue);
+		
         hwlib::wait_us((int_fast32_t) (5000000 - (hwlib::now_us() - time)));
     }
 
