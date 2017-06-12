@@ -32,7 +32,7 @@ void Client::run(){
     factory.createGraph(nodeFilePath,verticeFilePath, g);
 
     //create the window
-    sf::RenderWindow  window{ sf::VideoMode{ 1000, 1000}, "SFML window" };
+    sf::RenderWindow  window{ sf::VideoMode::getDesktopMode, "SFML window", sf::Style::Fullscreen};
     GraphDrawer printOnScreen(window);
 
 
@@ -50,8 +50,14 @@ void Client::run(){
 
         if(printOptionsFlag){
             printOptionsFlag = 0;
-            std::cout << "press Left to enter route information\n";
+            std::cout << "Press Left to enter route information\n";
+						std::cout << "Press Q to exit the window\n";
         }
+
+				if(sf::Keyboard::isKeyPressed(sf::Keyboard::Q){
+						window.close();
+						return;
+				}
 
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left)){
             std::string startNode;
@@ -153,4 +159,3 @@ void Client::requestPath(std::string startNode, std::string endNode){
         std::cout << "Something went wrong while sending your message, please try again later" << std::endl;
     }
 }
-
