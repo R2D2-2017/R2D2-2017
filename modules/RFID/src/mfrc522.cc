@@ -126,7 +126,6 @@ Mfrc522::statusCodes Mfrc522::communicateWithTag(const mfrc522Commands command,
         }
     }
     return statusCodes::statusOk;
-    
 }
 
 bool Mfrc522::isTagPresent(){
@@ -136,8 +135,5 @@ bool Mfrc522::isTagPresent(){
     
     statusCodes status = communicateWithTag(mfrc522Commands::transceive, &data, 1, nullptr, 0); // nullptr beacause we do not need ro read data from the tag.
 
-    if(status == statusCodes::statusOk){
-        return true;
-    }
-    return false;
+    return status == statusCodes::statusOk;
 }

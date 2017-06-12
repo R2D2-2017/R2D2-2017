@@ -19,7 +19,6 @@ set(sources
     src/main.cc
     src/mysql.cc
     src/mfrc522.cc
-    src/encryption.cc
     src/led-controller.cc
     src/matrix-keypad.cc
     src/config-file-parser.cc)

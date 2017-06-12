@@ -1,22 +1,28 @@
- /**
- * \file      main.cc
- * \brief     Program for giving an indication when a rfid card has been detected, a database connection has been made and a string has been encrypted
- * \author    Tim IJntema, Stefan de Beer, Arco Gelderblom, Rik Honcoop, Koen de Groot
- * \copyright Copyright (c) 2017, The R2D2 Team
- * \license   See LICENSE
- */
- 
+/**
+* \file      main.cc
+* \brief     Program for giving an indication when a rfid card has been detected, a database connection has been made and a string has been encrypted
+* \author    Tim IJntema, Stefan de Beer, Arco Gelderblom, Rik Honcoop, Koen de Groot
+* \copyright Copyright (c) 2017, The R2D2 Team
+* \license   See LICENSE
+*/
+
 #include "mysql.hh"
 #include "mfrc522.hh"
-#include "encryption.hh"
 #include "led-controller.hh"
 #include "matrix-keypad.hh"
 #include "config-file-parser.hh"
 
 #include <wiringPi.h>
 #include <wiringPiSPI.h>
- 
+
 #include <iostream>
+
+struct MFAuthentData {
+    uint8_t command_code;
+    uint8_t blockAddress;
+    uint8_t sectorKey[5];
+    uint8_t serialNumber[4];
+};
 
 int main(int argc, char **argv) {
     try {
@@ -24,15 +30,15 @@ int main(int argc, char **argv) {
         std::string username;
         std::string password;
         int encryptionKey;
-        
+
         ConfigFileParser factory("database-config.txt");
         factory.loadDatabaseSettings(ip, username, password);
-        
+
         factory.changeFile("encryption-config.txt");
         factory.loadEncryptionSettings(encryptionKey);
-        
+
         MySql connection;
-        
+
         connection.connectTo(ip, username, password);
         connection.selectDatabase("R2D2");
 
@@ -49,17 +55,29 @@ int main(int argc, char **argv) {
         //Keypad objects
         MatrixKeypad keypad(keypadRow, keypadColumn, 4);
         char c;
-        
-        Encryption encryption(encryptionKey);
 
         LedController led(0);
 
         while (true) {
             std::cout << "\n\nWaiting for rfid tag: \n";
 
-            while (!rfid.isTagPresent()) {}
-            
+            while (!rfid.isTagPresent()) {
+            }
+            MFAuthentData x;
+            rfid.communicateWithTag(Mfrc522::mfrc522Commands::receive,
+                                    nullptr,
+                                    0,
+                                    x.serialNumber,
+                                    4);
+//            rfid.communicateWithTag(Mfrc522::mfrc522Commands::mfAuthent, nullptr, 0, nullptr, 0);
+
             std::cout << "Hello tag\n";
+            std::cout << "Your id = ";
+            for(size_t i = 0; i < 4; i++){
+                std::cout << std::hex << x.serialNumber[i];
+            }
+            std::cout << "\n";
+
             std::cout << "Waiting for key press\n";
             while ((c = keypad.getKey()) == 'h') {
                 delay(100);
@@ -67,25 +85,24 @@ int main(int argc, char **argv) {
             std::cout << "A key has been pressed\n";
 
             connection.executeQuery("SELECT * FROM RFID");
-                
+
             std::cout << "Database information: "
                       << connection.getPreviousResponseColumn("CARD_ID")
                       << '\n';
-            
+
             std::cout << "String before encryption: R2D2 project\n";
             std::cout << "String after encryption: "
-                      << encryption.Encrypt("R2D2 project")
                       << '\n';
 
             led.blinkLed(1000);
         }
-    } catch(const std::string & error) {
+    } catch (const std::string &error) {
         std::cerr << error << '\n';
         exit(EXIT_FAILURE);
-    } catch(...) {
+    } catch (...) {
         std::cerr << "Something went wrong\n";
         exit(EXIT_FAILURE);
-    }  
+    }
     return 0;
 }
 
