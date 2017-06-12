@@ -32,7 +32,7 @@ void Client::run(){
     factory.createGraph(nodeFilePath,verticeFilePath, g);
 
     //create the window
-    sf::RenderWindow  window{ sf::VideoMode{ 1000, 1000}, "SFML window" };
+    sf::RenderWindow  window{ sf::VideoMode{ 1000, 1000}, "NAVSYS" };
     GraphDrawer printOnScreen(window);
 
 
@@ -104,6 +104,7 @@ void Client::getDatabaseFromServer(std::string nodeFilePath, std::string vertice
         receivedMessage >> messageString;
         nodeStream << messageString;
     }
+    std::cout<<messageString;
     nodeStream.close();
 
     std::ofstream verticeStream(verticeFilePath);
