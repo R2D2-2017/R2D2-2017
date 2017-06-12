@@ -19,5 +19,13 @@ public:
 	const void draw(sf::RenderWindow & window);
 	void setFocus(bool b);
 	bool getFocus();
+	
+	void Button::setSize(sf::Vector2f newSize);
+	void Button::setText(std::string newText);
+	void Button::setPosition(sf::Vector2f newPosition);
 
+	sf::Vector2f getPosition();
+	std::string getText();
+	sf::Vector2f getSize();
+	sf::IntRect getBounds();
 };

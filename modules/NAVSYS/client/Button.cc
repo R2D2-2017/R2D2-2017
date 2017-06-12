@@ -1,4 +1,4 @@
-#include <Button.hh>
+#include "Button.hh"
 
 Button::Button(sf::Vector2f position, sf::Vector2f size, std::string name) :
 	position(position),
@@ -45,3 +45,31 @@ void Button::setFocus(bool b) {
 bool Button::getFocus() {
 	return isFocused;
 }
+
+sf::IntRect Button::getBounds() {
+	sf::IntRect boundingBox(position.x, position.y, size.x, size.y);
+	return boundingBox;
+}
+
+
+void Button::setSize(sf::Vector2f newSize){
+	size = newSize;
+}
+void Button::setText(std::string newText){
+	name = newText;
+}
+void Button::setPosition(sf::Vector2f newPosition){
+	position = newPosition;
+}
+
+
+sf::Vector2f Button::getPosition(){
+	return position;
+}
+std::string Button::getText(){
+	return name;
+}
+sf::Vector2f Button::getSize(){
+	return size;
+}
+
