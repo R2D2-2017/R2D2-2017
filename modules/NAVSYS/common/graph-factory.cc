@@ -1,5 +1,5 @@
 /**
- * \file
+ * \file      graph-factory.cc
  * \brief     This file includes contains the implementations for the graphfactory class
  * \author    Jeremy, Arco Gelderblom
  * \copyright Copyright (c) 2017, The R2D2 Team
@@ -90,7 +90,6 @@ std::vector<Node>  GraphFactory::RunNodeFactory(std::string nodeFilePath) {
             nodes.push_back(newNode);
 
         }
-        std::cout<<"in RunNodeFactory: " <<nodes.size() <<"\n";
         nodeFileStreamIn.close();
     } else {
         std::cerr<<"Couldn't open the file";
@@ -173,7 +172,6 @@ std::vector<Vertice> GraphFactory::RunVerticeFactory(std::string verticeFilePath
 
         }
         verticeFileStreamIn.close();
-        std::cout<<"in RunVerticeFactory: " <<vertices.size() <<"\n";
     } else {
         std::cerr<<"Couldn't open the file";
     }
