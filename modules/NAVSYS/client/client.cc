@@ -8,7 +8,7 @@
  */
 
 #include "client.hh"
-
+#include "window.hh"
 
 Client::Client(sf::IpAddress ipAddress, uint16_t port): ipAddress(ipAddress), port(port){}
 
@@ -32,7 +32,9 @@ void Client::run(){
     factory.createGraph(nodeFilePath,verticeFilePath, g);
 
     //create the window
-    sf::RenderWindow  window{ sf::VideoMode{ 1000, 1000}, "SFML window" };
+    Window window(sf::VideoMode{1000, 1000}, "NAVSYS");
+    window.setViewPort(sf::Vector2f(1000, 1000), sf::Vector2f(500, 500));
+
     GraphDrawer printOnScreen(window);
 
 
@@ -43,7 +45,7 @@ void Client::run(){
     bool printOptionsFlag =1;
 	while(true){
         window.clear(sf::Color::Black);
-		sf::sleep(sf::milliseconds(100));
+		sf::sleep(sf::milliseconds(16));
         printOnScreen.reload(&g);
         printOnScreen.draw();
 
@@ -82,6 +84,11 @@ void Client::run(){
                     if( event.type == sf::Event::Closed ){
                         window.close();
                     }
+                }
+                if (sf::Mouse::isButtonPressed(sf::Mouse::Left)){
+                    sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+                    sf::Vector2f worldMousePos = window.mapPixelToCoords(mousePos);
+                    window.setViewPos(worldMousePos);
                 }
         }
 	}
