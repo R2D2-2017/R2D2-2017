@@ -21,13 +21,8 @@
  * \returns The measured data as float voltage
  */
 float readGasSensor(hwlib::target::pin_adc &sensor);
+float readGasSensorAverage(hwlib::target::pin_adc &sensor, int quantityCounter);
 int compareToCalibration(hwlib::target::pin_adc &sensor, float calibrationValue);
-float calibration(hwlib::target::pin_adc &sensor, int calibrationCounter);
-
-
-int compareToCalibration(hwlib::target::pin_adc &sensor, float calibrationValue) {
-    return (int)(100 / calibrationValue * readGasSensor(sensor));
-}
 
 float readGasSensor(hwlib::target::pin_adc &sensor) {
     // 4096.0f is previous max value
@@ -36,13 +31,17 @@ float readGasSensor(hwlib::target::pin_adc &sensor) {
     return analogValue;
 }
 
-float calibration(hwlib::target::pin_adc &sensor, int calibrationCounter) {
+float readGasSensorAverage(hwlib::target::pin_adc &sensor, int quantityCounter) {
     float totalValue = 0;
-    for(int i = 0; i < calibrationCounter; i++){
+    for(int i = 0; i < quantityCounter; i++){
         totalValue += readGasSensor(sensor);
-        hwlib::wait_ms(250);
+        hwlib::wait_ms(200);
     }
-    return totalValue/calibrationCounter;
+    return totalValue/quantityCounter;
+}
+
+int compareToCalibration(hwlib::target::pin_adc &sensor, float calibrationValue) {
+    return (int)(100 / calibrationValue * readGasSensorAverage(sensor, 5));
 }
 
 int main() {
@@ -62,7 +61,9 @@ int main() {
     auto logger = DataLogger(sd);
 
     Alarm alarm = Alarm(2.7f, alarmled);
-    float calibrationValue = calibration(sensor, 10);
+	hwlib::cout << "Calibrating...\r\n";
+    float calibrationValue = readGasSensorAverage(sensor, 25);
+	hwlib::cout << "Done!\r\n\n";
     int sensorValue = 0;
     // Startup blink
     a.set(0);
@@ -70,17 +71,17 @@ int main() {
     a.set(1);
     hwlib::wait_ms(100);
     a.set(0);
-    hwlib::cout << "writing to sd card\r\n";
+    hwlib::cout << "Writing to sd card\r\n";
     using namespace hwlib;
     while (true) {
         uint64_t time = hwlib::now_us();
         // For debugging print a . for each measurement
         sensorValue = compareToCalibration(sensor, calibrationValue);
-        cout << sensorValue << "\t";
+        cout << sensorValue << "\n";
         logger.writeValue(sensorValue);
         alarm.checkGasValue(sensorValue);
 
-        hwlib::wait_us((int_fast32_t) (2500000 - (hwlib::now_us() - time)));
+        hwlib::wait_us((int_fast32_t) (2000000 - (hwlib::now_us() - time)));
     }
 
     return 0;
