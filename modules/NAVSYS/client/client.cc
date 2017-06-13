@@ -39,26 +39,35 @@ void Client::run(){
     sf::Packet receivedMessage;
     std::string messageString;
 
+	//Button setup
+    std::vector<Button*> buttonList;
+    buttonList.push_back(new Button(window, { float(window.getSize().x - (buttonSize.x + 10)), 10 }, { buttonSize }, 1, "Shut Down"));
+
     //used to let the user know a knew request can be made
     bool printOptionsFlag =1;
 	while(true){
         window.clear(sf::Color::Black);
 		sf::sleep(sf::milliseconds(100));
         printOnScreen.reload(&g);
+        for (auto & indexer : buttonList) {
+            if (indexer->isPressed()) {
+                buttonAction(window, indexer->getId());
+            }
+            indexer->draw();
+        }
         printOnScreen.draw();
-
 
         if(printOptionsFlag){
             printOptionsFlag = 0;
-            std::cout << "press Left to enter route information\n";
+            std::cout << "Press Left to enter route information\n";
         }
 
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left)){
             std::string startNode;
             std::string endNode;
-            std::cout << "name of start node>";
+            std::cout << "Name of start node>";
             std::cin >> startNode;
-            std::cout << "name of end node>";
+            std::cout << "Name of end node>";
             std::cin >> endNode;
 
             requestPath(startNode, endNode);
@@ -69,7 +78,6 @@ void Client::run(){
             else{
                 receivedMessage >> messageString;
                 std::cout << messageString << std::endl;
-
             }
 
             //used to let the user know a knew request can be made
@@ -77,12 +85,12 @@ void Client::run(){
         }
 
         if( window.isOpen()) {
-            	sf::Event event;
-            	while( window.pollEvent(event) ){
-                    if( event.type == sf::Event::Closed ){
-                        window.close();
-                    }
+            sf::Event event;
+            while( window.pollEvent(event) ){
+                if( event.type == sf::Event::Closed ){
+                    window.close();
                 }
+            }
         }
 	}
 }
@@ -151,6 +159,16 @@ void Client::requestPath(std::string startNode, std::string endNode){
     p << str;
     if(socket.send(p) != sf::Socket::Done){
         std::cout << "Something went wrong while sending your message, please try again later" << std::endl;
+    }
+}
+
+void Client::buttonAction(sf::RenderWindow & window, int buttonId) {
+    switch (buttonId) {
+    case 1:
+        window.close();
+        break;
+    default:
+        break;
     }
 }
 

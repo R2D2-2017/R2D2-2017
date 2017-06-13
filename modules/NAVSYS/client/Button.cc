@@ -1,75 +1,86 @@
 #include "Button.hh"
 
-Button::Button(sf::Vector2f position, sf::Vector2f size, std::string name) :
-	position(position),
-	size(size),
-	name(name)
+Button::Button(sf::RenderWindow & window, sf::Vector2f position, sf::Vector2f size, int id, std::string text) :
+    window(window),
+    position(position),
+    size(size),
+    id(id)
 {
-	if(
-		!unpressedButtonTexture.loadFromFile(
-				"../bin/images/Unpressed-Button.png",
-				sf::IntRect(int(position.x), int(position.y), int(size.x), int(size.y))
-			) ||
-		!pressedButtonTexture.loadFromFile(
-				"../bin/images/Unpressed-Button.png",
-				sf::IntRect(int(position.x), int(position.y), int(size.x), int(size.y))
-			)
-		){
-		std::cout << "Could not load button.\n";
-	}
-	unpressedButtonTexture.setSmooth(true);
-	unpressedButton.setTexture(unpressedButtonTexture);
-	unpressedButton.setPosition(position);
-	pressedButtonTexture.setSmooth(true);
-	pressedButton.setTexture(pressedButtonTexture);
-	pressedButton.setPosition(position);
-	
-	if (!font.loadFromFile("../bin/fonts/arial.ttf")) {
-		std::cout << "Could not load font.\n";
-	}
-	buttonText.setFont(font);
-	buttonText.setPosition(position);
-	buttonText.setString(name);
-	
+    button.setSize(size);
+    button.setOutlineColor(sf::Color::Red);
+    button.setOutlineThickness(2);
+    button.setPosition(position);
+    
+    if (!font.loadFromFile(fontName)) {
+        std::cout << "Requested font could not be loaded.\n";
+    }
+    buttonText.setFont(font);
+    buttonText.setPosition(position);
+    buttonText.setString(text);
+    buttonText.setColor(sf::Color::Black);
+    buttonText.setScale(
+        float(((1 / buttonText.getGlobalBounds().width) * (size.x-(size.x/20)))),
+        float((1 / buttonText.getGlobalBounds().height) * size.y/2)
+    );
 }
 
-const void Button::draw(sf::RenderWindow & window) {
-	window.draw(isFocused ? pressedButton : unpressedButton);
-	window.draw(buttonText);
+const void Button::draw() {
+    if (isFocused) {
+        button.setFillColor(sf::Color::Blue);
+    }
+    window.draw(button);
+    button.setFillColor(sf::Color::White);
+    window.draw(buttonText);
 }
 
 void Button::setFocus(bool b) {
-	isFocused = b;
+    isFocused = b;
 }
 
 bool Button::getFocus() {
-	return isFocused;
+    return isFocused;
 }
 
-sf::IntRect Button::getBounds() {
-	sf::IntRect boundingBox(position.x, position.y, size.x, size.y);
-	return boundingBox;
+sf::FloatRect Button::getBounds() {
+    sf::FloatRect boundingBox(position.x, position.y, size.x, size.y);
+    return boundingBox;
 }
 
 
 void Button::setSize(sf::Vector2f newSize){
-	size = newSize;
+    size = newSize;
 }
 void Button::setText(std::string newText){
-	name = newText;
+    buttonText.setString(newText);
 }
 void Button::setPosition(sf::Vector2f newPosition){
-	position = newPosition;
+    position = newPosition;
 }
 
+void Button::setFont(std::string newFont) {
+    font.loadFromFile(newFont);
+}
+
+bool Button::isPressed() {
+    if (GetMouseClick()) {
+        if (getBounds().contains(getMousePosition(window))) {
+            if (button.getFillColor().a > 0) {
+                isFocused = true;
+                return true;
+            }
+        }
+    }
+    isFocused = false;
+    return false;
+}
 
 sf::Vector2f Button::getPosition(){
-	return position;
+    return position;
 }
-std::string Button::getText(){
-	return name;
+int Button::getId(){
+    return id;
 }
 sf::Vector2f Button::getSize(){
-	return size;
+    return size;
 }
 

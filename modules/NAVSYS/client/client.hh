@@ -15,7 +15,10 @@
 #include "../common/graph-factory.hh"
 #include "graphicsgraph.hh"
 #include "../common/graph-input.hh"
+#include "Button.hh"
 
+
+enum class buttons {shutdown, options};
 
 /**
  * \brief Client class
@@ -27,6 +30,7 @@ private:
 	sf::IpAddress ipAddress;
 	uint16_t port;
 	sf::TcpSocket socket;
+    sf::Vector2f buttonSize = {100,30};
 
 public:
 /**
@@ -74,5 +78,8 @@ public:
 
 */
 	void requestPath(std::string startNode, std::string endNode);
+
+    void buttonAction(sf::RenderWindow & window, int buttonId);
+
 };
 
