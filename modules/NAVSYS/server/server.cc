@@ -9,7 +9,7 @@
 #include "server.hh"
 #include <iterator>
 #include <algorithm>
-#include "../common/astar.hh"
+#include "astar.hh"
 
 Server::Server(const uint16_t port):
     port(port)
