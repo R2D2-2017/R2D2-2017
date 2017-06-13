@@ -26,6 +26,7 @@ void Server::broadcastMessage(const command &cmd, const T & message){
     if(!connectedClientSockets.empty()){
         sf::Packet p;
         p << cmd << message;
+        
         for(auto &s : connectedClientSockets){
             if(s->send(p) != sf::Socket::Done){
                 std::cout << "Sending message failed" << std::endl;
@@ -47,17 +48,18 @@ void Server::run(){
         if(socketSelector.wait()){
 
             if(socketSelector.isReady(socketListener)){
-                uniqueSocket_t client;
-
+                sharedSocketPtr_t client = std::make_shared<sf::TcpSocket>();
+                
                 if(socketListener.accept(*client) != sf::Socket::Done){
                     std::cout << "Something went wrong connecting to a new socket, please try again" << std::endl;
+                    exit(-1);
                 }
                 
                 std::cout << "New client hype" << std::endl;
                 connectedClientSockets.push_back(client);
                 socketSelector.add(*client);
 
-            } else{
+            } else {
                 for(auto &s : connectedClientSockets){
                     if(socketSelector.isReady(*s)){
                         sf::Packet p;
@@ -95,8 +97,7 @@ void Server::handleInput(sf::Packet & p){
         Node end( g.getNodeByName(pathToFind.endNode) );
         std::vector<PathNode> path = aStar(g, start, end);
         
-//        /broadcastMessage(command::responsePath, path);
-
+        broadcastMessage(command::responsePath, path);
     }
 
 }

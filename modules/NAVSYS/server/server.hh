@@ -17,7 +17,7 @@
 #include "../common/protocol.hh"
 #include "../common/graph-factory.hh"
 
-typedef std::shared_ptr<sf::TcpSocket> uniqueSocket_t;
+typedef std::shared_ptr<sf::TcpSocket> sharedSocketPtr_t;
 
 /**
  * \brief Server class
@@ -28,7 +28,7 @@ class Server{
 private:
     uint16_t port;
     sf::TcpListener socketListener;
-    std::vector<uniqueSocket_t> connectedClientSockets;
+    std::vector<sharedSocketPtr_t> connectedClientSockets;
     sf::SocketSelector socketSelector;
     
     Graph g;

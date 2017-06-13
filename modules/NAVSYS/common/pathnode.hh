@@ -14,6 +14,7 @@
 #include <memory>
 #include <ostream>
 #include <string>
+#include <vector>
 #include "node.hh"
 
 class PathNode : public Node
@@ -43,6 +44,7 @@ private:
     std::shared_ptr<PathNode> parent = nullptr;
 
 public:
+    PathNode();
     /**
     * PathNode constructor
     * The constructor sets the PathNodes name and coordinates based on the original node of which it is a copy.
@@ -93,6 +95,7 @@ public:
         
     friend sf::Packet & operator<<(sf::Packet & lhs, const PathNode & node);
     friend sf::Packet & operator>>(sf::Packet & lhs, PathNode & node);
-    friend sf::Packet & operator<<(sf::Packet & lhs, const std::vector<PathNode> & pathVector);
-    friend sf::Packet & operator>>(sf::Packet & lhs, std::vector<PathNode> & pathVector);
 };
+
+sf::Packet & operator<<(sf::Packet & lhs, const std::vector<PathNode> & pathVector);
+sf::Packet & operator>>(sf::Packet & lhs, std::vector<PathNode> & pathVector);

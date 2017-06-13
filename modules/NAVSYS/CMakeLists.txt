@@ -19,7 +19,8 @@ set(common_sources
     common/graph.cc
     common/graph-input.cc
     common/graph-factory.cc
-    common/protocol.cc)
+    common/protocol.cc
+    common/pathnode.cc)
 
 set(client_sources
     client/main.cc
@@ -31,7 +32,6 @@ set(client_sources
 set(server_sources
     server/main.cc
     server/server.cc
-    server/pathnode.cc
     server/astar.cc)
 
 find_package(SFML 2 REQUIRED system window graphics network audio)
