@@ -12,7 +12,6 @@
 #include <vector>
 #include <memory>
 #include <string>
-#include <iostream>
 
 #include "../common/protocol.hh"
 #include "../common/graph-factory.hh"

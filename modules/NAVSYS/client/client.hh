@@ -9,11 +9,8 @@
 #pragma once
 
 #include <SFML/Network.hpp>
-#include <iostream>
-#include <fstream>
 #include <string>
 
-#include "../common/graph-factory.hh"
 #include "graphicsgraph.hh"
 #include "../common/graph-input.hh"
 #include "../common/protocol.hh" 

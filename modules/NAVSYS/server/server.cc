@@ -7,8 +7,7 @@
  */
 
 #include "server.hh"
-#include <iterator>
-#include <algorithm>
+#include <iostream>
 #include "astar.hh"
 
 Server::Server(const uint16_t port):

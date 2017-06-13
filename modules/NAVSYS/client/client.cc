@@ -8,6 +8,7 @@
  */
 
 #include "client.hh"
+#include <iostream>
 #include "../common/pathnode.hh"
 
 Client::Client(sf::IpAddress ipAddress, uint16_t port): ipAddress(ipAddress), port(port){}
