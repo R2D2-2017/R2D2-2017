@@ -41,6 +41,7 @@ set(sources
     src/data-logger.cc
     src/main.cc
 	src/alarm.cc
+        src/mq5.cc
 )
 
 # The target chip that is compiled for:
