@@ -9,10 +9,13 @@
 #include "parser.hh"
 #include "robot-arm.hh"
 #include "stepper.hh"
+#include "wifi.hh"
 #include "wrap-hwlib.hh"
 
 int main() {
     WDT->WDT_MR = WDT_MR_WDDIS;
+
+    temp_wifi_main();
 
     auto ky101Pin = hwlib::target::pin_in(hwlib::target::pins::d7);
 
