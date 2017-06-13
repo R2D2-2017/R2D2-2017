@@ -9,15 +9,14 @@
 #include <SFML/Graphics.hpp>
 #include "graph-vertice.hh"
 #include <iostream>
-#include "math.h"
-#include "graph-node.hh" 
 
 GraphVertice::GraphVertice(sf::Vector2f positiona,sf::Vector2f positionb) :
 	positiona(positiona),
 	positionb(positionb)
 {}
 
-void GraphVertice::draw( sf::RenderWindow & window ){	
+void GraphVertice::draw( sf::RenderWindow & window ){
+
 	sf::Vertex line[] = {
         sf::Vertex(sf::Vector2f(positiona.x,positiona.y), color),
         sf::Vertex(sf::Vector2f(positionb.x,positionb.y), color)

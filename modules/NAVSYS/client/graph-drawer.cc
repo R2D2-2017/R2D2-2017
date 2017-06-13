@@ -23,8 +23,6 @@ void GraphDrawer::draw(){
 }
 
 void GraphDrawer::reload(Graph * g){
-
-    int scaling = 65;
 	clear();
 	std::vector<Node> nodeVector = g->getNodes();	
 	for(auto it = nodeVector.begin(); it != nodeVector.end(); ++it) {
@@ -61,9 +59,14 @@ void GraphDrawer::setEndNode(std::string nodeName) {
     draw();
 }
 
-void GraphDrawer::highlightPath(std::vector<std::string> path) {
-    for(auto vertice = graphVertices.begin(); vertice != graphVertices.end(); ++vertice) {
-        vertice->changeColor(sf::Color::Blue);
-        draw();
+void GraphDrawer::highlightPath(std::vector<PathNode> path) {
+    for (unsigned int i = 0; i < path.size()-1; i++) {
+        for(auto vertice = graphVertices.begin(); vertice != graphVertices.end(); ++vertice) {
+            if (vertice->checkVertice(sf::Vector2f(path[i].getCoordinate().x*scaling,path[i].getCoordinate().y*scaling),
+                                  sf::Vector2f(path[i+1].getCoordinate().x*scaling,path[i+1].getCoordinate().y*scaling))) {
+                vertice->changeColor(sf::Color::Blue);
+                draw();
+            }
+        }
     }
 }

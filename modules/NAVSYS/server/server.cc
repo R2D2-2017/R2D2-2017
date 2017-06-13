@@ -25,7 +25,7 @@ void Server::broadcastMessage(const command &cmd, const T & message){
     if(!connectedClientSockets.empty()){
         sf::Packet p;
         p << cmd << message;
-        for(auto &s : connectedClientSockets){
+        for(auto &s : connectedClientSockets){ 
             if(s->send(p) != sf::Socket::Done){
                 std::cout << "Sending message failed" << std::endl;
                 exit(-1);

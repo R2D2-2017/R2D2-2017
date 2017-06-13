@@ -8,7 +8,7 @@
  */
 
 #include "client.hh"
-#include "pathnode.hh"
+#include "graph-node.hh"
 
 
 Client::Client(sf::IpAddress ipAddress, uint16_t port): ipAddress(ipAddress), port(port){}
@@ -82,7 +82,8 @@ void Client::run(){
                 }
                 std::cout << thePath.back().getName() << "\n\n";
             }
-
+            drawer.highlightPath(thePath);
+            sf::sleep(sf::seconds(2));
             //used to let the user know a knew request can be made
             printOptionsFlag = 1;
         }

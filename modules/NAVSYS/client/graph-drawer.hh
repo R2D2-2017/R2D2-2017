@@ -11,8 +11,8 @@
 #include <vector>
 #include "graph-vertice.hh" 
 #include "graph-node.hh" 
-#include "graph.hh" 
-#include "node.hh"
+#include "graph.hh"
+#include "../common/pathnode.hh"
 
 #include <SFML/Graphics.hpp>
 
@@ -23,6 +23,7 @@ private:
 	std::vector<GraphNode> graphNodes;
 	std::vector<GraphVertice> graphVertices;
 	sf::RenderWindow & window;
+	int scaling = 65;
 
 public:
 	GraphDrawer(sf::RenderWindow & window);
@@ -46,5 +47,5 @@ public:
 	void clear();
 	void setBeginNode(std::string nodeName);
 	void setEndNode(std::string nodeName);
-	void highlightPath(std::vector<std::string> path);
+	void highlightPath(std::vector<PathNode> path);
 };
