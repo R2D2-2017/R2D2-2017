@@ -16,9 +16,9 @@
 #include "graphicsgraph.hh"
 #include "../common/graph-input.hh"
 #include "Button.hh"
+#include "Mouse.hh"
 
-
-enum class buttons {shutdown, options};
+enum class button {ShutDown,StartNode,EndNode};
 
 /**
  * \brief Client class
@@ -79,7 +79,7 @@ public:
 */
 	void requestPath(std::string startNode, std::string endNode);
 
-    void buttonAction(sf::RenderWindow & window, int buttonId);
+    void buttonAction(sf::RenderWindow & window, int buttonId, GraphNode clickedNode);
 
 };
 

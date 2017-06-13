@@ -10,7 +10,10 @@
 #include "client.hh"
 
 
-Client::Client(sf::IpAddress ipAddress, uint16_t port): ipAddress(ipAddress), port(port){}
+Client::Client(sf::IpAddress ipAddress, uint16_t port): 
+    ipAddress(ipAddress), 
+    port(port)
+{}
 
 
 
@@ -32,36 +35,77 @@ void Client::run(){
     factory.createGraph(nodeFilePath,verticeFilePath, g);
 
     //create the window
-    sf::RenderWindow  window{ sf::VideoMode{ 1000, 1000}, "SFML window" };
+    sf::RenderWindow  window{ sf::VideoMode{ 1500, 1000}, "SFML window", sf::Style::Fullscreen };
     GraphDrawer printOnScreen(window);
 
 
     sf::Packet receivedMessage;
     std::string messageString;
 
+    printOnScreen.reload(&g);
+
 	//Button setup
     std::vector<Button*> buttonList;
-    buttonList.push_back(new Button(window, { float(window.getSize().x - (buttonSize.x + 10)), 10 }, { buttonSize }, 1, "Shut Down"));
+    buttonList.push_back(new Button(window, { float(window.getSize().x - (buttonSize.x + 10)), 10 }, { buttonSize }, static_cast<int>(button::ShutDown), "Shut Down"));
+    buttonList.push_back(new Button(window, { float(window.getSize().x - (buttonSize.x + 100)), 10 }, { buttonSize.x/2, buttonSize.y/2 }, static_cast<int>(button::StartNode), "Start Node", false));
+    buttonList.push_back(new Button(window, { float(window.getSize().x - (buttonSize.x + 200)), 10 }, { buttonSize.x / 2, buttonSize.y / 2 }, static_cast<int>(button::EndNode), "End Node", false));
+
 
     //used to let the user know a knew request can be made
     bool printOptionsFlag =1;
+    GraphNode clickedNode = printOnScreen.checkNodeClicked();
 	while(true){
         window.clear(sf::Color::Black);
-		sf::sleep(sf::milliseconds(100));
-        printOnScreen.reload(&g);
-        for (auto & indexer : buttonList) {
-            if (indexer->isPressed()) {
-                buttonAction(window, indexer->getId());
+		sf::sleep(sf::milliseconds(10));
+
+        if (GetMouseClick()) {
+            for (auto & indexer : buttonList) {
+                if (indexer->isPressed()) {
+                    buttonAction(window, indexer->getId(), clickedNode);
+                }
             }
+            clickedNode = printOnScreen.checkNodeClicked();
+            if (clickedNode.isPressed(window)) {
+                for (auto & indexer : buttonList) {
+                    if (indexer->getId() == static_cast<int>(button::StartNode)) {
+                        indexer->setPosition({ 
+                            clickedNode.getBounds().left, 
+                            clickedNode.getBounds().top + 1.5f*clickedNode.getBounds().height }
+                        );
+                        indexer->setVisable(true);
+                    }
+                    if (indexer->getId() == static_cast<int>(button::EndNode)) {
+                        indexer->setPosition({ 
+                            clickedNode.getBounds().left, 
+                            clickedNode.getBounds().top + 2.5f* clickedNode.getBounds().height }
+                        );
+                        indexer->setVisable(true);
+                    }
+                }
+            }
+            else {
+                for (auto & indexer : buttonList) {
+                    if (
+                        indexer->getId() == static_cast<int>(button::StartNode) || 
+                        indexer->getId() == static_cast<int>(button::EndNode)) {
+                        indexer->setVisable(false);
+                    }
+                }
+            }
+        }
+        
+        printOnScreen.draw();
+        for (auto & indexer : buttonList) {
             indexer->draw();
         }
-        printOnScreen.draw();
+        window.display();
+
 
         if(printOptionsFlag){
             printOptionsFlag = 0;
             std::cout << "Press Left to enter route information\n";
         }
-
+        
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left)){
             std::string startNode;
             std::string endNode;
@@ -162,10 +206,16 @@ void Client::requestPath(std::string startNode, std::string endNode){
     }
 }
 
-void Client::buttonAction(sf::RenderWindow & window, int buttonId) {
+void Client::buttonAction(sf::RenderWindow & window, int buttonId, GraphNode clickedNode) {
     switch (buttonId) {
-    case 1:
+    case static_cast<int>(button::ShutDown):
         window.close();
+        break;
+    case static_cast<int>(button::StartNode) :
+        std::cout << clickedNode.getName();
+        break;
+    case static_cast<int>(button::EndNode) :
+        std::cout << clickedNode.getName();
         break;
     default:
         break;

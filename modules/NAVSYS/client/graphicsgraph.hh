@@ -20,7 +20,7 @@
 class GraphDrawer{
 private:	
 
-	std::vector<GraphNode> graphNodes;
+	std::vector<GraphNode*> graphNodes;
 	std::vector<GraphVertice> graphVertices;
 	sf::RenderWindow & window;
 
@@ -44,6 +44,8 @@ public:
 	*This function will clear the std::vectors
 	*/
 	void clear();
+
+    GraphNode checkNodeClicked();
 	
 };
 

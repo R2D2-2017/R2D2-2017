@@ -9,12 +9,14 @@
 #pragma once 
 
 #include <SFML/Graphics.hpp>
+#include "Mouse.hh"
 class GraphNode{
 private:
 	
 	sf::Vector2f position;
 	sf::CircleShape circle;
 
+    bool isFocused = false;
 	float size;
 	std::string name;
 public:
@@ -42,6 +44,11 @@ public:
 	*/
 	sf::Vector2f getPosition();
 
+    sf::FloatRect getBounds();
+
+    bool isPressed(sf::RenderWindow & window);
+
+    std::string getName();
    
 
 	
