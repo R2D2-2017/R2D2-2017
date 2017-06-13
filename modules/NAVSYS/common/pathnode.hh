@@ -92,8 +92,9 @@ public:
 
     friend std::ostream &operator<<(std::ostream & os, PathNode node);
         
-    friend sf::Packet & operator<<(sf::Packet & lhs, const std::vector<PathNode> & pathVector);
-    friend sf::Packet & operator>>(sf::Packet & lhs, std::vector<PathNode> & pathVector);
     friend sf::Packet & operator<<(sf::Packet & lhs, const PathNode & node);
     friend sf::Packet & operator>>(sf::Packet & lhs, PathNode & node);
 };
+
+sf::Packet & operator<<(sf::Packet & lhs, const std::vector<PathNode> & pathVector);
+sf::Packet & operator>>(sf::Packet & lhs, std::vector<PathNode> & pathVector);

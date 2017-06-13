@@ -9,6 +9,10 @@
 
 #include "pathnode.hh"
 
+PathNode::PathNode():
+    pathDistance(0)
+{}
+
 PathNode::PathNode(Node n, Node goal, float g) :
     // sets the Node
     Node(n.getCoordinate(), n.getName()),
@@ -61,6 +65,16 @@ std::ostream &operator<<(std::ostream & os, PathNode node)
 	return os;
 }
 
+sf::Packet & operator<<(sf::Packet & lhs, const PathNode & node) {
+    lhs << node.pathDistance << node.priority << node.coordinate << node.parent << node.name;
+    return lhs;
+}
+
+sf::Packet & operator>>(sf::Packet & lhs, PathNode & node) {
+    lhs >> node.pathDistance >> node.priority >> node.coordinate >> node.parent >> node.name;
+    return lhs;
+}
+
 sf::Packet & operator<<(sf::Packet & lhs, const std::vector<PathNode> & pathVector) {
     lhs << (sf::Uint32)pathVector.size();
     for (auto node : pathVector) {
@@ -79,15 +93,5 @@ sf::Packet & operator>>(sf::Packet & lhs, std::vector<PathNode> & pathVector) {
         lhs >> node;
         pathVector.push_back(node);
     }
-    return lhs;
-}
-
-sf::Packet & operator<<(sf::Packet & lhs, const PathNode & node) {
-    lhs << node.pathDistance << node.priority << node.coordinate << node.parent << node.name;
-    return lhs;
-}
-
-sf::Packet & operator>>(sf::Packet & lhs, PathNode & node) {
-    lhs >> node.pathDistance >> node.priority >> node.coordinate >> node.parent >> node.name;
     return lhs;
 }

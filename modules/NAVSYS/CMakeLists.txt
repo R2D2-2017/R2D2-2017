@@ -19,11 +19,11 @@ set(common_sources
     common/graph.cc
     common/graph-input.cc
     common/graph-factory.cc
-    common/pathnode.cc
-    common/protocol.cc)
+    common/protocol.cc
+    common/pathnode.cc)
 
 set(client_sources
-	client/main.cc 
+    client/main.cc 
     client/client.cc 
     client/graph-drawer.cc
     client/graph-node.cc 
