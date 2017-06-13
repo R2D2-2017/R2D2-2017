@@ -63,7 +63,7 @@ int main() {
     Alarm alarm = Alarm(2.7f, alarmled);
 	hwlib::cout << "Calibrating...\r\n";
     float calibrationValue = readGasSensorAverage(sensor, 25);
-	hwlib::cout << "Done!\r\n\n";
+	hwlib::cout << "Done Calibrating!\r\n\n";
     int sensorValue = 0;
     // Startup blink
     a.set(0);
@@ -77,7 +77,7 @@ int main() {
         uint64_t time = hwlib::now_us();
         // For debugging print a . for each measurement
         sensorValue = compareToCalibration(sensor, calibrationValue);
-        cout << sensorValue << "\n";
+        cout << sensorValue << "\t";
         logger.writeValue(sensorValue);
         alarm.checkGasValue(sensorValue);
 
