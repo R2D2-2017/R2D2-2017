@@ -46,5 +46,5 @@ public:
 	void clear();
 	void setBeginNode(std::string nodeName);
 	void setEndNode(std::string nodeName);
-	
+	void highlightPath(std::vector<std::string> path);
 };

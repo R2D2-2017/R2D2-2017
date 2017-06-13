@@ -60,3 +60,10 @@ void GraphDrawer::setEndNode(std::string nodeName) {
     }
     draw();
 }
+
+void GraphDrawer::highlightPath(std::vector<std::string> path) {
+    for(auto vertice = graphVertices.begin(); vertice != graphVertices.end(); ++vertice) {
+        vertice->changeColor(sf::Color::Blue);
+        draw();
+    }
+}

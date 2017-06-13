@@ -8,6 +8,7 @@
  */
 
 #include "client.hh"
+#include "graph-node.hh"
 
 
 Client::Client(sf::IpAddress ipAddress, uint16_t port): ipAddress(ipAddress), port(port){}
@@ -38,7 +39,7 @@ void Client::run(){
 
     sf::Packet receivedMessage;
     std::string messageString;
-
+    std::vector<std::string> path = {"K", "I", "B"};
     //used to let the user know a knew request can be made
     bool printOptionsFlag =1;
 	while(true){
@@ -62,6 +63,7 @@ void Client::run(){
             std::cout << "name of end node>";
             std::cin >> endNode;
             drawer.setEndNode(endNode);
+            drawer.highlightPath(path);
             sf::sleep(sf::seconds(2));
             requestPath(startNode, endNode);
 
