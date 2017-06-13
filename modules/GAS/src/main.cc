@@ -13,6 +13,7 @@
 #include "sd-spi.hh"
 #include "data-logger.hh"
 #include "alarm.hh"
+#include "speaker.hh"
 
 // TODO: Move to separate file (Temporary warning fix)
 /**
@@ -38,13 +39,15 @@ int main() {
     target::spi_bus_due spiBus;
     auto cs = target::pin_out(target::pins::d7);
     auto alarmled = target::pin_out(target::pins::d8);
+    auto speakerPin = target::pin_out(target::pins::d9);
+    auto player = Speaker( speakerPin );
     auto a = target::pin_out(target::pins::d13);
 
     // Initialize classes
     SdSpi sd(cs, spiBus);
     auto logger = DataLogger(sd);
 
-    Alarm alarm = Alarm(2.7f, alarmled);
+    Alarm alarm = Alarm(2.7f, alarmled, player);
 
     // Startup blink
     a.set(0);

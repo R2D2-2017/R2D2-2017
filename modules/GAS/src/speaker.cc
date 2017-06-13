@@ -4,12 +4,13 @@
 
 #include "speaker.hh"
 
-void Speaker::play( int frequency, int duration){
-    if( frequency == 0 ){
+void Speaker::playNote( int note){
+    const int duration = 166666;
+    if( note == 0 ){
         hwlib::wait_us( duration );
     } else {
         auto end = hwlib::now_us() + duration;
-        auto half_period = 1000000 / ( 2 * frequency );
+        auto half_period = 1000000 / ( 2 * note );
         while( end > hwlib::now_us() ){
             lsp.set( 1 );
             hwlib::wait_us( half_period );
