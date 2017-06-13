@@ -43,6 +43,7 @@ private:
     std::shared_ptr<PathNode> parent = nullptr;
 
 public:
+    PathNode();
     /**
     * PathNode constructor
     * The constructor sets the PathNodes name and coordinates based on the original node of which it is a copy.
