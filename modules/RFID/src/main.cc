@@ -49,8 +49,8 @@ int main(int argc, char **argv) {
         rfid.init();
 
         //Keypad pinSetup
-        const int keypadRow[] = {24, 25, 22, 31};
-        const int keypadColumn[] = {26, 27, 28, 29};
+        const int keypadRow[] = {4, 1, 16, 15};
+        const int keypadColumn[] = {2, 7, 9, 8};
 
         //Keypad objects
         MatrixKeypad keypad(keypadRow, keypadColumn, 4);
@@ -82,7 +82,9 @@ int main(int argc, char **argv) {
             while ((c = keypad.getKey()) == 'h') {
                 delay(100);
             }
-            std::cout << "A key has been pressed\n";
+
+            c = keypad.getKey();
+            std::cout << c << " key has been pressed\n";
 
             connection.executeQuery("SELECT * FROM RFID");
 
