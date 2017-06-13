@@ -12,7 +12,11 @@
 #include <vector>
 #include <memory>
 #include <string>
-#include <iostream>
+
+#include "../common/protocol.hh"
+#include "../common/graph-factory.hh"
+
+typedef std::shared_ptr<sf::TcpSocket> sharedSocketPtr_t;
 
 /**
  * \brief Server class
@@ -23,8 +27,10 @@ class Server{
 private:
     uint16_t port;
     sf::TcpListener socketListener;
-    std::vector<sf::TcpSocket*> connectedClientSockets;
+    std::vector<sharedSocketPtr_t> connectedClientSockets;
     sf::SocketSelector socketSelector;
+    
+    Graph g;
 
 public:
 /**
@@ -40,7 +46,8 @@ public:
  * This functions doesn't check yet if clients are still connected, so it can return with error messages if clients have already left.
  * \param[in]     message    message that needs to broadcast, std::string
  */
-    void broadcastMessage(const std::string & message);
+    template <typename T>
+    void broadcastMessage(const command &cmd, const T & message);
 
 /**
  * \brief Runs the server
@@ -57,21 +64,8 @@ public:
  * \param[in]     input    std::string that states the message received from a client
  */
 
-    void handleInput(const std::string & input);
-
-    /**
- * \brief this function reads the node file in a string
- *
- */
-    std::string readNodesAsString();
-
-    /**
- * \brief this function reads the vertice file in a string
- *
- */
-    std::string readVerticesAsString();
-
-
+    void handleInput(sf::Packet & p);
+    
 };
 
 

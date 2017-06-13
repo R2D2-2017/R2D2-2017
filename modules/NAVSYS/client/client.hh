@@ -9,13 +9,11 @@
 #pragma once
 
 #include <SFML/Network.hpp>
-#include <iostream>
-#include <fstream>
 #include <string>
-#include "../common/graph-factory.hh"
+
 #include "graphicsgraph.hh"
 #include "../common/graph-input.hh"
-
+#include "../common/protocol.hh" 
 
 /**
  * \brief Client class
@@ -27,7 +25,16 @@ private:
 	sf::IpAddress ipAddress;
 	uint16_t port;
 	sf::TcpSocket socket;
+        Graph g;
 
+        /**
+         * \brief Send a sf packet with error checking
+         * 
+         * \param[in] p The packet to be send
+         */
+        void sendPacket(sf::Packet & p);
+        
+        void checkPacketCorrectlyReceived(sf::Packet & p);
 public:
 /**
  * \brief Client constructor
@@ -44,28 +51,13 @@ public:
  */
 	void run();
 
-/**
-
- * \brief Requests  nodes from the server
- *
- * Sends a request for nodes from the server, by just sending a sf::Packet with a std::string.
- */
-	void requestNodes();
-
-    /**
- * \brief Requests vertices from the server
- *
- * Sends a request for vertices to the server, by just sending a sf::Packet with a std::string.
- */
-    void requestVertices();
-
 	/**
 * \brief Requests the database from the server
 *
 * this function sends the requests for  the data contained in the node and vertices file.
 
 */
-    void getDatabaseFromServer(std::string nodeFilePath, std::string verticeFilePath);
+    void getDatabaseFromServer();
 
 	/**
 * \brief Requests the path from the server
@@ -73,6 +65,8 @@ public:
 * this function sends the requests for  the path between two nodes.
 
 */
-	void requestPath(std::string startNode, std::string endNode);
+	void requestPath(StartEndNodeData nodes);
+        
+        void requestDatabaseUsingCommand(const command & cmd);
 };
 
