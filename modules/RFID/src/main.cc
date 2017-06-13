@@ -34,9 +34,6 @@ int main(int argc, char **argv) {
         ConfigFileParser factory("database-config.txt");
         factory.loadDatabaseSettings(ip, username, password);
 
-        factory.changeFile("encryption-config.txt");
-        factory.loadEncryptionSettings(encryptionKey);
-
         MySql connection;
 
         connection.connectTo(ip, username, password);
@@ -64,17 +61,18 @@ int main(int argc, char **argv) {
             while (!rfid.isTagPresent()) {
             }
             MFAuthentData x;
+            uint8_t receiveData[64];
             rfid.communicateWithTag(Mfrc522::mfrc522Commands::receive,
                                     nullptr,
                                     0,
-                                    x.serialNumber,
-                                    4);
+                                    receiveData;
+                                    64*8);
 //            rfid.communicateWithTag(Mfrc522::mfrc522Commands::mfAuthent, nullptr, 0, nullptr, 0);
 
             std::cout << "Hello tag\n";
             std::cout << "Your id = ";
             for(size_t i = 0; i < 4; i++){
-                std::cout << std::hex << x.serialNumber[i];
+                std::cout << std::hex << receiveData[0];
             }
             std::cout << "\n";
 
@@ -83,7 +81,7 @@ int main(int argc, char **argv) {
                 delay(100);
             }
 
-            c = keypad.getKey();
+            //c = keypad.getKey();
             std::cout << c << " key has been pressed\n";
 
             connection.executeQuery("SELECT * FROM RFID");
