@@ -62,7 +62,7 @@ sf::Packet & operator>>(sf::Packet & lhs, Node & node) {
 
 
 sf::Packet & operator<<(sf::Packet & lhs, const std::vector<Node> & nodes) {
-    lhs << (sf::Uint32)nodes.size();
+    lhs << nodes.size();
     for (auto node : nodes) {
         lhs << node;
     }

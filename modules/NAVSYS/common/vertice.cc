@@ -54,7 +54,7 @@ sf::Packet & operator>>(sf::Packet & lhs, Vertice & vertice) {
 }
 
 sf::Packet & operator<<(sf::Packet & lhs, const std::vector<Vertice> & vertices) {
-    lhs << (sf::Uint32)vertices.size();
+    lhs << vertices.size();
     for (auto vertice : vertices) {
         lhs << vertice;
     }
