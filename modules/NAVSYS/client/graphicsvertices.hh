@@ -10,27 +10,28 @@
 
 #include <SFML/Graphics.hpp>
 
-class GraphVertice{
-	
+class GraphVertice {
 private:
-	sf::Vector2f positiona;
-	sf::Vector2f positionb;
-	
-public:
-	/**
-	* constructor of the vertices class C	*
-	*
-	* this constructor ha two paramteters each containing the position of one of the nodes they are attached too.
-	*/
-	GraphVertice( sf::Vector2f positiona,sf::Vector2f positionb);
-	/**
-	* draw function
-	*
-	* function that will draw the vertices on the window out of the parameters
-	*/
-	void draw( sf::RenderWindow & window ) ;
+    sf::Vector2f positiona;
+    sf::Vector2f positionb;
 
+public:
+    /**
+     * \brief Constructor of the vertices class
+     *
+     * This constructor ha two paramteters each containing the position of one of the nodes they are attached too.
+     *
+     * \param[in] positiona The position of the first vertice
+     * \param[in] positionb The position of the second vertice
+     */
+    GraphVertice(sf::Vector2f positiona, sf::Vector2f positionb);
+
+    /**
+     * \brief Draw function
+     *
+     * Function that will draw the vertices on the window out of the parameters
+     * \param[in,out] window The window to draw on
+     */
+    void draw(sf::RenderWindow & window);
 
 };
-
-

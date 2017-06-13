@@ -1,17 +1,14 @@
 /**
  * \file
- * \brief     Main of the NAVSYS feature branch
+ * \brief     Start up the client side of the navsys system
  * \author    Philippe Zwietering
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See ../../LICENSE
  */
 
 #include "client.hh"
-#include <iostream>
 
 int main() {
-
     Client(sf::IpAddress::LocalHost, 5000).run();
-
     return 0;
 }

@@ -81,7 +81,7 @@ void Client::run(){
             else {
                 std::cout << "The path is: ";
                 //output everyting except for the last node name with arrow
-                for (unsigned int i = 0; i < thePath.size()-1; i++) {
+                for (unsigned int i = 0; i < thePath.size()-1; ++i) {
                     std::cout << thePath[i].getName() << " --> ";
                 }
                 //output last node name without arrow
@@ -143,4 +143,3 @@ void Client::requestPath(StartEndNodeData nodes) {
     p << command::requestPath << nodes;
     sendPacket(p);
 }
-

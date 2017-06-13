@@ -9,42 +9,50 @@
 #pragma once 
 
 #include <vector>
-#include "graphicsvertices.hh" 
-#include "graphicsnodes.hh" 
-#include "graph.hh" 
-#include "node.hh"
 
-#include <SFML/Graphics.hpp>
+#include "graphicsvertices.hh"
+#include "graphicsnodes.hh"
+#include "../common/graph.hh"
 
 
-class GraphDrawer{
+class GraphDrawer {
 private:	
-
-	std::vector<GraphNode> graphNodes;
-	std::vector<GraphVertice> graphVertices;
-	sf::RenderWindow & window;
-
+    std::vector<GraphNode> graphNodes;
+    std::vector<GraphVertice> graphVertices;
+    sf::RenderWindow & window;
+    
 public:
-	GraphDrawer(sf::RenderWindow & window);
-	/**
-	*draw function for graph
-	*
-	*This function will draw the nodes en vertices in the window given in the parameter.
-	*/
-	void draw();
-	/**
-	*reload function
-	*
-	*This function will reload the graph the std::vectors
-	*/
-	void reload(Graph * g);
-	/**
-	*clean function
-	*
-	*This function will clear the std::vectors
-	*/
-	void clear();
+    /**
+     * \brief Constructor with window
+     *
+     * This constructor can be used to draw a graph on while the window has to
+     *  be created by the user.
+     * 
+     * \param[in,out] window The window to draw on
+     */
+    GraphDrawer(sf::RenderWindow & window);
+    
+    /**
+     * \brief Draw function for graph
+     *
+     * This function will draw the nodes en vertices in the window given in the parameter.
+     */
+    void draw();
+        
+    /**
+     * \brief Reload function
+     *
+     * This function will reload the graph the std::vectors
+     * 
+     * \param[in] g The graph to load
+     */
+    void reload(Graph * g);
+        
+    /**
+     * \brief Clean function
+     *
+     * This function will clear the std::vectors
+     */
+    void clear();
 	
 };
-
-

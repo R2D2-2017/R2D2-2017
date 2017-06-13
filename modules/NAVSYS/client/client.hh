@@ -11,6 +11,7 @@
 #include <SFML/Network.hpp>
 #include <string>
 
+#include "../common/graph.hh"
 #include "../common/protocol.hh" 
 
 /**
@@ -76,4 +77,3 @@ public:
      */
     void requestDatabaseUsingCommand(const command & cmd);
 };
-
