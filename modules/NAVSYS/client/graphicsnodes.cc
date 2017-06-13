@@ -1,7 +1,7 @@
 /**
 * \file      graphicsnodes.hh
 * \brief     nodes in sfmlgraphics window
-* \author    Leo Jenneskens
+* \author    Leo Jenneskens, Arco Gelderblom
 * \copyright Copyright (c) 2017, The R2D2 Team
 * \license   See LICENSE
 */
@@ -38,10 +38,19 @@ void GraphNode::draw( sf::RenderWindow & window )  {
 	circle.setRadius(size);
 	circle.setPosition(position);
 	circle.setOrigin(size,size);
-	circle.setOutlineColor(sf::Color::Red);
+    circle.setFillColor(color);
+	circle.setOutlineColor(sf::Color::Black);
 	circle.setOutlineThickness(2);
 	
 	window.draw(circle);
+}
+
+std::string GraphNode::getName() {
+	return name;
+}
+
+void GraphNode::changeColor(sf::Color newColor) {
+    color = newColor;
 }
 
 sf::Vector2f GraphNode::getPosition() {

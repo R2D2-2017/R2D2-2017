@@ -1,7 +1,7 @@
 /**
 * \file      graphicsgraph.cc
 * \brief     graphs in sfmlgraphics window
-* \author    Leo Jenneskens
+* \author    Leo Jenneskens, Arco Gelderblom
 * \copyright Copyright (c) 2017, The R2D2 Team
 * \license   See LICENSE
 */
@@ -39,4 +39,24 @@ void GraphDrawer::reload(Graph * g){
 void GraphDrawer::clear(){
 	graphNodes.clear();
 	graphVertices.clear();
+}
+
+void GraphDrawer::setBeginNode(std::string nodeName) {
+    for (auto node = graphNodes.begin(); node != graphNodes.end(); ++node) {
+        if (node->getName() == nodeName) {
+            node->changeColor(sf::Color::Green);
+            break;
+        }
+    }
+    draw();
+}
+
+void GraphDrawer::setEndNode(std::string nodeName) {
+    for (auto node = graphNodes.begin(); node != graphNodes.end(); ++node) {
+        if (node->getName() == nodeName) {
+            node->changeColor(sf::Color::Red);
+            break;
+        }
+    }
+    draw();
 }

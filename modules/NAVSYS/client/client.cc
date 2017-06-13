@@ -2,7 +2,7 @@
 /**
  * \file
  * \brief     Client side connection code for the NAVSYS API
- * \author    Philippe Zwietering
+ * \author    Philippe Zwietering, Arco Gelderblom
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See ../../LICENSE
  */
@@ -33,7 +33,7 @@ void Client::run(){
 
     //create the window
     sf::RenderWindow  window{ sf::VideoMode{ 1000, 1000}, "NAVSYS" };
-    GraphDrawer printOnScreen(window);
+    GraphDrawer drawer(window);
 
 
     sf::Packet receivedMessage;
@@ -44,8 +44,8 @@ void Client::run(){
 	while(true){
         window.clear(sf::Color::Black);
 		sf::sleep(sf::milliseconds(100));
-        printOnScreen.reload(&g);
-        printOnScreen.draw();
+        drawer.reload(&g);
+        drawer.draw();
 
 
         if(printOptionsFlag){
@@ -58,9 +58,11 @@ void Client::run(){
             std::string endNode;
             std::cout << "name of start node>";
             std::cin >> startNode;
+            drawer.setBeginNode(startNode);
             std::cout << "name of end node>";
             std::cin >> endNode;
-
+            drawer.setEndNode(endNode);
+            sf::sleep(sf::seconds(2));
             requestPath(startNode, endNode);
 
             if(  socket.receive(receivedMessage) != sf::Socket::Done  ){
@@ -68,8 +70,6 @@ void Client::run(){
             }
             else{
                 receivedMessage >> messageString;
-                std::cout << messageString << std::endl;
-
             }
 
             //used to let the user know a knew request can be made

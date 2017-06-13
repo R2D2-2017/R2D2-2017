@@ -8,19 +8,13 @@
 #include "graph-factory.hh"
 #include <algorithm>
 
-
-
-
 void GraphFactory::createGraph(std::string nodeFilePath, std::string verticeFilepath, Graph & graph ){
 
     graph.setNodes(RunNodeFactory(nodeFilePath));
     graph.setVertices(RunVerticeFactory(verticeFilepath,graph.getNodes()));
 }
 
-
-
-
-Node  GraphFactory::getNodeByName(std::string name, std::vector<Node> nodes) {
+Node GraphFactory::getNodeByName(std::string name, std::vector<Node> nodes) {
     std::vector<Node>::iterator it;
     it = std::find_if(std::begin(nodes), std::end(nodes),[&]( Node & node) -> bool{
         return node.getName() == name;
@@ -32,11 +26,13 @@ std::vector<Node>  GraphFactory::RunNodeFactory(std::string nodeFilePath) {
 
     std::vector<Node> nodes;
 
-    std::ifstream nodeFileStreamIn;
-    nodeFileStreamIn.open(nodeFilePath,std::ios_base::app);
+    std::ifstream nodeFileStreamIn("../client/node.txt",std::ios_base::app);
 
     if (nodeFileStreamIn.is_open()) {
-        std::string nodeEntry = "";
+        std::string nodeEntry;
+        // reset EOF and set pointer at beginning of the file
+        nodeFileStreamIn.clear();
+        nodeFileStreamIn.seekg(0, std::ios::beg);
         //get line out of file
         while (getline(nodeFileStreamIn,nodeEntry)) {
             std::string nodeName = "";
@@ -97,17 +93,17 @@ std::vector<Node>  GraphFactory::RunNodeFactory(std::string nodeFilePath) {
     return nodes;
 }
 
-
-
 std::vector<Vertice> GraphFactory::RunVerticeFactory(std::string verticeFilePath, std::vector<Node> nodes) {
 
     std::vector<Vertice> vertices;
 
-    std::ifstream verticeFileStreamIn;
-    verticeFileStreamIn.open(verticeFilePath,std::ios_base::app);
+    std::ifstream verticeFileStreamIn(verticeFilePath,std::ios_base::app);
 
     if (verticeFileStreamIn.is_open()) {
         std::string verticeEntry = "";
+        // reset EOF and set pointer at beginning of the file
+        verticeFileStreamIn.clear();
+        verticeFileStreamIn.seekg(0, std::ios::beg);
         //get line out of file
         while (getline (verticeFileStreamIn,verticeEntry)) {
 
@@ -177,5 +173,3 @@ std::vector<Vertice> GraphFactory::RunVerticeFactory(std::string verticeFilePath
     }
     return vertices;
 }
-
-

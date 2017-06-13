@@ -1,7 +1,7 @@
 /**
 * \file      graphicsnodes.hh
 * \brief     header for nodes in sfmlgraphics window
-* \author    Leo Jenneskens
+* \author    Leo Jenneskens, Arco Gelderblom
 * \copyright Copyright (c) 2017, The R2D2 Team
 * \license   See LICENSE
 */
@@ -14,6 +14,7 @@ private:
 	
 	sf::Vector2f position;
 	sf::CircleShape circle;
+	sf::Color color = sf::Color::White;
 
 	float size;
 	std::string name;
@@ -34,8 +35,14 @@ public:
 	*/
 	void draw( sf::RenderWindow & window ) ;
 	
-
+	/**
+	* Get the name of the Node
+	* return: returns a std string with the name
+	*/
+	std::string getName();
 	
+    void changeColor(sf::Color newColor);
+
 	/**
 	*function that wil return the position of the node in the window.
 	*returning an sf::Vector2f

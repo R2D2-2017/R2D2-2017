@@ -1,7 +1,7 @@
 /**
 * \file      graphicsgraph.hh
 * \brief     header for graphs in sfmlgraphics window
-* \author    Leo Jenneskens
+* \author    Leo Jenneskens, Arco Gelderblom
 * \copyright Copyright (c) 2017, The R2D2 Team
 * \license   See LICENSE
 */
@@ -44,7 +44,7 @@ public:
 	*This function will clear the std::vectors
 	*/
 	void clear();
+	void setBeginNode(std::string nodeName);
+	void setEndNode(std::string nodeName);
 	
 };
-
-
