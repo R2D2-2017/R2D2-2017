@@ -4,6 +4,8 @@
  * \author    Chris Smeele
  * \author    David Driessen
  * \author    Paul Ettema
+ * \author    Robbie Valkenburg
+ * \author    Mike Hilhorst
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See LICENSE
  */
@@ -39,8 +41,11 @@ int main() {
     target::spi_bus_due spiBus;
     auto cs = target::pin_out(target::pins::d7);
     auto alarmled = target::pin_out(target::pins::d8);
+
+    // setting up speaker
     auto speakerPin = target::pin_out(target::pins::d9);
     auto player = Speaker( speakerPin );
+
     auto a = target::pin_out(target::pins::d13);
 
     // Initialize classes

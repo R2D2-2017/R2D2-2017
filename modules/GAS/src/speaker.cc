@@ -1,6 +1,11 @@
-//
-// Created by MuscioCraft on 13-6-2017.
-//
+/**
+ * \file      speaker.cc
+ * \brief     The definitions of the speaker functionality of GAS-02
+ * \author    Robbie valkenburg
+ * \author    Mike Hilhorst
+ * \copyright Copyright (c) 2017, The R2D2 Team
+ * \license   See LICENSE
+ */
 
 #include "speaker.hh"
 
@@ -12,9 +17,9 @@ void Speaker::playNote( int note){
         auto end = hwlib::now_us() + duration;
         auto half_period = 1000000 / ( 2 * note );
         while( end > hwlib::now_us() ){
-            lsp.set( 1 );
+            speakerPin.set( 1 );
             hwlib::wait_us( half_period );
-            lsp.set( 0 );
+            speakerPin.set( 0 );
             hwlib::wait_us( half_period );
         }
     }

@@ -6,10 +6,7 @@
  * \license   See LICENSE
  */
 
-
 #include "alarm.hh"
-
-
 
 void Alarm::checkGasValue(float gasValue) {
     if (gasValue < gasValueThreshold) {
