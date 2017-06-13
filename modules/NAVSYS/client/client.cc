@@ -70,6 +70,7 @@ void Client::run(){
             }
             else{
                 receivedMessage >> messageString;
+                std::cout<<messageString<<"\n";
             }
 
             //used to let the user know a knew request can be made
@@ -104,7 +105,7 @@ void Client::getDatabaseFromServer(std::string nodeFilePath, std::string vertice
         receivedMessage >> messageString;
         nodeStream << messageString;
     }
-    std::cout<<messageString;
+
     nodeStream.close();
 
     std::ofstream verticeStream(verticeFilePath);
@@ -120,7 +121,6 @@ void Client::getDatabaseFromServer(std::string nodeFilePath, std::string vertice
     }
 
     verticeStream.close();
-
 }
 
 
