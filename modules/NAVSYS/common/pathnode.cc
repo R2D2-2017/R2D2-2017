@@ -66,17 +66,17 @@ std::ostream &operator<<(std::ostream & os, PathNode node)
 }
 
 sf::Packet & operator<<(sf::Packet & lhs, const PathNode & node) {
-    lhs << node.pathDistance << node.priority << node.coordinate << node.parent << node.name;
+    lhs << node.pathDistance << node.priority << node.coordinate << node.name;
     return lhs;
 }
 
 sf::Packet & operator>>(sf::Packet & lhs, PathNode & node) {
-    lhs >> node.pathDistance >> node.priority >> node.coordinate >> node.parent >> node.name;
+    lhs >> node.pathDistance >> node.priority >> node.coordinate >> node.name;
     return lhs;
 }
 
 sf::Packet & operator<<(sf::Packet & lhs, const std::vector<PathNode> & pathVector) {
-    lhs << (sf::Uint32)pathVector.size();
+    lhs << pathVector.size();
     for (auto node : pathVector) {
         lhs << node;
     }
