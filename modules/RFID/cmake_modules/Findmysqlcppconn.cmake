@@ -8,7 +8,7 @@ find_path(mysqlcppconn_INCLUDE_DIR
   PATHS ${mysqlcppconn_PKGCONF_INCLUDE_DIRS}
 )
 
-find_library(mysqlcppconn_LIBRARY
+find_library(mysqlcppconn_LIBRARIES
   NAMES mysqlcppconn
   PATHS ${mysqlcppconn_PKGCONF_LIBRARY_DIRS}
 )
