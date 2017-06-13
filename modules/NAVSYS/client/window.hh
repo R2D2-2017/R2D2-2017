@@ -26,30 +26,30 @@ public:
     Window(sf::VideoMode mode, const sf::String title, sf::Uint32 style = sf::Style::Default);
 
     /**
-     *\brief Initializes the viewport
+     *\brief initializes the viewport
      *\param[in] center on what point the viewport schould be centerted
      *\param[in] size   the horizontal and vertical size of the viewport
      */
     void setViewPort(const sf::Vector2f center, const sf::Vector2f size);
 
     /**
-     *\brief A function for moving the viewport 
+     *\brief a function for moving the viewport 
      *\param[in] distance the distance the viewport should be moved
      */
     void moveViewPort(const sf::Vector2f distance);
     /**
-     *\brief A function for moving the viewport 
+     *\brief a function for moving the viewport 
      *\param[in] distance the distance the viewport should be moved
      */
     void moveViewPort(const sf::Vector2i distance);
 
     /**
-     *\brief A function fow moving the viewport to a position
+     *\brief a function fow moving the viewport to a position
      *\param[in] pos the position the viewport should move to
      */ 
     void setViewPos(const sf::Vector2f pos);
     /**
-     *\brief A function fow moving the viewport to a position
+     *\brief a function fow moving the viewport to a position
      *\param[in] pos the position the viewport should move to
      */
     void setViewPos(const sf::Vector2i pos);

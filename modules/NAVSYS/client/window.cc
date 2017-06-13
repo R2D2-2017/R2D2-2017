@@ -1,3 +1,10 @@
+/**
+ * \file
+ * \author    Stefan de Beer
+ * \copyright Copyright (c) 2017, The R2D2 Team
+ * \license   See LICENSE
+ */
+
 #include "window.hh"
 
 Window::Window(sf::VideoMode mode, const sf::String title, sf::Uint32 style):
