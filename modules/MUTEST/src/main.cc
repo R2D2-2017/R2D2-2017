@@ -11,35 +11,36 @@
 #include <fatfs.hh>
 
 int main(int argc, char **argv) {
-    const char *imagepath = "/home/dorf/mutest.img";
-    const char dingen[] = "shite";
+    const char *imagepath = "/dev/mmcblk0p1";
+    const char dingen[] = "kekzanzibar";
     int size = sizeof(dingen);
-    char dingen2[7];
-
-    //const char
+    const char text[] = "testext";
+    char input[100] = "\0";
 
 
 
     MuStore::FileStore image(imagepath, true);
     MuStore::FatFs fileSystem(&image);
     MuStore::FsError err;
-    MuStore::FsNode file = fileSystem.get("/data", err);
-    if(!file.doesExist()){
-        std::cout << "poep" << '\n';
+
+
+    MuStore::FsNode dataFile = fileSystem.get("/data.txt", err);
+    std::cout << (int)err << '\n';
+    MuStore::FsNode confFile = fileSystem.get("/conf.txt", err);
+    std::cout << (int)err << '\n';
+
+    if(!confFile.doesExist()){
+        std::cout << "conf.txt does not exist" << '\n';
     }
-    file.write(dingen, size, err);
-
-    if(err){
-        std::cout << "error is " << (int)err << '\n';
+    if(!dataFile.doesExist()){
+        std::cout << "data.txt does not exist" << '\n';
     }
 
-    file.rewind();
 
-    file.read(dingen2, size, err);
-
-    std::cout << dingen2 << '\n';
-
-
-
+    confFile.read(input, 100, err);
+    std::cout << input << '\n';
+    err = dataFile.seek(dataFile.getSize());
+    dataFile.write(dingen, size, err);
+    std::cout << (int)err << '\n';
     return 0;
 }
