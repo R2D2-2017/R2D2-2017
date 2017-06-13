@@ -9,6 +9,7 @@
 
 #include "client.hh"
 #include "window.hh"
+#include "gestures.hh"
 
 Client::Client(sf::IpAddress ipAddress, uint16_t port): ipAddress(ipAddress), port(port){}
 
@@ -32,20 +33,22 @@ void Client::run(){
     factory.createGraph(nodeFilePath,verticeFilePath, g);
 
     //create the window
-    Window window(sf::VideoMode{1000, 1000}, "NAVSYS");
+    Window window(sf::VideoMode(1000, 1000), "NAVSYS");
     window.setViewPort(sf::Vector2f(1000, 1000), sf::Vector2f(500, 500));
 
     GraphDrawer printOnScreen(window);
-
 
     sf::Packet receivedMessage;
     std::string messageString;
 
     //used to let the user know a knew request can be made
     bool printOptionsFlag =1;
+
+    Gestures gestureHandler(window);
+
 	while(true){
         window.clear(sf::Color::Black);
-		sf::sleep(sf::milliseconds(16));
+		//sf::sleep(sf::milliseconds(16));
         printOnScreen.reload(&g);
         printOnScreen.draw();
 
@@ -77,21 +80,31 @@ void Client::run(){
             //used to let the user know a knew request can be made
             printOptionsFlag = 1;
         }
-
+        //std::cout<<"hi "<< mousePos.x << ' ' << mousePos.y <<'\n';
         if( window.isOpen()) {
-            	sf::Event event;
-            	while( window.pollEvent(event) ){
-                    if( event.type == sf::Event::Closed ){
-                        window.close();
-                    }
+            sf::Event event;
+            while( window.pollEvent(event) ){
+                if( event.type == sf::Event::Closed ){
+                    window.close();
                 }
-                if (sf::Mouse::isButtonPressed(sf::Mouse::Left)){
-                    sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-                    sf::Vector2f worldMousePos = window.mapPixelToCoords(mousePos);
-                    window.setViewPos(worldMousePos);
+            }
+            window.moveViewPort(gestureHandler.getMouseDrag(20));
+            window.updateView();
+            /*
+            if(sf::Mouse::isButtonPressed(sf::Mouse::Left)){ 
+                if(clock.getElapsedTime().asMilliseconds()>20){
+                    clock.restart();
+                    sf::Vector2i distance = mousePos - sf::Mouse::getPosition(window); 
+                    mousePos = sf::Mouse::getPosition(window);
+                    window.moveViewPort(distance);
+                    window.updateView();
                 }
+            }else{
+                mousePos = sf::Mouse::getPosition(window);
+            } 
+            */
         }
-	}
+    }
 }
 
 
