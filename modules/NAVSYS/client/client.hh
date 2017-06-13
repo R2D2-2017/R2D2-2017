@@ -13,7 +13,7 @@
 #include <fstream>
 #include <string>
 #include "../common/graph-factory.hh"
-#include "graphicsgraph.hh"
+#include "graph-drawer.hh"
 #include "../common/graph-input.hh"
 
 

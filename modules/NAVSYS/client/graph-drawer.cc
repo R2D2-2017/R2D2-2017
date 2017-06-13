@@ -5,7 +5,7 @@
 * \copyright Copyright (c) 2017, The R2D2 Team
 * \license   See LICENSE
 */
-#include "graphicsgraph.hh"
+#include "graph-drawer.hh"
 
 GraphDrawer::GraphDrawer(sf::RenderWindow & window):
 		window( window )

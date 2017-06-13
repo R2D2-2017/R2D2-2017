@@ -7,7 +7,7 @@
 */
 
 #include <SFML/Graphics.hpp>
-#include "graphicsnodes.hh"
+#include "graph-node.hh"
 #include <iostream>
 
 GraphNode::GraphNode( sf::Vector2f position,  std::string name, float size) :

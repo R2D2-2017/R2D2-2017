@@ -7,10 +7,10 @@
 */
 
 #include <SFML/Graphics.hpp>
-#include "graphicsvertices.hh"
+#include "graph-vertice.hh"
 #include <iostream>
 #include "math.h"
-#include "graphicsnodes.hh" 
+#include "graph-node.hh" 
 
 GraphVertice::GraphVertice(sf::Vector2f positiona,sf::Vector2f positionb) :
 	positiona(positiona),

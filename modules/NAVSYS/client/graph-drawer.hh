@@ -9,8 +9,8 @@
 #pragma once 
 
 #include <vector>
-#include "graphicsvertices.hh" 
-#include "graphicsnodes.hh" 
+#include "graph-vertice.hh" 
+#include "graph-node.hh" 
 #include "graph.hh" 
 #include "node.hh"
 
