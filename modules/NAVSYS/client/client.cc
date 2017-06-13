@@ -8,7 +8,7 @@
  */
 
 #include "client.hh"
-#include "../common/pathnode.hh"
+#include "pathnode.hh"
 
 
 Client::Client(sf::IpAddress ipAddress, uint16_t port): ipAddress(ipAddress), port(port){}
@@ -47,6 +47,7 @@ void Client::run(){
     while(true){
         window.clear(sf::Color::Black);
 		sf::sleep(sf::milliseconds(100));
+
         drawer.reload(&g);
         drawer.draw();
 
@@ -68,13 +69,19 @@ void Client::run(){
             checkPacketCorrectlyReceived(receivedMessage);
             
             std::vector<PathNode> thePath;
-            receivedMessage >> thePath;
+            command cmd = command::none;
+            receivedMessage >> cmd >> thePath;
                 
-            std::cout << "The path is: ";
-            for (auto node : thePath) {
-                std::cout << node.getName() << "-->";
+            if (cmd != command::responsePath){
+                std::cout << "Incorrect response from server\n";
             }
-            std::cout << '\n';
+            else {
+                std::cout << "The path is: ";
+                for (unsigned int i = 0; i < thePath.size()-1; i++) {
+                    std::cout << thePath[i].getName() << " --> ";
+                }
+                std::cout << thePath.back().getName() << "\n\n";
+            }
 
             //used to let the user know a knew request can be made
             printOptionsFlag = 1;

@@ -14,7 +14,7 @@
 #include "coordinate.hh"
 #include "graph.hh"
 #include "node.hh"
-#include "pathnode.hh"
+#include "../common/pathnode.hh"
 #include "vertice.hh"
 
 /**

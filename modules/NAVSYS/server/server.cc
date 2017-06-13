@@ -7,9 +7,8 @@
  */
 
 #include "server.hh"
-#include <iterator>
 #include <algorithm>
-#include "../common/astar.hh"
+#include "astar.hh"
 
 Server::Server(const uint16_t port):
     port(port)
@@ -47,10 +46,11 @@ void Server::run(){
         if(socketSelector.wait()){
 
             if(socketSelector.isReady(socketListener)){
-                uniqueSocket_t client;
+                sharedSocketPtr_t client = std::make_shared<sf::TcpSocket>();
 
                 if(socketListener.accept(*client) != sf::Socket::Done){
                     std::cout << "Something went wrong connecting to a new socket, please try again" << std::endl;
+                    exit(-1);
                 }
                 
                 std::cout << "New client hype" << std::endl;
@@ -94,9 +94,6 @@ void Server::handleInput(sf::Packet & p){
         Node start( g.getNodeByName(pathToFind.startNode) );
         Node end( g.getNodeByName(pathToFind.endNode) );
         std::vector<PathNode> path = aStar(g, start, end);
-        
-//        /broadcastMessage(command::responsePath, path);
-
+        broadcastMessage(command::responsePath, path);
     }
-
 }
