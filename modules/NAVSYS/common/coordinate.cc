@@ -40,3 +40,13 @@ float Coordinate::euclideanDistance(const Coordinate &rhs) const {
     return (float) sqrt(pow(x - rhs.x, 2) + pow(y - rhs.y, 2));
 }
 
+
+sf::Packet & operator<<(sf::Packet & lhs, const Coordinate & coordinate){
+    lhs << coordinate.x << coordinate.y;
+    return lhs;
+}
+
+sf::Packet & operator>>(sf::Packet & lhs, Coordinate & coordinate){
+    lhs >> coordinate.x >> coordinate.y;
+    return lhs;
+}

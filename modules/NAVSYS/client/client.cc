@@ -2,52 +2,53 @@
 /**
  * \file
  * \brief     Client side connection code for the NAVSYS API
- * \author    Philippe Zwietering, Arco Gelderblom
+ * \author    Philippe Zwietering, Arco Gelderblom, Tim IJntema
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See ../../LICENSE
  */
 
 #include "client.hh"
-#include "graph-node.hh"
+#include "../common/pathnode.hh"
 
 
 Client::Client(sf::IpAddress ipAddress, uint16_t port): ipAddress(ipAddress), port(port){}
 
+void Client::sendPacket(sf::Packet & p) {
+    if(socket.send(p) != sf::Socket::Done){
+        std::cout << "Something went wrong while sending your message, please try again later" << std::endl;
+        exit(-1);
+    }
+}
 
+void Client::checkPacketCorrectlyReceived(sf::Packet & p) {;
+    if(  socket.receive(p) != sf::Socket::Done  ){
+        std::cout << "Something went wrong with receiving" << std::endl;
+        exit(-1);
+    }
+}
 
 void Client::run(){
-	sf::Socket::Status connectionStatus = socket.connect(ipAddress, port);
-	if(connectionStatus != sf::Socket::Done){
-		std::cout << "Connection failed" << std::endl;
-	}
-
-
-    std::string nodeFilePath = "../client/node.txt";
-    std::string verticeFilePath = "../client/vertice.txt";
+    sf::Socket::Status connectionStatus = socket.connect(ipAddress, port);
+    if(connectionStatus != sf::Socket::Done){
+        std::cout << "Connection failed" << std::endl;
+    }
+    
     // this loads the the files declared above with the database
-    getDatabaseFromServer(nodeFilePath,verticeFilePath);
-
-    //create the graph
-    GraphFactory factory =  GraphFactory();
-    Graph g = Graph();
-    factory.createGraph(nodeFilePath,verticeFilePath, g);
-
+    getDatabaseFromServer();
+    
     //create the window
     sf::RenderWindow  window{ sf::VideoMode{ 1000, 1000}, "NAVSYS" };
     GraphDrawer drawer(window);
 
-
     sf::Packet receivedMessage;
-    std::string messageString;
-    std::vector<std::string> path = {"K", "I", "B"};
+
     //used to let the user know a knew request can be made
     bool printOptionsFlag =1;
-	while(true){
+    while(true){
         window.clear(sf::Color::Black);
 		sf::sleep(sf::milliseconds(100));
         drawer.reload(&g);
         drawer.draw();
-
 
         if(printOptionsFlag){
             printOptionsFlag = 0;
@@ -55,25 +56,25 @@ void Client::run(){
         }
 
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left)){
-            std::string startNode;
-            std::string endNode;
+            StartEndNodeData newPath;
             std::cout << "name of start node>";
-            std::cin >> startNode;
-            drawer.setBeginNode(startNode);
+            std::cin >> newPath.startNode;
+            drawer.setBeginNode(newPath.startNode);
             std::cout << "name of end node>";
-            std::cin >> endNode;
-            drawer.setEndNode(endNode);
-            drawer.highlightPath(path);
-            sf::sleep(sf::seconds(2));
-            requestPath(startNode, endNode);
+            std::cin >> newPath.endNode;
+            drawer.setEndNode(newPath.endNode);
 
-            if(  socket.receive(receivedMessage) != sf::Socket::Done  ){
-                std::cout << "Something went wrong with receiving" << std::endl;
+            requestPath(newPath);
+            checkPacketCorrectlyReceived(receivedMessage);
+            
+            std::vector<PathNode> thePath;
+            receivedMessage >> thePath;
+                
+            std::cout << "The path is: ";
+            for (auto node : thePath) {
+                std::cout << node.getName() << "-->";
             }
-            else{
-                receivedMessage >> messageString;
-                std::cout<<messageString<<"\n";
-            }
+            std::cout << '\n';
 
             //used to let the user know a knew request can be made
             printOptionsFlag = 1;
@@ -87,73 +88,47 @@ void Client::run(){
                     }
                 }
         }
-	}
+    }
 }
 
 
-void Client::getDatabaseFromServer(std::string nodeFilePath, std::string verticeFilePath){
-
+void Client::getDatabaseFromServer() {
     sf::Packet receivedMessage;
-    std::string messageString;
-
-    std::ofstream nodeStream(nodeFilePath);
-
-    requestNodes();
-
-    if(socket.receive(receivedMessage) != sf::Socket::Done){
-        std::cout << "Something went wrong with receiving" << std::endl;
+    command commands[] = {command::requestNodes, command::requestVertices};
+    command receivedCommand = command::none;
+    
+    for (auto cmd : commands) {
+        requestDatabaseUsingCommand(cmd);
+        checkPacketCorrectlyReceived(receivedMessage);
+        
+        receivedMessage >> receivedCommand;
+        
+        if (receivedCommand == command::responseNodes) {
+            std::vector<Node> nodes;
+            receivedMessage >> nodes;
+            for (const auto node : nodes){
+                g.addNode(node);
+            }
+        }
+        else if (receivedCommand == command::responseVertices) {
+            std::vector<Vertice> vertices;
+            receivedMessage >> vertices;
+            for (const auto vertice : vertices){
+                g.addVertice(vertice);
+            }
+        }
     }
-    else{
-        receivedMessage >> messageString;
-        nodeStream << messageString;
-    }
-
-    nodeStream.close();
-
-    std::ofstream verticeStream(verticeFilePath);
-
-    requestVertices();
-
-    if(socket.receive(receivedMessage) != sf::Socket::Done){
-        std::cout << "Something went wrong with receiving" << std::endl;
-    }
-    else{
-        receivedMessage >> messageString;
-        verticeStream << messageString;
-    }
-
-    verticeStream.close();
 }
 
-
-void Client::requestNodes(){
-	sf::Packet p;
-	p << std::string("REQUEST_NODES");
-	if(socket.send(p) != sf::Socket::Done){
-		std::cout << "Something went wrong while sending your message, please try again later" << std::endl;
-	}
-}
-
-
-void Client::requestVertices(){
-	sf::Packet p;
-	p << std::string("REQUEST_VERTICES");
-	if(socket.send(p) != sf::Socket::Done){
-		std::cout << "Something went wrong while sending your message, please try again later" << std::endl;
-	}
-}
-
-void Client::requestPath(std::string startNode, std::string endNode){
+void Client::requestDatabaseUsingCommand(const command & cmd) {
     sf::Packet p;
-    std::string str;
-    str.append("P(");
-    str.append(startNode);
-    str.append(")-(");
-    str.append(endNode);
-    str.append(")");
-    p << str;
-    if(socket.send(p) != sf::Socket::Done){
-        std::cout << "Something went wrong while sending your message, please try again later" << std::endl;
-    }
+    p << cmd;  
+    sendPacket(p);
+}
+
+void Client::requestPath(StartEndNodeData nodes){
+    sf::Packet p;
+    p << command::requestPath << nodes;
+    sendPacket(p);
 }
 

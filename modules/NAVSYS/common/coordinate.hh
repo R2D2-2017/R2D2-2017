@@ -7,6 +7,7 @@
  */
 #pragma once
 #include <ostream>
+#include <SFML/Network.hpp>
 
 /**
  * \brief 2D Coordinate class
@@ -54,5 +55,7 @@ public:
      * \return Distance between Coordinates
      */
     float euclideanDistance(const Coordinate &rhs) const;
-
+    
+    friend sf::Packet & operator<<(sf::Packet & lhs, const Coordinate & coordinate);
+    friend sf::Packet & operator>>(sf::Packet & lhs, Coordinate & coordinate);
 };
