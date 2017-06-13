@@ -42,24 +42,15 @@ int main() {
     auto cs = target::pin_out(target::pins::d7);
     auto alarmled = target::pin_out(target::pins::d8);
 
-    // setting up speaker
+    // Setting up speaker
     auto speakerPin = target::pin_out(target::pins::d9);
     auto player = Speaker( speakerPin );
-
-    auto a = target::pin_out(target::pins::d13);
 
     // Initialize classes
     SdSpi sd(cs, spiBus);
     auto logger = DataLogger(sd);
 
     Alarm alarm = Alarm(2.7f, alarmled, player);
-
-    // Startup blink
-    a.set(0);
-    hwlib::wait_ms(200);
-    a.set(1);
-    hwlib::wait_ms(100);
-    a.set(0);
 
     hwlib::cout << "writing to sd card\r\n";
     while (true) {
