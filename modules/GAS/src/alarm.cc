@@ -1,7 +1,9 @@
 /**
  * \file
  * \brief     The definitions of the alarm functionality of GAS-01
- * \author    Jeroen Kok, Robbie valkenburg en Mike Hilhorst
+ * \author    Jeroen Kok
+ * \author    Robbie valkenburg
+ * \author    Mike Hilhorst
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See LICENSE
  */
@@ -9,7 +11,7 @@
 #include "alarm.hh"
 
 void Alarm::checkGasValue(float gasValue) {
-    if (gasValue < gasValueThreshold) {
+    if (gasValue > gasValueThreshold) {
         triggerAlarm();
     } else {
         alarmLed.set(false);

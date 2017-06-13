@@ -40,16 +40,13 @@ int main() {
     target::pin_adc sensor = target::pin_adc(target::ad_pins::a0);
     target::spi_bus_due spiBus;
     auto cs = target::pin_out(target::pins::d7);
-    auto alarmled = target::pin_out(target::pins::d8);
-
-    // Setting up speaker
+    auto alarmled = target::pin_out(target::pins::d22);
     auto speakerPin = target::pin_out(target::pins::d9);
-    auto player = Speaker( speakerPin );
 
     // Initialize classes
     SdSpi sd(cs, spiBus);
     auto logger = DataLogger(sd);
-
+    auto player = Speaker( speakerPin );
     Alarm alarm = Alarm(2.7f, alarmled, player);
 
     hwlib::cout << "writing to sd card\r\n";
