@@ -14,17 +14,21 @@
 int main() {
     WDT->WDT_MR = WDT_MR_WDDIS;
 
-    auto ky101Pin = hwlib::target::pin_in(hwlib::target::pins::d7);
+    auto ky101Pin = hwlib::target::pin_in(hwlib::target::pins::d14);
 
-    auto stepX = hwlib::target::pin_out(hwlib::target::pins::d20);
-    auto dirX  = hwlib::target::pin_out(hwlib::target::pins::d21);
-    auto stepY = hwlib::target::pin_out(hwlib::target::pins::d5);
-    auto dirY  = hwlib::target::pin_out(hwlib::target::pins::d4);
-    auto stepZ = hwlib::target::pin_out(hwlib::target::pins::d3);
-    auto dirZ  = hwlib::target::pin_out(hwlib::target::pins::d2);
+    auto ENX = hwlib::target::pin_out(2,6); //d38
+    auto stepX = hwlib::target::pin_out(hwlib::target::pins::a0);
+    auto dirX  = hwlib::target::pin_out(hwlib::target::pins::a1);
+    auto ENY = hwlib::target::pin_out(hwlib::target::pins::a2);
+    auto stepY = hwlib::target::pin_out(hwlib::target::pins::a6);
+    auto dirY  = hwlib::target::pin_out(hwlib::target::pins::a7);
 
-    auto xLimitSwitch = hwlib::target::pin_in(hwlib::target::pins::d31);
-    auto yLimitSwitch = hwlib::target::pin_in(hwlib::target::pins::d33);
+    auto ENZ = hwlib::target::pin_out(hwlib::target::pins::a8);
+    auto stepZ = hwlib::target::pin_out(hwlib::target::pins::d46);
+    auto dirZ  = hwlib::target::pin_out(hwlib::target::pins::d48);
+
+    auto xLimitSwitch = hwlib::target::pin_in(hwlib::target::pins::d3);
+    auto yLimitSwitch = hwlib::target::pin_in(hwlib::target::pins::d2);
 
 
     // TODO parser requires this hwlib fix - https://github.com/wovo/hwlib/pull/6
@@ -56,6 +60,11 @@ int main() {
     Stepper            y(dirY, stepY);
     Stepper            z(dirZ, stepZ);
     RobotArmController r(x, y, z, xLimitSwitch, yLimitSwitch, ky101);
+
+    // Enable the motor drivers
+    ENX.set(0);
+    ENY.set(0);
+    ENZ.set(0);
 
     hwlib::cout << "START SEQUENCE" << '\n';
 
