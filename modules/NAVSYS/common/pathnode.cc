@@ -76,7 +76,7 @@ sf::Packet & operator>>(sf::Packet & lhs, PathNode & node) {
 }
 
 sf::Packet & operator<<(sf::Packet & lhs, const std::vector<PathNode> & pathVector) {
-    lhs << pathVector.size();
+    lhs << (sf::Uint32)pathVector.size();
     for (auto node : pathVector) {
         lhs << node;
     }
