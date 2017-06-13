@@ -1,7 +1,7 @@
  /**
  * \file      main.cc
  * \brief     Program for giving an indication when a rfid card has been detected, a database connection has been made and a string has been encrypted
- * \author    Tim IJntema, Stefan de Beer, Arco Gelderblom, Rik Honcoop, Koen de Groot
+ * \author    Tim IJntema, Stefan de Beer, Arco Gelderblom, Rik Honcoop, Koen de Groot, Ricardo Bouwman
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See LICENSE
  */
@@ -43,8 +43,8 @@ int main(int argc, char **argv) {
         rfid.init();
 
         //Keypad pinSetup
-        const int keypadRow[] = {24, 25, 22, 31};
-        const int keypadColumn[] = {26, 27, 28, 29};
+        const int keypadRow[] = {4, 1, 16, 15};
+        const int keypadColumn[] = {2, 7, 9, 8};
 
         //Keypad objects
         MatrixKeypad keypad(keypadRow, keypadColumn, 4);
@@ -64,7 +64,7 @@ int main(int argc, char **argv) {
             while ((c = keypad.getKey()) == 'h') {
                 delay(100);
             }
-            std::cout << "A key has been pressed\n";
+            std::cout << keypad.getKey() << " key has been pressed\n";
 
             connection.executeQuery("SELECT * FROM RFID");
                 
