@@ -14,7 +14,8 @@ find_path(WIRINGPI_INCLUDE_DIRS NAMES wiringPi.h)
 include_directories(${WIRINGPI_INCLUDE_DIRS})
 
 set(sources
-    src/main.cc)
+    src/main.cc
+    src/hc-sr04)
 
 add_executable(${exe_name} ${sources})
 target_link_libraries(${exe_name} ${WIRINGPI_LIBRARIES})

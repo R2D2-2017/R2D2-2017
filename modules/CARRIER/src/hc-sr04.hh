@@ -7,13 +7,19 @@
 
 class hcSr04 {
 private:
-    int TriggerPin;
-    int EchoPin;
-    float distance;
+    int     TriggerPin;
+    int     EchoPin;
+    float   distance;
+    double  distanceMeters;
+    long    travelTimeUsec;
+    long    now;
+    volatile long endTimeUsec;
+    volatile long startTimeUsec;
 public:
     hcSr04(int & TriggerPin,int & EchoPin);
-    float get();
-    void getDistance();
+    float   get();
+    double  getDistance();
+    void    Timer();
 };
 
 

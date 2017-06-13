@@ -6,9 +6,16 @@
  * \license   See LICENSE
  */
 #include <iostream>
+#include "wiringPi.h"
+#include "hc-sr04.hh"
 
 int main(int argc, char **argv) {
-    std::cout << "Hello world!\n";
 
-    return 0;
+    wiringPiSetup();
+
+    int Triggerpin = 0;
+    int Echopin    = 2;
+
+    hcSr04 sensor(Triggerpin,Echopin);
+    sensor.get();
 }
