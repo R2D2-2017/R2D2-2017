@@ -62,9 +62,10 @@ int main(int argc, char **argv) {
             }
             MFAuthentData x;
             uint8_t receiveData[64];
+            int block = 0;
             rfid.communicateWithTag(Mfrc522::mfrc522Commands::receive,
-                                    nullptr,
-                                    0,
+                                    &block,
+                                    1,
                                     receiveData,
                                     64*8);
 //            rfid.communicateWithTag(Mfrc522::mfrc522Commands::mfAuthent, nullptr, 0, nullptr, 0);
