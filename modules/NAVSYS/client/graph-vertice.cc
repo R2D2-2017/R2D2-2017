@@ -1,5 +1,5 @@
 /**
-* \file      graphicsvertices.cc
+* \file      graph-vertices.cc
 * \brief     vertices between nodes in sfmlgraphics window
 * \author    Leo Jenneskens
 * \copyright Copyright (c) 2017, The R2D2 Team

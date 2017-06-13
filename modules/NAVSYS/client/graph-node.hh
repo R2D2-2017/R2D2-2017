@@ -1,5 +1,5 @@
 /**
-* \file      graphicsnodes.hh
+* \file      graph-node.hh
 * \brief     header for nodes in sfmlgraphics window
 * \author    Leo Jenneskens, Arco Gelderblom
 * \copyright Copyright (c) 2017, The R2D2 Team

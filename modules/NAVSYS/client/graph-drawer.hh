@@ -1,5 +1,5 @@
 /**
-* \file      graphicsgraph.hh
+* \file      graph-drawer.hh
 * \brief     header for graphs in sfmlgraphics window
 * \author    Leo Jenneskens, Arco Gelderblom
 * \copyright Copyright (c) 2017, The R2D2 Team
