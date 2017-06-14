@@ -109,7 +109,8 @@ Mfrc522::statusCodes Mfrc522::communicateWithTag(const mfrc522Commands command,
         if(n & 0x30){
             break; // Tag found
         }
-        else if(n & 0x01){	
+        else if(n & 0x01){
+            std::cout << "Errorcode: " << readRegister(mfrc522Registers::error) << std::endl;
             return statusCodes::statusError; // no Tag found
         }
         if(--i == 0){	

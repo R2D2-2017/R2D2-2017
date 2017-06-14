@@ -9,6 +9,7 @@
 #pragma once
 
 #include <cstdint>
+#include <iostream>
 
 /**
  *\brief This library is for interfacing with the mfrc522.
