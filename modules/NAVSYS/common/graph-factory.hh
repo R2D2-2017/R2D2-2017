@@ -13,22 +13,25 @@
 #include "graph.hh"
 #include "node.hh"
 
-
+/**
+ * \brief Create graph from file
+ */
 class GraphFactory {
 private:
     /**
-     * \brief    This function finds a node in the node  vector by name
+     * \brief This function finds a node in the node  vector by name
+     * 
      * \param[in] name, name of node
      * \param[in] nodes, list of nodes
-     * \return  it  iterator to node element
+     * 
+     * \return it iterator to node element
      */
     Node getNodeByName(const std::string &name, std::vector<Node> nodes);
 
-
     /**
-     * \brief    This function asks the factory to create nodes based on the nodes file
+     * \brief This function asks the factory to create nodes based on the nodes file
      *
-     *  This function handle the parsing of lines found in the nodes file and the creation of nodes
+     * This function handle the parsing of lines found in the nodes file and the creation of nodes
      *
      * This function wil keep getting lines from the file from which it wil extract the nodes information.
      * This information is stored in strings named after the information they contain.
@@ -43,11 +46,10 @@ private:
      * !!!
      *
      * \param[in]nodeFilePath path to node file
+     * 
      * \return nodes  vector with vertice elements filled.
      */
     std::vector<Node>  RunNodeFactory(const std::string &nodeFilePath);
-
-
 
     /**
      * \brief This function asks the factory to create vertices based on the vertice file
@@ -74,7 +76,6 @@ private:
      * \return  vertices  vector with vertice elements filled.
      */
     std::vector<Vertice> RunVerticeFactory(const std::string &verticeFilePath, std::vector<Node> nodes);
-
 
 public:
     /**

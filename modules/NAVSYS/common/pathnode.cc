@@ -5,60 +5,48 @@
 * \license   See LICENSE
 */
 
-#include <vector>
-#include <iostream>
-
 #include "pathnode.hh"
+
+#include <iostream>
 
 PathNode::PathNode():
     pathDistance(0)
 {}
 
 PathNode::PathNode(Node n, Node goal, float g) :
-    // sets the Node
     Node(n.getCoordinate(), n.getName()),
-    // sets g
     pathDistance(g)
 {
-    //calculate initial f
     calcPriority(goal);
 }
 
-void PathNode::calcPriority(Node goal)
-{
+void PathNode::calcPriority(Node goal) {
     priority = pathDistance + euclideanDistance(goal);
 }
 
-void PathNode::setPathDistance(float dist)
-{
+void PathNode::setPathDistance(float dist) {
     pathDistance = dist;
 }
 
-float PathNode::getPriority()
-{
+float PathNode::getPriority() {
     return priority;
 }
 
-float PathNode::getPathDistance()
-{
+float PathNode::getPathDistance() {
     return pathDistance;
 }
 
-void PathNode::setParent(std::shared_ptr<PathNode> dad)
-{
+void PathNode::setParent(std::shared_ptr<PathNode> dad) {
     parent = dad;
 }
 
-std::shared_ptr<PathNode> PathNode::getParent()
-{
+std::shared_ptr<PathNode> PathNode::getParent() {
     return parent;
 }
 
-std::ostream &operator<<(std::ostream & os, PathNode node)
-{
+std::ostream &operator<<(std::ostream & os, PathNode node) {
 	os << "Node: ";
-	if (node.name != "")
-	{
+	if (node.name != "") {
 		os << "[" << node.name << "]";
 	}
 
@@ -92,7 +80,7 @@ sf::Packet & operator>>(sf::Packet & lhs, std::vector<PathNode> & pathVector) {
     lhs >> vectorSize;
     
     PathNode node;
-    for (int i = 0; i < vectorSize; i++) {
+    for (int i = 0; i < vectorSize; ++i) {
         lhs >> node;
         pathVector.push_back(node);
     }

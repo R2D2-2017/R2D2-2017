@@ -11,6 +11,7 @@
 
 /**
  * \brief 2D Coordinate class
+ * 
  * \details
  * Coordinate class for coordinates on a 2d plane.
  */
@@ -88,10 +89,13 @@ public:
 
     /**
      * \brief Get the euclidean distance between Coordinates
+     * 
      * \details
      * Returns the euclidean distance calculated with the following function:
      * \f$(x_1,y_1)\f$ and \f$(x_2,y_2)\f$
+     * 
      * \param[in] rhs Other coordinate
+     * 
      * \return Distance between Coordinates
      */
     float euclideanDistance(const Coordinate &rhs) const;

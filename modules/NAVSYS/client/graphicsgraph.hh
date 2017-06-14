@@ -14,7 +14,9 @@
 #include "graphicsnodes.hh"
 #include "../common/graph.hh"
 
-
+/**
+ * \brief Draw the full graph on screen
+ */
 class GraphDrawer {
 private:	
     std::vector<GraphNode> graphNodes;

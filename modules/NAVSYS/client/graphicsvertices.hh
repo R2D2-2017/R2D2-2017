@@ -10,6 +10,9 @@
 
 #include <SFML/Graphics.hpp>
 
+/**
+ * \brief Make vertice viseble on screen
+ */
 class GraphVertice {
 private:
     sf::Vector2f positiona;

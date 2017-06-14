@@ -10,6 +10,9 @@
 
 #include <SFML/Graphics.hpp>
 
+/**
+ * \brief Make node viseble with sfml on screen
+ */
 class GraphNode {
 private:
     sf::Vector2f position;

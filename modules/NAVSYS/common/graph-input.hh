@@ -12,8 +12,9 @@
 
 #include "graph.hh"
 
-
-
+/**
+ * \brief Class for using cin to get nodes and vertices
+ */
 class GraphInput {
 private:
 
@@ -29,7 +30,6 @@ public:
      * \param[in] graph The graph to get the node entry from
      */
     void getNodeEntryFromScreen(Graph &graph);
-
 
     /**
      * \brief Description of getNodeEntryFromScreen

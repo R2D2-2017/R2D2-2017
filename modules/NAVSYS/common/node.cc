@@ -75,7 +75,7 @@ sf::Packet & operator>>(sf::Packet & lhs, std::vector<Node> & nodes) {
     lhs >> vectorSize;
     
     Node node;
-    for (int i = 0; i < vectorSize; i++) {
+    for (int i = 0; i < vectorSize; ++i) {
         lhs >> node;
         nodes.push_back(node);
     }
