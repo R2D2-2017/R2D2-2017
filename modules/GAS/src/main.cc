@@ -40,7 +40,7 @@ int main() {
     target::pin_adc sensor = target::pin_adc(target::ad_pins::a0);
     target::spi_bus_due spiBus;
     auto cs = target::pin_out(target::pins::d7);
-    auto alarmled = target::pin_out(target::pins::d22);
+    auto alarmled = target::pin_out(target::pins::d8);
     auto speakerPin = target::pin_out(target::pins::d9);
 
     // Initialize classes
