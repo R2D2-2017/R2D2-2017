@@ -6,7 +6,7 @@
 #ifndef MFRC522Extended_h
 #define MFRC522Extended_h
 
-//#include <Arduino.h>
+#include <wiringPi.h>
 #include "MFRC522.hh"
 
 class MFRC522Extended : public MFRC522 {
