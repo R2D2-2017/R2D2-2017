@@ -33,52 +33,64 @@ private:
     sf::Vector2f buttonSize = {100,30};
 
 public:
-/**
- * \brief Client constructor
- *
- * \param[in]     ipAddress		sf::IpAddress, the IP address of the server
- * \param[in]	  port			uint16_t, the port of the server
- */
+    /**
+     * \brief Client constructor
+     *
+     * \param[in]     ipAddress		sf::IpAddress, the IP address of the server
+     * \param[in]	  port			uint16_t, the port of the server
+     *
+     */
 	Client(sf::IpAddress ipAddress, uint16_t port);
 
-/**
- * \brief Runs the client
- *
- * Runs all the client things. Only functionality right now is connecting with a server, asking for a graph and displaying all server messages on screen.
- */
+    /**
+    * \brief Runs the client
+    *
+    * Runs all the client things. Only functionality right now is connecting with a server, asking for a graph and displaying all server messages on screen.
+    * 
+    */
 	void run();
 
-/**
-
- * \brief Requests  nodes from the server
- *
- * Sends a request for nodes from the server, by just sending a sf::Packet with a std::string.
- */
+    /**
+    * \brief Requests  nodes from the server
+    *
+    * Sends a request for nodes from the server, by just sending a sf::Packet with a std::string.
+    *
+    */
 	void requestNodes();
 
     /**
- * \brief Requests vertices from the server
- *
- * Sends a request for vertices to the server, by just sending a sf::Packet with a std::string.
- */
+    * \brief Requests vertices from the server
+    *
+    * Sends a request for vertices to the server, by just sending a sf::Packet with a std::string.
+    *
+    */
     void requestVertices();
 
 	/**
-* \brief Requests the database from the server
-*
-* this function sends the requests for  the data contained in the node and vertices file.
-
-*/
+    * \brief Requests the database from the server
+    *
+    * This function sends the requests for  the data contained in the node and vertices file.
+    *
+    */
     void getDatabaseFromServer(std::string nodeFilePath, std::string verticeFilePath);
 
 	/**
-* \brief Requests the path from the server
-*
-* this function sends the requests for  the path between two nodes.
-
-*/
+    * \brief Requests the path from the server
+    *
+    * This function sends the requests for  the path between two nodes.
+    *
+    */
 	void requestPath(std::string startNode, std::string endNode);
 
+
+    /**
+    * \brief Execute a command corresponding with the pressed button.
+    *
+    * \param[in,out]    window          The SFML window
+    * \param[in]        buttonId        The ID of the selected button
+    * \param[in]        clickedNode     The selected GraphNode
+    *
+    */
     void buttonAction(sf::RenderWindow & window, int buttonId, GraphNode clickedNode);
 
 };

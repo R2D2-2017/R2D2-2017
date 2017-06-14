@@ -1,3 +1,11 @@
+/**
+* \file      button.cc
+* \brief     This class will let a button appear in a SFML window.
+* \author    René de Kluis, Koen de Groot
+* \copyright Copyright (c) 2017, The R2D2 Team
+* \license   See LICENSE
+*/
+
 #include "button.hh"
 
 Button::Button(sf::RenderWindow & window, sf::Vector2f position, sf::Vector2f size, int id, std::string text, bool isVisable) :

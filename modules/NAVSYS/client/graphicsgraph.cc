@@ -1,7 +1,7 @@
 /**
 * \file      graphicsgraph.cc
-* \brief     graphs in sfmlgraphics window
-* \author    Leo Jenneskens
+* \brief     graphs in SFML-graphics window
+* \author    Leo Jenneskens, René de Kluis, Koen de Groot
 * \copyright Copyright (c) 2017, The R2D2 Team
 * \license   See LICENSE
 */
