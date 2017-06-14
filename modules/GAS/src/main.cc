@@ -44,6 +44,7 @@ int main(){
     auto cs = target::pin_out(target::pins::d7);
     auto alarmled = target::pin_out(target::pins::d8);
     auto speakerPin = target::pin_out(target::pins::d9);
+	auto a = target::pin_out(target::pins::d13);
 
     // Initialize classes
     SdSpi sd(cs, spiBus);
