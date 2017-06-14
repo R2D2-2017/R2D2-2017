@@ -16,6 +16,11 @@
  * Simple class that encapsulates wiringSerial
  * That is able send commands with the protocol required by the Qik2s12v10
 */  
+enum MotorControls : char{
+	startBit = 0xAA,
+    deviceId = 0x0A
+};
+
 class Motor{
 private:
 	/// The port name for the raspberry pi zero w this is "/dev/ttyS0"

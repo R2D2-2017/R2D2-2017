@@ -9,12 +9,19 @@
 
 #pragma once 
 #include "motor.hh"
-
 /*
  *\brief Serial communication with wiring pi for the Qik2s12v10
  * Class that lets user control motors connected through Qik2s12v10 and 
  * Raspberry Pi serial port
 */
+enum MovementControls : char{
+    forwardMotorOne = 0x08,
+    forwardMotorTwo = 0x0C,
+    backwardMotorOne = 0X0A,
+    backwardMotorTwo = 0x0E
+};
+
+
 class MotorController{
 private:
 	/// left Motor on controller
