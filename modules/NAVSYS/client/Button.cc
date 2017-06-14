@@ -33,7 +33,7 @@ Button::Button(sf::RenderWindow & window, sf::Vector2f position, sf::Vector2f si
 
 }
 
-const void Button::draw() {
+void Button::draw() {
     if (isVisable) {
         if (isFocused) {
             button.setFillColor(sf::Color::Blue);

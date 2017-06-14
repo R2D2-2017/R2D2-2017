@@ -26,7 +26,7 @@ std::vector<Node>  GraphFactory::RunNodeFactory(std::string nodeFilePath) {
 
     std::vector<Node> nodes;
 
-    std::ifstream nodeFileStreamIn("../client/node.txt",std::ios_base::app);
+    std::ifstream nodeFileStreamIn(nodeFilePath,std::ios_base::app);
 
     if (nodeFileStreamIn.is_open()) {
         std::string nodeEntry;

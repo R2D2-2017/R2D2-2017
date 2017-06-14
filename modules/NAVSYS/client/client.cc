@@ -57,9 +57,9 @@ void Client::run(){
     //used to let the user know a knew request can be made
     bool printOptionsFlag =1;
     GraphNode clickedNode = drawer.checkNodeClicked();
-	while(true){
+        while(true){
         window.clear(sf::Color::Black);
-		sf::sleep(sf::milliseconds(10));
+        sf::sleep(sf::milliseconds(10));
 
         if (GetMouseClick()) {
             for (auto & indexer : buttonList) {
@@ -103,7 +103,6 @@ void Client::run(){
         }
         window.display();
 
-        drawer.reload(&g);
         drawer.draw();
 
         if(printOptionsFlag){

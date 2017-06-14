@@ -15,7 +15,7 @@ Server::Server(const uint16_t port):
 {
     std::string nodeFilePath = "../server/node.txt";
     std::string verticeFilePath = "../server/vertice.txt";
-    
+
     GraphFactory factory;
     factory.createGraph(nodeFilePath,verticeFilePath, g);
 }

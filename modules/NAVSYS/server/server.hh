@@ -13,7 +13,9 @@
 #include <memory>
 #include <string>
 
+#include "../common/pathnode.hh"
 #include "../common/protocol.hh"
+#include "../common/graph.hh"
 #include "../common/graph-factory.hh"
 
 typedef std::shared_ptr<sf::TcpSocket> sharedSocketPtr_t;
@@ -29,7 +31,6 @@ private:
     sf::TcpListener socketListener;
     std::vector<sharedSocketPtr_t> connectedClientSockets;
     sf::SocketSelector socketSelector;
-    
     Graph g;
 
 public:
