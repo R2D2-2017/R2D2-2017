@@ -5,6 +5,8 @@
  * \author	  Bram van bergeijk
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See LICENSE
+ * \wiki      https://github.com/R2D2-2017/R2D2-2017/wiki/MQ-5-gas-sensor
+ * \trello    https://trello.com/c/FUDCRaeC/1-12-the-application-can-convert-the-analog-value-from-the-mq-5-to-percentage-value20
  */
 
 #include "wrap-hwlib.hh"
