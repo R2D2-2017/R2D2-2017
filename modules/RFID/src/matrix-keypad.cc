@@ -29,7 +29,18 @@ char MatrixKeypad::getKey() {
             pinMode(row[currentRow], INPUT);
             pullUpDnControl(row[currentRow], PUD_UP);
             if (digitalRead(row[currentRow]) == 0) {
-                return keypad[currentRow][currentCol];
+                keypadRow = currentRow;
+            }
+        }
+    }
+    for (int currentRow = 0; currentRow < rowSize; currentRow++) {
+        pinMode(row[currentRow], OUTPUT);
+        digitalWrite(row[currentRow], 0);
+        for (int currentCol = 0; currentCol < colSize; currentCol++) {
+            pinMode(column[currentCol], INPUT);
+            pullUpDnControl(column[currentCol], PUD_UP);
+            if (digitalRead(column[currentCol]) == 0) {
+                return keypad[keypadRow][currentCol];
             }
         }
     }
