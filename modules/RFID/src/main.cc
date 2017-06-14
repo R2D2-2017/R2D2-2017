@@ -72,7 +72,7 @@ int main(int argc, char **argv) {
 
             uint8_t tag[16];
 
-            if(rfid.receiveTagId(&tag)){
+            if(rfid.receiveTagId(tag)){
                 std::cout << "Hello tag\n";
                 std::cout << "Your id = ";
                 for(size_t i = 0; i < 4; i++){
