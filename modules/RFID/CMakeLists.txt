@@ -21,7 +21,13 @@ set(sources
     src/mfrc522.cc
     src/led-controller.cc
     src/matrix-keypad.cc
-    src/config-file-parser.cc)
+    src/config-file-parser.cc
+    src/rfid/MFRC522.cpp
+    src/rfid/MFRC522Debug.cpp
+#    src/rfid/MFRC522Extended.cpp
+#    src/rfid/MFRC522Hack.cpp
+        src/rfid/fakeSpi/SPI.cc
+        )
 
 add_executable(${exe_name} ${sources})
 target_link_libraries(${exe_name} ${WIRINGPI_LIBRARIES} ${mysqlcppconn_LIBRARIES})
