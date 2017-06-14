@@ -36,12 +36,11 @@ namespace Carrier {
         /**
         * \brief ...
         * ...
-        * \param[in] motor ...
-        * \param[in] sonar ...
+        * \param[in] motorController class that can controll the carrier motors
         * \param[in] distThreshold the threshold for distance to objects
         * \param[in] speed the speed in ???-units
         */
-        CarrierController(MotorController & motorController, /*const Sonar & sonar, */float distThreshold = 0.5f, int speed = 0.1f);
+        CarrierController(MotorController & motorController, float distThreshold = 0.5f, int speed = 0.1f);
         /**
         * \brief Shuts down the controller
         */
@@ -93,6 +92,9 @@ namespace Carrier {
         */
         void stop();
 
+        /**
+        *\brief returns the current state the carrier is in
+        */
         CarrierState currentState();
 
         // Distance tracking (using only time)

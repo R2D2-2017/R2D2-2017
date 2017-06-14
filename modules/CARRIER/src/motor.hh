@@ -11,7 +11,7 @@
 #include <wiringPi.h>
 #include <iostream>
 
-/*
+/**
  *\brief Serial communication clas with wiringPi
  * Simple class that encapsulates wiringSerial
  * That is able send commands with the protocol required by the Qik2s12v10
@@ -21,6 +21,9 @@ enum MotorControls : char{
     deviceId = 0x0A
 };
 
+/**
+ *\brief class that sends data over serial to the rosbee motors
+*/
 class Motor{
 private:
 	/// The port name for the raspberry pi zero w this is "/dev/ttyS0"
@@ -30,14 +33,14 @@ private:
 	/// The opened serial port that can be used by wiringSerial
 	int openPort;
 public:
-	/*
+	/**
      *\brief constructor for Motor class opens the serial for wiringSerial 
      *\param[in] portName path to serial connection port
      *\param[in] baud baudrate you want to open the serial connection on
      */
 	Motor(std::string portName, int baud);
 
-	/*
+	/**
      *\brief function that sends command with given motor speed to serial port
      * with protocol used by Qik2s12v10 
      *\param[in] hexCommand as found in https://github.com/R2D2-2017/R2D2-2017/wiki/%5BCARRIER%5DIndoor-driving-platform

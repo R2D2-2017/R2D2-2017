@@ -9,7 +9,7 @@
 
 #pragma once 
 #include "motor.hh"
-/*
+/**
  *\brief Serial communication with wiring pi for the Qik2s12v10
  * Class that lets user control motors connected through Qik2s12v10 and 
  * Raspberry Pi serial port
@@ -21,7 +21,10 @@ enum MovementControls : char{
     backwardMotorTwo = 0x0E
 };
 
-
+/**
+ *\brief class to control the rosbee motor
+ *This class controls the motor class by sending specific rosbee motor controll commands
+*/
 class MotorController{
 private:
 	/// left Motor on controller
@@ -29,28 +32,28 @@ private:
 	/// right Motor on controller
 	Motor rightMotor;
 public:
-	/*
+	/**
      *\brief constructor for MotorController class
-     *\param[in] serial path to serial connection port
+     *\param[in] portName serial path to serial connection port
      *\param[in] baud baudrate you want to open the serial connection on
      */
 	MotorController(std::string portName, int baud);
 
-	/*
+	/**
 	 *\brief sends command to Qik2s12v10 to ride forward at given speed
 	 *\param[in] speed the motors will be turning this number has to be 
 	 * between 0 and 127
 	*/
 	void forward(int speed);
 
-	/*
+	/**
 	 *\brief sends command to Qik2s12v10 to ride backward at given speed 
 	 *\param[in] speed this num	 *\param[in] speed the motors will be turning this number has to be 
 	 * between 0 and 127
 	 */
 	void backward(int speed);
 
-	/*
+	/**
 	 *\brief sends command to Qik2s12v10 to stop left motor and turn
 	 * right motor at given speed, resulting in the vehicle turning left
 	 *\param[in] speed the motors will be turning this number has to be 
@@ -58,7 +61,7 @@ public:
 	*/
 	void left(int speed);
 
-	/*
+	/**
 	 *\brief sends command to Qik2s12v10 to stop right motor and turn
 	 * left motor at given speed, resulting in the vehicle turning right
 	 *\param[in] speed the motors will be turning this number has to be 
@@ -66,10 +69,8 @@ public:
 	*/
 	void right(int speed);
 
-	/*
-	 *\brief sends command to Qik2s12v10 to stop both motors from turning
-	 *\param[in] speed the motors will be turning this number has to be 
-	 * between 0 and 127
+	/**
+	 *\brief sends command to Qik2s12v10 to stop both motors
 	*/
 	void stop();
 
