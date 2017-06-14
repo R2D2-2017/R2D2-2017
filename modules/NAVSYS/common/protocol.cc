@@ -1,3 +1,10 @@
+/**
+* \file      protocol.cc
+* \author    Tim Ijntema
+* \copyright Copyright (c) 2017, The R2D2 Team
+* \license   See LICENSE
+*/
+
 #include "protocol.hh"
 
 sf::Packet & operator>>(sf::Packet & lhs, command & c) {

@@ -11,13 +11,15 @@
 #include <algorithm>
 #include <limits>
 #include <queue>
-#include "coordinate.hh"
-#include "graph.hh"
-#include "node.hh"
-#include "pathnode.hh"
-#include "vertice.hh"
+
+#include "../common/coordinate.hh"
+#include "../common/graph.hh"
+#include "../common/node.hh"
+#include "../common/pathnode.hh"
+#include "../common/vertice.hh"
 
 /**
+* \brief A* algorith that attempts to find the fastest path from start to end node.
 * A* algorithm that finds a fast path from start node to goal node
 * aStar() is the implementation of the A* pathfinding algorithm
 * This algorithm uses the euclidian distance between a node and the goal node
@@ -32,6 +34,7 @@
 std::vector<PathNode> aStar(Graph & g, Node &start, Node &goal);
 
 /**
+* \brief Function that reconstructs the path based on PathNodes parents.
 * Reconstructs the path based on PathNodes parents starting from current
 * reconstruct() is called when aStar() has found the goal node
 * It's called with the current node is the goal node.

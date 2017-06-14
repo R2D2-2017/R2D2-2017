@@ -1,3 +1,10 @@
+/**
+* \file      astar.hh
+* \author    Luuk Steeman
+* \copyright Copyright (c) 2017, The R2D2 Team
+* \license   See LICENSE
+*/
+
 #include "astar.hh"
 
 std::vector<PathNode> aStar(Graph & g, Node &start, Node &goal)
@@ -34,14 +41,14 @@ std::vector<PathNode> aStar(Graph & g, Node &start, Node &goal)
 
     // lowestF determines what the lowestF is of the neighbours of the current node.
     float lowestF;
-    
+
     // open the start node
     openedNodes.push_back(std::make_shared<PathNode>(PathNode(start, goal)));
 
     // Algorithm loop
     while (!openedNodes.empty())
     {
-       
+
         // find the neighbouring PathNode with lowest f value
         // set it to current
         lowestF = std::numeric_limits<float>::infinity();
@@ -77,7 +84,7 @@ std::vector<PathNode> aStar(Graph & g, Node &start, Node &goal)
         // close the current node to show that this node has already been visited
         closedNodes.push_back(current);
         openedNodes.erase(std::remove(openedNodes.begin(), openedNodes.end(), current), openedNodes.end());
-        
+
         // check which vertices the current node is part of as the origin node
         // add those to the curVertice vector as relevant vertices
         for (auto it = vertices.begin(); it != vertices.end(); it++)
@@ -110,7 +117,7 @@ std::vector<PathNode> aStar(Graph & g, Node &start, Node &goal)
                 continue;
             }
 
-            // check if the node is already opened 
+            // check if the node is already opened
             for (auto i = openedNodes.begin(); i != openedNodes.end(); i++)
             {
                 opened = false;
@@ -139,7 +146,7 @@ std::vector<PathNode> aStar(Graph & g, Node &start, Node &goal)
             {
                 openedNodes.push_back(std::make_shared<PathNode>(PathNode(*(it->getNeighbour()), goal, float(it->getWeight()) + current->getPathDistance())));
             }
-            
+
             // check if the new possible path is faster or not, if not skip this neighbour.
             else if (tentativeG >= curG)
             {

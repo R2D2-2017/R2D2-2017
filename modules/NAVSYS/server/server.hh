@@ -1,5 +1,5 @@
 /**
- * \file
+ * \file      server.hh
  * \brief     Header for server side code for NAVSYS API
  * \author    Philippe Zwietering
  * \copyright Copyright (c) 2017, The R2D2 Team
@@ -29,7 +29,7 @@ private:
     sf::TcpListener socketListener;
     std::vector<sharedSocketPtr_t> connectedClientSockets;
     sf::SocketSelector socketSelector;
-    
+
     Graph g;
 
 public:
@@ -60,12 +60,10 @@ public:
  * \brief Handles client input
  *
  * This functions only handles a graph request right now, which is just a dummy.
- * 
+ *
  * \param[in]     input    std::string that states the message received from a client
  */
 
     void handleInput(sf::Packet & p);
-    
+
 };
-
-
