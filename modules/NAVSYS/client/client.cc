@@ -88,7 +88,7 @@ void Client::run(){
                     if (
                         indexer->getId() == static_cast<int>(button::StartNode) || 
                         indexer->getId() == static_cast<int>(button::EndNode)) {
-                        indexer->setVisable(false);
+                            indexer->setVisable(false);
                     }
                 }
             }
@@ -169,9 +169,7 @@ void Client::getDatabaseFromServer(std::string nodeFilePath, std::string vertice
         receivedMessage >> messageString;
         verticeStream << messageString;
     }
-
     verticeStream.close();
-
 }
 
 
@@ -210,6 +208,7 @@ void Client::buttonAction(sf::RenderWindow & window, int buttonId, GraphNode cli
     switch (buttonId) {
     case static_cast<int>(button::ShutDown):
         window.close();
+        exit(1);
         break;
     case static_cast<int>(button::StartNode) :
         std::cout << clickedNode.getName();
