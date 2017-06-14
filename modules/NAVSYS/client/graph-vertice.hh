@@ -11,7 +11,6 @@
 #include <SFML/Graphics.hpp>
 
 class GraphVertice{
-	
 private:
 	sf::Vector2f positiona;
 	sf::Vector2f positionb;
@@ -19,7 +18,6 @@ private:
     * \brief The default color for a Vertic is white
     */
 	sf::Color color = sf::Color::White;
-	
 public:
 	/**
 	* constructor of the vertices class C	*

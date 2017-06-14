@@ -9,6 +9,7 @@
 #pragma once 
 
 #include <SFML/Graphics.hpp>
+
 class GraphNode{
 private:
 	
@@ -29,7 +30,6 @@ private:
     */
 	std::string name;
 public:
-
 	/**
 	*constructor for the graphnodes class 
 	*
@@ -64,11 +64,4 @@ public:
 	* \brief Get the position of the node
 	*/
 	sf::Vector2f getPosition();
-
-   
-
-	
-
 };
-
-

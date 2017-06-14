@@ -6,9 +6,7 @@
 * \license   See LICENSE
 */
 
-#include <SFML/Graphics.hpp>
 #include "graph-vertice.hh"
-#include <iostream>
 
 GraphVertice::GraphVertice(sf::Vector2f positiona,sf::Vector2f positionb) :
 	positiona(positiona),

@@ -7,11 +7,8 @@
  */
 
 #include "client.hh"
-#include <iostream>
 
 int main() {
-
     Client(sf::IpAddress::LocalHost, 5000).run();
-
     return 0;
 }

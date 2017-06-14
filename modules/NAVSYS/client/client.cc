@@ -102,7 +102,6 @@ void Client::run(){
     }
 }
 
-
 void Client::getDatabaseFromServer() {
     sf::Packet receivedMessage;
     command commands[] = {command::requestNodes, command::requestVertices};
@@ -142,4 +141,3 @@ void Client::requestPath(StartEndNodeData nodes){
     p << command::requestPath << nodes;
     sendPacket(p);
 }
-

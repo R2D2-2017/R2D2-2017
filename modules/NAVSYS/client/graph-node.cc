@@ -6,25 +6,22 @@
 * \license   See LICENSE
 */
 
-#include <SFML/Graphics.hpp>
 #include "graph-node.hh"
 #include <iostream>
 
 GraphNode::GraphNode( sf::Vector2f position,  std::string name, float size) :
-
-	position{ position },
+	position{position},
 	size{size},
-	name {name }
+	name {name}
 	{
 		circle.setFillColor(color);
 	}
 
-void GraphNode::draw( sf::RenderWindow & window )  {
-
+void GraphNode::draw( sf::RenderWindow & window ) {
     sf::Font font;
     if (!font.loadFromFile("../common/BebasNeue.otf"))
     {
-        std::cout<< "font error\n";
+        std::cerr<< "font error\n";
     }
     sf::Text txt;
     txt.setFont(font);
@@ -56,4 +53,3 @@ void GraphNode::changeColor(sf::Color newColor) {
 sf::Vector2f GraphNode::getPosition() {
 	return sf::Vector2f(position.x+size,position.y+size);
 }
-
