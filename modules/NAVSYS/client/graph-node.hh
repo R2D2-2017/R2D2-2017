@@ -19,12 +19,14 @@ private:
     * \brief The default color for a Vertic is white
     */
 	sf::Color color = sf::Color::White;
-    /*
+    
+    bool isFocused = false;
+	/*
     * \brief The size of the node
     *
     * The size gets a default initialization of 10.0 in the constructor of this class
     */
-	float size;
+    float size;
     /*
     * \brief The name of the node
     */
@@ -49,7 +51,11 @@ public:
 	* \brief Get the name of the Node
 	*/
 	std::string getName();
-	
+
+    sf::FloatRect getBounds();
+
+    bool isPressed(sf::RenderWindow & window);
+   	
     /*
     * \brief Assign a new color to the node
     *

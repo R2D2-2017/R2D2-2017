@@ -66,4 +66,6 @@ public:
     * \param[in] path A vector containing the nodes of the path to follow
     */
 	void highlightPath(std::vector<PathNode> path);
+
+    GraphNode checkNodeClicked();
 };

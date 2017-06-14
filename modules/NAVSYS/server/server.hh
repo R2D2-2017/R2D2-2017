@@ -13,7 +13,6 @@
 #include <memory>
 #include <string>
 
-#include "../common/pathnode.hh"
 #include "../common/protocol.hh"
 #include "../common/graph-factory.hh"
 

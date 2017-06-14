@@ -7,7 +7,7 @@
  */
 
 #include "server.hh"
-#include <algorithm>
+#include <iostream>
 #include "astar.hh"
 
 Server::Server(const uint16_t port):
@@ -42,12 +42,9 @@ void Server::run(){
 
         sf::sleep(sf::milliseconds(100));
 
-
         if(socketSelector.wait()){
-
             if(socketSelector.isReady(socketListener)){
                 sharedSocketPtr_t client = std::make_shared<sf::TcpSocket>();
-
                 if(socketListener.accept(*client) != sf::Socket::Done){
                     std::cout << "Something went wrong connecting to a new socket, please try again" << std::endl;
                     exit(-1);

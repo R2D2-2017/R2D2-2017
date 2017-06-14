@@ -20,14 +20,16 @@ set(common_sources
     common/graph-input.cc
     common/graph-factory.cc
     common/protocol.cc
-    common/pathnode.cc)
+    common/pathnode.cc
+    common/Mouse.cc)
 
 set(client_sources
     client/main.cc 
     client/client.cc 
     client/graph-drawer.cc
     client/graph-node.cc 
-    client/graph-vertice.cc)
+    client/graph-vertice.cc
+    client/Button.cc)
 
 set(server_sources
     server/main.cc

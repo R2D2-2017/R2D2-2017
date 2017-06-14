@@ -17,6 +17,10 @@
 #include "graph-drawer.hh"
 #include "../common/graph-input.hh"
 #include "../common/protocol.hh" 
+#include "Button.hh"
+#include "Mouse.hh"
+
+enum class button {ShutDown,StartNode,EndNode};
 
 /**
  * \brief Client class
@@ -28,8 +32,8 @@ private:
 	sf::IpAddress ipAddress;
 	uint16_t port;
 	sf::TcpSocket socket;
-        Graph g;
-
+    Graph g;
+    sf::Vector2f buttonSize = {100,30};
         /**
          * \brief Send a sf packet with error checking
          * 
@@ -70,6 +74,9 @@ public:
 */
 	void requestPath(StartEndNodeData nodes);
         
-        void requestDatabaseUsingCommand(const command & cmd);
+    void requestDatabaseUsingCommand(const command & cmd);
+	void requestPath(std::string startNode, std::string endNode);
+
+    void buttonAction(sf::RenderWindow & window, int buttonId, GraphNode clickedNode);
 };
 
