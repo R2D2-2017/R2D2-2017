@@ -1,6 +1,13 @@
 #pragma once 
 #include "motor.hh"
 
+enum MovementControls : char{
+    forwardMotorOne = 0x08,
+    forwardMotorTwo = 0x0C,
+    backwardMotorOne = 0X0A,
+    backwardMotorTwo = 0x0E
+};
+
 
 class MotorController{
 private:

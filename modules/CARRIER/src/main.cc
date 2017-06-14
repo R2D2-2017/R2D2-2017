@@ -6,7 +6,7 @@
 int main(void){
 	MotorController controller("/dev/ttyS0", 38400);
 	SerialCom serialCom("/dev/rfcomm0", 9600);
-    Carrier::CarrierController stateMachine{ controller };
+    Carrier::CarrierController stateMachine(controller, 100, 100);
 
 	while(serialCom.init() == 0) {
         delay(1000);
@@ -15,19 +15,24 @@ int main(void){
         std::string command = serialCom.readCommand();
         if(command != "-1") {
             if(command.find("FORWARD") != std::string::npos) {
-                serialCom.write("GOING FORWARD");
 				stateMachine.forward(100);
+                serialCom.write("GOING FORWARD");
             } else if(command.find("BACKWARD") != std::string::npos) {
-                serialCom.write("GOING BACKWARD");
                 stateMachine.backward(100);
+                serialCom.write("GOING BACKWARD");
             } else if(command.find("LEFT") != std::string::npos) {
 				stateMachine.left(100);
+                serialCom.write("GOING LEFT");
 			} else if(command.find("RIGHT") != std::string::npos) {
-                serialCom.write("GOING RIGHT");
                 stateMachine.right(100);
+                serialCom.write("GOING RIGHT");
+            } else if(command.find("STOP") != std::string::npos) {
+                stateMachine.stop();
+                serialCom.write("STOPPING");
             }
+            
             printf("%s", command.c_str());      
         }
-        stateMachine.update();
+        stateMachine.update();        
     }
 }

@@ -1,11 +1,11 @@
 #include "carrier-controller.hh"
 
 Carrier::CarrierController::CarrierController(MotorController & motorController,
-    /*Sonar & sonar, */float distThreshold, float speed) :
+    /*Sonar & sonar, */float distThreshold, int speed) :
     motorController{ motorController }, //sonar{ sonar },
     distThreshold{ distThreshold }, speed{ speed }
 {
-    state = CarrierState::Idle;
+    state = CarrierState::Driving;
 
     targetTime = startTime = std::chrono::steady_clock::now();
     //speed = 0.1; // m/s
@@ -31,19 +31,18 @@ float Carrier::CarrierController::distanceTraveled(std::chrono::time_point<std::
 void Carrier::CarrierController::update() {
     switch (state) {
     case CarrierState::Idle:
+        motorController.stop();
         break;
     case CarrierState::Driving:
         if (/*sonar.getDistance() <= distThreshold
             ||*/ targetTime <= std::chrono::steady_clock::now()) {
-            stop();
-            state = CarrierState::Idle;
+            // stop();
         }
         break;
     case CarrierState::Turning:
         if (/*sonar.getDistance() <= distThreshold
             ||*/ targetTime <= std::chrono::steady_clock::now()) {
-            stop();
-            state = CarrierState::Idle;
+            // stop();
         }
         break;
     case CarrierState::Sensing:
@@ -84,6 +83,5 @@ void Carrier::CarrierController::setSpeed(float speed) {
 }
 
 void Carrier::CarrierController::stop() {
-    motorController.stop();
     state = CarrierState::Idle;
 }

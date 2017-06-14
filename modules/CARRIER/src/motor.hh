@@ -3,6 +3,11 @@
 #include <wiringPi.h>
 #include <iostream>
 
+enum MotorControls : char{
+	startBit = 0xAA,
+    deviceId = 0x0A
+};
+
 class Motor{
 private:
 	std::string portName;

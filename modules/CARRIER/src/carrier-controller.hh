@@ -41,7 +41,7 @@ namespace Carrier {
         * \param[in] distThreshold the threshold for distance to objects
         * \param[in] speed the speed in ???-units
         */
-        CarrierController(MotorController & motorController, /*const Sonar & sonar, */float distThreshold = 0.5f, float speed = 0.1f);
+        CarrierController(MotorController & motorController, /*const Sonar & sonar, */float distThreshold = 0.5f, int speed = 0.1f);
         /**
         * \brief Shuts down the controller
         */
@@ -125,7 +125,7 @@ namespace Carrier {
         /**
         * \brief The speed in m/s
         */
-        float speed;
+        int speed;
 
         CarrierState state;
 

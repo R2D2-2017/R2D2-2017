@@ -8,7 +8,7 @@ Motor::Motor(std::string portName, int baud):
 	}
 
 void Motor::sendCommand(char hexCommand, int speed){
-	char fullCommand[] = {	0xAA,0x0A, hexCommand, char(speed)};
+	char fullCommand[] = {	MotorControls::startBit, MotorControls::deviceId, hexCommand, char(speed)};
 	serialPuts(openPort, fullCommand);
 }
 
