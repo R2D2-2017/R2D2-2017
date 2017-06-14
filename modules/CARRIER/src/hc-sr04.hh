@@ -1,28 +1,30 @@
-//
-// Created by Luke Roovers on 12-6-2017.
-//
+/**
+ * \file
+ * \brief     Sonar Sensor header file
+ * \author    Luke Roovers
+ * \copyright Copyright (c) 2017, The R2D2 Team
+ * \license   See LICENSE
+ */
 
-#ifndef TEMPLATE_PC_HC_SR04_HH
-#define TEMPLATE_PC_HC_SR04_HH
+#pragma once
 
-class hcSr04 {
+class HcSr04 {
 private:
     int     TriggerPin;
     int     EchoPin;
-    float   distance;
-    double  distanceMeters;
-    long    travelTimeUsec;
-    long    now;
-    volatile long endTimeUsec;
-    volatile long startTimeUsec;
+    double  distanceInCm = 0;
+    volatile long endTimeUsec = 0;
+    volatile long startTimeUsec = 0;
 public:
-    hcSr04(int & TriggerPin,int & EchoPin);
-    float   get();
+    HcSr04(int & TriggerPin,int & EchoPin);
+    /**
+     * \brief Get distance in CM
+     *
+     * \return Double - Centimeters
+     */
     double  getDistance();
-    void    Timer();
 };
 
 
 
 
-#endif //TEMPLATE_PC_HC_SR04_HH
