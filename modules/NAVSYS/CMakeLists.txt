@@ -27,8 +27,10 @@ set(client_sources
     client/client.cc
     client/graphicsgraph.cc
     client/graphicsnodes.cc
-    client/graphicsvertices.cc)
-
+    client/graphicsvertices.cc
+    client/window.cc
+    client/gestures.cc)
+  
 set(server_sources
     server/main.cc
     server/server.cc

@@ -10,8 +10,13 @@
 
 #include <iostream>
 
+#include "window.hh"
+#include "gestures.hh"
 #include "../common/pathnode.hh"
 #include "graphicsgraph.hh"
+
+#define WINDOW_WIDTH 800
+#define WINDOW_HEIGHT 480
 
 Client::Client(sf::IpAddress ipAddress, uint16_t port):
     ipAddress(ipAddress),
@@ -42,17 +47,24 @@ void Client::run(){
     getDatabaseFromServer();
     
     //create the window
-    sf::RenderWindow  window{sf::VideoMode{1000, 1000}, "Graph"};
+    Window window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "NAVSYS", sf::Style::Default);
+
+    //Add a viewport
+    window.setViewPort(sf::Vector2f(WINDOW_WIDTH, WINDOW_HEIGHT), sf::Vector2f(100, 100));
+
     GraphDrawer printOnScreen(window);
-    
+
     sf::Packet receivedMessage;
     
     //used to let the user know a knew request can be made
     bool printOptionsFlag =1;
+
+    Gestures gestureHandler(window);
+    
     while (true) {
         window.clear(sf::Color::Black);
-        sf::sleep(sf::milliseconds(100));
-        
+        sf::sleep(sf::milliseconds(20));
+      
         printOnScreen.reload(&g);
         printOnScreen.draw();
 
@@ -91,14 +103,16 @@ void Client::run(){
             //used to let the user know a new request can be made
             printOptionsFlag = 1;
         }
-        
-        if (window.isOpen()) {
+
+        if( window.isOpen()) {
             sf::Event event;
-            while (window.pollEvent(event)) {
-                if (event.type == sf::Event::Closed) {
+            while( window.pollEvent(event) ){
+                if( event.type == sf::Event::Closed ){
                     window.close();
                 }
             }
+            window.moveViewPort(gestureHandler.getMouseDrag(20));
+            window.updateView();
         }
     }
 }
