@@ -138,7 +138,7 @@ bool Mfrc522::isTagPresent(){
     return status == statusCodes::statusOk;
 }
 
-statusCodes Mfrc522::receiveTagId(uint8_t * inputForId){
+Mfrcc522::statusCodes Mfrc522::receiveTagId(uint8_t * inputForId){
     writeRegister(mfrc522Registers::bitFraming, 0x07);
 
     uint8_t data = static_cast<uint8_t>(mifareCommands::antiColl);
