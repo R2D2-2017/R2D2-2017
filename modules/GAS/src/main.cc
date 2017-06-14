@@ -45,7 +45,7 @@ int main(){
     // Initialize classes
     SdSpi sd(cs, spiBus);
     auto logger = DataLogger(sd);
-    Alarm alarm = Alarm(2.7f, alarmled);
+    Alarm alarm = Alarm(105, alarmled);
     Mq5 mq5 = Mq5(sensor);
 
     // Initialize variables
@@ -70,7 +70,7 @@ int main(){
         convertToChar(mq5Value, charValue);
 
         //print value, write it to sd card and check if alarm needs to go off
-        hwlib::cout << mq5Value;
+        hwlib::cout << mq5Value << "\t";
         logger.writeValue(mq5Value);
         alarm.checkGasValue(mq5Value);
 
