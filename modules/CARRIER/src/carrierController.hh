@@ -10,6 +10,8 @@
 //#include "motor.hh"
 //#include "sonar.hh"
 #include <cstdint>
+#include <chrono>
+#include <cmath>
 
 namespace Carrier {
 
@@ -39,7 +41,7 @@ namespace Carrier {
         * \param[in] distThreshold the threshold for distance to objects
         * \param[in] speed the speed in ???-units
         */
-        CarrierController(/*Motor & motor, Sonar & sonar, */float distThreshold, float speed);
+        CarrierController(/*Motor & motor, Sonar & sonar, */float distThreshold = 0.5f, float speed = 0.1f);
         /**
         * \brief Shuts down the controller
         */
@@ -93,17 +95,42 @@ namespace Carrier {
 
         CarrierState currentState();
 
+        // Distance tracking (using only time)
+
+        /**
+        * \brief ...
+        * Calculates the time needed to travel the given distance
+        * NOTE: This simple calculation does not (yet) use acceleration
+        * \param dist the distance in meters
+        * \return
+        */
+        std::chrono::microseconds timeUntilDestination(float dist);
+
+        /**
+        * \brief ...
+        * Calculates the distance traveled during the given elapsed time
+        * NOTE: This simple calculation does not (yet) use acceleration
+        * \param elapsedTime the elapsed time during travel
+        * \return ...
+        */
+        float distanceTraveled(std::chrono::time_point<std::chrono::steady_clock> elapsedTime);
+
     private:
         //Motor & motor;
         //Sonar & sonar;
+        /**
+        * \brief The distance threshold in meters
+        */
         float distThreshold;
+        /**
+        * \brief The speed in m/s
+        */
         float speed;
 
         CarrierState state;
 
         // Distance tracking (using only time)
-        uint64_t timeUntilDestination(float dist);
-        uint64_t startTime;
+        std::chrono::time_point<std::chrono::steady_clock> startTime;
         uint64_t estRemainingTime;
 
         void move();
