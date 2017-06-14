@@ -110,10 +110,10 @@ Mfrc522::statusCodes Mfrc522::communicateWithTag(const mfrc522Commands command,
             break; // Tag found
         }
         else if(n & 0x01){	
-            return statusCodes::statusTimeout; // no Tag found
+            return statusCodes::statusError; // no Tag found
         }
         if(--i == 0){	
-            return statusCodes::statusError; // something went wrong. Is the mfrc522 connected properly?
+            return statusCodes::statusTimeout; // something went wrong. Is the mfrc522 connected properly?
         }
         delay(1);
     }
