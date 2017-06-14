@@ -41,8 +41,9 @@ set(sources
     src/data-logger.cc
     src/main.cc
 	src/alarm.cc
-	src/speaker.cc)
-
+	src/speaker.cc
+    src/mq5.cc
+	)
 
 # The target chip that is compiled for:
 include(${toolchain}/targets/arm32/cm3/atmel/sam3x/sam3x8e/sam3x8e.cmake)
