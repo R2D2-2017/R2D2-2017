@@ -21,7 +21,6 @@
  * \brief Casts int value of maximum 3 numbers to characters,
  *		  The characters are stored in the second parameter
  *		  mq5Char.
- * \returns Void
  */
 void convertToChar(int mq5Value, char mq5Char[3]);
 
@@ -48,21 +47,30 @@ int main(){
     auto logger = DataLogger(sd);
     Alarm alarm = Alarm(2.7f, alarmled);
     Mq5 mq5 = Mq5(sensor);
+
+    // Initialize variables
     int mq5Value = 0;
     char charValue[3];
+
     // Startup blink
     a.set(0);
     hwlib::wait_ms(200);
     a.set(1);
     hwlib::wait_ms(100);
     a.set(0);
+
+    //start loop
     hwlib::cout << "Writing to sd card\r\n";
     using namespace hwlib;
     while (true) {
         uint64_t time = hwlib::now_us();
-        // For debugging print a . for each measurement
+
+        //read mq-5 sensor
         mq5Value = mq5.getSensorPercentage();
         convertToChar(mq5Value, charValue);
+
+        //print value, write it to sd card and check if alarm needs to go off
+        hwlib::cout << mq5Value;
         logger.writeValue(mq5Value);
         alarm.checkGasValue(mq5Value);
 
