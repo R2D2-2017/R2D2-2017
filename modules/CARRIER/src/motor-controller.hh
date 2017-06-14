@@ -2,12 +2,12 @@
 #include "motor.hh"
 
 
-class motorController{
+class MotorController{
 private:
-	motor leftMotor;
-	motor rightMotor;
+	Motor leftMotor;
+	Motor rightMotor;
 public:
-	motorController(std::string portName, int baud);
+	MotorController(std::string portName, int baud);
 
 	void forward(int speed);
 

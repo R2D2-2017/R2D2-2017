@@ -1,31 +1,31 @@
-#include "motorController.hh"
+#include "motor-controller.hh"
 
-motorController::motorController(std::string portName, int baud):
+MotorController::MotorController(std::string portName, int baud):
 	leftMotor(portName, baud),
 	rightMotor(portName, baud)
 {}
 
-void motorController::forward(int speed){
+void MotorController::forward(int speed){
 	leftMotor.sendCommand(0x08, speed);
 	rightMotor.sendCommand(0x0C, speed);
 }
 
-void motorController::backward(int speed){
+void MotorController::backward(int speed){
 	leftMotor.sendCommand(0x0A, speed);
 	rightMotor.sendCommand(0x0E, speed);
 }
 
-void motorController::left(int speed){
+void MotorController::left(int speed){
 	leftMotor.sendCommand(0x08,0);
 	rightMotor.sendCommand(0x0C, speed);
 }
 
-void motorController::right(int speed){
+void MotorController::right(int speed){
 	leftMotor.sendCommand(0x08, speed);
 	rightMotor.sendCommand(0x0E, 0);
 }
 
-void motorController::stop(){
+void MotorController::stop(){
 	leftMotor.sendCommand(0x08, 0);
 	leftMotor.sendCommand(0x0C, 0);
 }

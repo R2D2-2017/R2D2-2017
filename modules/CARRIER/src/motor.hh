@@ -3,14 +3,12 @@
 #include <wiringPi.h>
 #include <iostream>
 
-class motor{
+class Motor{
 private:
 	std::string portName;
 	int baud;
 	int openPort;
 public:
-	motor(std::string portName, int baud);
-
+	Motor(std::string portName, int baud);
 	void sendCommand(char hexCommand, int speed);
-
 };
