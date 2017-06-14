@@ -28,12 +28,12 @@ Button::Button(sf::RenderWindow & window, sf::Vector2f position, sf::Vector2f si
         button.setFillColor(sf::Color::Transparent);
         button.setOutlineColor(sf::Color::Transparent);
         buttonText.setColor(sf::Color::Transparent);
-        buttonText.setFillColor(sf::Color::Transparent);
+        //buttonText.setFillColor(sf::Color::Transparent);
     }
 
 }
 
-const void Button::draw() {
+void Button::draw() {
     if (isVisable) {
         if (isFocused) {
             button.setFillColor(sf::Color::Blue);

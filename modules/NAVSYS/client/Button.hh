@@ -17,7 +17,7 @@ private:
     
 public:
     Button(sf::RenderWindow & window, sf::Vector2f position, sf::Vector2f size, int id, std::string text, bool isVisable = true);
-    const void draw();
+    void draw();
     void setFocus(bool b);
     bool getFocus();
     
