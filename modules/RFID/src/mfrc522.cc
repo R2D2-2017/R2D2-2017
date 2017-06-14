@@ -148,9 +148,11 @@ Mfrc522::statusCodes Mfrc522::receiveTagId(uint8_t * inputForId){
     statusCodes reqallstatus = communicateWithTag(mfrc522Commands::transceive, &reqalldata, 1, nullptr, 0);
     if(reqallstatus == statusCodes::statusOk) {
         statusCodes acstatus = communicateWithTag(mfrc522Commands::transceive, &acdata, 1, inputForId, 16);
+        std::cout << "Sending the reqall command went through\n";
         return acstatus;
     }
     else{
+        std::cout << "Couldn't send the reqall command\n";
         return reqallstatus;
     }
 }
