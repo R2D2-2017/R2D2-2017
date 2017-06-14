@@ -22,3 +22,5 @@ void SPIClass::endTransaction(void) {
     SPIDescriptor = -1;
 
 }
+
+SPIClass SPI;

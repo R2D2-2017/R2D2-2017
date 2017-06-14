@@ -11,11 +11,13 @@
 #include "led-controller.hh"
 #include "matrix-keypad.hh"
 #include "config-file-parser.hh"
+#include "rfid/MFRC522.h"
 
 #include <wiringPi.h>
 #include <wiringPiSPI.h>
 
 #include <iostream>
+#include <rfid/MFRC522.h>
 
 struct MFAuthentData {
     uint8_t command_code;
@@ -58,6 +60,19 @@ int main(int argc, char **argv) {
 
         LedController led(0);
 
+        MFRC522 rfid2;
+        rfid2.PCD_Init();
+
+        while (true) {
+            while (!rfid2.PICC_IsNewCardPresent());
+            rfid2.PICC_RequestA(nullptr, 0);
+            rfid2.PICC_ReadCardSerial();
+            for (int i = 0; i < 10; i++) {
+                std::cout << rfid2.uid.uidByte[i];
+            }
+            std::cout << "\n";
+        }
+
         while (true) {
             std::cout << "\n\nWaiting for rfid tag: \n";
 
@@ -73,7 +88,7 @@ int main(int argc, char **argv) {
 
             std::cout << "Hello tag\n";
             std::cout << "Your id = ";
-            for(size_t i = 0; i < 4; i++){
+            for (size_t i = 0; i < 4; i++) {
                 std::cout << std::hex << x.serialNumber[i];
             }
             std::cout << "\n";

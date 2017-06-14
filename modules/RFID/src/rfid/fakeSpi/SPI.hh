@@ -24,3 +24,5 @@ public:
 private:
     int SPIDescriptor;
 };
+
+extern SPIClass SPI;
