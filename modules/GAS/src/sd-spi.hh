@@ -28,7 +28,7 @@ public:
      * XXX Temporary: Needed for static arrays in data logger code.
      *                Remove when switching to filesystem usage!
      */
-    static constexpr size_t tmpBlockSize = 512;
+    //static constexpr size_t tmpBlockSize = 512;
 private:
 
     struct SdCommand {

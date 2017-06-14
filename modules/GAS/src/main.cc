@@ -8,6 +8,7 @@
  * \author    Mike Hilhorst
  * \author	  Bram van Btrgeijk
  * \author	  Wilco Louwerse
+ * \author    David de Jong
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See LICENSE
  */
@@ -15,10 +16,10 @@
 
 #include "hwlib-due-spi.hh"
 #include "sd-spi.hh"
-#include "data-logger.hh"
 #include "alarm.hh"
 #include "speaker.hh"
 #include "mq5.hh"
+#include <fatfs.hh>
 
 /**
  * \brief Casts int value of maximum 3 numbers to characters,
@@ -41,28 +42,42 @@ int main(){
     // Setup pins
     target::pin_adc sensor = target::pin_adc(target::ad_pins::a0);
     target::spi_bus_due spiBus;
-    auto cs = target::pin_out(target::pins::d7);
-    auto alarmled = target::pin_out(target::pins::d8);
-    auto speakerPin = target::pin_out(target::pins::d9);
-	auto a = target::pin_out(target::pins::d13);
+    target::pin_out cs(target::pins::d7);
+    target::pin_out alarmLed(target::pins::d8);
+    target::pin_out speakerPin(target::pins::d9);
+    target::pin_out startLed(target::pins::d13);
 
     // Initialize classes
     SdSpi sd(cs, spiBus);
-    auto logger = DataLogger(sd);
-    auto player = Speaker( speakerPin );
-    Alarm alarm = Alarm(105, alarmled, player);
-    Mq5 mq5 = Mq5(sensor);
+    Speaker player( speakerPin );
+    Alarm alarm(105, alarmled, player);
+    Mq5 mq5(sensor);
+    MuStore::FatFs fileSystem(&sd);
+    MuStore::FsError err;
+
+    MuStore::FsNode dataFile = fileSystem.get("/data.txt", err);
+    hwlib::cout << "\r\n";
+    hwlib::cout << (int)err << "\r\n";
+
+    //check if the filesystem is correct
+    hwlib::cout << fileSystem.getFsType() << "\r\n";
+    hwlib::cout << (int)fileSystem.getFsSubType() << "\r\n";
+
+    //check if the file is present on the sd
+    if(!dataFile.doesExist()) {
+        hwlib::cout << "data.txt does not exist \r\n";
+    }
 
     // Initialize variables
     int mq5Value = 0;
     char charValue[3];
 
     // Startup blink
-    a.set(0);
+    startLed.set(0);
     hwlib::wait_ms(200);
-    a.set(1);
+    startLed.set(1);
     hwlib::wait_ms(100);
-    a.set(0);
+    startLed.set(0);
 
     //start loop
     hwlib::cout << "Writing to sd card\r\n";
@@ -74,10 +89,12 @@ int main(){
         mq5Value = mq5.getSensorPercentage();
         convertToChar(mq5Value, charValue);
 
-        //print value, write it to sd card and check if alarm needs to go off
-        hwlib::cout << mq5Value << "\t";
-        logger.writeValue(mq5Value);
+        //write it to sd card and check if alarm needs to go off
+        dataFile.write(charValue, 3, err);
         alarm.checkGasValue(mq5Value);
+
+        //print error value of the write action
+        //hwlib::cout << (int)err << "\r\n";
 
         hwlib::wait_us((int_fast32_t)(2000000 - (hwlib::now_us() - time)));
     }
