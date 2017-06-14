@@ -56,10 +56,11 @@ void Client::run(){
 
     //used to let the user know a knew request can be made
     bool printOptionsFlag =1;
+    StartEndNodeData newPath;
     GraphNode clickedNode = drawer.checkNodeClicked();
-        while(true){
+    while(true){
         window.clear(sf::Color::Black);
-        sf::sleep(sf::milliseconds(10));
+        sf::sleep(sf::milliseconds(100));
 
         if (GetMouseClick()) {
             for (auto & indexer : buttonList) {
@@ -88,20 +89,16 @@ void Client::run(){
             }
             else {
                 for (auto & indexer : buttonList) {
-                    if (
-                        indexer->getId() == static_cast<int>(button::StartNode) || 
-                        indexer->getId() == static_cast<int>(button::EndNode)) {
+                    if (indexer->getId() == static_cast<int>(button::StartNode) || indexer->getId() == static_cast<int>(button::EndNode)) {
                         indexer->setVisable(false);
                     }
                 }
             }
         }
         
-        drawer.draw();
         for (auto & indexer : buttonList) {
             indexer->draw();
         }
-        window.display();
 
         drawer.draw();
 
@@ -137,14 +134,9 @@ void Client::run(){
                 std::cout << thePath.back().getName() << "\n\n";
             }
             drawer.highlightPath(thePath);
-
             std::cout<<"Press Escape to clear this path and insert a new path\n";
             while(!sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)){}
-            
-            //used to let the user know a knew request can be made
-            printOptionsFlag = 1;
         }
-
         if( window.isOpen()) {
             sf::Event event;
             while( window.pollEvent(event) ){
