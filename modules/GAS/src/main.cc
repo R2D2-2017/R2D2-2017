@@ -4,6 +4,8 @@
  * \author    Chris Smeele
  * \author    David Driessen
  * \author    Paul Ettema
+ * \author	  Bram van Btrgeijk
+ * \author	  Wilco Louwerse
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See LICENSE
  */
@@ -11,24 +13,25 @@
 
 #include "hwlib-due-spi.hh"
 #include "sd-spi.hh"
-#include "data-logger.hh"
 #include "alarm.hh"
+#include "mq5.hh"
 
-// TODO: Move to separate file (Temporary warning fix)
+#include <store.hh>
+#include <fatfs.hh>
+
 /**
- * \brief Reads the gas sensor data
- * \param sensor The analog pin the gas sensor is connected to
- * \returns The measured data as float voltage
+ * \brief Casts int value of maximum 3 numbers to characters,
+ *		  The characters are stored in the second parameter
+ *		  mq5Char.
  */
-float readGasSensor(hwlib::target::pin_adc &sensor);
-
-float readGasSensor(hwlib::target::pin_adc &sensor) {
-    // 4096.0f is previous max value
-    // 3.3f is new max value
-    return ((float)sensor.get()) / 4096.0f * 3.3f;
+void convertToChar(int mq5Value, char mq5Char[3]);
+void convertToChar(int mq5Value, char mq5Char[3]){
+    mq5Char[0] = ((char)(mq5Value / 100 % 10) + '0');
+    mq5Char[1] = ((char)(mq5Value % 100 / 10) + '0');
+    mq5Char[2] = ((char)(mq5Value % 10 ) + '0');
 }
 
-int main() {
+int main(){
     namespace target = hwlib::target;
 
     WDT->WDT_MR = WDT_MR_WDDIS;
@@ -36,33 +39,60 @@ int main() {
     // Setup pins
     target::pin_adc sensor = target::pin_adc(target::ad_pins::a0);
     target::spi_bus_due spiBus;
-    auto cs = target::pin_out(target::pins::d7);
-    auto alarmled = target::pin_out(target::pins::d8);
-    auto a = target::pin_out(target::pins::d13);
+
+    target::pin_out cs(target::pins::d7);
+    target::pin_out alarmLed(target::pins::d8);
+    target::pin_out startLed(target::pins::d13);
 
     // Initialize classes
     SdSpi sd(cs, spiBus);
-    auto logger = DataLogger(sd);
+    MuStore::FatFs fileSystem(&sd);
+    MuStore::FsError err;
 
-    Alarm alarm = Alarm(2.7f, alarmled);
+    MuStore::FsNode dataFile = fileSystem.get("/data.txt", err);
+    hwlib::cout << "\r\n";
+    hwlib::cout << (int)err << "\r\n";
+
+    if(!dataFile.doesExist()) {
+        hwlib::cout << "data.txt does not exist \r\n";
+    }
+
+    hwlib::cout << fileSystem.getFsType() << "\r\n";
+    hwlib::cout << (int)fileSystem.getFsSubType() << "\r\n";
+
+    Alarm alarm = Alarm(2.7f, alarmLed);
+    Mq5 mq5 = Mq5(sensor);
+
+    // Initialize variables
+    int mq5Value = 0;
+    char charValue[3];
 
     // Startup blink
-    a.set(0);
+    startLed.set(0);
     hwlib::wait_ms(200);
-    a.set(1);
+    startLed.set(1);
     hwlib::wait_ms(100);
-    a.set(0);
+    startLed.set(0);
 
-    hwlib::cout << "writing to sd card\r\n";
+    //start loop
+    hwlib::cout << "Writing to sd card\r\n";
+    using namespace hwlib;
     while (true) {
         uint64_t time = hwlib::now_us();
 
-        // For debugging print a . for each measurement
-        hwlib::cout << ".";
+        //read mq-5 sensor
+        mq5Value = mq5.getSensorPercentage();
+        convertToChar(mq5Value, charValue);
 
-        logger.writeValue(readGasSensor(sensor));
-        alarm.checkGasValue(readGasSensor(sensor));
-        hwlib::wait_us((int_fast32_t) (5000000 - (hwlib::now_us() - time)));
+        //print value, write it to sd card and check if alarm needs to go off
+        hwlib::cout << charValue << "\r\n";
+        dataFile.write(charValue, 3, err);
+
+        hwlib::cout << (int)err << "\r\n";
+
+        //alarm.checkGasValue(mq5Value);
+
+        hwlib::wait_us((int_fast32_t)(2000000 - (hwlib::now_us() - time)));
     }
 
     return 0;
