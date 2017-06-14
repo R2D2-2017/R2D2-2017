@@ -1,5 +1,5 @@
 #include <wiringPi.h>
-#include <wiringSerial.h>
+//#include <wiringSerial.h>
 
 struct commands{
 	char startbit = 0xAA;
@@ -11,7 +11,7 @@ struct commands{
 	char speed = 10;
 };
 
-
+/*
 class Qik
 {
 private:
@@ -32,7 +32,7 @@ public:
 		serialPuts(port,&speed);
 	}
 
-};
+};*/
 
 int main(void){
 	wiringPiSetup();
