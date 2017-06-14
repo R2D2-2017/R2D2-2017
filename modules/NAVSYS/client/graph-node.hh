@@ -14,9 +14,19 @@ private:
 	
 	sf::Vector2f position;
 	sf::CircleShape circle;
+    /*
+    * \brief The default color for a Vertic is white
+    */
 	sf::Color color = sf::Color::White;
-
+    /*
+    * \brief The size of the node
+    *
+    * The size gets a default initialization of 10.0 in the constructor of this class
+    */
 	float size;
+    /*
+    * \brief The name of the node
+    */
 	std::string name;
 public:
 
@@ -36,16 +46,22 @@ public:
 	void draw( sf::RenderWindow & window ) ;
 	
 	/**
-	* Get the name of the Node
-	* return: returns a std string with the name
+	* \brief Get the name of the Node
 	*/
 	std::string getName();
 	
+    /*
+    * \brief Assign a new color to the node
+    *
+    * This function is used to assign new colors to the node. Note that the color must be
+    * an SFML color object. (sf::Color)
+    *
+    * \param[in] newColor Assign 'newColor' to the node
+    */
     void changeColor(sf::Color newColor);
 
 	/**
-	*function that wil return the position of the node in the window.
-	*returning an sf::Vector2f
+	* \brief Get the position of the node
 	*/
 	sf::Vector2f getPosition();
 

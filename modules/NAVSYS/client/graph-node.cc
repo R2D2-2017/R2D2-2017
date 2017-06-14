@@ -1,5 +1,5 @@
 /**
-* \file      graph-nodes.cc
+* \file      graph-node.cc
 * \brief     nodes in sfmlgraphics window
 * \author    Leo Jenneskens, Arco Gelderblom
 * \copyright Copyright (c) 2017, The R2D2 Team
@@ -16,7 +16,7 @@ GraphNode::GraphNode( sf::Vector2f position,  std::string name, float size) :
 	size{size},
 	name {name }
 	{
-		circle.setFillColor(sf::Color::White);
+		circle.setFillColor(color);
 	}
 
 void GraphNode::draw( sf::RenderWindow & window )  {

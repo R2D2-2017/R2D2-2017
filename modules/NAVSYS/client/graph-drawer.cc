@@ -40,6 +40,7 @@ void GraphDrawer::clear(){
 }
 
 void GraphDrawer::setBeginNode(std::string nodeName) {
+    // search through the vector for the node and change it's color to green
     for (auto node = graphNodes.begin(); node != graphNodes.end(); ++node) {
         if (node->getName() == nodeName) {
             node->changeColor(sf::Color::Green);
@@ -50,6 +51,7 @@ void GraphDrawer::setBeginNode(std::string nodeName) {
 }
 
 void GraphDrawer::setEndNode(std::string nodeName) {
+    // search through the vector for the node and change it's color to red
     for (auto node = graphNodes.begin(); node != graphNodes.end(); ++node) {
         if (node->getName() == nodeName) {
             node->changeColor(sf::Color::Red);
@@ -60,8 +62,10 @@ void GraphDrawer::setEndNode(std::string nodeName) {
 }
 
 void GraphDrawer::highlightPath(std::vector<PathNode> path) {
+    // loop through the path
     for (unsigned int i = 0; i < path.size()-1; i++) {
         for(auto vertice = graphVertices.begin(); vertice != graphVertices.end(); ++vertice) {
+            // check per vertice whether it is the right one, if so, highlight it by changing the color to blue
             if (vertice->checkVertice(sf::Vector2f(path[i].getCoordinate().x*scaling,path[i].getCoordinate().y*scaling),
                                   sf::Vector2f(path[i+1].getCoordinate().x*scaling,path[i+1].getCoordinate().y*scaling))) {
                 vertice->changeColor(sf::Color::Blue);

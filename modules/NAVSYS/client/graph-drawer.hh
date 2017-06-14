@@ -45,7 +45,25 @@ public:
 	*This function will clear the std::vectors
 	*/
 	void clear();
+
+    /*
+    * \brief Set the begin node for the path
+    *
+    * \param[in] nodeName The name of the node that is the begin
+    */
 	void setBeginNode(std::string nodeName);
+
+    /*
+    * \brief Set the end node for the path
+    *
+    * \param[in] nodeName The name of the node that is the end
+    */
 	void setEndNode(std::string nodeName);
+
+    /*
+    * \brief Highlight the path that can be taken with a blue color
+    *
+    * \param[in] path A vector containing the nodes of the path to follow
+    */
 	void highlightPath(std::vector<PathNode> path);
 };

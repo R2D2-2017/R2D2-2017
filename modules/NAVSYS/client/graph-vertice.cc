@@ -1,7 +1,7 @@
 /**
 * \file      graph-vertices.cc
 * \brief     vertices between nodes in sfmlgraphics window
-* \author    Leo Jenneskens
+* \author    Leo Jenneskens, Arco Gelderblom
 * \copyright Copyright (c) 2017, The R2D2 Team
 * \license   See LICENSE
 */
