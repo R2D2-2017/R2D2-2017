@@ -80,11 +80,11 @@ int main(int argc, char **argv) {
                     std::cout << std::hex << tag[i];
                 }
                 std::cout << "\n";
-            }// else if(s == Mfrc522::statusCodes::statusError){
-//                std::cout << "ERROR\n";
-//            } else{
-//                std::cout << "Something else went wrong reading the key\n";
-//            }
+            } else if(s == Mfrc522::statusCodes::statusError){
+                std::cout << "ERROR\n";
+            } else{
+                std::cout << "Something else went wrong reading the key\n";
+            }
 
             std::cout << "Waiting for key press\n";
             while ((c = keypad.getKey()) == 'h') {
