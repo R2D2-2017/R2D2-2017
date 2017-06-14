@@ -23,7 +23,6 @@ private:
     const int colSize;
 
     int keypadRow = -1;
-    int keypadColumn = -1;
 
     const int *row;
     const int *column;
@@ -61,21 +60,5 @@ public:
     * 
     */
     char getKey();
-
-    /**
-    * \brief Obtain a collection of keys.
-    * This function will collect keys that are pressed on the keypad.
-    * The keys will be collected until the max length of the password 
-    * is reached or the '#' button is pressed.
-    * When a button is pressed and is being hold the system shall see this 
-    * only as one key, no matter how long you'll hold it. 
-    *
-    * \param[in,out] charArray password to be collected.
-    * \param[in] lenCharArray max length of the password
-    *
-    * \return The amount of keys that are pressed on the keypad.
-    *
-    */
-    int getString(char *charArray, int lenCharArray);
 };
 
