@@ -1,4 +1,4 @@
-#include "carrierController.hh"
+#include "carrier-controller.hh"
 
 Carrier::CarrierController::CarrierController(/*Motor & motor,
     Sonar & sonar, */float distThreshold, float speed) :
