@@ -60,12 +60,14 @@ void Client::run(){
     bool printOptionsFlag =1;
 
     Gestures gestureHandler(window);
+
+    printOnScreen.reload(&g);
     
     while (true) {
         window.clear(sf::Color::Black);
         sf::sleep(sf::milliseconds(20));
       
-        printOnScreen.reload(&g);
+        
         printOnScreen.draw();
 
         if(printOptionsFlag){
