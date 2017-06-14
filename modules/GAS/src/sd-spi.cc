@@ -108,7 +108,6 @@ StoreError SdSpi::recvBlock(uint8_t *buffer, size_t length) {
 
     do {
         if (i++ > cmdTimeoutClocks){
-            hwlib::cout << "dingen \r\n";
             return STORE_ERR_IO;
         }
         // Wait for start block token (0xfe).

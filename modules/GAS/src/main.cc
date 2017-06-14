@@ -50,7 +50,7 @@ int main(){
     // Initialize classes
     SdSpi sd(cs, spiBus);
     Speaker player( speakerPin );
-    Alarm alarm(105, alarmled, player);
+    Alarm alarm(105, alarmLed, player);
     Mq5 mq5(sensor);
     MuStore::FatFs fileSystem(&sd);
     MuStore::FsError err;
@@ -71,6 +71,7 @@ int main(){
     // Initialize variables
     int mq5Value = 0;
     char charValue[3];
+    char sessionSeparator[] = "\r\n=========================\r\n";
 
     // Startup blink
     startLed.set(0);
@@ -78,6 +79,12 @@ int main(){
     startLed.set(1);
     hwlib::wait_ms(100);
     startLed.set(0);
+
+    //seek EOF to append data instead of overwriting it.
+    dataFile.seek(dataFile.getSize());
+
+    //Write separation line between measurement sessions.
+    dataFile.write(sessionSeparator, sizeof(sessionSeparator), err);
 
     //start loop
     hwlib::cout << "Writing to sd card\r\n";
@@ -91,6 +98,9 @@ int main(){
 
         //write it to sd card and check if alarm needs to go off
         dataFile.write(charValue, 3, err);
+        hwlib::cout << "wiring data 0 for success: " << (int)err << "\r\n";
+        dataFile.write("\r\n", 2, err);
+        hwlib::cout << "wiring newline 0 for success: " << (int)err << "\r\n";
         alarm.checkGasValue(mq5Value);
 
         //print error value of the write action
