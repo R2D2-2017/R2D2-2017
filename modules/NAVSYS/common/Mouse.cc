@@ -1,4 +1,4 @@
-
+#pragma once
 #include "Mouse.hh"
 
 sf::Vector2f Vector2fFromVector2i(sf::Vector2i vector) {
