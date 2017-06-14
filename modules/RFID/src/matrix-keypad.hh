@@ -1,7 +1,7 @@
 /**
  * \file      matrix-keypad.hh
- * \brief     Library for using a 4x4 matrix keypad
- * \author    Tim IJntema, René de Kluis
+ * \brief     Library for using a 3x4 or 4x4 matrix keypad
+ * \author    Tim IJntema, René de Kluis, Ricardo Bouwman
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See LICENSE
  */
@@ -12,7 +12,7 @@
 #include <wiringPi.h>
 
 /**
- * \brief Library for using a 4x4 keypad
+ * \brief Library for using a 3x4 or 4x4 keypad
  * 
  * This library can be used to capture input from a 4x4 keypad using wiringPi.
  * 
@@ -22,12 +22,10 @@ private:
     const int rowSize = 4;
     const int colSize;
 
-    int keypadRow = -1;
-    int keypadColumn = -1;
-
     const int *row;
     const int *column;
 
+    // The only difference between the 3x4 and 4x4 keypad is that the 3x4 keypad has no alphabetic characters
     char keypad[4][4] = {
         {'1', '2', '3', 'A'},
         {'4', '5', '6', 'B'},

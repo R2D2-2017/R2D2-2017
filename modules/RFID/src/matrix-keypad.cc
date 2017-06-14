@@ -1,7 +1,7 @@
 /**
  * \file      matrix-keypad.cc
- * \brief     Library for a 4x4 keypad
- * \author    Tim IJntema, René de Kluis
+ * \brief     Library for a 3x4 or 4x4 keypad
+ * \author    Tim IJntema, René de Kluis, Ricardo Bouwman
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See LICENSE
  */
@@ -14,14 +14,27 @@ MatrixKeypad::MatrixKeypad(const int *row, const int *column, int colSize):
     row(row),
     column(column)
 {
-    // Making sure the columnsize is within range
-    if (colSize < 0 || colSize > 4){
-        std::cerr << "Columnsize " << colSize << " higher or lower than the allowed range\n";
+    // Making sure the column size is within range
+    if (colSize < 3 || colSize > 4){
+        std::cerr << "Column size " << colSize << " higher or lower than the allowed range\n";
         exit(EXIT_FAILURE);
     }
 }
 
 char MatrixKeypad::getKey() {
+    for (int currentCol = 0; currentCol < colSize; currentCol++) {
+        pinMode(column[currentCol], OUTPUT);
+        digitalWrite(column[currentCol], 0);
+        for (int currentRow = 0; currentRow < rowSize; currentRow++) {
+            pinMode(row[currentRow], INPUT);
+            pullUpDnControl(row[currentRow], PUD_UP);
+            if (digitalRead(row[currentRow]) == 0) {
+                return keypad[currentRow][currentCol];
+            }
+        }
+    }
+    return 'h';
+    /*
     for (int i = 0; i < colSize; ++i) {
         pinMode(column[i], OUTPUT);
         digitalWrite(column[i], 0);
@@ -61,7 +74,7 @@ char MatrixKeypad::getKey() {
     if ((keypadRow != -1) && (keypadColumn != -1)) {
         return keypad[keypadRow][keypadColumn];
     }
-    return 'h';
+    return 'h';*/
 }
 
 int MatrixKeypad::getString(char *charArray, int lenCharArray) {
@@ -69,11 +82,9 @@ int MatrixKeypad::getString(char *charArray, int lenCharArray) {
     int i = 0;
 
     while ((pressedKey = getKey()) != '#' && i < (lenCharArray-1)) {
-        if (keypadColumn != -1 && pressedKey != 'h') {
+        if (pressedKey != 'h') {
             charArray[i] = pressedKey;
             ++i;
-
-            while (digitalRead(column[keypadColumn]) == 1) {}
         }
     }
     charArray[i] = '\0';
