@@ -104,7 +104,7 @@ namespace Carrier {
         * \param dist the distance in meters
         * \return
         */
-        std::chrono::microseconds timeUntilDestination(float dist);
+        std::chrono::nanoseconds timeUntilDestination(float dist);
 
         /**
         * \brief ...
@@ -113,7 +113,7 @@ namespace Carrier {
         * \param elapsedTime the elapsed time during travel
         * \return ...
         */
-        float distanceTraveled(std::chrono::time_point<std::chrono::steady_clock> elapsedTime);
+        float distanceTraveled(std::chrono::steady_clock::time_point elapsedTime);
 
     private:
         //Motor & motor;
@@ -130,8 +130,8 @@ namespace Carrier {
         CarrierState state;
 
         // Distance tracking (using only time)
-        std::chrono::time_point<std::chrono::steady_clock> startTime;
-        uint64_t estRemainingTime;
+        std::chrono::steady_clock::time_point startTime;
+        std::chrono::steady_clock::time_point targetTime;
 
         void move();
         void rotate();

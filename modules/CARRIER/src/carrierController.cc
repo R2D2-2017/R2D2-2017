@@ -6,6 +6,8 @@ Carrier::CarrierController::CarrierController(/*Motor & motor,
     distThreshold{ distThreshold }, speed{ speed }
 {
     state = CarrierState::Idle;
+
+    targetTime = std::chrono::high_resolution_clock::now();
     //speed = 0.1; // m/s
     //distThreshold = 0.5; // meter
 }
@@ -18,8 +20,8 @@ Carrier::CarrierState Carrier::CarrierController::currentState() {
     return state;
 }
 
-std::chrono::microseconds Carrier::CarrierController::timeUntilDestination(float dist) {
-    return std::chrono::microseconds(std::lround((dist / speed) * std::micro::den));
+std::chrono::nanoseconds Carrier::CarrierController::timeUntilDestination(float dist) {
+    return std::chrono::nanoseconds(std::lround((dist / speed) * std::nano::den));
 }
 
 float Carrier::CarrierController::distanceTraveled(std::chrono::time_point<std::chrono::steady_clock> elapsedTime) {
@@ -42,7 +44,10 @@ void Carrier::CarrierController::update() {
 }
 
 void Carrier::CarrierController::move() {
-    
+    if (/*sonar.getDistance() <= distThreshold
+        ||*/ targetTime <= std::chrono::high_resolution_clock::now()) {
+        state = CarrierState::Idle;
+    }
 }
 
 void Carrier::CarrierController::rotate() {
@@ -51,6 +56,7 @@ void Carrier::CarrierController::rotate() {
 
 void Carrier::CarrierController::forward(float distance) {
     state = CarrierState::Driving;
+    targetTime = std::chrono::steady_clock::time_point(timeUntilDestination(distance) + std::chrono::high_resolution_clock::now().time_since_epoch());
     //motor.forward();
     //while (sonar.getDistance() <= distThreshold || startTime + estRemainingTime >= hwlib::now_us());
     //motor.stop();

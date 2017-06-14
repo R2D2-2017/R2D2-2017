@@ -11,7 +11,7 @@ int main()
     std::cout << "update() called" << std::endl;
     std::cout << c.timeUntilDestination(10).count() / std::micro::den << " seconds" << std::endl;
     std::this_thread::sleep_for(std::chrono::seconds(10));
-    std::cout << c.distanceTraveled( std::chrono::time_point<std::chrono::steady_clock>(std::chrono::high_resolution_clock::now() - timeStart ) ) << " meter" << std::endl;
+    std::cout << c.distanceTraveled( std::chrono::steady_clock::time_point(std::chrono::high_resolution_clock::now() - timeStart ) ) << " meter" << std::endl;
     std::cin.get();
 
 }
