@@ -6,14 +6,29 @@
  */
 
 #include "parser.hh"
+
 using namespace RoboArm::Parser;
 
-Status RoboArm::Parser::parseCommand(const hwlib::string<0> &command, RobotArmController &robotArmController) {
+bool RoboArm::Parser::equal(const hwlib::string<0> &l, const char *r, unsigned int len) {
+    if (l.length() == len) {
+        for (unsigned int i = 0; i < l.length(); ++i) {
+            if (l[i] != r[i]) {
+                return false;
+            }
+        }
+        return true;
+    }
+    return false;
+}
+
+Status RoboArm::Parser::parseCommand(const hwlib::string<0> &command,
+                                     RobotArmController &robotArmController) {
     size_t space = 0; // the place of the space
 
-    for (;space < command.length() && command[space] != ' '; space++) // find space
-        ;
-    if (space == command.length() - 1) return Status::SyntaxError; // cry if no space is found
+    // find space
+    for (; space < command.length() && command[space] != ' '; space++);
+    if (space == command.length() - 1)
+        return Status::SyntaxError; // cry if no space is found
 
     const auto start = command.begin();
     const auto end = command.end();
@@ -33,43 +48,46 @@ Status RoboArm::Parser::parseCommand(const hwlib::string<0> &command, RobotArmCo
                 continue;
             }
         }
-
-        if (!(t >= '0' && t <= '9')) return Status::SyntaxError; // no number no parsing
+        // no number no parsing
+        if (!(t >= '0' && t <= '9')) return Status::SyntaxError;
 
         intAmount *= 10;
         intAmount += t - '0';
     }
+    // debug output for the parser
+    hwlib::cout << action << ' ' << amount << "\r\n";
 
-    hwlib::cout << action << ' ' << amount << '\n'; // debug output for the parser
+    if (action.length() == 1) {
+        if (action[0] == 'X') {
+            robotArmController.rotateAxis(RobotAxis::X, intAmount, direction);
+            return Status::Successful;
+        }
 
-    if (action == "X") {
-        robotArmController.rotateAxis(RobotAxis::X, intAmount, direction);
-        return Status::Successful;
-    }
+        if (action[0] == 'Y') {
+            robotArmController.rotateAxis(RobotAxis::Y, intAmount, direction);
+            return Status::Successful;
+        }
 
-    if (action == "Y") {
-        robotArmController.rotateAxis(RobotAxis::Y, intAmount, direction);
-        return Status::Successful;
-    }
+        if (action[0] == 'Z') {
+            robotArmController.rotateAxis(RobotAxis::Z, intAmount, direction);
+            return Status::Successful;
+        }
+    } else {
 
-    if (action == "Z") {
-        robotArmController.rotateAxis(RobotAxis::Z, intAmount, direction);
-        return Status::Successful;
-    }
+        if (equal(action,  "WAIT_S", 6)) {
+            hwlib::wait_ms(intAmount * 1000);
+            return Status::Successful;
+        }
 
-    if (action == "WAIT_S") {
-        hwlib::wait_ms(intAmount * 1000);
-        return Status::Successful;
-    }
+        if (equal(action, "WAIT_MS", 7)) {
+            hwlib::wait_ms(intAmount);
+            return Status::Successful;
+        }
 
-    if (action == "WAIT_MS") {
-        hwlib::wait_ms(intAmount);
-        return Status::Successful;
-    }
-
-    if (action == "RESET") {
-        robotArmController.startup();
-        return Status::Successful;
+        if (equal(action, "RESET", 5)) {
+            robotArmController.startup();
+            return Status::Successful;
+        }
     }
 
     return Status::SyntaxError;
