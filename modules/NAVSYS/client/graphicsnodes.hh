@@ -9,7 +9,7 @@
 #pragma once 
 
 #include <SFML/Graphics.hpp>
-#include "Mouse.hh"
+#include "mouse.hh"
 
 class GraphNode{
 private:
