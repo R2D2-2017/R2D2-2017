@@ -17,8 +17,8 @@ int SerialCom::init() {
         std::cout << "Can't connect to serial port: " << serial << "\n";
         return 0;
     } else {
-        std::cout << "Connected to serial port: " << serial << "\n";     
-        return 1;          
+        std::cout << "Connected to serial port: " << serial << "\n";
+        return 1;
     }
     return 0;
 }

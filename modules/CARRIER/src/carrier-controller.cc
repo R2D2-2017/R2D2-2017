@@ -8,8 +8,8 @@ Carrier::CarrierController::CarrierController(MotorController & motorController,
     state = CarrierState::Driving;
 
     targetTime = startTime = std::chrono::steady_clock::now();
-    //speed = 0.1; // m/s
-    //distThreshold = 0.5; // meter
+    // speed = 0.1; // m/s
+    // distThreshold = 0.5; // meter
 }
 
 Carrier::CarrierController::~CarrierController() {

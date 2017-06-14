@@ -7,16 +7,16 @@
  */
 
 #pragma once
-#include <wiringSerial.h>
-#include <wiringPi.h>
 #include <iostream>
+#include <wiringPi.h>
+#include <wiringSerial.h>
 
 /**
  *\brief Serial communication clas with wiringPi
  * Simple class that encapsulates wiringSerial
  * That is able send commands with the protocol required by the Qik2s12v10
-*/  
-enum MotorControls : char{
+*/
+enum MotorControls : char {
 	startBit = 0xAA,
     deviceId = 0x0A
 };
@@ -34,17 +34,18 @@ private:
 	int openPort;
 public:
 	/**
-     *\brief constructor for Motor class opens the serial for wiringSerial 
-     *\param[in] portName path to serial connection port
-     *\param[in] baud baudrate you want to open the serial connection on
+     *\brief constructor for Motor class opens the serial for wiringSerial
+     *\param[in]  portName  path to serial connection port
+     *\param[in]  baud      baudrate you want to open the serial connection on
      */
 	Motor(std::string portName, int baud);
 
 	/**
      *\brief function that sends command with given motor speed to serial port
-     * with protocol used by Qik2s12v10 
-     *\param[in] hexCommand as found in https://github.com/R2D2-2017/R2D2-2017/wiki/%5BCARRIER%5DIndoor-driving-platform
-     *\param[in] speed the motors will be turning this number has to be 
+     * with protocol used by Qik2s12v10
+     *\param[in]  hexCommand  as found in
+     * https://github.com/R2D2-2017/R2D2-2017/wiki/%5BCARRIER%5DIndoor-driving-platform
+     *\param[in]  speed       the motors will be turning this number has to be
 	 * between 0 and 127
      */
 	void sendCommand(char hexCommand, int speed);

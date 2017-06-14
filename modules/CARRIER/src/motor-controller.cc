@@ -1,6 +1,6 @@
 #include "motor-controller.hh"
 
-MotorController::MotorController(std::string portName, int baud):
+MotorController::MotorController(std::string portName, int baud) :
 	leftMotor(portName, baud),
 	rightMotor(portName, baud)
 {}
