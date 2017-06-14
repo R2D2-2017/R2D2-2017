@@ -83,7 +83,10 @@ void Client::run(){
                 std::cout << thePath.back().getName() << "\n\n";
             }
             drawer.highlightPath(thePath);
-            sf::sleep(sf::seconds(2));
+
+            std::cout<<"Press Escape to clear this path and insert a new path\n";
+            while(!sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)){}
+            
             //used to let the user know a knew request can be made
             printOptionsFlag = 1;
         }
