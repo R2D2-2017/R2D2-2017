@@ -38,10 +38,9 @@ set(sources
     src/wrap-hwlib.cc
     src/libc-stub.cc
     src/sd-spi.cc
-    src/data-logger.cc
     src/main.cc
-	src/alarm.cc
-	src/speaker.cc
+    src/alarm.cc
+    src/speaker.cc
     src/mq5.cc
 	)
 
