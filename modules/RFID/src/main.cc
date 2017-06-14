@@ -72,15 +72,15 @@ int main(int argc, char **argv) {
 
             uint8_t tag[16];
 
-            statusCodes s = rfid.receiveTagId(tag);
-            if(s == statusCodes::statusOk){
+            Mfrc255::statusCodes s = rfid.receiveTagId(tag);
+            if(s == Mfrc255::statusCodes::statusOk){
                 std::cout << "Hello tag\n";
                 std::cout << "Your id = ";
                 for(size_t i = 0; i < 4; i++){
                     std::cout << std::hex << tag[i];
                 }
                 std::cout << "\n";
-            } else if(s == statusCodes::statusError){
+            } else if(s == Mfrc255::statusCodes::statusError){
                 std::cout << "ERROR\n";
             } else{
                 std::cout << "Something else went wrong reading the key\n";
@@ -99,7 +99,6 @@ int main(int argc, char **argv) {
             std::cout << "Database information: "
                       << connection.getPreviousResponseColumn("CARD_ID")
                       << '\n';
-
 
             led.blinkLed(1000);
         }
