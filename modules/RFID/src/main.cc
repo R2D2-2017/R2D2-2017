@@ -64,7 +64,9 @@ int main(int argc, char **argv) {
             while ((c = keypad.getKey()) == 'h') {
                 delay(100);
             }
-            std::cout << keypad.getKey() << " key has been pressed\n";
+
+            c = keypad.getKey();
+            std::cout << c << " key has been pressed\n";
 
             connection.executeQuery("SELECT * FROM RFID");
                 
