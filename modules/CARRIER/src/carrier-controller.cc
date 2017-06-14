@@ -1,13 +1,13 @@
 #include "carrier-controller.hh"
 
-Carrier::CarrierController::CarrierController(/*Motor & motor,
-    Sonar & sonar, */float distThreshold, float speed) :
-    //motor{ motor }, sonar{ sonar },
+Carrier::CarrierController::CarrierController(MotorController & motorController,
+    /*Sonar & sonar, */float distThreshold, float speed) :
+    motorController{ motorController }, //sonar{ sonar },
     distThreshold{ distThreshold }, speed{ speed }
 {
     state = CarrierState::Idle;
 
-    targetTime = std::chrono::steady_clock::now();
+    targetTime = startTime = std::chrono::steady_clock::now();
     //speed = 0.1; // m/s
     //distThreshold = 0.5; // meter
 }
@@ -33,45 +33,50 @@ void Carrier::CarrierController::update() {
     case CarrierState::Idle:
         break;
     case CarrierState::Driving:
-        move();
+        if (/*sonar.getDistance() <= distThreshold
+            ||*/ targetTime <= std::chrono::steady_clock::now()) {
+            stop();
+            state = CarrierState::Idle;
+        }
         break;
     case CarrierState::Turning:
-        rotate();
+        if (/*sonar.getDistance() <= distThreshold
+            ||*/ targetTime <= std::chrono::steady_clock::now()) {
+            stop();
+            state = CarrierState::Idle;
+        }
         break;
     case CarrierState::Sensing:
         break;
     }
 }
 
-void Carrier::CarrierController::move() {
-    if (/*sonar.getDistance() <= distThreshold
-        ||*/ targetTime <= std::chrono::steady_clock::now()) {
-        state = CarrierState::Idle;
-    }
-}
-
-void Carrier::CarrierController::rotate() {
-    
-}
-
 void Carrier::CarrierController::forward(float distance) {
     state = CarrierState::Driving;
-    targetTime = std::chrono::steady_clock::time_point(timeUntilDestination(distance) + std::chrono::steady_clock::now().time_since_epoch());
-    //motor.forward();
-    //while (sonar.getDistance() <= distThreshold || startTime + estRemainingTime >= hwlib::now_us());
-    //motor.stop();
+    motorController.forward(speed);
+    startTime = std::chrono::steady_clock::now();
+    targetTime = std::chrono::steady_clock::time_point(timeUntilDestination(distance) + startTime.time_since_epoch());
 }
 
 void Carrier::CarrierController::backward(float distance) {
     state = CarrierState::Driving;
+    motorController.backward(speed);
+    startTime = std::chrono::steady_clock::now();
+    targetTime = std::chrono::steady_clock::time_point(timeUntilDestination(distance) + startTime.time_since_epoch());
 }
 
 void Carrier::CarrierController::left(float degrees) {
     state = CarrierState::Turning;
+    motorController.left(speed);
+    startTime = std::chrono::steady_clock::now();
+    targetTime = std::chrono::steady_clock::time_point(timeUntilDestination(degrees) + startTime.time_since_epoch());
 }
 
 void Carrier::CarrierController::right(float degrees) {
     state = CarrierState::Turning;
+    motorController.right(speed);
+    startTime = std::chrono::steady_clock::now();
+    targetTime = std::chrono::steady_clock::time_point(timeUntilDestination(degrees) + startTime.time_since_epoch());
 }
 
 void Carrier::CarrierController::setSpeed(float speed) {
@@ -79,6 +84,6 @@ void Carrier::CarrierController::setSpeed(float speed) {
 }
 
 void Carrier::CarrierController::stop() {
-    //motor.stop();
+    motorController.stop();
     state = CarrierState::Idle;
 }

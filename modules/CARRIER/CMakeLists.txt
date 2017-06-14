@@ -17,7 +17,7 @@ set(sources
     src/serial-com.cc
     src/motor.cc
     src/motor-controller.cc
-    src/carrierController.cc
+    src/carrier-controller.cc
     src/main.cc)
 
 add_executable(${exe_name} ${sources})
