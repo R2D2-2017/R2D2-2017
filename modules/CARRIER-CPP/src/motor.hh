@@ -1,19 +1,16 @@
-#include <wiringSerial>
-#include <wiringPi>
-
-struct protocolCommands{
-	char startbit = 0xAA;
-	char deviceId = 0x0A;
-} protocolCommands;
+#pragma once
+#include <wiringSerial.h>
+#include <wiringPi.h>
+#include <iostream>
 
 class motor{
 private:
 	std::string portName;
 	int baud;
-	int openPort
+	int openPort;
 public:
 	motor(std::string portName, int baud);
 
 	void sendCommand(char hexCommand, int speed);
 
-}
+};

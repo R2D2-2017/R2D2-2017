@@ -1,11 +1,6 @@
+#pragma once 
 #include "motor.hh"
 
-struct motorCommands{
-	forwardLeft = 0x08;
-	backwardLeft = 0x0A;
-	forwardRight = 0x0C;
-	backwardRight = 0x0E;
-} motorCommands;
 
 class motorController{
 private:
@@ -24,4 +19,4 @@ public:
 
 	void stop();
 
-}
+};

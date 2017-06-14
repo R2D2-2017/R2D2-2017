@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.6)
 
 project(template-pc)
-set(exe_name "carrier-pi")
+set(exe_name "carrier-cpp")
 include(../../flags.cmake)
 
 enable_testing()
@@ -15,7 +15,7 @@ include_directories(${WIRINGPI_INCLUDE_DIRS})
 
 set(sources
     src/motor.cc
-    src/motorCotroller.cc
+    src/motorController.cc
     src/main.cc)
 
 add_executable(${exe_name} ${sources})
