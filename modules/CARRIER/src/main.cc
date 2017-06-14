@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 #include "carrier-controller.hh"
 #include "motor-controller.hh"
 #include "serial-com.hh"
@@ -40,5 +39,6 @@ int main(void){
             
             printf("%s", command.c_str());      
         }
+        stateMachine.update();        
     }
 }

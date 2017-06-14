@@ -18,7 +18,6 @@ set(sources
     src/motor.cc
     src/motor-controller.cc
     src/carrier-controller.cc
-    src/hc-sr04
     src/main.cc)
 
 add_executable(${exe_name} ${sources})
