@@ -4,9 +4,9 @@
 * Released into the public domain.
 */
 
-#include <Arduino.h>
-#include "MFRC522.h"
-#include "MFRC522Debug.h"
+//#include <Arduino.h>
+#include "MFRC522.hh"
+#include "MFRC522Debug.hh"
 
 /////////////////////////////////////////////////////////////////////////////////////
 // Functions for setting up the Arduino

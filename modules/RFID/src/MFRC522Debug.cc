@@ -1,5 +1,5 @@
 
-#include "MFRC522Debug.h"
+#include "MFRC522Debug.hh"
 
 /**
  * Returns a __FlashStringHelper pointer to the PICC type name.

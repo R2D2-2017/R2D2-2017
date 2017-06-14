@@ -1,4 +1,4 @@
-#include "MFRC522.h"
+#include "MFRC522.hh"
 
 #ifndef MFRC522Debug_h
 #define MFRC522Debug_h

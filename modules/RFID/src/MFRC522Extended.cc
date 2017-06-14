@@ -5,7 +5,7 @@
  * @author JPG-Consulting
 */
 
-#include "MFRC522Extended.h"
+#include "MFRC522Extended.hh"
 
 /////////////////////////////////////////////////////////////////////////////////////
 // Functions for communicating with PICCs

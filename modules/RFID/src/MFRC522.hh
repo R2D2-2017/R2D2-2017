@@ -75,13 +75,13 @@
 #ifndef MFRC522_h
 #define MFRC522_h
 
-#include "require_cpp11.h"
-#include "deprecated.h"
+#include "require_cpp11.hh"
+#include "deprecated.hh"
 // Enable integer limits
 #define __STDC_LIMIT_MACROS
 #include <stdint.h>
-#include <Arduino.h>
-#include <SPI.h>
+//#include <Arduino.h>
+//#include <SPI.h>
 
 // Firmware data for self-test
 // Reference values based on firmware version

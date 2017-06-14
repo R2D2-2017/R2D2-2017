@@ -6,8 +6,8 @@
 #ifndef MFRC522Extended_h
 #define MFRC522Extended_h
 
-#include <Arduino.h>
-#include "MFRC522.h"
+//#include <Arduino.h>
+#include "MFRC522.hh"
 
 class MFRC522Extended : public MFRC522 {
 		

@@ -24,8 +24,8 @@ set(sources
     src/config-file-parser.cc
     src/MFRC522.cc
     src/MFRC522Debug.cc
-    MFRC522Extended.cc
-    MFRC522Hack.cc)
+    src/MFRC522Extended.cc
+    src/MFRC522Hack.cc)
 
 add_executable(${exe_name} ${sources})
 target_link_libraries(${exe_name} ${WIRINGPI_LIBRARIES} ${mysqlcppconn_LIBRARIES})

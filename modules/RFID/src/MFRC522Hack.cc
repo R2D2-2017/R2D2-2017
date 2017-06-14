@@ -1,4 +1,4 @@
-#include "MFRC522Hack.h"
+#include "MFRC522Hack.hh"
 
 /**
  * Performs the "magic sequence" needed to get Chinese UID changeable
