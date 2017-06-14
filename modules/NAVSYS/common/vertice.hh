@@ -21,8 +21,8 @@
  */
 class Vertice {
 private:
-    Node &node1;
-    Node &node2;
+    Node node1;
+    Node node2;
     int weight;
     
 public:
