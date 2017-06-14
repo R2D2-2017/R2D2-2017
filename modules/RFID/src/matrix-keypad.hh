@@ -22,7 +22,7 @@ private:
     const int rowSize = 4;
     const int colSize;
 
-    int keypadRow = -1;
+    int activeRow = -1;
 
     const int *row;
     const int *column;
