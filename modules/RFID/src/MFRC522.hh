@@ -80,8 +80,12 @@
 // Enable integer limits
 #define __STDC_LIMIT_MACROS
 #include <stdint.h>
-//#include <Arduino.h>
-//#include <SPI.h>
+#include <WiringPi>
+#include <WiringSpi>
+
+typedef unsigned char byte; // I know this is ugly and it doesn't follow the code guidelines, 
+							// but it would take a hell of a lot of work to replace all the "bytes" 
+							// in this project with something else correctly
 
 // Firmware data for self-test
 // Reference values based on firmware version
