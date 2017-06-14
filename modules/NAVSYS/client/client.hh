@@ -15,8 +15,8 @@
 #include "../common/graph-factory.hh"
 #include "graphicsgraph.hh"
 #include "../common/graph-input.hh"
-#include "Button.hh"
-#include "Mouse.hh"
+#include "button.hh"
+#include "mouse.hh"
 
 enum class button {ShutDown,StartNode,EndNode};
 

@@ -11,7 +11,7 @@
 
 #include <iostream>
 #include <SFML/Graphics.hpp>
-#include "Mouse.hh"
+#include "mouse.hh"
 
 class Button {
 private:
