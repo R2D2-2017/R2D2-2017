@@ -26,10 +26,17 @@ void temp_wifi_main() {
 
     w.getIpAddress();
 
+    w.multipleConnections(true);
+
     w.startServer();
+
+    w.getIpAddress();
 
     hwlib::cout << "Done!\r\n";
 
+    hwlib::wait_ms(3000);
+
+    hwlib::cout << "Receiving:\r\n";
     for (int i = 0; i < 600; i++) {
         w.receiveData();
         hwlib::wait_ms(3000);
@@ -99,15 +106,30 @@ void Wifi::multipleConnections(bool multiple) {
     receive();
 }
 
+void Wifi::setTransferMode() {
+    send("AT+CIPMODE=0\r\n");
+
+    receive();
+}
+
 void Wifi::startServer() {
-    multipleConnections(false);
+    stopServer();
+
+    setTransferMode();
 
     send("AT+CIPSTO?\r\n");
     receive();
 
+    send("AT+CIPDINFO=1\r\n");
+    receive();
+
+    hwlib::cout << "Starting Server\r\n";
+
     send("AT+CIPSERVER=1\r\n");
 
     receive();
+
+    hwlib::cout << "Running!\r\n";
 }
 
 void Wifi::stopServer() {
@@ -117,37 +139,58 @@ void Wifi::stopServer() {
 }
 
 void Wifi::receiveData() {
-     send("+IPD,100\r\n");
-
+     send("AT+CIPSTATUS\r\n");
      receive();
+
+     //temporary status code parser
+     hwlib::cout << "Status: [" << buffer[22] << "]\r\n";
+     switch (buffer[22]) {
+         case '2': hwlib::cout << "Waiting for connection\r\n"; break;
+         case '3': hwlib::cout << "TCP Connection active\r\n"; break;
+         case '4': hwlib::cout << "TCP Connection disconnected\r\n"; break;
+         default: hwlib::cout << "Unknown status code\r\n"; break;
+     }
+
+     //if status is active tcp connection try to receive data
+     if (buffer[22] == '3') {
+         //receive 30 bytes from connection 0
+         send("+IPD,0,30\r\n");
+         receive();
+     }
 }
 
 void Wifi::receive() {
-    static char buffer[250];
+    //index in the buffer
     int i = 0;
-    int li = 0;
+
+    //last index used to find the response at the end of the string faster
     buffer[i] = '\x0';
     char c;
 
-    while (i < 165) {
+    while (i < bufferSize - 1) {
         c = hwlib::uart_getc_bit_banged_pin(rx);
+
+        //skip 0 bytes
         if (!c) continue;
-        li = i;
+
         buffer[i++] = c;
         buffer[i] = '\x0';
-        //end of response if buffer ends with y (ready), K (OK) or R (ERROR)
-        if (c == '\n' && li >= 2 &&
-            (buffer[li - 2] == 'y' ||
-            buffer[li - 2] == 'K' ||
-            buffer[li - 2] == 'R')) break;
+        //end of response if buffer ends with y (ready), K (OK), R (ERROR) or
+        //e (no change)
+        if (c == '\n' && i >= 3 &&
+            (buffer[i - 3] == 'y' ||
+             buffer[i - 3] == 'K' ||
+             buffer[i - 3] == 'R' ||
+             buffer[i - 3] == 'e')) break;
     }
     //temporary print of responses if response end was found according to
     //comment above
-    if (buffer[li - 2] == 'y' ||
-        buffer[li - 2] == 'K' ||
-        buffer[li - 2] == 'R') {
+    if (buffer[i - 3] == 'y' ||
+        buffer[i - 3] == 'K' ||
+        buffer[i - 3] == 'R' ||
+        buffer[i - 3] == 'e') {
         hwlib::cout << "Response:\r\n--------------------------------\r\n";
         hwlib::cout << buffer;
         hwlib::cout << "---------------" << i << "---------------\r\n";
-        }
+    }
 }

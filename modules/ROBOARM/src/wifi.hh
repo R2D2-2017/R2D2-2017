@@ -14,9 +14,30 @@
  */
 void temp_wifi_main();
 
+/**
+ * Wifi class implementing the ESP8266 to create a wifi network and receive
+ * commands through it
+ */
 class Wifi {
+    /**
+     * UART input pin the ESP8266 is connected to
+     */
     hwlib::pin_in& rx;
+
+    /**
+     * UART output pin the ESP8266 is connected to
+     */
     hwlib::pin_out& tx;
+
+    /**
+     * Size of the buffer containing the last received response
+     */
+    static const int bufferSize = 512;
+
+    /**
+     * Buffer containing the last received response
+     */
+    char buffer[bufferSize];
 
     /**
      * \brief Sends a string to the wifi module, to end the command send \r\n
@@ -24,7 +45,7 @@ class Wifi {
     void send(const hwlib::string<16> &command);
 
     /**
-     * \brief Receive a response to a command
+     * \brief Receive a response to a command and store it in the internal buffer
      */
     void receive();
 
@@ -71,6 +92,11 @@ public:
      * one
      */
     void multipleConnections(bool multiple);
+
+    /**
+     * \brief Sets the transfer mode to normal transmission mode
+     */
+    void setTransferMode();
 
     /**
      * \brief Starts a server on port 333
