@@ -72,13 +72,18 @@ int main(int argc, char **argv) {
 
             uint8_t tag[16];
 
-            if(rfid.receiveTagId(tag)){
+            statusCodes s = rfid.receiveTagId(tag);
+            if(s == statusCodes::statusOk){
                 std::cout << "Hello tag\n";
                 std::cout << "Your id = ";
                 for(size_t i = 0; i < 4; i++){
                     std::cout << std::hex << tag[i];
                 }
-            std::cout << "\n";
+                std::cout << "\n";
+            } else if(s == statusCodes::statusError){
+                std::cout << "ERROR\n";
+            } else{
+                std::cout << "Something else went wrong reading the key\n";
             }
 
             std::cout << "Waiting for key press\n";
@@ -95,9 +100,6 @@ int main(int argc, char **argv) {
                       << connection.getPreviousResponseColumn("CARD_ID")
                       << '\n';
 
-            std::cout << "String before encryption: R2D2 project\n";
-            std::cout << "String after encryption: "
-                      << '\n';
 
             led.blinkLed(1000);
         }

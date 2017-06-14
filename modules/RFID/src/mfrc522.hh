@@ -226,5 +226,5 @@ public:
      */
     bool isTagPresent();
 
-    bool receiveTagId(uint8_t * inputForId);
+    statusCodes receiveTagId(uint8_t * inputForId);
 };
