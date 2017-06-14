@@ -12,7 +12,7 @@ void MotorController::forward(int speed){
 
 void MotorController::backward(int speed){
 	leftMotor.sendCommand(MovementControls::backwardMotorOne, speed);
-	rightMotor.sendCommand(MovementControls::forwardMotorTwo, speed);
+	rightMotor.sendCommand(MovementControls::backwardMotorTwo, speed);
 }
 
 void MotorController::left(int speed){
