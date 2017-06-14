@@ -20,7 +20,7 @@ GraphNode::GraphNode(sf::Vector2f position, std::string name, float size):
 
 void GraphNode::draw( sf::RenderWindow &window ) {
     sf::Font font;
-    if (!font.loadFromFile("BebasNeue.otf")) {
+    if (!font.loadFromFile("../client/BebasNeue.otf")) {
         std::cout<< "Error: Can not load font\n";
     }
     sf::Text txt;
