@@ -1,8 +1,13 @@
+/**
+ * \file
+ * \brief     Main program for carrier control
+ * \author    Bob Thomas
+ * \copyright Copyright (c) 2017, The R2D2 Team
+ * \license   See LICENSE
+ */
 #include "serial-com.hh"
 
-SerialCom::SerialCom(std::string serial, int baud) : serial(serial), baud(baud) {
-
-}
+SerialCom::SerialCom(std::string serial, int baud) : serial(serial), baud(baud) {}
 
 int SerialCom::init() {
     std::cout << "Connecting to serial: " << serial << "\n";
@@ -33,11 +38,6 @@ std::string SerialCom::readCommand() {
     }
 }
 
-void SerialCom::write(std::string c) {
-    printf("HELP");
-    serialPrintf(serialPort, c.c_str());
-}
-
-SerialCom::~SerialCom() {
-    serialClose(serialPort);
+void SerialCom::write(std::string data) {
+    serialPrintf(serialPort, data.c_str());
 }
