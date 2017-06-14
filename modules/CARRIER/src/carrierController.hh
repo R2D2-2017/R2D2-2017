@@ -9,7 +9,7 @@
 #pragma once
 //#include "motor.hh"
 //#include "sonar.hh"
-#include "wrap-hwlib.hh"
+#include <cstdint>
 
 namespace Carrier {
 
@@ -108,5 +108,5 @@ namespace Carrier {
 
         void move();
         void rotate();
-    }
+    };
 }
