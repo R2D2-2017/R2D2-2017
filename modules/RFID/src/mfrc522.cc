@@ -140,7 +140,7 @@ bool Mfrc522::isTagPresent(){
 }
 
 Mfrc522::statusCodes Mfrc522::receiveTagId(uint8_t * inputForId){
-    //writeRegister(mfrc522Registers::bitFraming, 0x07);
+    writeRegister(mfrc522Registers::bitFraming, 0x07);
 
     uint8_t acdata = static_cast<uint8_t>(mifareCommands::antiColl);
     uint8_t reqalldata = static_cast<uint8_t>(mifareCommands::reqAll);
