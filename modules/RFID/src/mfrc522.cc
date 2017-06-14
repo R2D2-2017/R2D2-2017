@@ -147,7 +147,7 @@ Mfrc522::statusCodes Mfrc522::receiveTagId(uint8_t * inputForId){
 
     statusCodes reqallstatus = communicateWithTag(mfrc522Commands::transceive, &reqalldata, 1, nullptr, 0);
     if(reqallstatus == statusCodes::statusOk) {
-        statusCodes acstatus = communicateWithTag(mfrc522Commands::transceive, &data, 1, inputForId, 16);
+        statusCodes acstatus = communicateWithTag(mfrc522Commands::transceive, &acdata, 1, inputForId, 16);
         return acstatus;
     }
     else{
