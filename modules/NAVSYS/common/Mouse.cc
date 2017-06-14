@@ -1,5 +1,5 @@
 
-#include "Mouse.hh"
+#include "mouse.hh"
 
 sf::Vector2f Vector2fFromVector2i(sf::Vector2i vector) {
     return sf::Vector2f(static_cast<float>(vector.x), static_cast<float>(vector.y));
