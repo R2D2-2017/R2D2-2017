@@ -226,6 +226,6 @@ public:
      * \return Returns true if a tag was found, false if no tag was found.
      */
     bool isTagPresent();
-
-    statusCodes receiveTagId(uint8_t * inputForId);
+//
+//    statusCodes receiveTagId(uint8_t * inputForId);
 };

@@ -138,13 +138,13 @@ bool Mfrc522::isTagPresent(){
 
     return status == statusCodes::statusOk;
 }
-
-Mfrc522::statusCodes Mfrc522::receiveTagId(uint8_t * inputForId){
-    writeRegister(mfrc522Registers::bitFraming, 0x07);
-
-    uint8_t data = static_cast<uint8_t>(mifareCommands::antiColl);
-
-    statusCodes status = communicateWithTag(mfrc522Commands::transceive, &data, 1, inputForId, 16);
-
-    return status;
-}
+//
+//Mfrc522::statusCodes Mfrc522::receiveTagId(uint8_t * inputForId){
+//    //writeRegister(mfrc522Registers::bitFraming, 0x07);
+//
+//    uint8_t data = static_cast<uint8_t>(mifareCommands::antiColl);
+//
+//    statusCodes status = communicateWithTag(mfrc522Commands::transceive, &data, 1, inputForId, 16);
+//
+//    return status;
+//}
