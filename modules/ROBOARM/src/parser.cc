@@ -59,7 +59,7 @@ Status RoboArm::Parser::parseCommand(const hwlib::string<0> &command,
 
     if (action.length() == 1) {
         if (action[0] == 'X') {
-            robotArmController.rotateAxis(RobotAxis::X, intAmount, direction);
+            robotArmController.rotateAxis(RobotAxis::X, intAmount, !direction);
             return Status::Successful;
         }
 
@@ -69,7 +69,7 @@ Status RoboArm::Parser::parseCommand(const hwlib::string<0> &command,
         }
 
         if (action[0] == 'Z') {
-            robotArmController.rotateAxis(RobotAxis::Z, intAmount, direction);
+            robotArmController.rotateAxis(RobotAxis::Z, intAmount, !direction);
             return Status::Successful;
         }
     } else {

@@ -10,6 +10,7 @@
 #include "robot-arm.hh"
 #include "stepper.hh"
 #include "wrap-hwlib.hh"
+#include "robotarmtester.hh"
 
 int main() {
     WDT->WDT_MR = WDT_MR_WDDIS;
@@ -30,60 +31,15 @@ int main() {
     auto xLimitSwitch = hwlib::target::pin_in(hwlib::target::pins::d3);
     auto yLimitSwitch = hwlib::target::pin_in(hwlib::target::pins::d2);
 
-
-    // TODO parser requires this hwlib fix - https://github.com/wovo/hwlib/pull/6
-    hwlib::string<12> commandList[] = {
-            // Reset
-            "RESET 1",
-
-            // Z axis test
-            "WAIT_S 2", "Z 90", "WAIT_S 2", "Z -90", "WAIT_S 2", "Z 180",
-            "WAIT_S 2", "Z -180", "WAIT_S 2",
-
-            // Y axis test
-            "Y 90", "WAIT_S 2", "Y -90", "WAIT_S 2", "Y 180", "WAIT_S 2",
-            "Y -180", "WAIT_S 2",
-
-            // X axis test
-            "X 90", "WAIT_S 2", "X -90", "WAIT_S 2", "X 180", "WAIT_S 2",
-            "X -240",
-
-            // Reset
-            "RESET 1",
-
-            //BLOCKING TEST
-            "WAIT_S 2", "Z 720", "WAIT_MS 500"
-    };
-
-    using namespace RoboArm;
-    using namespace RoboArm::Parser;
-
     Ky101 ky101(ky101Pin);
     Stepper x(dirX, stepX, ENX);
     Stepper y(dirY, stepY, ENY);
     Stepper z(dirZ, stepZ, ENZ);
-    RobotArmController r(x, y, z, xLimitSwitch, yLimitSwitch, ky101);
+    RoboArm::RobotArmController r(x, y, z, xLimitSwitch, yLimitSwitch, ky101);
 
-    hwlib::cout << "START SEQUENCE" << "\r\n";
-    r.enable();
+    robotarmtester tester(r);
 
-    r.startup(); // resets the robot position
-    hwlib::cout << "Position has been reset" << "\r\n";
-
-    for (const auto &command : commandList) {
-        Status result = parseCommand(command, r);
-
-        switch (result) {
-            case Status::SyntaxError:
-                hwlib::cout << "Syntax error" << "\r\n";
-                break;
-            case Status::Successful:
-                break;
-        }
-    }
-
-    r.disable();
-    hwlib::cout << "END SEQUENCE" << "\r\n";
+    tester.run();
 
     return 0;
 }
