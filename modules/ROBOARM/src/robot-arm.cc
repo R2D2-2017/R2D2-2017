@@ -7,6 +7,7 @@
  */
 
 #include "robot-arm.hh"
+
 using namespace RoboArm;
 
 RoboArm::RobotArmController::RobotArmController(
@@ -15,12 +16,16 @@ RoboArm::RobotArmController::RobotArmController(
         hwlib::target::pin_in &yLimitSwitch, Ky101 &ky101)
         :
         xAxis(xAxis), yAxis(yAxis), zAxis(zAxis), xLimitSwitch(xLimitSwitch),
-        yLimitSwitch(yLimitSwitch), ky101(ky101) { }
+        yLimitSwitch(yLimitSwitch), ky101(ky101) {}
 
-void RoboArm::RobotArmController::rotateAxis(RobotAxis axis, int degrees, bool clockwise) {
-    int selectedMicroSteps = (axis == RobotAxis::Z) ? microStepsBase : microStepsArms;
-    int selectedRatio = (int) ((axis == RobotAxis::Z) ? baseStepRatio : armStepRatio);
-    int requiredSteps = (int) (selectedMicroSteps * (degrees * selectedRatio) / stepSize);
+void RoboArm::RobotArmController::rotateAxis(RobotAxis axis, int degrees,
+                                             bool clockwise) {
+    int selectedMicroSteps = (axis == RobotAxis::Z) ? microStepsBase
+                                                    : microStepsArms;
+    int selectedRatio = (int) ((axis == RobotAxis::Z) ? baseStepRatio
+                                                      : armStepRatio);
+    int requiredSteps = (int) (selectedMicroSteps * (degrees * selectedRatio) /
+                               stepSize);
 
     for (int stepsTaken = 0; stepsTaken < requiredSteps; stepsTaken++) {
         RobotLimitSwitch switchEnabled = checkLimitations();
@@ -28,7 +33,7 @@ void RoboArm::RobotArmController::rotateAxis(RobotAxis axis, int degrees, bool c
         switch (axis) {
             case RobotAxis::X:
                 if (!clockwise && (switchEnabled == RobotLimitSwitch::BOTH ||
-                     switchEnabled == RobotLimitSwitch::X)) {
+                                   switchEnabled == RobotLimitSwitch::X)) {
 
                     break;
                 }
@@ -36,7 +41,7 @@ void RoboArm::RobotArmController::rotateAxis(RobotAxis axis, int degrees, bool c
                 break;
             case RobotAxis::Y:
                 if (!clockwise && (switchEnabled == RobotLimitSwitch::BOTH ||
-                     switchEnabled == RobotLimitSwitch::Y)) {
+                                   switchEnabled == RobotLimitSwitch::Y)) {
                     break;
                 }
                 yAxis.step(clockwise);
@@ -73,4 +78,16 @@ void RoboArm::RobotArmController::startup() {
     while (!yLimitSwitch.get()) {
         rotateAxis(RobotAxis::Y, 1, false);
     }
+}
+
+void RobotArmController::enable() {
+    xAxis.enable();
+    yAxis.enable();
+    zAxis.enable();
+}
+
+void RobotArmController::disable() {
+    xAxis.disable();
+    yAxis.disable();
+    zAxis.disable();
 }

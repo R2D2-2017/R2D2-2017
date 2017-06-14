@@ -7,8 +7,9 @@
  */
 #include "stepper.hh"
 
-Stepper::Stepper(hwlib::target::pin_out &dir_pin, hwlib::target::pin_out &stp_pin) :
-                dir_pin(dir_pin),stp_pin(stp_pin) {
+Stepper::Stepper(hwlib::pin_out &dir_pin, hwlib::pin_out &stp_pin,
+                 hwlib::pin_out &en_pin) :
+        en_pin(en_pin), dir_pin(dir_pin), stp_pin(stp_pin) {
     stp_pin.set(0);
     dir_pin.set(1);
 }
@@ -19,4 +20,12 @@ void Stepper::step(bool clockwise) {
     stp_pin.set(1);
     hwlib::wait_ms(1);
     stp_pin.set(0);
+}
+
+void Stepper::enable() {
+    en_pin.set(0);
+}
+
+void Stepper::disable() {
+    en_pin.set(1);
 }
