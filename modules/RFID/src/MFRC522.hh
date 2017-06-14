@@ -80,8 +80,8 @@
 // Enable integer limits
 #define __STDC_LIMIT_MACROS
 #include <stdint.h>
-#include <WiringPi>
-#include <WiringSpi>
+//#include <wiringPi.h>
+///#include <wiringSpi>
 
 typedef unsigned char byte; // I know this is ugly and it doesn't follow the code guidelines, 
 							// but it would take a hell of a lot of work to replace all the "bytes" 
