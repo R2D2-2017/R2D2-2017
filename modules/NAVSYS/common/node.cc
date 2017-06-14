@@ -8,11 +8,15 @@ Node::Node():
     name("")
 {}
 
-Node::Node(const Coordinate &coordinate, const std::string &name)
-        : coordinate(coordinate), name(name) {}
+Node::Node(const Coordinate &coordinate, const std::string &name):
+    coordinate(coordinate),
+    name(name)
+{}
 
-Node::Node(const float x, const float y,  const std::string &name)
-        : coordinate(x, y),  name(name) {}
+Node::Node(const float x, const float y,  const std::string &name):
+    coordinate(x, y),
+    name(name)
+{}
 
 Node::Node(const Node & otherNode):
     coordinate(otherNode.getCoordinate()),
@@ -20,16 +24,15 @@ Node::Node(const Node & otherNode):
 {}
 
 std::ostream &operator<<(std::ostream &os, const Node &node) {
-    os<< "Node";
-    if (node.name != "")
-        os << " [" << node.name  <<"]";
+    os << "Node";
+    if (node.name != "") {
+        os << " [" << node.name  << "]";
+    }
     os << " @ " << node.coordinate << "\n";
     return os;
 }
 bool Node::operator==(const Node &rhs) const {
-    return coordinate == rhs.coordinate &&
-           name == rhs.name;
-
+    return coordinate == rhs.coordinate && name == rhs.name;
 }
 bool Node::operator!=(const Node &rhs) const {
     return !(rhs == *this);
@@ -38,13 +41,11 @@ float Node::euclideanDistance(const Node &other) const {
     return coordinate.euclideanDistance(other.coordinate);
 }
 
-Coordinate Node::getCoordinate() const
-{
+Coordinate Node::getCoordinate() const {
     return coordinate;
 }
 
-std::string Node::getName() const
-{
+std::string Node::getName() const {
 	return name;
 
 }

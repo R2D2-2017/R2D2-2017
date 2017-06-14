@@ -18,7 +18,7 @@ GraphNode::GraphNode(sf::Vector2f position, std::string name, float size):
     circle.setFillColor(sf::Color::White);
 }
 
-void GraphNode::draw( sf::RenderWindow & window ) {
+void GraphNode::draw( sf::RenderWindow &window ) {
     sf::Font font;
     if (!font.loadFromFile("BebasNeue.otf")) {
         std::cout<< "Error: Can not load font\n";

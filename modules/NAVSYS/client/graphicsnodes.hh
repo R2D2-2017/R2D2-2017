@@ -38,7 +38,7 @@ public:
      * 
      * \param[in,out] window The window to draw on
      */
-    void draw( sf::RenderWindow & window ) ;
+    void draw( sf::RenderWindow &window ) ;
 	
     /**
      * \brief Get position variable

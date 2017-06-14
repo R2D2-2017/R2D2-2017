@@ -7,6 +7,7 @@
  */
 
 #include "server.hh"
+#include <iostream>
 
 
 int main() {

@@ -1,15 +1,19 @@
 //
 // Created by Robert on 5/19/17.
 //
-#include <fstream>
-#include <algorithm>
+
 #include "graph.hh"
+
+#include <iostream>
+#include <fstream>
+//#include <algorithm>
 #include <stdexcept>
 
 void Graph::addNode(const Node node) {
     if (!containsNode(node)) {
         nodes.push_back(node);
-    } else {
+    }
+    else {
         throw std::runtime_error("Node already in graph");
     }
 }
@@ -53,59 +57,64 @@ void  Graph::setVertices(std::vector<Vertice>  newVertices) {
     vertices = newVertices;
 }
 
-Node & Graph::getNodeByName(std::string name) {
+Node & Graph::getNodeByName(const std::string &name) {
     std::vector<Node>::iterator it;
-    it = std::find_if(std::begin(nodes), std::end(nodes),[&]( Node & node) -> bool{
-        return node.getName() == name;
-    });
+    it = std::find_if(
+        std::begin(nodes),
+        std::end(nodes),
+        [&]( Node & node) -> bool{
+            return node.getName() == name;
+        });
     return *it;
 }
 
-void Graph::dumpGraphToDisk(const std::string nodeFilePath,const std::string verticeFilePath) {
-
-
+void Graph::dumpGraphToDisk(const std::string &nodeFilePath, const std::string &verticeFilePath) {
     std::cout<< "saving nodes on disk\n";
 
     std::ofstream nodeFile;
     nodeFile.open(nodeFilePath);
 
-
     // for each node in the graph create the format string and write it the the correct file.
-    std::for_each (nodes.begin(), nodes.end(), [&nodeFile](Node node){
-        std::string tmp = "";
-        tmp+="(";
-        tmp.append(node.getName());
-        tmp+=")[";
-        tmp.append(std::to_string((int)node.getCoordinate().x));
-        tmp+=",";
-        tmp.append(std::to_string((int)node.getCoordinate().y));
-        tmp+="]";
-        tmp+="\n";
-        std::cout << tmp;
-        nodeFile << tmp;
-    });
+    std::for_each (
+        nodes.begin(),
+        nodes.end(),
+        [&nodeFile](Node node){
+            std::string tmp = "";
+            tmp+="(";
+            tmp.append(node.getName());
+            tmp+=")[";
+            tmp.append(std::to_string((int)node.getCoordinate().x));
+            tmp+=",";
+            tmp.append(std::to_string((int)node.getCoordinate().y));
+            tmp+="]";
+            tmp+="\n";
+            std::cout << tmp;
+            nodeFile << tmp;
+        });
 
     nodeFile.close();
 
     std::ofstream verticeFile;
     verticeFile.open(verticeFilePath);
 
-
     std::cout<< "saving vertices on disk\n";
 
     // for each node in the graph create the format string and write it the the correct file.
-    std::for_each (vertices.begin(), vertices.end(), [&verticeFile](Vertice vertice) {
-        std::string tmp = "";
-        tmp+="(";
-        tmp.append(vertice.getCurrent()->getName());
-        tmp+=")-(";
-        tmp.append(vertice.getNeighbour()->getName());
-        tmp+=")[";
-        tmp.append(std::to_string(vertice.getWeight()));
-        tmp+="]\n";
-        std::cout << tmp;
-        verticeFile << tmp;
-    });
+    std::for_each (
+        vertices.begin(),
+        vertices.end(),
+        [&verticeFile](Vertice vertice) {
+            std::string tmp = "";
+            tmp+="(";
+            tmp.append(vertice.getCurrent()->getName());
+            tmp+=")-(";
+            tmp.append(vertice.getNeighbour()->getName());
+            tmp+=")[";
+            tmp.append(std::to_string(vertice.getWeight()));
+            tmp+="]\n";
+            std::cout << tmp;
+            verticeFile << tmp;
+        });
 
     verticeFile.close();
 }
