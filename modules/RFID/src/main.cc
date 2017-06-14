@@ -61,8 +61,8 @@ int main(int argc, char **argv) {
             while (!rfid.isTagPresent()) {
             }
             MFAuthentData x;
-            uint8_t receiveData[64];
-            int block = 0;
+            uint8_t receiveData[8];
+            uint8_t block = 0;
             rfid.communicateWithTag(Mfrc522::mfrc522Commands::receive,
                                     &block,
                                     1,
@@ -73,7 +73,7 @@ int main(int argc, char **argv) {
             std::cout << "Hello tag\n";
             std::cout << "Your id = ";
             for(size_t i = 0; i < 4; i++){
-                std::cout << std::hex << receiveData[0];
+                std::cout << std::hex << (int) receiveData[i];
             }
             std::cout << "\n";
 
