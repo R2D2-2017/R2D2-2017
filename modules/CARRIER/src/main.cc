@@ -11,7 +11,7 @@ int main(void){
 	SerialCom serialCom("/dev/rfcomm0", 9600);
   	wiringPiSetup();
 	pinMode (statusLed, OUTPUT) ;
-    Carrier::CarrierController stateMachine(controller, 100, 50);
+    Carrier::CarrierController stateMachine(controller, 100, 100);
 	while(serialCom.init() == 0) {
 		digitalWrite (statusLed, 1) ;     // On
         delay(1000);
