@@ -48,7 +48,7 @@ public:
         transmit      = 0x04, /**Transmit data from the FIFO buffer.*/
         noCmdChange   = 0x07, /**No command change, can be used for modifing CommandReg without affecting the command.*/
         receive       = 0x08, /**Activates the receiver circuits.*/
-        transceive    = 0x0C, /**Transmit data from FIFO buffer to antenna and activate reiver after tranmission.*/
+        transceive    = 0x0C, /**Transmit data from FIFO buffer to antenna and activate receiver after tranmission.*/
         mfAuthent     = 0x0E, /**Performs the MIFARE standard authentication.*/
         softReset     = 0x0F  /**Resets the mfrc522.*/       
     };
@@ -225,4 +225,6 @@ public:
      * \return Returns true if a tag was found, false if no tag was found.
      */
     bool isTagPresent();
+
+    bool receiveTagId(uint8_t * inputForId);
 };

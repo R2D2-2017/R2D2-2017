@@ -60,22 +60,26 @@ int main(int argc, char **argv) {
 
             while (!rfid.isTagPresent()) {
             }
-            MFAuthentData x;
-            uint8_t receiveData[64];
-            int block = 0;
-            rfid.communicateWithTag(Mfrc522::mfrc522Commands::receive,
-                                    &block,
-                                    1,
-                                    receiveData,
-                                    64*8);
-//            rfid.communicateWithTag(Mfrc522::mfrc522Commands::mfAuthent, nullptr, 0, nullptr, 0);
+            // MFAuthentData x;
+            // uint8_t receiveData[64];
+            // int block = 0;
+            // rfid.communicateWithTag(Mfrc522::mfrc522Commands::receive,
+                                    // &block,
+                                    // 1,
+                                    // receiveData,
+                                    // 64*8);
+            // rfid.communicateWithTag(Mfrc522::mfrc522Commands::mfAuthent, nullptr, 0, nullptr, 0);
 
-            std::cout << "Hello tag\n";
-            std::cout << "Your id = ";
-            for(size_t i = 0; i < 4; i++){
-                std::cout << std::hex << receiveData[0];
-            }
+            uint8_t tag[16];
+
+            if(rfid.receiveTagId(&tag)){
+                std::cout << "Hello tag\n";
+                std::cout << "Your id = ";
+                for(size_t i = 0; i < 4; i++){
+                    std::cout << std::hex << tag[i];
+                }
             std::cout << "\n";
+            }
 
             std::cout << "Waiting for key press\n";
             while ((c = keypad.getKey()) == 'h') {
