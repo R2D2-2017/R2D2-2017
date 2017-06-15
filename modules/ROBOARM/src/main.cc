@@ -10,7 +10,7 @@
 #include "robot-arm.hh"
 #include "stepper.hh"
 #include "wrap-hwlib.hh"
-#include "robotarmtester.hh"
+#include "RobotArmTester.hh"
 #include "I2C.hh"
 
 int main() {
@@ -46,7 +46,7 @@ int main() {
     I2C i2c(i2c_bus);
     i2c.runDemo();
 
-    robotarmtester tester(r);
+    RobotArmTester tester(r);
 
     tester.run();
 

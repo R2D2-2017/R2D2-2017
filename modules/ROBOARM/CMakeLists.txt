@@ -33,7 +33,7 @@ set(sources
         src/ky101.cc
         src/robot-arm.cc
         src/main.cc
-        src/robotarmtester.cc
+        src/RobotArmTester.cc
         src/I2C.cc
         )
 
