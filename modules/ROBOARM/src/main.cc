@@ -1,7 +1,7 @@
 /**
  * \file
  * \brief     Usage example
- * \author    Bob Thomas
+ * \author    Bob Thomas, David Driessen
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See LICENSE
  */
