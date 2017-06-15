@@ -29,7 +29,7 @@ int main(int argc, char **argv) {
         std::string ip;
         std::string username;
         std::string password;
-        int encryptionKey;
+        //int encryptionKey;
 
         ConfigFileParser factory("database-config.txt");
         factory.loadDatabaseSettings(ip, username, password);
@@ -40,10 +40,10 @@ int main(int argc, char **argv) {
         connection.selectDatabase("R2D2");
 
         std::cout << "Made connection to the database\n";
-        wiringPiSetup();
-        wiringPiSPISetup(0, 10000000);//max speed for mfrc522 is 10Mhz
-        Mfrc522 rfid;
-        rfid.init();
+        //wiringPiSetup();
+        //wiringPiSPISetup(0, 10000000);//max speed for mfrc522 is 10Mhz
+        MFRC522 rfid;
+        rfid.PCD_Init();
 
         //Keypad pinSetup
         const int keypadRow[] = {4, 1, 16, 15};
@@ -58,8 +58,26 @@ int main(int argc, char **argv) {
         while (true) {
             std::cout << "\n\nWaiting for rfid tag: \n";
 
-            while (!rfid.isTagPresent()) {
+            if(!rfid.PICC_IsNewCardPresent())
+                continue;
+            if(!rfid.PICC_ReadCardSerial())
+                continue;
+
+            for(byte i = 0; i < rfid.uid.size; ++i){
+                if(rfid.uid.uidByte[i] < 0x10){
+                    printf(" 0");
+                    printf("%X",rfid.uid.uidByte[i]);
+                }
+                else{
+                    printf(" ");
+                    printf("%X", rfid.uid.uidByte[i]);
+                }
             }
+
+
+
+//            while (!rfid.isTagPresent()) {
+//            }
             // MFAuthentData x;
             // uint8_t receiveData[64];
             // int block = 0;
@@ -70,21 +88,21 @@ int main(int argc, char **argv) {
                                     // 64*8);
             // rfid.communicateWithTag(Mfrc522::mfrc522Commands::mfAuthent, nullptr, 0, nullptr, 0);
 
-            uint8_t tag[16];
+            // uint8_t tag[16];
 
-            Mfrc522::statusCodes s = rfid.receiveTagId(tag);
-            if(s == Mfrc522::statusCodes::statusOk){
-                std::cout << "Hello tag\n";
-                std::cout << "Your id = ";
-                for(size_t i = 0; i < 4; i++){
-                    std::cout << std::hex << tag[i];
-                }
-                std::cout << "\n";
-            } else if(s == Mfrc522::statusCodes::statusError){
-                std::cout << "ERROR\n";
-            } else{
-                std::cout << "Something else went wrong reading the key\n";
-            }
+//            Mfrc522::statusCodes s = rfid.receiveTagId(tag);
+//            if(s == Mfrc522::statusCodes::statusOk){
+//                std::cout << "Hello tag\n";
+//                std::cout << "Your id = ";
+//                for(size_t i = 0; i < 4; i++){
+//                    std::cout << std::hex << tag[i];
+//                }
+//                std::cout << "\n";
+//            } else if(s == Mfrc522::statusCodes::statusError){
+//                std::cout << "ERROR\n";
+//            } else{
+//                std::cout << "Something else went wrong reading the key\n";
+//            }
 
             std::cout << "Waiting for key press\n";
             while ((c = keypad.getKey()) == 'h') {
