@@ -15,7 +15,7 @@ Server::Server(const uint16_t port):
 {
     std::string nodeFilePath = "../server/node.txt";
     std::string verticeFilePath = "../server/vertice.txt";
-    
+
     GraphFactory factory;
     factory.createGraph(nodeFilePath,verticeFilePath, g);
 }
@@ -25,8 +25,7 @@ void Server::broadcastMessage(const command &cmd, const T & message){
     if(!connectedClientSockets.empty()){
         sf::Packet p;
         p << cmd << message;
-        
-        for(auto &s : connectedClientSockets){
+        for(auto &s : connectedClientSockets){ 
             if(s->send(p) != sf::Socket::Done){
                 std::cout << "Sending message failed" << std::endl;
                 exit(-1);
@@ -43,12 +42,9 @@ void Server::run(){
 
         sf::sleep(sf::milliseconds(100));
 
-
         if(socketSelector.wait()){
-
             if(socketSelector.isReady(socketListener)){
                 sharedSocketPtr_t client = std::make_shared<sf::TcpSocket>();
-                
                 if(socketListener.accept(*client) != sf::Socket::Done){
                     std::cout << "Something went wrong connecting to a new socket, please try again" << std::endl;
                     exit(-1);
@@ -95,8 +91,6 @@ void Server::handleInput(sf::Packet & p){
         Node start( g.getNodeByName(pathToFind.startNode) );
         Node end( g.getNodeByName(pathToFind.endNode) );
         std::vector<PathNode> path = aStar(g, start, end);
-        
         broadcastMessage(command::responsePath, path);
     }
-
 }

@@ -1,28 +1,28 @@
 /**
-* \file      graphicsnodes.hh
-* \brief     Nodes in SFML-graphics window
-* \author    Leo Jenneskens, René de Kluis, Koen de Groot
+* \file      graph-node.cc
+* \brief     nodes in sfmlgraphics window
+* \author    Leo Jenneskens, Arco Gelderblom, René de Kluis, Koen de Groot
 * \copyright Copyright (c) 2017, The R2D2 Team
 * \license   See LICENSE
 */
 
-#include "graphicsnodes.hh"
-
+#include "graph-node.hh"
 #include <iostream>
+#include "Mouse.hh"
 
 GraphNode::GraphNode( sf::Vector2f position,  std::string name, float size) :
-	position( position ),
-	size(size),
-	name (name )
+	position{position},
+	size{size},
+	name {name}
 	{
-		circle.setFillColor(sf::Color::White);
+		circle.setFillColor(color);
 	}
 
-void GraphNode::draw( sf::RenderWindow &window ) {
+void GraphNode::draw( sf::RenderWindow & window ) {
     sf::Font font;
-    if (!font.loadFromFile("../client/BebasNeue.otf")) {
-        std::cout<< "Error: Can not load font\n";
-
+    if (!font.loadFromFile("../common/BebasNeue.otf"))
+    {
+        std::cerr<< "font error\n";
     }
     sf::Text txt;
     txt.setFont(font);
@@ -31,21 +31,27 @@ void GraphNode::draw( sf::RenderWindow &window ) {
     txt.setStyle(sf::Text::Bold);
     txt.setColor(sf::Color::Green);
     txt.setPosition(position.x+20,position.y+20);
-
 	window.draw(txt);
 
 	circle.setRadius(size);
 	circle.setPosition(position);
 	circle.setOrigin(size,size);
-	circle.setOutlineColor(sf::Color::Red);
+    circle.setFillColor(color);
+	circle.setOutlineColor(sf::Color::Black);
 	circle.setOutlineThickness(2);
-    
 	window.draw(circle);
+}
 
+std::string GraphNode::getName() {
+	return name;
+}
+
+void GraphNode::changeColor(sf::Color newColor) {
+    color = newColor;
 }
 
 sf::Vector2f GraphNode::getPosition() {
-    return sf::Vector2f(position.x+size,position.y+size);
+	return sf::Vector2f(position.x+size,position.y+size);
 }
 
 sf::FloatRect GraphNode::getBounds() {
@@ -64,8 +70,3 @@ bool GraphNode::isPressed(sf::RenderWindow & window) {
     
     return false;
 }
-
-std::string GraphNode::getName() {
-    return name;
-}
-

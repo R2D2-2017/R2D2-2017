@@ -7,8 +7,6 @@
 
 #include "pathnode.hh"
 
-#include <iostream>
-
 PathNode::PathNode():
     pathDistance(0)
 {}
@@ -64,10 +62,8 @@ sf::Packet & operator>>(sf::Packet & lhs, PathNode & node) {
     return lhs;
 }
 
-
 sf::Packet & operator<<(sf::Packet & lhs, const std::vector<PathNode> & pathVector) {
     lhs << pathVector.size();
-    
     for (auto node : pathVector) {
         lhs << node;
     }

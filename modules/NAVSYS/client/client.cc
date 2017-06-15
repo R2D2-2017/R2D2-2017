@@ -1,7 +1,11 @@
 /**
  * \file
  * \brief     Client side connection code for the NAVSYS API
+<<<<<<< HEAD
  * \author    Philippe Zwietering, René de Kluis, Koen de Groot
+=======
+ * \author    Philippe Zwietering, Arco Gelderblom, Tim IJntema
+>>>>>>> origin/feat-navsys-path-highlight
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See ../../LICENSE
  */
@@ -13,7 +17,7 @@
 #include "window.hh"
 #include "gestures.hh"
 #include "../common/pathnode.hh"
-#include "graphicsgraph.hh"
+#include "graph-drawer.hh"
 
 #define WINDOW_WIDTH 800
 #define WINDOW_HEIGHT 480
@@ -43,7 +47,6 @@ void Client::run(){
         std::cout << "Connection failed\n";
     }
     
-    // this loads the the files declared above with the database
     getDatabaseFromServer();
     
     //create the window
@@ -52,13 +55,13 @@ void Client::run(){
     //Add a viewport
     window.setViewPort(sf::Vector2f(WINDOW_WIDTH, WINDOW_HEIGHT), sf::Vector2f(100, 100));
 
-    GraphDrawer printOnScreen(window);
+    GraphDrawer drawer(window);
 
     sf::Packet receivedMessage;
 
     std::string messageString;
 
-    printOnScreen.reload(&g);
+    drawer.reload(&g);
 
     Gestures gestureHandler(window);
     
@@ -68,20 +71,36 @@ void Client::run(){
     buttonList.push_back(new Button(window, { float(window.getSize().x - (buttonSize.x + 100)), 10 }, { buttonSize.x/2, buttonSize.y/2 }, static_cast<int>(button::StartNode), "Start Node", false));
     buttonList.push_back(new Button(window, { float(window.getSize().x - (buttonSize.x + 200)), 10 }, { buttonSize.x / 2, buttonSize.y / 2 }, static_cast<int>(button::EndNode), "End Node", false));
 
-    //used to let the user know a knew request can be made
-    bool printOptionsFlag =1;
-    GraphNode clickedNode = printOnScreen.checkNodeClicked();
-	while(true){
+    bool startNodeSelected = 0;
+    bool endNodeSelected = 0;
+
+    StartEndNodeData newPath;
+    GraphNode clickedNode = drawer.checkNodeClicked();
+    while(true){
         window.clear(sf::Color::Black);
-		sf::sleep(sf::milliseconds(10));
+        sf::sleep(sf::milliseconds(100));
 
         if (GetMouseClick()) {
             for (auto & indexer : buttonList) {
                 if (indexer->isPressed()) {
-                    buttonAction(window, indexer->getId(), clickedNode);
+                    switch (indexer->getId()) {
+                    case static_cast<int>(button::ShutDown):
+                        window.close();
+                        exit(0);
+                    case static_cast<int>(button::StartNode) :
+                        newPath.startNode = clickedNode.getName();
+                        startNodeSelected = 1;
+                        break;
+                    case static_cast<int>(button::EndNode) :
+                        newPath.endNode = clickedNode.getName();
+                        endNodeSelected = 1;
+                        break;
+                    default:
+                        break;
+                    }
                 }
             }
-            clickedNode = printOnScreen.checkNodeClicked();
+            clickedNode = drawer.checkNodeClicked();
             if (clickedNode.isPressed(window)) {
                 for (auto & indexer : buttonList) {
                     if (indexer->getId() == static_cast<int>(button::StartNode)) {
@@ -110,25 +129,19 @@ void Client::run(){
                 }
             }
         }
-        
-        printOnScreen.draw();
+
         for (auto & indexer : buttonList) {
             indexer->draw();
         }
-        window.display();
 
-        if(printOptionsFlag){
-            printOptionsFlag = 0;
-            std::cout << "Press Left to enter route information\n";
-        }
-        
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-            StartEndNodeData newPath;
-            std::cout << "name of start node>";
-            std::cin >> newPath.startNode;
-            std::cout << "name of end node>";
-            std::cin >> newPath.endNode;
-            
+        drawer.draw(); 
+
+        if(startNodeSelected && endNodeSelected) {
+            std::cout << "name of start node > " << newPath.startNode << "\n";
+            drawer.setBeginNode(newPath.startNode);
+            std::cout << "name of end node > " << newPath.endNode << "\n";
+            drawer.setEndNode(newPath.endNode);
+
             requestPath(newPath);
             checkPacketCorrectlyReceived(receivedMessage);
             
@@ -141,15 +154,18 @@ void Client::run(){
             }
             else {
                 std::cout << "The path is: ";
-                //output everyting except for the last node name with arrow
-                for (unsigned int i = 0; i < thePath.size()-1; ++i) {
+
+                for (unsigned int i = 0; i < thePath.size()-1; i++) {
                     std::cout << thePath[i].getName() << " --> ";
                 }
-                //output last node name without arrow
                 std::cout << thePath.back().getName() << "\n\n";
             }
-            //used to let the user know a new request can be made
-            printOptionsFlag = 1;
+            drawer.highlightPath(thePath);
+            std::cout<<"Press Escape to clear this path and insert a new path\n";
+            while(!sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)){}
+            drawer.reload(&g);
+            startNodeSelected = 0;
+            endNodeSelected = 0;
         }
         if( window.isOpen()) {
             sf::Event event;
@@ -208,8 +224,7 @@ void Client::buttonAction(sf::RenderWindow & window, int buttonId, GraphNode cli
     switch (buttonId) {
     case static_cast<int>(button::ShutDown):
         window.close();
-        exit(1);
-        break;
+        exit(0);
     case static_cast<int>(button::StartNode) :
         std::cout << clickedNode.getName();
         break;

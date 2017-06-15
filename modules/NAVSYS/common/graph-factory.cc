@@ -1,7 +1,7 @@
 /**
  * \file      graph-factory.cc
  * \brief     This file includes contains the implementations for the graphfactory class
- * \author    Jeremy
+ * \author    Jeremy, Arco Gelderblom
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See LICENSE
  */
@@ -28,7 +28,6 @@ Node GraphFactory::getNodeByName(const std::string &name, std::vector<Node> node
 
 std::vector<Node>  GraphFactory::RunNodeFactory(const std::string &nodeFilePath) {
     std::vector<Node> nodes;
-
     std::ifstream nodeFileStreamIn;
     nodeFileStreamIn.open(nodeFilePath,std::ios_base::app);
 
@@ -69,11 +68,11 @@ std::vector<Node>  GraphFactory::RunNodeFactory(const std::string &nodeFilePath)
                 if (nameFlag) {
                     nodeName += c;
                 }
-                if (coordinateFlagX) {
-                    nodePosX += c;
+                else if (c == ')') {
+                    nameFlag = 0;
                 }
-                if (coordinateFlagY) {
-                    nodePosY += c;
+                else if (c == '[') {
+                    coordinateFlagX = 1;
                 }
             }
             ++i;
@@ -93,28 +92,29 @@ std::vector<Node>  GraphFactory::RunNodeFactory(const std::string &nodeFilePath)
 std::vector<Vertice> GraphFactory::RunVerticeFactory(const std::string &verticeFilePath, std::vector<Node> nodes) {
     std::vector<Vertice> vertices;
 
-    std::ifstream verticeFileStreamIn;
-    verticeFileStreamIn.open(verticeFilePath,std::ios_base::app);
+    std::ifstream verticeFileStreamIn(verticeFilePath,std::ios_base::app);
 
-    std::string verticeEntry = "";
-    //get line out of file
-    while (getline (verticeFileStreamIn,verticeEntry)) {
+    if (verticeFileStreamIn.is_open()) {
+        std::string verticeEntry = "";
+        // reset EOF and set pointer at beginning of the file
+        verticeFileStreamIn.clear();
+        verticeFileStreamIn.seekg(0, std::ios::beg);
+        //get line out of file
+        while (getline (verticeFileStreamIn,verticeEntry)) {
 
-        // strings to store chars read
-        std::string nodeA = "";
-        std::string nodeB = "";
-        std::string weight = "";
+            // strings to store chars read
+            std::string nodeA = "";
+            std::string nodeB = "";
+            std::string weight = "";
+            // flags to to deside based on specific chars, which data element is being read.
+            bool nodeFlagA = 0;
+            bool nodeFlagB = 0;
+            bool weightFlag = 0;
 
-        // flags to to deside based on specific chars, which data element is being read.
-        bool nodeFlagA = 0;
-        bool nodeFlagB = 0;
-        bool weightFlag = 0;
-
-        // for each char in line
-        unsigned int i = 0;
-        while (i < verticeEntry.length()) {
-            char c = verticeEntry.at(i);
-
+            // for each char in line
+            unsigned int i = 0;
+            while (i < verticeEntry.length()) {
+                char c = verticeEntry.at(i);
             if (c == '(' && !nodeFlagB) {
                 nodeFlagA = 1;
             }
@@ -138,16 +138,29 @@ std::vector<Vertice> GraphFactory::RunVerticeFactory(const std::string &verticeF
                 if (nodeFlagA) {
                     nodeA += c;
                 }
-                if (nodeFlagB) {
-                    nodeB += c;
+                else if (c == '[') {
+                    weightFlag = 1;
                 }
-                if (weightFlag) {
-                    weight += c;
+                else if (c == ']') {
+                    weightFlag = 0;
+                }
+                else if (c == '-'){
+                    nodeFlagB =1;
+                }
+                else {
+                    if (nodeFlagA) {
+                        nodeA += c;
+                    }
+                    if (nodeFlagB) {
+                        nodeB += c;
+                    }
+                    if (weightFlag) {
+                        weight += c;
+                    }
                 }
             }
             ++i;
         }
-
         int tmpWeight =  atoi(weight.c_str());
         // add created vertice to vector
         vertices.push_back(Vertice(
@@ -161,8 +174,5 @@ std::vector<Vertice> GraphFactory::RunVerticeFactory(const std::string &verticeF
                 getNodeByName(nodeB,nodes).getName()),
                 tmpWeight));
     }
-    verticeFileStreamIn.close();
     return vertices;
 }
-
-

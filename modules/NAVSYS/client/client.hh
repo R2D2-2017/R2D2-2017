@@ -1,7 +1,7 @@
 /**
  * \file 
  * \brief     Header for client side connection code for NAVSYS API
- * \author    Philippe Zwietering
+ * \author    Philippe Zwietering, Arco Gelderblom
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See ../../LICENSE
  */
@@ -12,13 +12,13 @@
 #include <string>
 
 #include "../common/graph-factory.hh"
-#include "graphicsgraph.hh"
+#include "graph-drawer.hh"
 #include "../common/graph-input.hh"
 #include "button.hh"
 #include "mouse.hh"
 #include "../common/graph.hh"
 #include "../common/protocol.hh"
-        
+
 enum class button {ShutDown,StartNode,EndNode};
 
 /**
@@ -86,6 +86,7 @@ public:
      * \param[in] cmd The command to send 
      */
     void requestDatabaseUsingCommand(const command & cmd);
+
 
     /**
      * \brief Execute a command corresponding with the pressed button.

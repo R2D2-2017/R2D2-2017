@@ -12,7 +12,7 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/common)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 include_directories(${SFML_INCLUDE_DIR})
 
-set(common_sources   
+set(common_sources
     common/node.cc
     common/coordinate.cc
     common/vertice.cc
@@ -26,13 +26,13 @@ set(common_sources
 set(client_sources
     client/main.cc
     client/client.cc
-    client/graphicsgraph.cc
-    client/graphicsnodes.cc
-    client/graphicsvertices.cc
+    client/graph-drawer.cc
+    client/graph-node.cc 
+    client/graph-vertice.cc
     client/window.cc
     client/gestures.cc
     client/button.cc)
-  
+
 set(server_sources
     server/main.cc
     server/server.cc
