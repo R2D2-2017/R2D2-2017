@@ -1,18 +1,23 @@
 #include "carrier-controller.hh"
 #include "motor-controller.hh"
 #include "serial-com.hh"
+#include "hc-sr04.hh"
 #include <wiringPi.h>
 
 
 int main(void) {
     int statusLed = 29;
+    int trigger   =  4;
+    int echo      =  5;
+
 
     MotorController controller("/dev/ttyS0", 38400);
     SerialCom       serialCom("/dev/rfcomm0", 9600);
+    HcSr04          sonarSensor(trigger,echo);
 
     wiringPiSetup();
     pinMode(statusLed, OUTPUT);
-    Carrier::CarrierController stateMachine(controller, 100, 50);
+    Carrier::CarrierController stateMachine(controller, sonarSensor, 100, 50);
 
     while (serialCom.init() == 0) {
         digitalWrite(statusLed, 1); // On

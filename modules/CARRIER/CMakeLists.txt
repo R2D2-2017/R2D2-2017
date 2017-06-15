@@ -18,7 +18,9 @@ set(sources
     src/motor.cc
     src/motor-controller.cc
     src/carrier-controller.cc
-    src/main.cc)
+    src/hc-sr04.cc
+    src/main.cc
+    )
 
 add_executable(${exe_name} ${sources})
 target_link_libraries(${exe_name} ${WIRINGPI_LIBRARIES})
