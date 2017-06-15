@@ -8,6 +8,7 @@
 
 #include "graph-factory.hh"
 #include <fstream>
+#include <iostream>
 //#include <algorithm>
 
 void GraphFactory::createGraph(const std::string &nodeFilePath, const std::string &verticeFilepath, Graph & graph ) {
@@ -68,11 +69,11 @@ std::vector<Node>  GraphFactory::RunNodeFactory(const std::string &nodeFilePath)
                 if (nameFlag) {
                     nodeName += c;
                 }
-                else if (c == ')') {
-                    nameFlag = 0;
+                if (coordinateFlagX) {
+                    nodePosX += c;
                 }
-                else if (c == '[') {
-                    coordinateFlagX = 1;
+                if (coordinateFlagY) {
+                    nodePosY += c;
                 }
             }
             ++i;
@@ -138,42 +139,30 @@ std::vector<Vertice> GraphFactory::RunVerticeFactory(const std::string &verticeF
                     if (nodeFlagA) {
                         nodeA += c;
                     }
-                    else if (c == '[') {
-                        weightFlag = 1;
+                    if (nodeFlagB) {
+                        nodeB += c;
                     }
-                    else if (c == ']') {
-                        weightFlag = 0;
-                    }
-                    else if (c == '-'){
-                        nodeFlagB =1;
-                    }
-                    else {
-                        if (nodeFlagA) {
-                            nodeA += c;
-                        }
-                        if (nodeFlagB) {
-                            nodeB += c;
-                        }
-                        if (weightFlag) {
-                            weight += c;
-                        }
+                    if (weightFlag) {
+                        weight += c;
                     }
                 }
-            ++i;
+                ++i;
             }
-        int tmpWeight =  atoi(weight.c_str());
-        // add created vertice to vector
-        vertices.push_back(Vertice(
-            Node(
-                getNodeByName(nodeA, nodes).getCoordinate().x,
-                getNodeByName(nodeA, nodes).getCoordinate().y,
-                getNodeByName(nodeA, nodes).getName()),
-            Node(
-                getNodeByName(nodeB,nodes).getCoordinate().x,
-                getNodeByName(nodeB,nodes).getCoordinate().y,
-                getNodeByName(nodeB,nodes).getName()),
-                tmpWeight));
+            int tmpWeight =  atoi(weight.c_str());
+            // add created vertice to vector
+            vertices.push_back(Vertice(
+                Node(
+                    getNodeByName(nodeA, nodes).getCoordinate().x,
+                    getNodeByName(nodeA, nodes).getCoordinate().y,
+                    getNodeByName(nodeA, nodes).getName()),
+                Node(
+                    getNodeByName(nodeB,nodes).getCoordinate().x,
+                    getNodeByName(nodeB,nodes).getCoordinate().y,
+                    getNodeByName(nodeB,nodes).getName()),
+                    tmpWeight));
         }
+    } else {
+        std::cerr<<"Couldn't open the file";
     }
     return vertices;
 }
