@@ -18,6 +18,7 @@ void GraphDrawer::draw(){
 	for(auto & it :  graphVertices) {
 		it.draw(window);
 	}
+        window.display();
 }
 
 void GraphDrawer::reload(Graph * g) {

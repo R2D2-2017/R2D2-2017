@@ -1,7 +1,7 @@
 /**
  * \file
  * \brief     Client side connection code for the NAVSYS API
- * \author    Philippe Zwietering, René de Kluis, Koen de Groot, Arco Gelderblom, Tim IJntema
+ * \author    Philippe Zwietering, Renï¿½ de Kluis, Koen de Groot, Arco Gelderblom, Tim IJntema
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See ../../LICENSE
  */
@@ -47,21 +47,18 @@ void Client::run(){
     
     //create the window
     Window window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "NAVSYS", sf::Style::Default);
-
+    
     //Add a viewport
     window.setViewPort(sf::Vector2f(WINDOW_WIDTH, WINDOW_HEIGHT), sf::Vector2f(100, 100));
-
+    
     GraphDrawer drawer(window);
-
+    
     sf::Packet receivedMessage;
-
-    std::string messageString;
-
+    
     drawer.reload(&g);
-
     Gestures gestureHandler(window);
     
-	//Button setup
+    //Button setup
     std::vector<Button*> buttonList;
     buttonList.push_back(new Button(window, { float(window.getSize().x - (buttonSize.x + 10)), 10 }, { buttonSize }, static_cast<int>(button::ShutDown), "Shut Down"));
     buttonList.push_back(new Button(window, { float(window.getSize().x - (buttonSize.x + 100)), 10 }, { buttonSize.x/2, buttonSize.y/2 }, static_cast<int>(button::StartNode), "Start Node", false));
@@ -74,9 +71,10 @@ void Client::run(){
     GraphNode clickedNode = drawer.checkNodeClicked();
     while(true){
         window.clear(sf::Color::Black);
-        sf::sleep(sf::milliseconds(100));
+        sf::sleep(sf::milliseconds(20));
 
         if (GetMouseClick()) {
+            drawer.reload(&g);
             for (auto & indexer : buttonList) {
                 if (indexer->isPressed()) {
                     switch (indexer->getId()) {
@@ -157,11 +155,13 @@ void Client::run(){
                 std::cout << thePath.back().getName() << "\n\n";
             }
             drawer.highlightPath(thePath);
-            std::cout<<"Press Escape to clear this path and insert a new path\n";
+            startNodeSelected = 0;
+            endNodeSelected = 0;
+            /*std::cout<<"Press Escape to clear this path and insert a new path\n";
             while(!sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)){}
             drawer.reload(&g);
             startNodeSelected = 0;
-            endNodeSelected = 0;
+            endNodeSelected = 0;*/
         }
         if( window.isOpen()) {
             sf::Event event;
