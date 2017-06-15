@@ -21,10 +21,7 @@ public:
     parser(){}
 
     //methode voor array lezen, naar enum toe.
-    void parseArray(char inputArray[]);
-
-    //methode voor uit enum alle settings setten.
     //verplaatsen van enum.hh naar een eigen configStorage.hh struct/class
-    void setConfigSettings();
+    void parseArray(char inputArray[]);
 
 };
