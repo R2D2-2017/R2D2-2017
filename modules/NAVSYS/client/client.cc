@@ -67,20 +67,48 @@ void Client::run(){
     bool startNodeSelected = 0;
     bool endNodeSelected = 0;
 
+    sf::FloatRect startNodeButtonBounds;
+    sf::FloatRect endNodeButtonBounds;
+
     StartEndNodeData newPath;
     GraphNode clickedNode = drawer.checkNodeClicked();
     while(true){
         window.clear(sf::Color::Black);
         sf::sleep(sf::milliseconds(20));
-
+        drawer.draw();
+        window.setView(window.getDefaultView());
+        for (auto & indexer : buttonList) {
+            if (indexer->getId() == static_cast<int>(button::ShutDown)) {
+                indexer->draw();
+            }
+            else if (indexer->getId() == static_cast<int>(button::StartNode)) {
+                startNodeButtonBounds = indexer->getBounds();
+                window.updateView();
+                indexer->draw();
+                window.setView(window.getDefaultView());
+            }
+            else if (indexer->getId() == static_cast<int>(button::EndNode)) {
+                endNodeButtonBounds = indexer->getBounds();
+                window.updateView();
+                indexer->draw();
+                window.setView(window.getDefaultView());
+            }
+            
+        }
+        window.updateView();
         if (GetMouseClick()) {
-            drawer.reload(&g);
             for (auto & indexer : buttonList) {
-                if (indexer->isPressed()) {
+                bool temp = false;
+                if (indexer->isPressed()) { temp = true; }
+                window.setView(window.getDefaultView());
+                if (indexer->isPressed()) { temp = true; }
+                window.updateView();
+                if (temp) {
                     switch (indexer->getId()) {
                     case static_cast<int>(button::ShutDown):
                         window.close();
                         exit(0);
+                        break;
                     case static_cast<int>(button::StartNode) :
                         newPath.startNode = clickedNode.getName();
                         startNodeSelected = 1;
@@ -94,9 +122,11 @@ void Client::run(){
                     }
                 }
             }
+            window.updateView();
             clickedNode = drawer.checkNodeClicked();
             if (clickedNode.isPressed(window)) {
                 for (auto & indexer : buttonList) {
+                    window.setView(window.getDefaultView());
                     if (indexer->getId() == static_cast<int>(button::StartNode)) {
                         indexer->setPosition({ 
                             clickedNode.getBounds().left, 
@@ -112,6 +142,7 @@ void Client::run(){
                         indexer->setVisable(true);
                     }
                 }
+                window.updateView();
             }
             else {
                 for (auto & indexer : buttonList) {
@@ -123,13 +154,10 @@ void Client::run(){
                 }
             }
         }
-
-        for (auto & indexer : buttonList) {
-            indexer->draw();
-        }
-
-        drawer.draw(); 
-
+        
+         
+        window.display();
+        
         if(startNodeSelected && endNodeSelected) {
             std::cout << "name of start node > " << newPath.startNode << "\n";
             drawer.setBeginNode(newPath.startNode);
@@ -163,6 +191,7 @@ void Client::run(){
             startNodeSelected = 0;
             endNodeSelected = 0;*/
         }
+        
         if( window.isOpen()) {
             sf::Event event;
             while( window.pollEvent(event) ){
@@ -170,6 +199,7 @@ void Client::run(){
                     window.close();
                 }
             }
+            
             window.moveViewPort(gestureHandler.getMouseDrag(20));
             window.updateView();
         }

@@ -31,3 +31,7 @@ void Window::moveViewPort(const sf::Vector2i distance){
 void Window::updateView(){
     setView(view);
 }
+
+sf::View Window::getViewPort() {
+    return view;
+}

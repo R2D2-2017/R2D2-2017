@@ -57,6 +57,13 @@ public:
      *\brief a function for applying the changes made to the viewport
      */
     void updateView();
+
+    /**
+     *\brief Return the view of the window
+     *
+     *\return The view of the window
+     */
+    sf::View getViewPort();
 };
 
 
