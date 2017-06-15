@@ -9,8 +9,11 @@ enable_testing()
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 
-SET(GCC_COVERAGE_COMPILE_FLAGS "-lbcm2835")
-ADD_DEFINITIONS(${GCC_COVERAGE_COMPILE_FLAGS})
+set(cxxflags
+        "-lbcm2835")
+
+string(REGEX REPLACE ";" " " cxxflags "${cxxflags}")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${cxxflags}")
 
 find_library(WIRINGPI_LIBRARIES NAMES wiringPi)
 find_path(WIRINGPI_INCLUDE_DIRS NAMES wiringPi.h)
