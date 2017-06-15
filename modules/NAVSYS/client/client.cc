@@ -36,7 +36,6 @@ void Client::run(){
         std::cout << "Connection failed" << std::endl;
     }
     
-    // this loads the the files declared above with the database
     getDatabaseFromServer();
     
     //create the window
@@ -54,8 +53,10 @@ void Client::run(){
     buttonList.push_back(new Button(window, { float(window.getSize().x - (buttonSize.x + 200)), 10 }, { buttonSize.x / 2, buttonSize.y / 2 }, static_cast<int>(button::EndNode), "End Node", false));
 
 
-    //used to let the user know a knew request can be made
-    bool printOptionsFlag =1;
+
+    bool startNodeSelected = 0;
+    bool endNodeSelected = 0;
+
     StartEndNodeData newPath;
     GraphNode clickedNode = drawer.checkNodeClicked();
     while(true){
@@ -65,7 +66,21 @@ void Client::run(){
         if (GetMouseClick()) {
             for (auto & indexer : buttonList) {
                 if (indexer->isPressed()) {
-                    buttonAction(window, indexer->getId(), clickedNode);
+                    switch (indexer->getId()) {
+                    case static_cast<int>(button::ShutDown):
+                        window.close();
+                        exit(0);
+                    case static_cast<int>(button::StartNode) :
+                        newPath.startNode = clickedNode.getName();
+                        startNodeSelected = 1;
+                        break;
+                    case static_cast<int>(button::EndNode) :
+                        newPath.endNode = clickedNode.getName();
+                        endNodeSelected = 1;
+                        break;
+                    default:
+                        break;
+                    }
                 }
             }
             clickedNode = drawer.checkNodeClicked();
@@ -100,20 +115,12 @@ void Client::run(){
             indexer->draw();
         }
 
-        drawer.draw();
+        drawer.draw(); 
 
-        if(printOptionsFlag){
-            printOptionsFlag = 0;
-            std::cout << "Press Left to enter route information\n";
-        }
-        
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left)){
-            StartEndNodeData newPath;
-            std::cout << "name of start node>";
-            std::cin >> newPath.startNode;
+        if(startNodeSelected && endNodeSelected) {
+            std::cout << "name of start node > " << newPath.startNode << "\n";
             drawer.setBeginNode(newPath.startNode);
-            std::cout << "name of end node>";
-            std::cin >> newPath.endNode;
+            std::cout << "name of end node > " << newPath.endNode << "\n";
             drawer.setEndNode(newPath.endNode);
 
             requestPath(newPath);
@@ -136,6 +143,9 @@ void Client::run(){
             drawer.highlightPath(thePath);
             std::cout<<"Press Escape to clear this path and insert a new path\n";
             while(!sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)){}
+            drawer.reload(&g);
+            startNodeSelected = 0;
+            endNodeSelected = 0;
         }
         if( window.isOpen()) {
             sf::Event event;
@@ -192,7 +202,7 @@ void Client::buttonAction(sf::RenderWindow & window, int buttonId, GraphNode cli
     switch (buttonId) {
     case static_cast<int>(button::ShutDown):
         window.close();
-        break;
+        exit(0);
     case static_cast<int>(button::StartNode) :
         std::cout << clickedNode.getName();
         break;
