@@ -70,8 +70,7 @@ int main(int argc, char **argv) {
             std::cout << "Enter a pincode, ending with '#'\n";
 
             std::string pin = keypad.getString();
-            std::cout << "Pin input finished";
-            std::cout << pin;
+            std::cout << "The pin you entered was: " << pin << "\n";
 
             connection.executeQuery("SELECT * FROM RFID");
                 
