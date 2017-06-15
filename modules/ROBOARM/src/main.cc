@@ -10,9 +10,15 @@
 #include "robot-arm.hh"
 #include "stepper.hh"
 #include "wrap-hwlib.hh"
+#include "I2C.hh"
 
 int main() {
     WDT->WDT_MR = WDT_MR_WDDIS;
+   
+    auto sclPin = hwlib::target::pin_oc(hwlib::target::pins::d21);
+    auto sdaPin = hwlib::target::pin_oc(hwlib::target::pins::d20);
+ 	hwlib::i2c_bus_bit_banged_scl_sda i2c_bus(sclPin,sdaPin);
+
 
     auto ky101Pin = hwlib::target::pin_in(hwlib::target::pins::d14);
 
@@ -66,7 +72,12 @@ int main() {
     ENY.set(0);
     ENZ.set(0);
 
-    hwlib::cout << "START SEQUENCE" << '\n';
+    hwlib::cout << "START DEMO SEQUENCE" << '\n';
+    
+    // Sets i2c bus
+    I2C i2c(i2c_bus);
+    // Runs the I/O extender demo
+    i2c.runDemo();
 
     r.startup(); // resets the robot position
     hwlib::cout << "Position has been reset" << '\n';
