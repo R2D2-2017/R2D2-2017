@@ -18,4 +18,11 @@ enum class Note {
     lowNote = 698,
 };
 
+enum class ConfigStorage {
+	warningThreshold = 105,
+	dangerThreshold = 100,
+	mq5BaseValue = 100,
+	measureFrequency = 1000,
+};
+
 #endif //GAS_ENUM_HH

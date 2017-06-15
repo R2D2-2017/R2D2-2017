@@ -21,6 +21,7 @@
 #include "alarm.hh"
 #include "speaker.hh"
 #include "mq5.hh"
+#include "parser.hh"
 #include <fatfs.hh>
 
 /**
@@ -54,6 +55,7 @@ int main(){
     Speaker player( speakerPin );
     Alarm alarm(105, alarmLed, player);
     Mq5 mq5(sensor);
+    Parser parser();
     MuStore::FatFs fileSystem(&sd);
     MuStore::FsError err;
 
