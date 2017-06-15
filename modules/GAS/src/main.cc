@@ -11,6 +11,8 @@
  * \author    David de Jong
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See LICENSE
+ * \wiki	  https://github.com/R2D2-2017/R2D2-2017/wiki/Gas-safety-system
+ * \trello	  https://trello.com/c/etqKmerH/93-gas-gas-safety-system
  */
 #include "wrap-hwlib.hh"
 
