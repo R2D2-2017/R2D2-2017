@@ -21,11 +21,9 @@
  */
 class ConfigFileParser {
 private:
-    std::string nameCurrentFile;
-    int lineCurrentFile;
-    std::ifstream file;
-    std::string input;
-    
+    const std::string  databaseFile;
+    const std::string  encryptionFile;
+
     /**
      * \brief Checks for errors when executing a statement
      *
@@ -42,58 +40,23 @@ private:
      * \param [in] line The line the error occured on
      */
     void incorrectLineCheck(const bool & toCheck, const std::string & fileName, int line);
-    
-    /**
-     * \brief Checks if the file is open
-     *
-     * If the file is not open an error is returned using throw in the form of a
-     *  const std::string. This function can be used to check if the file is open
-     *  before you try to read something from it.
-     *
-     * Typical usage:
-     * \code
-     *     fileOpenCheck();
-     * \endcode
-     */
-    void fileOpenCheck();
+
 public:
     /**
-     * \brief Constructor with filename
+     * \brief Constructor with filenames
      * 
-     * Calls the ConfigFileParser::changeFile() function to open the file.
+     * constructs the configFileParser
      *
      * Typical usage:
      * \code
-     *     ConfigFileParser factory("filename.txt");
+     *     ConfigFileParser factory("filename1.txt", "filename2.txt");
      * \endcode
      *
-     * \param [in] fileName The name of the file to open
+     * \param [in] databaseFile   The name of the file to open
+     * \param [in] encryptionFile The name of the file to open
      */
-    ConfigFileParser(const std::string & fileName);
-    
-    /**
-     * \brief Destructor
-     *
-     * Closes the file when called
-     */
-    ~ConfigFileParser();
-    
-    /**
-     * \brief Change the current file
-     *
-     * This functions checks if a file is open. If it is it will be closed.
-     * The new file will then be opened. Throws a const std::string error when
-     *  something goes wrong with opening the file.
-     *
-     * Typical usage:
-     * \code
-     *     changeFile("filename.txt");
-     * \endcode
-     *
-     * \param [in] fileName The name of the file to open
-     */
-    void changeFile(const std::string & fileName);
-    
+    ConfigFileParser(const std::string & databaseFile, const std::string & encryptionFile);
+
     /**
      * \brief Load the database ip, password and username from a file
      *

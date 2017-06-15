@@ -20,17 +20,17 @@
 
 int main(int argc, char **argv) {
     try {
+
         std::string ip;
         std::string username;
         std::string password;
         int encryptionKey;
         
-        ConfigFileParser factory("database-config.txt");
+        ConfigFileParser factory("database-config.txt", "encryption-config.txt");
+
         factory.loadDatabaseSettings(ip, username, password);
-        
-        factory.changeFile("encryption-config.txt");
         factory.loadEncryptionSettings(encryptionKey);
-        
+
         MySql connection;
         
         connection.connectTo(ip, username, password);
