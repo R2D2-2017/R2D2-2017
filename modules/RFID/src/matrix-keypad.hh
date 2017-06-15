@@ -66,8 +66,6 @@ public:
     * \brief Obtain a string of keys
     * This function will collect keys that are pressed on the keypad.
     * The keys will be collected until the '#' key is pressed.
-    * When a key is pressed and is being held the system shall see this
-    * only as one key, no matter how long you'll hold it.
     *
     * \return The a string containing the pressed keys.
     *
