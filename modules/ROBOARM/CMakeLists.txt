@@ -34,6 +34,7 @@ set(sources
         src/robot-arm.cc
         src/main.cc
         src/robotarmtester.cc
+        src/I2C.cc
         )
 
 # The target chip that is compiled for:
