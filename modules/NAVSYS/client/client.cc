@@ -1,11 +1,7 @@
 /**
  * \file
  * \brief     Client side connection code for the NAVSYS API
-<<<<<<< HEAD
- * \author    Philippe Zwietering, René de Kluis, Koen de Groot
-=======
- * \author    Philippe Zwietering, Arco Gelderblom, Tim IJntema
->>>>>>> origin/feat-navsys-path-highlight
+ * \author    Philippe Zwietering, René de Kluis, Koen de Groot, Arco Gelderblom, Tim IJntema
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See ../../LICENSE
  */
