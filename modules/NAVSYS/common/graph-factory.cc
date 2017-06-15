@@ -115,28 +115,15 @@ std::vector<Vertice> GraphFactory::RunVerticeFactory(const std::string &verticeF
             unsigned int i = 0;
             while (i < verticeEntry.length()) {
                 char c = verticeEntry.at(i);
-            if (c == '(' && !nodeFlagB) {
-                nodeFlagA = 1;
-            }
-            else if (c == '(' && nodeFlagB) {
-                //nothing
-            }
-            else if (c == ')') {
-                nodeFlagA = 0;
-                nodeFlagB = 0;
-            }
-            else if (c == '[') {
-                weightFlag = 1;
-            }
-            else if (c == ']') {
-                weightFlag = 0;
-            }
-            else if (c == '-'){
-                nodeFlagB =1;
-            }
-            else {
-                if (nodeFlagA) {
-                    nodeA += c;
+                if (c == '(' && !nodeFlagB) {
+                    nodeFlagA = 1;
+                }
+                else if (c == '(' && nodeFlagB) {
+                    //nothing
+                }
+                else if (c == ')') {
+                    nodeFlagA = 0;
+                    nodeFlagB = 0;
                 }
                 else if (c == '[') {
                     weightFlag = 1;
@@ -151,16 +138,29 @@ std::vector<Vertice> GraphFactory::RunVerticeFactory(const std::string &verticeF
                     if (nodeFlagA) {
                         nodeA += c;
                     }
-                    if (nodeFlagB) {
-                        nodeB += c;
+                    else if (c == '[') {
+                        weightFlag = 1;
                     }
-                    if (weightFlag) {
-                        weight += c;
+                    else if (c == ']') {
+                        weightFlag = 0;
+                    }
+                    else if (c == '-'){
+                        nodeFlagB =1;
+                    }
+                    else {
+                        if (nodeFlagA) {
+                            nodeA += c;
+                        }
+                        if (nodeFlagB) {
+                            nodeB += c;
+                        }
+                        if (weightFlag) {
+                            weight += c;
+                        }
                     }
                 }
-            }
             ++i;
-        }
+            }
         int tmpWeight =  atoi(weight.c_str());
         // add created vertice to vector
         vertices.push_back(Vertice(
@@ -173,6 +173,7 @@ std::vector<Vertice> GraphFactory::RunVerticeFactory(const std::string &verticeF
                 getNodeByName(nodeB,nodes).getCoordinate().y,
                 getNodeByName(nodeB,nodes).getName()),
                 tmpWeight));
+        }
     }
     return vertices;
 }

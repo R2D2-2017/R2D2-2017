@@ -48,7 +48,6 @@ private:
     std::shared_ptr<PathNode> parent = nullptr;
 
 public:
-    PathNode();
     /**
      * \brief Default constructor
      */

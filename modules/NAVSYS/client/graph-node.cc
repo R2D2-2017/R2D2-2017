@@ -8,12 +8,12 @@
 
 #include "graph-node.hh"
 #include <iostream>
-#include "Mouse.hh"
+#include "mouse.hh"
 
 GraphNode::GraphNode( sf::Vector2f position,  std::string name, float size) :
 	position{position},
 	size{size},
-	name {name}
+	name{name}
 	{
 		circle.setFillColor(color);
 	}
