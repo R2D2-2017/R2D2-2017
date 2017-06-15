@@ -37,7 +37,7 @@ private:
     
     //===ints==//
     int count;
-    int mode;
+
     int time;
     int number_of_matrices;
     int letter_counter=0;
@@ -51,60 +51,7 @@ private:
     //========================//
 
     //==========chars==========//
-    //A
-    uint8_t char_A[8][8] = {{0,0,0,0,0,0,0,0},{0,0,0,1,1,0,0,0},{0,0,1,1,1,1,0,0},{0,1,1,0,0,1,1,0},{0,1,1,1,1,1,1,0},{0,1,1,0,0,1,1,0},{0,1,1,0,0,1,1,0},{0,0,0,0,0,0,0,0}};
-    //B
-    uint8_t char_B[8][8] = {{0,0,0,0,0,0,0,0},{0,1,1,1,1,1,0,0},{0,1,0,0,0,0,1,0},{0,1,1,1,1,1,0,0},{0,1,0,0,0,0,1,0},{0,1,0,0,0,0,1,0},{0,1,1,1,1,1,0,0},{0,0,0,0,0,0,0,0}};
-    //C
-    uint8_t char_C[8][8] = {{0,0,0,0,0,0,0,0},{0,0,1,1,1,1,1,0},{0,1,1,1,1,1,1,0},{0,1,1,0,0,0,0,0},{0,1,1,0,0,0,0,0},{0,1,1,1,1,1,1,0},{0,0,1,1,1,1,1,0},{0,0,0,0,0,0,0,0}};
-    //D
-    uint8_t char_D[8][8] = {{0,0,0,0,0,0,0,0},{0,1,1,1,1,1,0,0},{0,1,1,1,1,1,1,0},{0,1,1,0,0,1,1,0},{0,1,1,0,0,1,1,0},{0,1,1,1,1,1,1,0},{0,1,1,1,1,1,0,0},{0,0,0,0,0,0,0,0}};
-    //E
-    uint8_t char_E[8][8] = {{0,0,0,0,0,0,0,0},{0,1,1,1,1,1,1,0},{0,1,1,0,0,0,0,0},{0,1,1,1,1,1,0,0},{0,1,1,1,1,1,0,0},{0,1,1,0,0,0,0,0},{0,1,1,1,1,1,1,0},{0,0,0,0,0,0,0,0}};
-    //F
-    uint8_t char_F[8][8] = {{0,0,0,0,0,0,0,0},{0,1,1,1,1,1,1,0},{0,1,1,1,1,1,1,0},{0,1,1,0,0,0,0,0},{0,1,1,1,1,0,0,0},{0,1,1,1,1,0,0,0},{0,1,1,0,0,0,0,0},{0,0,0,0,0,0,0,0}}; 
-    //G
-    uint8_t char_G[8][8] = {{0,0,0,0,0,0,0,0},{0,0,1,1,1,1,1,0},{0,1,1,1,1,1,1,0},{0,1,1,0,0,0,0,0},{0,1,1,0,1,1,1,0},{0,1,1,0,0,1,1,0},{0,1,1,1,1,1,1,0},{0,0,0,0,0,0,0,0}};
-    //H
-    uint8_t char_H[8][8] = {{0,0,0,0,0,0,0,0},{0,1,1,0,0,1,1,0},{0,1,1,0,0,1,1,0},{0,1,1,1,1,1,1,0},{0,1,1,1,1,1,1,0},{0,1,1,0,0,1,1,0},{0,1,1,0,0,1,1,0},{0,0,0,0,0,0,0,0}};
-    //I
-    uint8_t char_I[8][8] = {{0,0,0,0,0,0,0,0},{0,0,1,1,1,1,0,0},{0,0,0,1,1,0,0,0},{0,0,0,1,1,0,0,0},{0,0,0,1,1,0,0,0},{0,0,0,1,1,0,0,0},{0,0,1,1,1,1,0,0},{0,0,0,0,0,0,0,0}};
-    //J
-    uint8_t char_J[8][8] = {{0,0,0,0,0,0,0,0},{0,0,0,0,0,1,0,0},{0,0,0,0,0,1,0,0},{0,0,0,0,0,1,0,0},{0,1,0,0,0,1,0,0},{0,1,0,0,0,1,0,0},{0,0,1,1,1,0,0,0},{0,0,0,0,0,0,0,0}};
-    //K
-    uint8_t char_K[8][8] = {{0,0,0,0,0,0,0,0},{0,1,1,0,0,1,1,0},{0,1,1,0,1,1,0,0},{0,1,1,1,1,0,0,0},{0,1,1,1,1,0,0,0},{0,1,1,0,1,1,0,0},{0,1,1,0,0,1,1,0},{0,0,0,0,0,0,0,0}};
-    //L
-    uint8_t char_L[8][8] = {{0,0,0,0,0,0,0,0},{0,1,1,0,0,0,0,0},{0,1,1,0,0,0,0,0},{0,1,1,0,0,0,0,0},{0,1,1,0,0,0,0,0},{0,1,1,1,1,1,1,0},{0,1,1,1,1,1,1,0},{0,0,0,0,0,0,0,0}};
-    //M
-    uint8_t char_M[8][8] = {{0,0,0,0,0,0,0,0},{0,1,1,0,0,1,1,0},{0,1,1,1,1,1,1,0},{0,1,0,1,1,0,1,0},{0,1,0,0,0,0,1,0},{0,1,0,0,0,0,1,0},{0,1,0,0,0,0,1,0},{0,0,0,0,0,0,0,0}};
-    //N
-    uint8_t char_N[8][8] = {{0,0,0,0,0,0,0,0},{0,0,1,1,1,1,0,0},{0,1,1,1,1,1,1,0},{0,1,1,0,0,1,1,0},{0,1,1,0,0,1,1,0},{0,1,1,0,0,1,1,0},{0,1,1,0,0,1,1,0},{0,0,0,0,0,0,0,0}};
-    //O
-    uint8_t char_O[8][8] = {{0,0,0,0,0,0,0,0},{0,0,1,1,1,1,0,0},{0,1,1,1,1,1,1,0},{0,1,1,0,0,1,1,0},{0,1,1,0,0,1,1,0},{0,1,1,1,1,1,1,0},{0,0,1,1,1,1,0,0},{0,0,0,0,0,0,0,0}};
-    //P
-    uint8_t char_P[8][8] = {{0,0,0,0,0,0,0,0},{0,1,1,1,1,1,1,0},{0,1,1,0,0,1,1,0},{0,1,1,0,0,1,1,0},{0,1,1,1,1,1,1,0},{0,1,1,0,0,0,0,0},{0,1,1,0,0,0,0,0},{0,0,0,0,0,0,0,0}};
-    //Q
-    uint8_t char_Q[8][8] = {{0,0,0,0,0,0,0,0},{0,0,1,1,1,1,0,0},{0,1,1,1,1,1,1,0},{0,1,1,0,0,1,1,0},{0,1,1,0,1,1,1,0},{0,1,1,1,1,1,1,0},{0,0,1,1,1,1,1,1},{0,0,0,0,0,0,1,1}};
-    //R
-    uint8_t char_R[8][8] = {{0,0,0,0,0,0,0,0},{0,1,1,1,1,1,0,0},{0,1,0,0,0,0,1,0},{0,1,1,1,1,1,0,0},{0,1,0,1,1,0,0,0},{0,1,0,0,1,1,0,0},{0,1,0,0,0,1,1,0},{0,0,0,0,0,0,0,0}};
-    //S
-    uint8_t char_S[8][8] = {{0,0,0,0,0,0,0,0},{0,0,1,1,1,1,1,0},{0,1,0,0,0,0,0,0},{0,0,1,1,1,1,0,0},{0,0,0,0,0,0,1,0},{0,0,0,0,0,0,1,0},{0,1,1,1,1,1,0,0},{0,0,0,0,0,0,0,0}};
-    //T
-    uint8_t char_T[8][8] = {{0,0,0,0,0,0,0,0},{0,1,1,1,1,1,1,0},{0,1,1,1,1,1,1,0},{0,0,0,1,1,0,0,0},{0,0,0,1,1,0,0,0},{0,0,0,1,1,0,0,0},{0,0,0,1,1,0,0,0},{0,0,0,0,0,0,0,0}};
-    //U
-    uint8_t char_U[8][8] = {{0,0,0,0,0,0,0,0},{0,1,1,0,0,1,1,0},{0,1,1,0,0,1,1,0},{0,1,1,0,0,1,1,0},{0,1,1,0,0,1,1,0},{0,1,1,0,0,1,1,0},{0,0,1,1,1,1,0,0},{0,0,0,0,0,0,0,0}};
-    //V
-    uint8_t char_V[8][8] = {{0,0,0,0,0,0,0,0},{0,1,1,0,0,1,1,0},{0,1,1,0,0,1,1,0},{0,1,1,0,0,1,1,0},{0,1,1,0,0,1,1,0},{0,0,1,1,1,1,0,0},{0,0,1,1,1,1,0,0},{0,0,0,0,0,0,0,0}};
-    //W
-    uint8_t char_W[8][8] = {{0,0,0,0,0,0,0,0},{0,1,0,0,0,0,1,0},{0,1,0,0,0,0,1,0},{0,1,0,0,0,0,1,0},{0,1,0,0,0,0,1,0},{0,1,0,1,1,0,1,0},{0,0,1,0,0,1,0,0},{0,0,0,0,0,0,0,0}};
-    //X
-    uint8_t char_X[8][8] = {{0,0,0,0,0,0,0,0},{0,1,0,0,0,0,1,0},{0,0,1,0,0,1,0,0},{0,0,0,1,1,0,0,0},{0,0,0,1,1,0,0,0},{0,0,1,0,0,1,0,0},{0,1,0,0,0,0,1,0},{0,0,0,0,0,0,0,0}};
-    //Y
-    uint8_t char_Y[8][8] = {{0,0,0,0,0,0,0,0},{0,1,0,0,0,0,1,0},{0,1,1,0,0,1,1,0},{0,0,1,1,1,1,0,0},{0,0,0,1,1,0,0,0},{0,0,0,1,1,0,0,0},{0,0,0,1,1,0,0,0},{0,0,0,0,0,0,0,0}};
-    //Z
-    uint8_t char_Z[8][8] = {{0,0,0,0,0,0,0,0},{0,1,1,1,1,1,1,0},{0,0,0,0,0,1,1,0},{0,0,0,0,1,1,0,0},{0,0,0,1,1,0,0,0},{0,0,1,1,0,0,0,0},{0,1,1,1,1,1,1,0},{0,0,0,0,0,0,0,0}};
-    //space
-    uint8_t char_space[8][8] = {{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0}};
+      uint8_t char_space[8][8] = {{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0}};
     //!
     uint8_t char_uit[8][8] = {{0,0,0,0,0,0,0,0},{0,0,0,1,1,0,0,0},{0,0,0,1,1,0,0,0},{0,0,0,1,1,0,0,0},{0,0,0,1,1,0,0,0},{0,0,0,0,0,0,0,0},{0,0,0,1,1,0,0,0},{0,0,0,0,0,0,0,0}};
     //random
@@ -145,39 +92,17 @@ private:
     uint8_t char_minus[8][8] = {{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},{0,1,1,1,1,1,1,0},{0,1,1,1,1,1,1,0},{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0}};
     //+
     uint8_t char_plus[8][8] = {{0,0,0,0,0,0,0,0},{0,0,0,1,1,0,0,0},{0,0,0,1,1,0,0,0},{0,1,1,1,1,1,1,0},{0,1,1,1,1,1,1,0},{0,0,0,1,1,0,0,0},{0,0,0,1,1,0,0,0},{0,0,0,0,0,0,0,0}};
-    //*
-    uint8_t char_multiply[8][8] = {{0,0,0,0,0,0,0,0},{0,1,0,1,1,0,1,0},{0,0,1,1,1,1,0,0},{0,1,1,1,1,1,1,0},{0,1,1,1,1,1,1,0},{0,0,1,1,1,1,0,0},{0,1,0,1,1,0,1,0},{0,0,0,0,0,0,0,0}};
-    ///
-    uint8_t char_divide[8][8] = {{0,0,0,0,0,0,0,0},{0,0,0,0,0,1,1,0},{0,0,0,0,1,1,0,0},{0,0,0,1,1,0,0,0},{0,0,1,1,0,0,0,0},{0,1,1,0,0,0,0,0},{0,1,0,0,0,0,0,0},{0,0,0,0,0,0,0,0}};
-    //=
-    uint8_t char_equal[8][8] = {{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},{0,1,1,1,1,1,1,0},{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},{0,1,1,1,1,1,1,0},{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0}};
-    //;
-    uint8_t char_semicolom[8][8] = {{0,0,0,0,0,0,0,0},{0,0,0,1,1,0,0,0},{0,0,0,1,1,0,0,0},{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},{0,0,0,1,1,0,0,0},{0,0,0,1,1,0,0,0},{0,0,0,0,1,0,0,0}};
-    //=========================//
+//=========================//
     
 public:
     MAX7219(hwlib::spi_bus & bus, hwlib::pin_out & cs):
     bus(bus), cs(cs)
     {
-        hwlib::wait_ms(1000);       // Hammertime
-        hwlib::cout << "=== BEGINING ===\n";
-        
-        char input_string[] = {"1234567890"};            // input string
-        hwlib::cout << "String lenght :" << strlen(input_string);   //lenght of string
-        
+        char input_string[] = {"1234567890"};                       //Input string
         number_of_matrices = 4;                                     //Amount of matrices where you want to display on.
         count = 8;                                                  //Amount of pixels on the matrix.
-
         time = 500;                                                 //The time in ms that the characters will be displayed on the screen
-                                                //If inverded 0 = off, !0= on/
-        mode = 2;                                                   //The mode the characters will be displayed in
-                                                                    // ============================================ //
-                                                                    //  1. flashing                                 //
-                                                                    //  2. shifting from left to right              //
-                                                                    //  3. shifting from right to left              //
-                                                                    // ============================================ //
-                    
-                    
+
         int string_lenght = strlen(input_string)+number_of_matrices*2;
         
         uint8_t data[][2] ={{ 0x09, 0x00 },    //
@@ -186,54 +111,35 @@ public:
                          { 0x0A, 0x0f },    // Intestety :  ~30% 
                          { 0x0B, 0x07 }};   //
         command_settings(data, number_of_matrices, 5);
-        
-        hwlib::wait_ms(1000);       // Hammertime
-        
-        //========== Settings display on console ===========//
-                
-        hwlib::cout << "\nMode:               " << mode;
-        if(mode == 1){ hwlib::cout << " - flashing";}
-        if(mode == 2){ hwlib::cout << " - shifting from left to right";} 
-        if(mode == 3){ hwlib::cout << " - shifting from right to left";} 
 
-        hwlib::cout << "\nTime:               " << time <<"ms";
-
-        hwlib::cout << "\nNumber of pixels:   " << count*count*number_of_matrices;
-        hwlib::cout << "\nNumber of matrices: " << number_of_matrices;
-        hwlib::cout << '\n';
-        
-        
-        //==================================================//
-  
         //=========== Output display on console ============//
-       // while(true){
-            hwlib::cout << "\nDisplayed text: ";
-            for(int i =0; i < number_of_matrices; i++)
+
+        for(int i =0; i < number_of_matrices; i++)
+        {
+                render(char_space,       time, number_of_matrices, count, string_lenght);
+        }
+        for(char c : input_string)              //This will go thru every element of input_string
+        {
+            switch(c)
             {
-                    render(char_space,       time, mode, number_of_matrices, count, string_lenght);
-            }
-            for(char c : input_string)              //This will go thru every element of input_string
-            {
-                switch(c) 
-                {
-                    case '1' : render(char_one,         time, mode, number_of_matrices, count, string_lenght);          hwlib::cout << '1';         break;
-                    case '2' : render(char_two,         time, mode, number_of_matrices, count, string_lenght);          hwlib::cout << '2';         break;
-                    case '3' : render(char_three,       time, mode, number_of_matrices, count, string_lenght);          hwlib::cout << '3';         break;
-                    case '4' : render(char_four,        time, mode, number_of_matrices, count, string_lenght);          hwlib::cout << '4';         break;
-                    case '5' : render(char_five,        time, mode, number_of_matrices, count, string_lenght);          hwlib::cout << '5';         break;
-                    case '6' : render(char_six,         time, mode, number_of_matrices, count, string_lenght);          hwlib::cout << '6';         break;
-                    case '7' : render(char_seven,       time, mode, number_of_matrices, count, string_lenght);          hwlib::cout << '7';         break;
-                    case '8' : render(char_eight,       time, mode, number_of_matrices, count, string_lenght);          hwlib::cout << '8';         break;
-                    case '9' : render(char_nine,        time, mode, number_of_matrices, count, string_lenght);          hwlib::cout << '9';         break;
-                    case '0' : render(char_ten,         time, mode, number_of_matrices, count, string_lenght);          hwlib::cout << '0';         break;
-                    case '+' : render(char_plus,        time, mode, number_of_matrices, count, string_lenght);          hwlib::cout << '+';         break;
-                    case '-' : render(char_minus,       time, mode, number_of_matrices, count, string_lenght);          hwlib::cout << '-';         break;
-            }
-            }
-            for(int i =0; i < number_of_matrices; i++)
-            {
-                    render(char_space,       time, mode, number_of_matrices, count, string_lenght);
-            }
+                case '1' : render(char_one,         time, number_of_matrices, count, string_lenght);          hwlib::cout << '1';         break;
+                case '2' : render(char_two,         time, number_of_matrices, count, string_lenght);          hwlib::cout << '2';         break;
+                case '3' : render(char_three,       time, number_of_matrices, count, string_lenght);          hwlib::cout << '3';         break;
+                case '4' : render(char_four,        time, number_of_matrices, count, string_lenght);          hwlib::cout << '4';         break;
+                case '5' : render(char_five,        time, number_of_matrices, count, string_lenght);          hwlib::cout << '5';         break;
+                case '6' : render(char_six,         time, number_of_matrices, count, string_lenght);          hwlib::cout << '6';         break;
+                case '7' : render(char_seven,       time, number_of_matrices, count, string_lenght);          hwlib::cout << '7';         break;
+                case '8' : render(char_eight,       time, number_of_matrices, count, string_lenght);          hwlib::cout << '8';         break;
+                case '9' : render(char_nine,        time, number_of_matrices, count, string_lenght);          hwlib::cout << '9';         break;
+                case '0' : render(char_ten,         time, number_of_matrices, count, string_lenght);          hwlib::cout << '0';         break;
+                case '+' : render(char_plus,        time, number_of_matrices, count, string_lenght);          hwlib::cout << '+';         break;
+                case '-' : render(char_minus,       time, number_of_matrices, count, string_lenght);          hwlib::cout << '-';         break;
+        }
+        }
+        for(int i =0; i < number_of_matrices; i++)
+        {
+                render(char_space,       time, number_of_matrices, count, string_lenght);
+        }
             
         
         //==================================================//
@@ -267,13 +173,12 @@ public:
                 }            
             }
         }
-       
         
         ///Render is a function that puts the to be displayed string, in to a format that command understands. \n
         ///Array_data is where the data is stored in. Array_data[number of chars][count][2]. \n\n
         ///-render_input is the data that will be displayed on the matrix. \n
         ///-time is the time(in ms) that the matrix will be displayed. \n
-        ///-mode is the modes the matrix will be dysplayed in. \n
+        ///- is the modes the matrix will be dysplayed in. \n
         ///-inverd is whether the data is inverder or not. 0 is off, !0 is on. \n
         ///-rotation is the number of times render_input will be rotated 90 degeers. \n
         ///-number_of_matrices the number of matrices where you want to display on. \n
@@ -284,9 +189,9 @@ public:
         /// 1. flashing
         /// 2. shifting right to left
         /// 3. shifting left to right
-        void render(uint8_t render_input[8][8], int time, int mode, int number_of_matrices, int count, int string_lenght)
+        void render(uint8_t render_input[8][8], int time, int number_of_matrices, int count, int string_lenght)
         {   
-            command Aether (bus, cs, array_data, mode, time, number_of_matrices, count, string_lenght);
+            command Aether (bus, cs, array_data, time, number_of_matrices, count, string_lenght);
             mbin_to_mhex Aeolus (matrix_dummy, matrix_data);
             dummy Aristaeus (render_input, matrix_dummy, count);
             
@@ -300,24 +205,9 @@ public:
             j++;
             if(j==string_lenght)
             {
-                
                 Aether.commander();
-                
             }
         }
-        
-        ///Tester s a function that tests the matrix. \n
-        ///It will display every suported character. In different time, inverd and rotation.\n\n
-        ///-mode is the modes the matrix will be dysplayed in. \n
-        ///-number_of_matrices the number of matrices where you want to display on. \n
-        ///-count number of size of martix in pixels. \n
-        ///-string_lenght the lenght of the string you want to display. \n
-        /// \n
-        /// Modes:
-        /// 1. flashing
-        /// 2. shifting right to left
-        /// 3. shifting left to right
-
     };
 
 #endif // MAX7219_HPP

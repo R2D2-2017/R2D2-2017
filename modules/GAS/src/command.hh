@@ -23,14 +23,13 @@ private:
     hwlib::spi_bus & bus; 
     hwlib::pin_out & cs;
      uint8_t (*data)[8][2];
-    int mode;
     int time;
     int number_of_matrices;
     int count;
     int string_lenght;
 public:
-    command(hwlib::spi_bus & bus, hwlib::pin_out & cs, uint8_t (*data)[8][2], int & mode, int & time, int & number_of_matrices , int & count, int & string_lenght):
-    bus(bus), cs(cs), data(data), mode(mode), time(time), number_of_matrices(number_of_matrices), count(count), string_lenght(string_lenght)
+    command(hwlib::spi_bus & bus, hwlib::pin_out & cs, uint8_t (*data)[8][2], int & time, int & number_of_matrices , int & count, int & string_lenght):
+    bus(bus), cs(cs), data(data), time(time), number_of_matrices(number_of_matrices), count(count), string_lenght(string_lenght)
     {};
         ///-bus is spi bus. \n
         ///-cs is spi cs. \n
@@ -50,10 +49,6 @@ public:
         void commander()
         {
             int tmp = number_of_matrices;
-            if(mode==1)
-            { 
-                tmp =0;
-            }
             uint8_t temp[1000];
             for(int i = 0; i < string_lenght-tmp;i++)
             {
@@ -62,61 +57,14 @@ public:
                     for(int j =0; j <= count; j++)
                     { 
                         int l = 0;
-                        if(mode==1)
-                        {
                             for(int k = 0; k < number_of_matrices; k++)
                             {
-                                temp[l] = {(uint8_t)j};               
+                                temp[l] = {(uint8_t)j};
                                 l++;
-                                temp[l] = {data[i][j-1][1]};
+                                temp[l] = {data[i+k][j-1][1]};
                                 l++;
                             }
                             bus.write_and_read(cs, 2*number_of_matrices, temp , nullptr);
-                        }
-                        if(mode==2)
-                        {
-                            for(int k = 0; k < number_of_matrices; k++)
-                            {
-                                temp[l] = {(uint8_t)j};               
-                                l++;
-                                temp[l] = {data[i+k][j-1][1]};     
-                                l++;
-                            }
-                            bus.write_and_read(cs, 2*number_of_matrices, temp , nullptr);
-                        }
-                        if(mode==3)
-                        {
-                            for(int k = 0; k < number_of_matrices; k++)
-                            {
-                                temp[l] = {(uint8_t)j};               
-                                l++;
-                                temp[l] = {data[string_lenght-number_of_matrices-i+k][j-1][1]};     
-                                l++;
-                            }
-                            bus.write_and_read(cs, 2*number_of_matrices, temp , nullptr);
-                       }
-                       if(mode==4)
-                       {
-                           for(int k = 0; k < number_of_matrices; k++)
-                           {
-                               temp[l] = {(uint8_t)j};               
-                               l++;
-                               temp[l] = {data[i][j-1+m][1]};
-                               l++;
-                           }
-                           bus.write_and_read(cs, 2*number_of_matrices, temp , nullptr);
-                       }
-                       if(mode==5)
-                       {
-                           for(int k = 0; k < number_of_matrices; k++)
-                           {
-                               temp[l] = {(uint8_t)j};               
-                               l++;
-                               temp[l] = {data[string_lenght-number_of_matrices-i][j-1-m][1]};
-                               l++;
-                           }
-                           bus.write_and_read(cs, 2*number_of_matrices, temp , nullptr);
-                       }
                     }
                     hwlib::wait_ms(time/7);
                 }
