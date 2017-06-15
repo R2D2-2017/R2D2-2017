@@ -10,22 +10,33 @@
 
 #include "alarm.hh"
 
-void Alarm::checkGasValue(float gasValue) {
-    if (gasValue > gasValueThreshold) {
-        triggerAlarm();
-    } else {
-        alarmLed.set(false);
+void Alarm::checkGasValue(int gasValue) {
+    if(gasValue > dangerThreshold){
+        greenAlarmLed.set(false);
+        yellowAlarmLed.set(false);
+        redAlarmLed.set(true);
+
+        for(int amountOfPlaying = 3; amountOfPlaying >= 0; amountOfPlaying--) {
+            dangerPlayer.playNote((int) Note::highNote);
+            dangerPlayer.playNote((int) Note::lowNote);
+        }
+    }
+
+    else if (gasValue >= warningThreshold && gasValue < dangerThreshold){
+        greenAlarmLed.set(false);
+        yellowAlarmLed.set(true);
+        redAlarmLed.set(false);
+        warningPlayer.playNote((int) Note::highNote);
+        warningPlayer.playNote((int) Note::lowNote);
+    }
+
+    else {
+        greenAlarmLed.set(true);
+        yellowAlarmLed.set(false);
+        redAlarmLed.set(false);
     }
 }
 
-void Alarm::triggerAlarm() {
-    alarmLed.set(true);
-    for(int amountOfPlaying = 3; amountOfPlaying >= 0; amountOfPlaying--) {
-        player.playNote((int) Note::highNote);
-        player.playNote((int) Note::lowNote);
-    };
-
-}
 
 
 

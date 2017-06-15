@@ -45,15 +45,31 @@ int main(){
     target::pin_adc sensor = target::pin_adc(target::ad_pins::a0);
     target::spi_bus_due spiBus;
     target::pin_out cs(target::pins::d7);
-    target::pin_out alarmLed(target::pins::d8);
-    target::pin_out speakerPin(target::pins::d9);
+
+    // alarm leds
+    target::pin_out greenAlarmLed(target::pins::d10);
+    target::pin_out yellowAlarmLed(target::pins::d9);
+    target::pin_out redAlarmLed(target::pins::d8);
+
+    // speaker sound players
+    target::pin_out warningSpeakerPin(target::pins::d11);
+    target::pin_out dangerSpeakerPin(target::pins::d12);
+
+    // flash led
     target::pin_out startLed(target::pins::d13);
+
+    // thresholds
+    int warningThreshold = 0;
+    int dangerThreshold = 120;
+
 
     // Initialize classes
     SdSpi sd(cs, spiBus);
-    Speaker player( speakerPin );
-    Alarm alarm(105, alarmLed, player);
-    Mq5 mq5(sensor);
+    Speaker warningPlayer( warningSpeakerPin );
+    Speaker dangerPlayer( dangerSpeakerPin );
+    Alarm alarm(warningThreshold, dangerThreshold, greenAlarmLed, yellowAlarmLed, redAlarmLed, warningPlayer, dangerPlayer);
+
+    Mq5 mq5(        sensor);
     MuStore::FatFs fileSystem(&sd);
     MuStore::FsError err;
 
@@ -104,6 +120,8 @@ int main(){
         dataFile.write("\r\n", 2, err);
         hwlib::cout << "wiring newline 0 for success: " << (int)err << "\r\n";
         alarm.checkGasValue(mq5Value);
+        hwlib::cout << (mq5Value) << "\r\n";
+
 
         //print error value of the write action
         //hwlib::cout << (int)err << "\r\n";

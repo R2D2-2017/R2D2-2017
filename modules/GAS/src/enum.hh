@@ -7,8 +7,7 @@
  * \license   See LICENSE
  */
 
-#ifndef GAS_ENUM_HH
-#define GAS_ENUM_HH
+#pragma once
 
 /**
  * Enum class that contains specified notes
@@ -17,5 +16,3 @@ enum class Note {
     highNote = 880,
     lowNote = 698,
 };
-
-#endif //GAS_ENUM_HH
