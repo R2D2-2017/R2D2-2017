@@ -20,7 +20,8 @@ set(common_sources
     common/graph-input.cc
     common/graph-factory.cc
     common/protocol.cc
-    common/pathnode.cc)
+    common/pathnode.cc
+    common/mouse.cc)
 
 set(client_sources
     client/main.cc
@@ -29,7 +30,8 @@ set(client_sources
     client/graphicsnodes.cc
     client/graphicsvertices.cc
     client/window.cc
-    client/gestures.cc)
+    client/gestures.cc
+    client/button.cc)
   
 set(server_sources
     server/main.cc

@@ -1,5 +1,5 @@
 /**
- * \file
+ * \file 
  * \brief     Header for client side connection code for NAVSYS API
  * \author    Philippe Zwietering
  * \copyright Copyright (c) 2017, The R2D2 Team
@@ -11,8 +11,15 @@
 #include <SFML/Network.hpp>
 #include <string>
 
+#include "../common/graph-factory.hh"
+#include "graphicsgraph.hh"
+#include "../common/graph-input.hh"
+#include "button.hh"
+#include "mouse.hh"
 #include "../common/graph.hh"
-#include "../common/protocol.hh" 
+#include "../common/protocol.hh"
+        
+enum class button {ShutDown,StartNode,EndNode};
 
 /**
  * \brief Client class
@@ -22,9 +29,10 @@
  */
 class Client {
 private:
-    sf::IpAddress ipAddress;
-    uint16_t port;
-    sf::TcpSocket socket;
+	sf::IpAddress ipAddress;
+	uint16_t port;
+	sf::TcpSocket socket;
+    sf::Vector2f buttonSize = {100,30};
     Graph g;
 
     /**
@@ -41,6 +49,7 @@ private:
      */
     void checkPacketCorrectlyReceived(sf::Packet & p);
 public:
+
     /**
      * \brief Client constructor
      *
@@ -73,7 +82,17 @@ public:
     
     /**
      * \brief Request data from the database using a command
-     * \param[] cmd The command to send 
+     *
+     * \param[in] cmd The command to send 
      */
     void requestDatabaseUsingCommand(const command & cmd);
+
+    /**
+     * \brief Execute a command corresponding with the pressed button.
+     *
+     * \param[in,out]    window          The SFML window
+     * \param[in]        buttonId        The ID of the selected button
+     * \param[in]        clickedNode     The selected GraphNode
+     */
+    void buttonAction(sf::RenderWindow & window, int buttonId, GraphNode clickedNode);
 };

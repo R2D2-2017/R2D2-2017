@@ -1,7 +1,7 @@
 /**
  * \file
  * \brief     Client side connection code for the NAVSYS API
- * \author    Philippe Zwietering
+ * \author    Philippe Zwietering, René de Kluis, Koen de Groot
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See ../../LICENSE
  */
@@ -55,24 +55,71 @@ void Client::run(){
     GraphDrawer printOnScreen(window);
 
     sf::Packet receivedMessage;
-    
-    //used to let the user know a knew request can be made
-    bool printOptionsFlag =1;
 
-    Gestures gestureHandler(window);
+    std::string messageString;
 
     printOnScreen.reload(&g);
+
+    Gestures gestureHandler(window);
     
-    while (true) {
+	//Button setup
+    std::vector<Button*> buttonList;
+    buttonList.push_back(new Button(window, { float(window.getSize().x - (buttonSize.x + 10)), 10 }, { buttonSize }, static_cast<int>(button::ShutDown), "Shut Down"));
+    buttonList.push_back(new Button(window, { float(window.getSize().x - (buttonSize.x + 100)), 10 }, { buttonSize.x/2, buttonSize.y/2 }, static_cast<int>(button::StartNode), "Start Node", false));
+    buttonList.push_back(new Button(window, { float(window.getSize().x - (buttonSize.x + 200)), 10 }, { buttonSize.x / 2, buttonSize.y / 2 }, static_cast<int>(button::EndNode), "End Node", false));
+
+    //used to let the user know a knew request can be made
+    bool printOptionsFlag =1;
+    GraphNode clickedNode = printOnScreen.checkNodeClicked();
+	while(true){
         window.clear(sf::Color::Black);
-        sf::sleep(sf::milliseconds(20));
-      
+		sf::sleep(sf::milliseconds(10));
+
+        if (GetMouseClick()) {
+            for (auto & indexer : buttonList) {
+                if (indexer->isPressed()) {
+                    buttonAction(window, indexer->getId(), clickedNode);
+                }
+            }
+            clickedNode = printOnScreen.checkNodeClicked();
+            if (clickedNode.isPressed(window)) {
+                for (auto & indexer : buttonList) {
+                    if (indexer->getId() == static_cast<int>(button::StartNode)) {
+                        indexer->setPosition({ 
+                            clickedNode.getBounds().left, 
+                            clickedNode.getBounds().top + 1.5f*clickedNode.getBounds().height }
+                        );
+                        indexer->setVisable(true);
+                    }
+                    if (indexer->getId() == static_cast<int>(button::EndNode)) {
+                        indexer->setPosition({ 
+                            clickedNode.getBounds().left, 
+                            clickedNode.getBounds().top + 2.5f* clickedNode.getBounds().height }
+                        );
+                        indexer->setVisable(true);
+                    }
+                }
+            }
+            else {
+                for (auto & indexer : buttonList) {
+                    if (
+                        indexer->getId() == static_cast<int>(button::StartNode) || 
+                        indexer->getId() == static_cast<int>(button::EndNode)) {
+                            indexer->setVisable(false);
+                    }
+                }
+            }
+        }
         
         printOnScreen.draw();
+        for (auto & indexer : buttonList) {
+            indexer->draw();
+        }
+        window.display();
 
         if(printOptionsFlag){
             printOptionsFlag = 0;
-            std::cout << "press Left to enter route information\n";
+            std::cout << "Press Left to enter route information\n";
         }
         
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
@@ -101,11 +148,9 @@ void Client::run(){
                 //output last node name without arrow
                 std::cout << thePath.back().getName() << "\n\n";
             }
-            
             //used to let the user know a new request can be made
             printOptionsFlag = 1;
         }
-
         if( window.isOpen()) {
             sf::Event event;
             while( window.pollEvent(event) ){
@@ -118,7 +163,6 @@ void Client::run(){
         }
     }
 }
-
 
 void Client::getDatabaseFromServer() {
     sf::Packet receivedMessage;
@@ -158,4 +202,21 @@ void Client::requestPath(StartEndNodeData nodes) {
     sf::Packet p;
     p << command::requestPath << nodes;
     sendPacket(p);
+}
+
+void Client::buttonAction(sf::RenderWindow & window, int buttonId, GraphNode clickedNode) {
+    switch (buttonId) {
+    case static_cast<int>(button::ShutDown):
+        window.close();
+        exit(1);
+        break;
+    case static_cast<int>(button::StartNode) :
+        std::cout << clickedNode.getName();
+        break;
+    case static_cast<int>(button::EndNode) :
+        std::cout << clickedNode.getName();
+        break;
+    default:
+        break;
+    }
 }
