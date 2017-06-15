@@ -43,3 +43,11 @@ char MatrixKeypad::getKey() {
     }
     return 'h';
 }
+
+std::string MatrixKeypad::getString(){
+    std::string pincode;
+    while (char c = getKey() != '#' && c != 'h'){
+        pincode += c;
+    }
+    return pincode;
+}
