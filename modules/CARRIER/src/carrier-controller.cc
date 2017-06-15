@@ -1,8 +1,8 @@
 #include "carrier-controller.hh"
 
 Carrier::CarrierController::CarrierController(MotorController & motorController,
-    /*Sonar & sonar, */float distThreshold, int speed) :
-    motorController{ motorController }, //sonar{ sonar },
+    HcSr04 & sonarSensor, float distThreshold, int speed) :
+    motorController{ motorController }, sonarSensor{  sonarSensor },
     distThreshold{ distThreshold }, speed{ speed }
 {
     state = CarrierState::Driving;
@@ -34,15 +34,13 @@ void Carrier::CarrierController::update() {
         motorController.stop();
         break;
     case CarrierState::Driving:
-        if (/*sonar.getDistance() <= distThreshold
-            ||*/ targetTime <= std::chrono::steady_clock::now()) {
-            // stop();
+        if (sonarSensor.getDistance() <= distThreshold) {
+            stop();
         }
         break;
     case CarrierState::Turning:
-        if (/*sonar.getDistance() <= distThreshold
-            ||*/ targetTime <= std::chrono::steady_clock::now()) {
-            // stop();
+        if (sonarSensor.getDistance() <= distThreshold) {
+            stop();
         }
         break;
     case CarrierState::Sensing:

@@ -8,7 +8,7 @@
 
 #pragma once
 #include "motor-controller.hh"
-//#include "sonar.hh"
+#include "hc-sr04.hh"
 #include <chrono>
 #include <cmath>
 #include <cstdint>
@@ -36,14 +36,14 @@ public:
     /**
      * \brief Constructor of CarrierController
      * 
-     * \param[in]  motorController  class that can controll the carrier motors
+     * \param[in]  motorController  class that can control the carrier motors
+     * \param[in]  sonarController  class that can control the sonar sensor
      * \param[in]  distThreshold    the threshold for distance to objects
      * \param[in]  speed            the speed in ???-units
      */
-    CarrierController(MotorController &motorController,
-                      float distThreshold = 0.5f,
-                      int speed = 0.1f);
-    
+    CarrierController(MotorController &motorController, HcSr04 &sonarSensor,
+                      float distThreshold = 0.5f, int speed = 0.1f);
+
     /**
      * \brief Deconstructor of CarrierController
      * 
@@ -134,10 +134,11 @@ public:
 
 private:
     MotorController &motorController;
-    // Sonar & sonar;
+    HcSr04& sonarSensor;
 
     /// The distance threshold in meters
     float distThreshold;
+    
     /// The speed in ???-units
     int speed;
 
