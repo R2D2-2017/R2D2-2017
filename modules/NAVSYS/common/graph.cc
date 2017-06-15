@@ -1,6 +1,10 @@
-//
-// Created by Robert on 5/19/17.
-//
+/**
+ * \file
+ * \author    Robert
+ * \copyright Copyright (c) 2017, The R2D2 Team
+ * \license   See ../../LICENSE
+ */
+
 
 #include "graph.hh"
 
