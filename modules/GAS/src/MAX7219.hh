@@ -14,7 +14,7 @@
 #include "mbin_to_mhex.hh"
 #include "clean.hh"
 #include "dummy.hh"
-#include "rotate.hh"
+
 ///This is a storage for: 
 //
 ///This class holds all supported charactres, test modes, render, setiings and the sting to dislpay tekst switch. \n
@@ -39,13 +39,11 @@ private:
     int count;
     int mode;
     int time;
-    int rotation;
     int number_of_matrices;
     int letter_counter=0;
     
     //===uint8_t matrices===//
     uint8_t matrix_data[8][2];
-    uint8_t matrix_rotate[8][8];
     uint8_t matrix_output[8][8];
     uint8_t matrix_dummy[8][8];            
     uint8_t array_data[1000][8][2];
@@ -164,12 +162,12 @@ public:
         hwlib::wait_ms(1000);       // Hammertime
         hwlib::cout << "=== BEGINING ===\n";
         
-        char input_string[] = {"Hello Dave!"};            // input string
+        char input_string[] = {"1234567890"};            // input string
         hwlib::cout << "String lenght :" << strlen(input_string);   //lenght of string
         
         number_of_matrices = 4;                                     //Amount of matrices where you want to display on.
         count = 8;                                                  //Amount of pixels on the matrix.
-        rotation =  0;                                              //rotation 1=90, 2=180, 3=270, 4=360 etc.
+
         time = 500;                                                 //The time in ms that the characters will be displayed on the screen
                                                 //If inverded 0 = off, !0= on/
         mode = 2;                                                   //The mode the characters will be displayed in
@@ -199,7 +197,7 @@ public:
         if(mode == 3){ hwlib::cout << " - shifting from right to left";} 
 
         hwlib::cout << "\nTime:               " << time <<"ms";
-        hwlib::cout << "\nRotation:           " << rotation*90 << "\370";
+
         hwlib::cout << "\nNumber of pixels:   " << count*count*number_of_matrices;
         hwlib::cout << "\nNumber of matrices: " << number_of_matrices;
         hwlib::cout << '\n';
@@ -212,29 +210,29 @@ public:
             hwlib::cout << "\nDisplayed text: ";
             for(int i =0; i < number_of_matrices; i++)
             {
-                    render(char_space,       time, mode, rotation, number_of_matrices, count, string_lenght);
+                    render(char_space,       time, mode, number_of_matrices, count, string_lenght);
             }
             for(char c : input_string)              //This will go thru every element of input_string
             {
                 switch(c) 
                 {
-                    case '1' : render(char_one,         time, mode, rotation, number_of_matrices, count, string_lenght);          hwlib::cout << '1';         break;
-                    case '2' : render(char_two,         time, mode, rotation, number_of_matrices, count, string_lenght);          hwlib::cout << '2';         break;
-                    case '3' : render(char_three,       time, mode, rotation, number_of_matrices, count, string_lenght);          hwlib::cout << '3';         break;
-                    case '4' : render(char_four,        time, mode, rotation, number_of_matrices, count, string_lenght);          hwlib::cout << '4';         break;
-                    case '5' : render(char_five,        time, mode, rotation, number_of_matrices, count, string_lenght);          hwlib::cout << '5';         break;
-                    case '6' : render(char_six,         time, mode, rotation, number_of_matrices, count, string_lenght);          hwlib::cout << '6';         break;
-                    case '7' : render(char_seven,       time, mode, rotation, number_of_matrices, count, string_lenght);          hwlib::cout << '7';         break;
-                    case '8' : render(char_eight,       time, mode, rotation, number_of_matrices, count, string_lenght);          hwlib::cout << '8';         break;
-                    case '9' : render(char_nine,        time, mode, rotation, number_of_matrices, count, string_lenght);          hwlib::cout << '9';         break;
-                    case '0' : render(char_ten,         time, mode, rotation, number_of_matrices, count, string_lenght);          hwlib::cout << '0';         break;
-                    case '+' : render(char_plus,        time, mode, rotation, number_of_matrices, count, string_lenght);          hwlib::cout << '+';         break;
-                    case '-' : render(char_minus,       time, mode, rotation, number_of_matrices, count, string_lenght);          hwlib::cout << '-';         break;
+                    case '1' : render(char_one,         time, mode, number_of_matrices, count, string_lenght);          hwlib::cout << '1';         break;
+                    case '2' : render(char_two,         time, mode, number_of_matrices, count, string_lenght);          hwlib::cout << '2';         break;
+                    case '3' : render(char_three,       time, mode, number_of_matrices, count, string_lenght);          hwlib::cout << '3';         break;
+                    case '4' : render(char_four,        time, mode, number_of_matrices, count, string_lenght);          hwlib::cout << '4';         break;
+                    case '5' : render(char_five,        time, mode, number_of_matrices, count, string_lenght);          hwlib::cout << '5';         break;
+                    case '6' : render(char_six,         time, mode, number_of_matrices, count, string_lenght);          hwlib::cout << '6';         break;
+                    case '7' : render(char_seven,       time, mode, number_of_matrices, count, string_lenght);          hwlib::cout << '7';         break;
+                    case '8' : render(char_eight,       time, mode, number_of_matrices, count, string_lenght);          hwlib::cout << '8';         break;
+                    case '9' : render(char_nine,        time, mode, number_of_matrices, count, string_lenght);          hwlib::cout << '9';         break;
+                    case '0' : render(char_ten,         time, mode, number_of_matrices, count, string_lenght);          hwlib::cout << '0';         break;
+                    case '+' : render(char_plus,        time, mode, number_of_matrices, count, string_lenght);          hwlib::cout << '+';         break;
+                    case '-' : render(char_minus,       time, mode, number_of_matrices, count, string_lenght);          hwlib::cout << '-';         break;
             }
             }
             for(int i =0; i < number_of_matrices; i++)
             {
-                    render(char_space,       time, mode, rotation, number_of_matrices, count, string_lenght);
+                    render(char_space,       time, mode, number_of_matrices, count, string_lenght);
             }
             
         
@@ -286,15 +284,13 @@ public:
         /// 1. flashing
         /// 2. shifting right to left
         /// 3. shifting left to right
-        void render(uint8_t render_input[8][8], int time, int mode, int rotation, int number_of_matrices, int count, int string_lenght)
+        void render(uint8_t render_input[8][8], int time, int mode, int number_of_matrices, int count, int string_lenght)
         {   
             command Aether (bus, cs, array_data, mode, time, number_of_matrices, count, string_lenght);
             mbin_to_mhex Aeolus (matrix_dummy, matrix_data);
-            rotate Ares (matrix_dummy, rotation, count);
             dummy Aristaeus (render_input, matrix_dummy, count);
             
             Aristaeus.copier();
-            Ares.rotate_matrix();
             Aeolus.coverter();
             static int j=0;
                 for(int i = 0; i<count; i++)
