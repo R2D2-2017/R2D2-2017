@@ -234,8 +234,7 @@
 
 
 // Defines for BCM2835
-#ifndef BCM2835_H
-#define BCM2835_H
+#pragma once
 
 #include <stdint.h>
 
@@ -1110,8 +1109,6 @@ extern void bcm2835_st_delay(uint64_t offset_micros, uint64_t micros);
 #ifdef __cplusplus
 }
 #endif
-
-#endif // BCM2835_H
 
 /// @example blink.c
 /// Blinks RPi GPIO pin 11 on and off
