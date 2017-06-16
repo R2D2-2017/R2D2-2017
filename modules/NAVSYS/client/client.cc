@@ -1,7 +1,7 @@
 /**
  * \file      client.cc
  * \author    Philippe Zwietering, René de Kluis, Koen de Groot, 
- *            Arco Gelderblom, Tim IJntema, Tim IJntema
+ *            Arco Gelderblom, Tim IJntema
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See ../../LICENSE
  */
