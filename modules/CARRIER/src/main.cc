@@ -24,7 +24,8 @@ int main(void) {
 
     // test
     while (true) {
-        std::cout << hallSensor.revelations() << '\n';
+        std::cout << hallSensor.rotations() << '\n';
+        if (hallSensor.rotations() > 3) hallSensor.reset();
     }
 
     while (serialCom.init() == 0) {

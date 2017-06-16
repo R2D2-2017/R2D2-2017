@@ -7,13 +7,15 @@
  */
 
 #pragma once
-#include <wiringPi.h>
 
-#include "wiringPi.h"
 #include <atomic>
 #include <chrono>
 #include <mutex>
 #include <thread>
+
+#include <wiringPi.h>
+
+using namespace std::literals;
 
 class HallSensor {
 private:
@@ -21,28 +23,16 @@ private:
 
     const std::chrono::nanoseconds pollTime;
 
-    std::atomic_uint revelationCount = 0;
-    std::atomic_bool running;
+    std::atomic_uint rotationCount{ 0 };
 
-    std::thread poller([&]() {
-        bool triggerdFlag = false;
-        bool state = 0;
-        while (running) {
-            state = digitalRead(hallSensorPin);
-            if (!triggerdFlag && state) {
-                revelationCount++;
-                triggerdFlag = true;
-            } else if (!state && triggerdFlag) {
-                triggerdFlag = false;
-            }
-            std::this_thread::sleep_for(pollTime);
-        }
-    });
+    std::thread pollThread;
+    bool running = true;
+    void threadMain();
 
 public:
     HallSensor(const int hallSensorPin, const std::chrono::nanoseconds pollTime = 2s);
     ~HallSensor();
 
-    int  revelations();
+    int  rotations();
     void reset();
 };
