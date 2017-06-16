@@ -1,10 +1,11 @@
-/**
-* \file      main.cc
-* \brief     Program for giving an indication when a rfid card has been detected, a database connection has been made and a string has been encrypted
-* \author    Tim IJntema, Stefan de Beer, Arco Gelderblom, Rik Honcoop, Koen de Groot
-* \copyright Copyright (c) 2017, The R2D2 Team
-* \license   See LICENSE
-*/
+
+ /**
+ * \file      main.cc
+ * \brief     Program for giving an indication when a rfid card has been detected, a database connection has been made and a string has been encrypted
+ * \author    Tim IJntema, Stefan de Beer, Arco Gelderblom, Rik Honcoop, Koen de Groot, Ricardo Bouwman
+ * \copyright Copyright (c) 2017, The R2D2 Team
+ * \license   See LICENSE
+ */
 
 #include "mysql.hh"
 #include "mfrc522.hh"
@@ -128,8 +129,12 @@ int main(int argc, char **argv) {
                 delay(100);
             }
 
-            //c = keypad.getKey();
             std::cout << c << " key has been pressed\n";
+
+            std::cout << "Enter a pincode, ending with '#'\n";
+
+            std::string pin = keypad.getString();
+            std::cout << "The pin you entered was: " << pin << "\n";
 
             connection.executeQuery("SELECT * FROM RFID");
 
