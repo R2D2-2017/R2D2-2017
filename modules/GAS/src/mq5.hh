@@ -9,6 +9,8 @@
  * \trello    https://trello.com/c/FUDCRaeC/1-12-the-application-can-convert-the-analog-value-from-the-mq-5-to-percentage-value20
  */
 
+#pragma once
+
 #include "wrap-hwlib.hh"
 
 class Mq5 {
