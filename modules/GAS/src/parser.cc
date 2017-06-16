@@ -11,6 +11,11 @@
 
 #include "parser.hh"
 
+Parser::Parser(Alarm &alarm, Speaker &speaker, Mq5 &mq5) :
+        alarm(alarm),
+        speaker(speaker),
+        mq5(mq5) {}
+
 bool Parser::ifContainsString(char array[], char string[]) {
     bool containsString = false;
     for(int i = 0; array[i] != '\0'; i++) {
@@ -29,38 +34,54 @@ bool Parser::ifContainsString(char array[], char string[]) {
 
 void Parser::parseArray(char* input) {
 
-    char variableName[20];
-    int variableValue = 0;
-    char highNoteString[] = "highNote";
-    char lowNoteString[] = "lowNote";
-    char warningThresholdString[] = "warningThreshold";
-    char dangerThresholdString[] = "dangerThreshold";
-    char mq5BaseValueString[] = "mq5BaseValue";
-    char measureFrequencyString[] = "measureFrequency";
+    //for loop integers
     int i, j;
 
-    //read input values
-    //example:      @highNote:880
+    //read input array variables
+    //example of 1 variable:      @highNote:880\n
     for(i = 0; input[i] != '\0'; ++i) {
-        hwlib::cout << "x------------x" << "\r\n";
+
+        //start reading new variable at '@'
         if(input[i] == '@') {
+
+            //reset variable value to 0
             variableValue = 0;
+
+            //skip '@' character
             i++;
+
+            //read variable name from input array
             for(j = 0; input[i] != ':'; ++i, ++j) {
+                if(input[i] == '\0') {                          //prevent endless loop
+                    hwlib::cout << ">>>PARSER ERROR : while reading variable name, prevent endless loop!" << "\r\n";
+                    break;
+                }
                 variableName[j] = input[i];
             }
             variableName[j] = '\0';
-            hwlib::cout << "variableName: " << variableName << "\r\n";
+
+            //skip ':' character
             i++;
 
+            //read variable value from input array (always int)
             for(j = 0; input[i] != '\n'; ++i, ++j) {
+                if(input[i] == '\0') {                          //prevent endless loop
+                    hwlib::cout << ">>>PARSER ERROR : while reading variable value for [ " << variableName
+                                << " ], prevent endless loop!" << "\r\n";
+                    break;
+                }
                 if(variableValue != 0) {
                     variableValue *= 10;
                 }
-                variableValue += input[i] - '0';
+                if((input[i] < '0') || (input[i] > '9')) {      //check if variable value is an integer or not
+                    hwlib::cout << ">>>PARSER ERROR : while reading variable value for [ " << variableName
+                                << " ], [ " << input[i] << " ] is not an integer!" << "\r\n";
+                    break;
+                }
+                variableValue += input[i] - '0';                //convert a single char to an integer
             }
-            hwlib::cout << "variableValue: " << variableValue << "\r\n";
 
+            //set all variables
             if(ifContainsString(variableName, highNoteString)) {
                 //alarm.setHighNote(variableValue);
                 hwlib::cout << "alarm.setHighNote(" << variableValue << ")" << "\r\n";
@@ -77,15 +98,17 @@ void Parser::parseArray(char* input) {
                 //alarm.setDangerThreshold(variableValue);
                 hwlib::cout << "alarm.setDangerThreshold(" << variableValue << ")" << "\r\n";
             }
-            else if(ifContainsString(variableName, mq5BaseValueString)) {
-                //mq5.setMq5BaseValue(variableValue);
-                hwlib::cout << "mq5.setMq5BaseValue(" << variableValue << ")" << "\r\n";
+            else if(ifContainsString(variableName, mq5CalibrationValueString)) {
+                //mq5.setmq5CalibrationValue(variableValue);
+                hwlib::cout << "mq5.setmq5CalibrationValue(" << variableValue << ")" << "\r\n";
             }
             else if(ifContainsString(variableName, measureFrequencyString)) {
                 //???.setMeasureFrequency(variableValue);
                 hwlib::cout << "???.setMeasureFrequency(" << variableValue << ")" << "\r\n";
             }
-            hwlib::cout << "\r\n";
+            else {
+                hwlib::cout << ">>>PARSER ERROR : [ " << variableName << " ] is not a valid/known variable!" << "\r\n";
+            }
         }
     }
 }

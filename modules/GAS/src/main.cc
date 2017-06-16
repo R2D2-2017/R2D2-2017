@@ -57,8 +57,8 @@ int main(){
     Mq5 mq5(sensor);
 
     Parser parser(alarm, player, mq5);
-    char testArray[] = "@highNote:880\n@lowNote:698\n@warningThreshold:110\n@dangerThreshold:105\n@mq5BaseValue:100\n@measureFrequency:1000\n";         //DELETE (TEST)
-    parser.parseArray(testArray);                                                                                                                       //DELETE (TEST)
+    char testArray[] = "@highNote:880\n@lowNote:698\n@warningThreshold:110\n@dangerThreshold:105\n@mq5CalibrationValue:100\n@measureFrequency:1000\n";          //DELETE (TEST)
+    parser.parseArray(testArray);                                                                                                                               //DELETE (TEST)
 
     MuStore::FatFs fileSystem(&sd);
     MuStore::FsError err;

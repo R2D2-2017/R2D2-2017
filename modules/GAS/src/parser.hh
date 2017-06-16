@@ -22,13 +22,12 @@ public:
     /**
      * \brief Constructor for Parser
      */
-    Parser(Alarm &alarm, Speaker &speaker, Mq5 &mq5):
-        alarm(alarm),
-        speaker(speaker),
-        mq5(mq5) {}
+    Parser(Alarm &alarm, Speaker &speaker, Mq5 &mq5);
 
-    //methode voor array lezen, naar enum toe.
-    //verplaatsen van enum.hh naar een eigen configStorage.hh struct/class
+    /**
+     * \brief
+     * @param input
+     */
     void parseArray(char* input);
 
 private:
@@ -36,6 +35,16 @@ private:
     Alarm &alarm;
     Speaker &speaker;
     Mq5 &mq5;
+
+    char variableName[20];
+    int variableValue = 0;
+
+    char highNoteString[9]              = "highNote";
+    char lowNoteString[8]               = "lowNote";
+    char warningThresholdString[17]     = "warningThreshold";
+    char dangerThresholdString[16]      = "dangerThreshold";
+    char mq5CalibrationValueString[20]  = "mq5CalibrationValue";
+    char measureFrequencyString[17]     = "measureFrequency";
 
     bool ifContainsString(char array[], char* string);
 
