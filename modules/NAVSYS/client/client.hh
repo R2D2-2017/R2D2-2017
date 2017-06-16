@@ -23,9 +23,9 @@ enum class button {ShutDown,StartNode,EndNode};
  */
 class Client {
 private:
-	sf::IpAddress ipAddress;
-	uint16_t port;
-	sf::TcpSocket socket;
+    sf::IpAddress ipAddress;
+    uint16_t port;
+    sf::TcpSocket socket;
     sf::Vector2f buttonSize = {100,30};
     Graph g;
 
