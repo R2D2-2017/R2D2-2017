@@ -14,15 +14,38 @@
  * \brief Commands available to the client and server
  */
 enum class command {
-    none,/** \brief Command::none exists due to an initialization warning from the compiler */
-    requestNodes,/** \brief Request nodes vector from the server */
-    responseNodes,/** \brief Response from the server paired with a nodes vector */
+    /** 
+     * \brief Command::None exists due to an initialization warning from the 
+     *         compiler 
+     */
+    None,
+    /** 
+     * \brief Request nodes vector from the server 
+     */
+    RequestNodes,
+    /** 
+     * \brief Response from the server paired with a nodes vector 
+     */
+    ResponseNodes,
+
+    /** 
+     * \brief Request vertice vector from the server 
+     */
+    RequestVertices,
+    /** 
+     * \brief Response from the server paired with a vertice vector 
+     */
+    ResponseVertices,
     
-    requestVertices,/** \brief Request vertice vector from the server */
-    responseVertices,/** \brief Response from the server paired with a vertice vector */
-    
-    requestPath,/** \brief Request a path from a startnode to an end node from the server */
-    responsePath/** \brief Response from server paired with a vector with PathNode type containing the path from start to end */
+    /** 
+     * \brief Request a path from a startnode to an end node from the server 
+     */
+    RequestPath,
+    /** 
+     * \brief Response from server paired with a vector with PathNode type 
+     *        containing the path from start to end 
+     */
+    ResponsePath
 };
 
 /**
@@ -72,4 +95,3 @@ struct StartEndNodeData {
      */
     friend sf::Packet & operator<<(sf::Packet & lhs, const StartEndNodeData & nodes);
 };
-

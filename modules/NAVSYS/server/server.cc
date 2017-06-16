@@ -75,22 +75,22 @@ void Server::run(){
 
 void Server::handleInput(sf::Packet & p){
     //command::none due to initialization warning
-    command cmd = command::none;
+    command cmd = command::None;
     p >> cmd;
     
-    if(cmd == command::requestNodes) {
-        broadcastMessage(command::responseNodes, g.getNodes());
+    if(cmd == command::RequestNodes) {
+        broadcastMessage(command::ResponseNodes, g.getNodes());
     }
-    else if(cmd == command::requestVertices) {
-        broadcastMessage(command::responseVertices, g.getVertices());
+    else if(cmd == command::RequestVertices) {
+        broadcastMessage(command::ResponseVertices, g.getVertices());
     }
-    else if(cmd == command::requestPath) {
+    else if(cmd == command::RequestPath) {
         StartEndNodeData pathToFind;
         p >> pathToFind;
         
         Node start( g.getNodeByName(pathToFind.startNode) );
         Node end( g.getNodeByName(pathToFind.endNode) );
         std::vector<PathNode> path = aStar(g, start, end);
-        broadcastMessage(command::responsePath, path);
+        broadcastMessage(command::ResponsePath, path);
     }
 }

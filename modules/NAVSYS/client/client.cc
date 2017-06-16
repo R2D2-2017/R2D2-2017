@@ -197,10 +197,10 @@ void Client::run(){
             checkPacketCorrectlyReceived(receivedMessage);
             
             std::vector<PathNode> thePath;
-            command cmd = command::none;
+            command cmd = command::None;
             receivedMessage >> cmd >> thePath;
             
-            if (cmd != command::responsePath) {
+            if (cmd != command::ResponsePath) {
                 std::cout << "Incorrect response from server\n";
             }
             else {
@@ -231,8 +231,8 @@ void Client::run(){
 
 void Client::getDatabaseFromServer() {
     sf::Packet receivedMessage;
-    command commands[] = {command::requestNodes, command::requestVertices};
-    command receivedCommand = command::none;
+    command commands[] = {command::RequestNodes, command::RequestVertices};
+    command receivedCommand = command::None;
     
     for (const auto & cmd : commands) {
         requestDatabaseUsingCommand(cmd);
@@ -240,14 +240,14 @@ void Client::getDatabaseFromServer() {
         
         receivedMessage >> receivedCommand;
         
-        if (receivedCommand == command::responseNodes) {
+        if (receivedCommand == command::ResponseNodes) {
             std::vector<Node> nodes;
             receivedMessage >> nodes;
             for (const auto node : nodes) {
                 g.addNode(node);
             }
         }
-        else if (receivedCommand == command::responseVertices) {
+        else if (receivedCommand == command::ResponseVertices) {
             std::vector<Vertice> vertices;
             receivedMessage >> vertices;
             for (const auto vertice : vertices) {
@@ -265,6 +265,6 @@ void Client::requestDatabaseUsingCommand(const command & cmd) {
 
 void Client::requestPath(StartEndNodeData nodes) {
     sf::Packet p;
-    p << command::requestPath << nodes;
+    p << command::RequestPath << nodes;
     sendPacket(p);
 }

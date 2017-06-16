@@ -1,16 +1,14 @@
 /**
- * \file
+ * \node      graph.cc
  * \author    Robert
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See ../../LICENSE
  */
 
-
 #include "graph.hh"
 
 #include <iostream>
 #include <fstream>
-//#include <algorithm>
 #include <stdexcept>
 
 void Graph::addNode(const Node node) {
@@ -35,15 +33,17 @@ void Graph::addVertice(const Vertice vertice) {
 }
 
 void Graph::removeVertice(const Vertice vertice) {
-    vertices.erase(std::remove(vertices.begin(), vertices.end(), vertice), vertices.end());
+    vertices.erase(std::remove(vertices.begin(), vertices.end(), vertice), 
+                               vertices.end());
 }
+
 bool Graph::containsNode(const Node node) {
     return std::find(nodes.begin(), nodes.end(), node) != nodes.end();
 }
 
-
 bool Graph::containsVertice(const Vertice vertice) {
-    return std::find(vertices.begin(), vertices.end(), vertice) != vertices.end();
+    return std::find(vertices.begin(), vertices.end(), 
+                     vertice) != vertices.end();
 }
 
 std::vector<Node> Graph::getNodes() {
@@ -66,19 +66,21 @@ Node & Graph::getNodeByName(const std::string &name) {
     it = std::find_if(
         std::begin(nodes),
         std::end(nodes),
-        [&]( Node & node) -> bool{
+        [&]( Node & node) -> bool {
             return node.getName() == name;
         });
     return *it;
 }
 
-void Graph::dumpGraphToDisk(const std::string &nodeFilePath, const std::string &verticeFilePath) {
-    std::cout<< "saving nodes on disk\n";
+void Graph::dumpGraphToDisk(const std::string &nodeFilePath, 
+                            const std::string &verticeFilePath) {
+    std::cout<< "Saving nodes on disk\n";
 
     std::ofstream nodeFile;
     nodeFile.open(nodeFilePath);
 
-    // for each node in the graph create the format string and write it the the correct file.
+    // for each node in the graph create the format string and write it the the
+    // correct file.
     std::for_each (
         nodes.begin(),
         nodes.end(),
@@ -103,7 +105,8 @@ void Graph::dumpGraphToDisk(const std::string &nodeFilePath, const std::string &
 
     std::cout<< "saving vertices on disk\n";
 
-    // for each node in the graph create the format string and write it the the correct file.
+    // for each node in the graph create the format string and write it the the 
+    // correct file.
     std::for_each (
         vertices.begin(),
         vertices.end(),

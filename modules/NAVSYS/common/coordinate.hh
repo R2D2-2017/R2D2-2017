@@ -5,6 +5,7 @@
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See LICENSE
  */
+
 #pragma once
 #include <ostream>
 #include <SFML/Network.hpp>
@@ -12,8 +13,7 @@
 /**
  * \brief 2D Coordinate class
  * 
- * \details
- * Coordinate class for coordinates on a 2d plane.
+ * \details Coordinate class for coordinates on a 2d plane.
  */
 class Coordinate {
 public:
@@ -85,7 +85,8 @@ public:
      * \param[out] os The output stream the coordinate is put in to
      * \param[in] coordinate The coordinate to put into the output stream
      */
-    friend std::ostream &operator<<(std::ostream &os, const Coordinate &coordinate);
+    friend std::ostream & operator<<(std::ostream &os, 
+                                    const Coordinate &coordinate);
 
     /**
      * \brief Get the euclidean distance between Coordinates
@@ -106,7 +107,8 @@ public:
      * \param[in] lhs The packet to put the coordinate in
      * \param[in] coordinate The coordinate to add to the packet
      */
-    friend sf::Packet & operator<<(sf::Packet & lhs, const Coordinate & coordinate);
+    friend sf::Packet & operator<<(sf::Packet & lhs, 
+                                   const Coordinate & coordinate);
     
     /**
      * \brief Pull a coordinate from a network packet

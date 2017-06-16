@@ -1,7 +1,7 @@
 /**
  * \file      node.hh
  * \brief     This file contains the \see Node graph
- * \author    Robert
+ * \author    Robert Bezem
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See LICENSE
  */
@@ -23,7 +23,6 @@ class Node {
 protected:
   Coordinate coordinate;
   std::string name;
-  
 public:
     /**
      * \brief Default constructor

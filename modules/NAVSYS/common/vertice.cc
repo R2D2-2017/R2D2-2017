@@ -1,7 +1,6 @@
 /**
  * \file      vector.cc
- * \brief     This file contains the definition of the vertice class
- * \author    Robert
+ * \author    Robert Bezem
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See LICENSE
  */
@@ -38,7 +37,6 @@ bool Vertice::operator!=(const Vertice &rhs) const {
 
 Node * Vertice::getNeighbour() {
     return &node2;
-
 }
 
 Node * Vertice::getCurrent() {
@@ -48,7 +46,6 @@ Node * Vertice::getCurrent() {
 int Vertice::getWeight() {
     return weight;
 }
-
 
 sf::Packet & operator<<(sf::Packet & lhs, const Vertice & vertice) {
     lhs << vertice.node1 << vertice.node2 << vertice.weight;
@@ -60,7 +57,8 @@ sf::Packet & operator>>(sf::Packet & lhs, Vertice & vertice) {
     return lhs;
 }
 
-sf::Packet & operator<<(sf::Packet & lhs, const std::vector<Vertice> & vertices) {
+sf::Packet & operator<<(sf::Packet & lhs, 
+                        const std::vector<Vertice> & vertices) {
     lhs << (sf::Uint32)vertices.size();
     for (auto vertice : vertices) {
         lhs << vertice;

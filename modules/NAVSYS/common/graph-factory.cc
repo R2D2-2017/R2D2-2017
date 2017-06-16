@@ -1,6 +1,5 @@
 /**
  * \file      graph-factory.cc
- * \brief     This file includes contains the implementations for the graphfactory class
  * \author    Jeremy, Arco Gelderblom
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See LICENSE
@@ -9,14 +8,16 @@
 #include "graph-factory.hh"
 #include <fstream>
 #include <iostream>
-//#include <algorithm>
 
-void GraphFactory::createGraph(const std::string &nodeFilePath, const std::string &verticeFilepath, Graph & graph ) {
+void GraphFactory::createGraph(const std::string &nodeFilePath, 
+                               const std::string &verticeFilepath, 
+                               Graph & graph ) {
     graph.setNodes(RunNodeFactory(nodeFilePath));
     graph.setVertices(RunVerticeFactory(verticeFilepath,graph.getNodes()));
 }
 
-Node GraphFactory::getNodeByName(const std::string &name, std::vector<Node> nodes) {
+Node GraphFactory::getNodeByName(const std::string &name, 
+                                 std::vector<Node> nodes) {
     std::vector<Node>::iterator it;
     it = std::find_if(
             std::begin(nodes),
@@ -27,7 +28,8 @@ Node GraphFactory::getNodeByName(const std::string &name, std::vector<Node> node
     return *it;
 }
 
-std::vector<Node>  GraphFactory::RunNodeFactory(const std::string &nodeFilePath) {
+std::vector<Node> GraphFactory::RunNodeFactory(
+                                    const std::string & nodeFilePath) {
     std::vector<Node> nodes;
     std::ifstream nodeFileStreamIn;
     nodeFileStreamIn.open(nodeFilePath,std::ios_base::app);
@@ -39,7 +41,8 @@ std::vector<Node>  GraphFactory::RunNodeFactory(const std::string &nodeFilePath)
         std::string nodePosX = "";
         std::string nodePosY = "";
 
-        // flags to to deside based on specific chars, which data element is being read.
+        // flags to to deside based on specific chars, 
+        // which data element is being read.
         bool nameFlag = 0;
         bool coordinateFlagX = 0;
         bool coordinateFlagY = 0;
@@ -90,9 +93,10 @@ std::vector<Node>  GraphFactory::RunNodeFactory(const std::string &nodeFilePath)
     return nodes;
 }
 
-std::vector<Vertice> GraphFactory::RunVerticeFactory(const std::string &verticeFilePath, std::vector<Node> nodes) {
+std::vector<Vertice> GraphFactory::RunVerticeFactory(
+                                            const std::string &verticeFilePath, 
+                                            std::vector<Node> nodes) {
     std::vector<Vertice> vertices;
-
     std::ifstream verticeFileStreamIn(verticeFilePath,std::ios_base::app);
 
     if (verticeFileStreamIn.is_open()) {

@@ -24,7 +24,6 @@ private:
     Node node1;
     Node node2;
     int weight;
-    
 public:
     /**
      * \brief Default constructor
@@ -119,7 +118,8 @@ public:
  * 
  * \return The sf::Packet package with the vector
  */
-sf::Packet & operator<<(sf::Packet & lhs, const std::vector<Vertice> & vertices);
+sf::Packet & operator<<(sf::Packet & lhs, 
+                        const std::vector<Vertice> & vertices);
 
 /**
  * \brief Get vertice vector from sf::Packet

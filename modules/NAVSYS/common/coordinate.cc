@@ -1,10 +1,9 @@
 /**
-* \file      coordinate.cc
-* \brief     Class for saving coordinates
-* \author    Robert Bezem
-* \copyright Copyright (c) 2017, The R2D2 Team
-* \license   See LICENSE
-*/
+ * \file      coordinate.cc
+ * \author    Robert Bezem
+ * \copyright Copyright (c) 2017, The R2D2 Team
+ * \license   See LICENSE
+ */
 
 #include "coordinate.hh"
 #include <math.h>
@@ -53,12 +52,12 @@ float Coordinate::euclideanDistance(const Coordinate &rhs) const {
     return (float) sqrt(pow(x - rhs.x, 2) + pow(y - rhs.y, 2));
 }
 
-sf::Packet &operator<<(sf::Packet & lhs, const Coordinate &coordinate){
+sf::Packet &operator<<(sf::Packet & lhs, const Coordinate &coordinate) {
     lhs << coordinate.x << coordinate.y;
     return lhs;
 }
 
-sf::Packet &operator>>(sf::Packet &lhs, Coordinate &coordinate){
+sf::Packet &operator>>(sf::Packet &lhs, Coordinate &coordinate) {
     lhs >> coordinate.x >> coordinate.y;
     return lhs;
 }

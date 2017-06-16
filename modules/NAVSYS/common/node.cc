@@ -1,6 +1,10 @@
-//
-// Created by Robert  5/19/17.
-//
+/**
+ * \file      node.cc
+ * \author    Robert Bezem
+ * \copyright Copyright (c) 2017, The R2D2 Team
+ * \license   See LICENSE
+ */
+
 #include "node.hh"
 
 Node::Node():
@@ -31,12 +35,15 @@ std::ostream &operator<<(std::ostream &os, const Node &node) {
     os << " @ " << node.coordinate << "\n";
     return os;
 }
+
 bool Node::operator==(const Node &rhs) const {
     return coordinate == rhs.coordinate && name == rhs.name;
 }
+
 bool Node::operator!=(const Node &rhs) const {
     return !(rhs == *this);
 }
+
 float Node::euclideanDistance(const Node &other) const {
     return coordinate.euclideanDistance(other.coordinate);
 }
@@ -46,8 +53,7 @@ Coordinate Node::getCoordinate() const {
 }
 
 std::string Node::getName() const {
-	return name;
-
+    return name;
 }
 
 sf::Packet & operator<<(sf::Packet & lhs, const Node & node) {
@@ -59,8 +65,6 @@ sf::Packet & operator>>(sf::Packet & lhs, Node & node) {
     lhs >> node.coordinate >> node.name;
     return lhs;
 }
-
-
 
 sf::Packet & operator<<(sf::Packet & lhs, const std::vector<Node> & nodes) {
     lhs << (sf::Uint32)nodes.size();

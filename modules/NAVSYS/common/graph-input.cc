@@ -1,11 +1,10 @@
 /**
  * \file      graph-input.cc
- * \brief     This file contains the implementations of the graphIO class,
- *            which is the class that handles all user input in regards to a graph.
- * \author    jeremy
+ * \author    Jeremy
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See LICENSE
  */
+
 #include "graph-input.hh"
 #include <iostream>
 
@@ -37,12 +36,12 @@ void GraphInput::getVerticeEntryFromScreen(Graph &graph) {
     std::cout << "Please enter path weight x: >";
     getline(std::cin, weight);
 
-    /* based on the node names given as input, the information of those nodes are used
-     * to create the nodes of the vertices needed for the construction of a vertice
-     * this is big function because gettting an existing node element from the graph
-     * always results in a iterator*, which cant be used. so now by using the iterator*
-     * to call the get functions of the nodes they point to a new node is made with the same
-     * data.
+    /* based on the node names given as input, the information of those nodes 
+     * are used to create the nodes of the vertices needed for the construction 
+     * of a vertice this is big function because gettting an existing node 
+     * element from the graph always results in a iterator*, which cant be used.
+     * so now by using the iterator* to call the get functions of the nodes they
+     * point to a new node is made with the same data.
      */
     graph.addVertice(Vertice(
         Node(

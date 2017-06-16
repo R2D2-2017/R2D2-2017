@@ -5,6 +5,7 @@
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See LICENSE
  */
+
 #pragma once
 
 #include <string>
@@ -22,7 +23,6 @@ class Graph {
 private:
     std::vector<Node> nodes;
     std::vector<Vertice> vertices;
-
 public:
     /**
      * \brief Add node to graph
@@ -108,10 +108,11 @@ public:
     Node &getNodeByName(const std::string &name);
 
     /**
-     * \brief Function to write the graph to the disk at the specified filepaths.
+     * \brief Function to write the graph to the disk at the specified filepaths
      * 
      * \param [in]nodeFilePath The node filepath
      * \param [in]verticeFilePath The vertice filepath
      */
-    void dumpGraphToDisk(const std::string &nodeFilePath, const std::string &verticeFilePath);
+    void dumpGraphToDisk(const std::string &nodeFilePath, 
+                         const std::string &verticeFilePath);
 };
