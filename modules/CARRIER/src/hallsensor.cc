@@ -35,7 +35,7 @@ void HallSensor::threadMain() {
     while (running) {
         state = digitalRead(hallSensorPin);
         if (!triggerdFlag && state) {
-            revelationCount++;
+            rotationCount++;
             triggerdFlag = true;
         } else if (!state && triggerdFlag) {
             triggerdFlag = false;
