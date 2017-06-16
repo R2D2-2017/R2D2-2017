@@ -1,7 +1,7 @@
 /**
  * \file      client.hh
  * \brief     Header for client side connection code for NAVSYS API
- * \author    Philippe Zwietering, Arco Gelderblom
+ * \author    Philippe Zwietering, Arco Gelderblom, Tim IJntema
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See ../../LICENSE
  */
@@ -45,7 +45,7 @@ private:
 public:
 
     /**
-     * \brief Client constructor
+     * \brief Client constructor with an ip and a port to connect to
      *
      * \param[in] ipAddress sf::IpAddress, the IP address of the server
      * \param[in] port uint16_t, the port of the server
@@ -68,14 +68,16 @@ public:
     /**
      * \brief Requests the path from the server
      *
-     * This function sends the requests for  the path between two nodes.
+     * This function sends the requests for the path between two nodes.
+     * 
+     * \param[in] nodes The two nodes to send to the server
      */
-    void requestPath(StartEndNodeData nodes);
+    void requestPath(const StartEndNodeData &nodes);
     
     /**
      * \brief Request data from the database using a command
      *
      * \param[in] cmd The command to send 
      */
-    void requestDatabaseUsingCommand(const command & cmd);
+    void requestDatabaseUsingCommand(const command &cmd);
 };

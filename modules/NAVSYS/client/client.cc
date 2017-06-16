@@ -1,7 +1,7 @@
 /**
  * \file      client.cc
  * \author    Philippe Zwietering, René de Kluis, Koen de Groot, 
- *            Arco Gelderblom, Tim IJntema
+ *            Arco Gelderblom, Tim IJntema, Tim IJntema
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See ../../LICENSE
  */
@@ -257,13 +257,13 @@ void Client::getDatabaseFromServer() {
     }
 }
 
-void Client::requestDatabaseUsingCommand(const command & cmd) {
+void Client::requestDatabaseUsingCommand(const command &cmd) {
     sf::Packet p;
     p << cmd;  
     sendPacket(p);
 }
 
-void Client::requestPath(StartEndNodeData nodes) {
+void Client::requestPath(const StartEndNodeData &nodes) {
     sf::Packet p;
     p << command::RequestPath << nodes;
     sendPacket(p);

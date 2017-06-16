@@ -1,6 +1,6 @@
 /**
  * \file      server.cc
- * \author    Philippe Zwietering
+ * \author    Philippe Zwietering, Tim IJntema
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See ../../LICENSE
  */

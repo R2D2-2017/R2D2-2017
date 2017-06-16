@@ -1,7 +1,7 @@
 /**
  * \file      server.hh
  * \brief     Header for server side code for NAVSYS API
- * \author    Philippe Zwietering
+ * \author    Philippe Zwietering, Tim IJntema
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See ../../LICENSE
  */
@@ -31,41 +31,43 @@ private:
     Graph g;
 
 public:
-/**
- * \brief Server constructor
- *
- * \param[in]     port    the port the server needs to check for, uint16_t
- */
+    /**
+     * \brief Server constructor
+     *
+     * \param[in] port The port the server needs to check for, uint16_t
+     */
     Server(const uint16_t port);
 
-/**
- * \brief Broadcasts a message to all available clients
- *
- * This functions doesn't check yet if clients are still connected, so it can 
- * return with error messages if clients have already left.
- *
- * \param[in]     message    message that needs to broadcast, std::string
- */
+    /**
+     * \brief Broadcasts a message to all available clients
+     *
+     * This functions doesn't check yet if clients are still connected, so it can 
+     * return with error messages if clients have already left.
+     *
+     * \param[in] message Message that needs to broadcast, std::string
+     */
     template <typename T>
     void broadcastMessage(const command &cmd, const T & message);
 
-/**
- * \brief Runs the server
- *
- * This function gets called in the main, and handles everything that might 
- * happen. It isn't perfect yet, a lot of functionality is still missing.
- */
+    /**
+     * \brief Runs the server
+     *
+     * This function gets called in the main, and handles everything that might 
+     * happen. It isn't perfect yet, a lot of functionality is still missing.
+     */
     void run();
 
-/**
- * \brief Handles client input
- *
- * This functions only handles a graph request right now, which is just a dummy.
- *
- * \param[in]     input    std::string that states the message received from a 
- *                         client
- */
-
+    /**
+     * \brief Handles all client input
+     *
+     * This function handles any input from the client. It should receive a
+     *  command using a packet followed by possibly some data that should come
+     *  with that command. Some processing is done and the function sends a
+     *  command back to the client to make sure the client knows what he wanted
+     *  to do has been done. 
+     *
+     * \param[in] p  The packet containing the command and data for that command
+     */
     void handleInput(sf::Packet & p);
 
 };
