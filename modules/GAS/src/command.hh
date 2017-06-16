@@ -4,9 +4,8 @@
 //    (See accompanying file LICENSE_1_0.txt or copy at      //
 //          http://www.boost.org/LICENSE_1_0.txt)            //
 //===========================================================//
- 
-#ifndef COMMAND_HPP
-#define COMMAND_HPP
+#pragma once
+
 #include <array>
 #include "wrap-hwlib.hh"
 #include "clean.hh"
@@ -22,7 +21,7 @@ class command
 private:
     hwlib::spi_bus & bus; 
     hwlib::pin_out & cs;
-     uint8_t (*data)[8][2];
+    uint8_t (*data)[8][2];
     int time;
     int number_of_matrices;
     int count;
@@ -76,4 +75,3 @@ public:
 
 };
 
-#endif // COMMAND_HPP

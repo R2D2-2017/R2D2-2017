@@ -1,5 +1,5 @@
 #include "wrap-hwlib.hh"
-#include "MAX7219.hh"
+#include "setup.hh"
 
 
 int main( void ){
@@ -16,7 +16,7 @@ int main( void ){
             hwlib::pin_in_dummy
     );
 
-    MAX7219(spi, cs);
+    Setup(spi, cs, 4, 8, 500);
 
 }
 

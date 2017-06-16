@@ -4,9 +4,8 @@
 //    (See accompanying file LICENSE_1_0.txt or copy at      //
 //          http://www.boost.org/LICENSE_1_0.txt)            //
 //===========================================================//
- 
-#ifndef MBIN_TO_MHEX_HPP
-#define MBIN_TO_MHEX_HPP
+
+#pragma once
 #include <array>
 #include "wrap-hwlib.hh"
 
@@ -71,5 +70,3 @@ public:
 
     
 };
-
-#endif // MBIN_TO_MHEX_HPP
