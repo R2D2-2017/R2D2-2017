@@ -66,10 +66,15 @@ int main(int argc, char **argv) {
 
             MFRC522::MIFARE_Key key = {0xFF, 0xFF, 0xFF, 0xFF};
 
+            long value = 0;
+
             if(!rfid.PCD_Authenticate(MFRC522::PICC_CMD_MF_AUTH_KEY_A, (byte)0x03, &key, &rfid.uid))
                 continue;
 
-            
+            if (!rfid.MIFARE_GetValue((byte)0x03, &value))
+                continue;
+
+            std::cout << value << '\n';
 
             for(byte i = 0; i < rfid.uid.size; ++i){
                 if(rfid.uid.uidByte[i] < 0x10){
