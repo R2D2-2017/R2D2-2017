@@ -20,14 +20,18 @@ void temp_wifi_main();
  */
 class Wifi {
     /**
+     * The client id to response to
+     */
+    char id_last_transmition = '0';
+    /**
      * UART input pin the ESP8266 is connected to
      */
-    hwlib::pin_in& rx;
+    hwlib::pin_in &rx;
 
     /**
      * UART output pin the ESP8266 is connected to
      */
-    hwlib::pin_out& tx;
+    hwlib::pin_out &tx;
 
     /**
      * Size of the buffer containing the last received response
@@ -42,7 +46,7 @@ class Wifi {
     /**
      * \brief Sends a string to the wifi module, to end the command send \r\n
      */
-    void send(const hwlib::string<16> &command);
+    void AT(const hwlib::string<16> &command);
 
     /**
      * \brief Receive a response to a command and store it in the internal buffer
@@ -50,8 +54,8 @@ class Wifi {
     void receive();
 
 public:
-    Wifi(hwlib::pin_in& rx, hwlib::pin_out& tx) :
-    rx(rx), tx(tx) { }
+    Wifi(hwlib::pin_in &rx, hwlib::pin_out &tx) :
+            rx(rx), tx(tx) {}
 
     /**
      * \brief Gets the firmware version of the wifi module
@@ -111,5 +115,7 @@ public:
     /**
      * \brief Receives data from the server
      */
-    void receiveData();
+    hwlib::string<16> receiveData();
+
+    void send(const hwlib::string<16> &data);
 };

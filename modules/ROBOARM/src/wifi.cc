@@ -26,8 +26,6 @@ void temp_wifi_main() {
 
     w.getIpAddress();
 
-    w.multipleConnections(true);
-
     w.startServer();
 
     w.getIpAddress();
@@ -38,8 +36,10 @@ void temp_wifi_main() {
 
     hwlib::cout << "Receiving:\r\n";
     for (int i = 0; i < 600; i++) {
-        w.receiveData();
-        hwlib::wait_ms(3000);
+        hwlib::string<16> data = w.receiveData();
+        if(data == "ping"){
+            w.send("pong\n");
+        }
     }
 
     w.stopServer();
@@ -49,7 +49,7 @@ void temp_wifi_main() {
     }
 }
 
-void Wifi::send(const hwlib::string<16> &command) {
+void Wifi::AT(const hwlib::string<16> &command) {
     for (size_t i = 0; i < command.length(); i++) {
         hwlib::uart_putc_bit_banged_pin(command[i], tx);
     }
@@ -57,57 +57,57 @@ void Wifi::send(const hwlib::string<16> &command) {
 
 void Wifi::setupAccessPoint(const hwlib::string<16> &ssid,
                             const hwlib::string<16> &password) {
-    send("AT+CWSAP=\"");
-    send(ssid);
-    send("\",\"");
-    send(password);
-    send("\",5,3\r\n");
+    AT("AT+CWSAP=\"");
+    AT(ssid);
+    AT("\",\"");
+    AT(password);
+    AT("\",5,3\r\n");
 
     receive();
 }
 
 void Wifi::getVersion() {
-    send("AT+GMR\r\n");
+    AT("AT+GMR\r\n");
 
     receive();
 }
 
 void Wifi::getMode() {
-    send("AT+CWMODE?\r\n");
+    AT("AT+CWMODE?\r\n");
 
     receive();
 }
 
 void Wifi::getAccessPoint() {
-    send("AT+CWSAP?\r\n");
+    AT("AT+CWSAP?\r\n");
 
     receive();
 }
 
 void Wifi::getIpAddresses() {
-    send("AT+CWLIF\r\n");
+    AT("AT+CWLIF\r\n");
 
     receive();
 }
 
 void Wifi::getIpAddress() {
-    send("AT+CIFSR\r\n");
+    AT("AT+CIFSR\r\n");
 
     receive();
 }
 
 void Wifi::multipleConnections(bool multiple) {
     if (multiple) {
-        send("AT+CIPMUX=1\r\n");
+        AT("AT+CIPMUX=1\r\n");
     } else {
-        send("AT+CIPMUX=0\r\n");
+        AT("AT+CIPMUX=0\r\n");
     }
 
     receive();
 }
 
 void Wifi::setTransferMode() {
-    send("AT+CIPMODE=0\r\n");
+    AT("AT+CIPMODE=0\r\n");
 
     receive();
 }
@@ -117,15 +117,14 @@ void Wifi::startServer() {
 
     setTransferMode();
 
-    send("AT+CIPSTO?\r\n");
-    receive();
+    multipleConnections(true);
 
-    send("AT+CIPDINFO=1\r\n");
+    AT("AT+CIPSTO?\r\n");
     receive();
 
     hwlib::cout << "Starting Server\r\n";
 
-    send("AT+CIPSERVER=1\r\n");
+    AT("AT+CIPSERVER=1\r\n");
 
     receive();
 
@@ -133,30 +132,73 @@ void Wifi::startServer() {
 }
 
 void Wifi::stopServer() {
-    send("AT+CIPSERVER=0\r\n");
-
+    AT("AT+CIPSERVER=0\r\n");
     receive();
+
+    multipleConnections(false);
 }
 
-void Wifi::receiveData() {
-     send("AT+CIPSTATUS\r\n");
-     receive();
+hwlib::string<16> Wifi::receiveData() {
+    //index in the buffer
+    int i = 0;
 
-     //temporary status code parser
-     hwlib::cout << "Status: [" << buffer[22] << "]\r\n";
-     switch (buffer[22]) {
-         case '2': hwlib::cout << "Waiting for connection\r\n"; break;
-         case '3': hwlib::cout << "TCP Connection active\r\n"; break;
-         case '4': hwlib::cout << "TCP Connection disconnected\r\n"; break;
-         default: hwlib::cout << "Unknown status code\r\n"; break;
-     }
+    //last index used to find the response at the end of the string faster
+    buffer[i] = '\x0';
+    char c;
+    int begin = 0;
+    int end = 0;
 
-     //if status is active tcp connection try to receive data
-     if (buffer[22] == '3') {
-         //receive 30 bytes from connection 0
-         send("+IPD,0,30\r\n");
-         receive();
-     }
+    // wait for response
+    while (i < bufferSize - 1) {
+        c = hwlib::uart_getc_bit_banged_pin(rx);
+
+        //skip 0 bytes
+        if (!c) continue;
+
+        if (begin == 0 && c == '+') {
+            begin = i;
+        }
+
+        buffer[i++] = c;
+        buffer[i] = '\x0';
+        //end of response if buffer ends with y (ready), K (OK), R (ERROR) or
+        //e (no change)
+        if (begin != 0 && i >= begin + 6 && c == ':') {
+            end = i;
+            break;
+        }
+    }
+    // parse data length
+    int dataLen = 0;
+    for (int j = begin + 7; j < end - 1; ++j) {
+        dataLen += buffer[j] - '0';
+    }
+
+    // parse data
+    bool done = false;
+    hwlib::string<16> returnData;
+    while (i < bufferSize - 1 && dataLen > i - end) {
+        c = hwlib::uart_getc_bit_banged_pin(rx);
+
+        //skip 0 bytes
+        if (!c) continue;
+
+        buffer[i++] = c;
+        if (!done) {
+            if (c == '\n')
+                done = true;
+            else
+                returnData += c;
+        }
+        buffer[i] = '\x0';
+    }
+    hwlib::cout << "Data:\r\n----------------------------------\r\n";
+    hwlib::cout << buffer;
+    hwlib::cout << "---------------" << i << "---------------\r\n";
+
+    id_last_transmition = buffer[begin + 5];
+
+    return returnData;
 }
 
 void Wifi::receive() {
@@ -181,7 +223,8 @@ void Wifi::receive() {
             (buffer[i - 3] == 'y' ||
              buffer[i - 3] == 'K' ||
              buffer[i - 3] == 'R' ||
-             buffer[i - 3] == 'e')) break;
+             buffer[i - 3] == 'e'))
+            break;
     }
     //temporary print of responses if response end was found according to
     //comment above
@@ -193,4 +236,16 @@ void Wifi::receive() {
         hwlib::cout << buffer;
         hwlib::cout << "---------------" << i << "---------------\r\n";
     }
+}
+
+void Wifi::send(const hwlib::string<16> &data) {
+    hwlib::string<16> s = "AT+CIPSEND=";
+    s += id_last_transmition;
+    s += ",";
+    s += (char) (data.length() + '0');
+    s += "\r\n";
+    AT(s);
+    receive();
+    AT(data);
+    receive();
 }
