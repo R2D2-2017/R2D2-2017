@@ -67,8 +67,7 @@ int main(int argc, char **argv) {
 
             MFRC522::MIFARE_Key key = {0xFF, 0xFF, 0xFF, 0xFF};
 
-
-            long value = 0x66676869;
+            long value = atol(keypad.getString().c_str());
 
             if(!rfid.PCD_Authenticate(MFRC522::PICC_CMD_MF_AUTH_KEY_A, (byte)0x03, &key, &rfid.uid))
                 continue;
