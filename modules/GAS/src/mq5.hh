@@ -16,20 +16,22 @@ public:
 
 	/**
 	 * \brief Constructor for Mq5
-	 * Initializes the sensor adc pin and sets the calibration value by using readSensorAverage(25)
+	 * Initializes the sensor adc pin and sets the calibration value by using readSensorAverage(25,0.2)
 	 * @param sensor 	The analog pin the gas sensor is connected to.
+	 * @param meanFilter The strictness of the mean-filter used on the average calculation
 	 */
-	Mq5(hwlib::target::pin_adc &sensor)
-			: sensor(sensor) {
+	Mq5(hwlib::target::pin_adc &sensor, float meanFilter)
+			: sensor(sensor), meanFilter(meanFilter) {
 		hwlib::cout << "Calibrating mq-5...\r\n";
-		calibrationValue = readSensorAverage(25);
+		calibrationValue = readSensorAverage(25,meanFilter);
 		hwlib::cout << "Done Calibrating mq-5!\r\n\n";
 	}
+
 
 	/**
 	 * \brief Reads the gas sensor using readGasSensorAverage(sensor, 5),
 	 *		  compares the returned value of this to the calibration value
-	 *		  and returns a percentage (100 if equel to calibration value).
+	 *		  and returns a percentage (100 if equal to calibration value).
 	 * \returns A percentage which is equal to 100 when the read value is equal to the calibration value.
 	 */
 	int getSensorPercentage();
@@ -40,6 +42,11 @@ private:
      * The pin the mq-5 sensor is connected to
      */
 	hwlib::target::pin_adc &sensor;
+
+    /**
+     * The strictness of the mean-filter
+     */
+    float meanFilter;
 
 	/**
 	 * The calibration value read/set during startup
@@ -55,7 +62,8 @@ private:
 	/**
 	 * \brief Reads the gas sensor data 5 times and returns an average of the read values.
 	 * \param quantityCounter 	The given amount of times the gas sensor is going to be read.
+	 * \param meanFilter	The strictness of the mean-filter.
 	 * \returns The average measured data as float voltage.
 	 */
-	float readSensorAverage(int quantityCounter);
+	float readSensorAverage(int quantityCounter, float meanFilter);
 };

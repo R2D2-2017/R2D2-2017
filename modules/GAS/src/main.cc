@@ -53,7 +53,7 @@ int main(){
     SdSpi sd(cs, spiBus);
     Speaker player( speakerPin );
     Alarm alarm(105, alarmLed, player);
-    Mq5 mq5(sensor);
+    Mq5 mq5(sensor,0.2);
     MuStore::FatFs fileSystem(&sd);
     MuStore::FsError err;
 
