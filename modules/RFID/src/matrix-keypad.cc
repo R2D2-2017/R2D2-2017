@@ -54,7 +54,7 @@ std::string MatrixKeypad::getString(){
             pincode += c;
             std::cout << "Key entered\n";
         }
-        delay(300);
+        delay(150);
         c= getKey();
     }
     return pincode;

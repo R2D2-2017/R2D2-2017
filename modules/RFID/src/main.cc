@@ -41,17 +41,17 @@ int main(int argc, char **argv) {
         connection.selectDatabase("R2D2");
 
         std::cout << "Made connection to the database\n";
-        //wiringPiSetup();
-        //wiringPiSPISetup(0, 10000000);//max speed for mfrc522 is 10Mhz
+        wiringPiSetup();
+        wiringPiSPISetup(0, 10000000);//max speed for mfrc522 is 10Mhz
         MFRC522 rfid;
         rfid.PCD_Init();
 
         //Keypad pinSetup
-        //const int keypadRow[] = {4, 1, 16, 15};
-        //const int keypadColumn[] = {2, 7, 9, 8};
+        const int keypadRow[] = {4, 1, 16, 15};
+        const int keypadColumn[] = {2, 7, 9, 8};
 
         //Keypad objects
-        //MatrixKeypad keypad(keypadRow, keypadColumn, 4);
+        MatrixKeypad keypad(keypadRow, keypadColumn, 4);
         char c;
 
         LedController led(0);
@@ -67,7 +67,9 @@ int main(int argc, char **argv) {
 
             MFRC522::MIFARE_Key key = {0xFF, 0xFF, 0xFF, 0xFF};
 
-            long value = 0x98765;
+            std::cout << "Input PIN and finish with #\n";
+
+            long value = atol(keypad.getString().c_str());
 
             if(!rfid.PCD_Authenticate(MFRC522::PICC_CMD_MF_AUTH_KEY_A, (byte)0x03, &key, &rfid.uid))
                 continue;
