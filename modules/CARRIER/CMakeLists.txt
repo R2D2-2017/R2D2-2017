@@ -13,6 +13,8 @@ find_library(WIRINGPI_LIBRARIES NAMES wiringPi)
 find_path(WIRINGPI_INCLUDE_DIRS NAMES wiringPi.h)
 include_directories(${WIRINGPI_INCLUDE_DIRS})
 
+find_package (Threads)
+
 set(sources
     src/serial-com.cc
     src/motor.cc
@@ -23,5 +25,6 @@ set(sources
     src/main.cc
     )
 
+
 add_executable(${exe_name} ${sources})
-target_link_libraries(${exe_name} ${WIRINGPI_LIBRARIES})
+target_link_libraries(${exe_name} ${WIRINGPI_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT})
