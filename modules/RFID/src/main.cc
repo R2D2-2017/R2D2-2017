@@ -47,11 +47,11 @@ int main(int argc, char **argv) {
         rfid.PCD_Init();
 
         //Keypad pinSetup
-        const int keypadRow[] = {4, 1, 16, 15};
-        const int keypadColumn[] = {2, 7, 9, 8};
+        //const int keypadRow[] = {4, 1, 16, 15};
+        //const int keypadColumn[] = {2, 7, 9, 8};
 
         //Keypad objects
-        MatrixKeypad keypad(keypadRow, keypadColumn, 4);
+        //MatrixKeypad keypad(keypadRow, keypadColumn, 4);
         char c;
 
         LedController led(0);
@@ -67,7 +67,7 @@ int main(int argc, char **argv) {
 
             MFRC522::MIFARE_Key key = {0xFF, 0xFF, 0xFF, 0xFF};
 
-            long value = atol(keypad.getString().c_str());
+            long value = 0x98765;
 
             if(!rfid.PCD_Authenticate(MFRC522::PICC_CMD_MF_AUTH_KEY_A, (byte)0x03, &key, &rfid.uid))
                 continue;
@@ -122,26 +122,26 @@ int main(int argc, char **argv) {
 //            } else{
 //                std::cout << "Something else went wrong reading the key\n";
 //            }
-
-            std::cout << "Waiting for key press\n";
-            while ((c = keypad.getKey()) == 'h') {
-                delay(100);
-            }
-
-            std::cout << c << " key has been pressed\n";
-
-            std::cout << "Enter a pincode, ending with '#'\n";
-
-            std::string pin = keypad.getString();
-            std::cout << "The pin you entered was: " << pin << "\n";
-
-            connection.executeQuery("SELECT * FROM RFID");
-
-            std::cout << "Database information: "
-                      << connection.getPreviousResponseColumn("CARD_ID")
-                      << '\n';
-
-            led.blinkLed(1000);
+//
+//            std::cout << "Waiting for key press\n";
+//            while ((c = keypad.getKey()) == 'h') {
+//                delay(100);
+//            }
+//
+//            std::cout << c << " key has been pressed\n";
+//
+//            std::cout << "Enter a pincode, ending with '#'\n";
+//
+//            std::string pin = keypad.getString();
+//            std::cout << "The pin you entered was: " << pin << "\n";
+//
+//            connection.executeQuery("SELECT * FROM RFID");
+//
+//            std::cout << "Database information: "
+//                      << connection.getPreviousResponseColumn("CARD_ID")
+//                      << '\n';
+//
+//            led.blinkLed(1000);
         }
     } catch (const std::string &error) {
         std::cerr << error << '\n';
