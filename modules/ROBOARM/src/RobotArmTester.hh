@@ -12,45 +12,12 @@
 #include "wrap-hwlib.hh"
 
 class RobotArmTester {
-    hwlib::string<12> commandList1[] = {
-            // Reset
-            "RESET 1",
-
-            // Z axis test
-            "WAIT_S 2", "Z 90", "WAIT_S 2", "Z -90", "WAIT_S 2",
-
-            // Y axis test
-            "Y 90", "WAIT_S 2", "Y -45", "WAIT_S 2",
-
-            // X axis test
-            "X 45", "WAIT_S 2", "X -45", "WAIT_S 2",
-
-            // Reset
-            "RESET 1",
-    };
-    hwlib::string<12> commandList2[] = {
-            // Reset
-            "RESET 1",
-
-            // Z axis test
-            "WAIT_S 2", "Z 90", "WAIT_S 2", "Z -90", "WAIT_S 2", "Z 180",
-            "WAIT_S 2", "Z -180", "WAIT_S 2",
-
-            // Y axis test
-            "Y 90", "WAIT_S 2", "Y -90", "WAIT_S 2", "Y 180", "WAIT_S 2",
-            "Y -180", "WAIT_S 2",
-
-            // X axis test
-            "X 90", "WAIT_S 2", "X -90", "WAIT_S 2", "X 180", "WAIT_S 2",
-            "X -240",
-
-            // Reset
-            "RESET 1",
-    };
+    static const hwlib::string<12> commandList1[];
+    static const hwlib::string<12> commandList2[];
 
     RoboArm::RobotArmController &robotarm;
 
-    void test(hwlib::string<12> *commandList, int commandListLen);
+    void run_test(const hwlib::string<12> *commandList, int commandListLen);
 
 public:
     RobotArmTester(RoboArm::RobotArmController &robotarm);
