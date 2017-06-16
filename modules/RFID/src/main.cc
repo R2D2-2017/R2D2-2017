@@ -82,6 +82,8 @@ int main(int argc, char **argv) {
 
             std::cout << value << '\n';
 
+            rfid.PCD_StopCrypto1();
+
             for(byte i = 0; i < rfid.uid.size; ++i){
                 if(rfid.uid.uidByte[i] < 0x10){
                     printf(" 0");
