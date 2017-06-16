@@ -65,3 +65,35 @@ void command::cleaner()
     }
 }
 
+void command::coverter(uint8_t (*matrix_temp)[8], uint8_t (*matrix_data)[2])
+{
+    for(int i = 0; i < 8; i++)                                  // Row 0-7;
+    {
+        uint8_t tmp = 0;                                           // An temp uint8_t, in to this uint8_t data will be shifted to make from an matrix row, 1 uint8_t.
+        int counter = 0;                                        // Counter column 7-0;
+        for(int j = 8; j >= 0; j--)                             // J is an shifter, matrix(_tmp) will be shifted J places in tmp.
+        {
+            tmp = tmp | matrix_temp[i][counter-1] << (j);        // and then shifed J times.
+            counter++;                                      // Next column!
+        }                                                       //matrix_data is and 8x2 marix, it will be filled with:
+        matrix_data[i][0] = i+1;                                //Row number. i+1 is because the rows start from 1 and NOT 0.
+        matrix_data[i][1] = tmp;                                //Column data.
+    }
+
+}
+
+void command::render(uint8_t (*render_input)[8]) {
+    command Aether(bus, cs, array_data, time, number_of_matrices, count, string_lenght);
+
+
+    Aether.coverter(render_input, matrix_data);
+    static int j = 0;
+    for (int i = 0; i < count; i++) {
+        array_data[j][i][1] = matrix_data[i][1];
+    }
+    j++;
+    if (j == string_lenght) {
+        Aether.commander();
+    }
+}
+

@@ -9,7 +9,7 @@
 
 #include "wrap-hwlib.hh"
 #include "command.hh"
-#include "matrix.hh"
+
 
 class Setup
 {
@@ -42,8 +42,7 @@ public:
         char input_string[] = {"1234567890-+"};
         int string_lenght = sizeof(input_string)/sizeof(input_string[0]) + number_of_matrices*2 - 1;
 
-        Matrixz display(bus, cs, time, number_of_matrices, count, string_lenght);
-        command tempObject(bus, cs, nullptr,time, number_of_matrices, count, string_lenght);
+        command display(bus, cs, nullptr, time, number_of_matrices, count, string_lenght);
 
         for(int i =0; i < number_of_matrices; i++)
         {
@@ -71,8 +70,8 @@ public:
         {
             display.render(char_space);
         }
-        tempObject.cleaner();
-        tempObject.command_settings(data);
+        display.cleaner();
+        display.command_settings(data);
     }
 
 };
