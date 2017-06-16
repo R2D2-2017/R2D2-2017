@@ -9,11 +9,11 @@ enable_testing()
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 
-#set(cxxflags
-#        "-lbcm2835")
-#
-#string(REGEX REPLACE ";" " " cxxflags "${cxxflags}")
-#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${cxxflags}")
+set(ldflags
+        "-lbcm2835")
+
+string(REGEX REPLACE ";" " " ldflags "${ldflags}")
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${LDflags}")
 
 find_library(WIRINGPI_LIBRARIES NAMES wiringPi)
 find_path(WIRINGPI_INCLUDE_DIRS NAMES wiringPi.h)
@@ -30,5 +30,5 @@ set(sources
     src/config-file-parser.cc)
 
 add_executable(${exe_name} ${sources})
-target_link_libraries(${exe_name} ${mysqlcppconn_LIBRARIES})
+target_link_libraries(${exe_name} ${WRINGPI_LIBRARIES} ${mysqlcppconn_LIBRARIES})
 
