@@ -4,17 +4,18 @@
 //    (See accompanying file LICENSE_1_0.txt or copy at      //
 //          http://www.boost.org/LICENSE_1_0.txt)            //
 //===========================================================//
-
-#pragma once
+ 
+#ifndef MBIN_TO_MHEX_HPP
+#define MBIN_TO_MHEX_HPP
 #include <array>
-#include "wrap-hwlib.hh"
+#include "hwlib.hpp"
 
 class mbin_to_mhex
 {
 private:
 uint8_t (*matrix)[8];
 uint8_t (*matrix_data)[2];
-int inverd;
+
 public:
 ///converter this function translates an 8x8 matrix in an 8x2 matrix.
 //
@@ -23,8 +24,8 @@ public:
 ///Now theres added register data, so reading this matrix out will give you, the data to write and the register to write to. \n
 ///The way its gets written in to the matrix is that (*matrix)[0]is the rigster adress and (*matrix)[1] is the data. \n
 /// this makes it reuseble you can ignore the first adress and only use the data, then pare it ypu self to other adresses. \n
-        mbin_to_mhex(uint8_t (*matrix)[8], uint8_t (*matrix_data)[2], int inverd=0):
-        matrix(matrix), matrix_data(matrix_data), inverd(inverd)
+        mbin_to_mhex(uint8_t (*matrix)[8], uint8_t (*matrix_data)[2]):
+        matrix(matrix), matrix_data(matrix_data)
         {};
 
         void coverter()
@@ -43,24 +44,8 @@ public:
                 int counter = 0;                                        // Counter column 7-0;
                 for(int j = 8; j >= 0; j--)                             // J is an shifter, matrix(_tmp) will be shifted J places in tmp.
                 {
-                    if(inverd != 0 )                                    // Checks if inversion is true.
-                    {
-                        if(matrix[i][counter-1]==0)                     // Checks if matrix is an 0
-                        {
-                            matrix_tmp[i][counter-1]=1;                 // If true matrix_tmp equals 1
-                        }                                               // Now the value is inverded
-                        else
-                        {
-                            matrix_tmp[i][counter-1]=0;
-                        }                                               // Matrix_tmp is OR-ed with tmp, tmp is 0 so the data from matrix_tmp is put in to tmp.
-                        tmp = tmp | matrix_tmp[i][counter-1] << (j);    // and then shifed J times.
+                    tmp = tmp | matrix[i][counter-1] << (j);        // and then shifed J times.
                         counter++;                                      // Next column!
-                    }
-                    else
-                    {                                                   // Matrix is ORed with tmp, tmp is 0 so the data from matrix is put in to tmp
-                        tmp = tmp | matrix[i][counter-1] << (j);        // and then shifed J times.
-                        counter++;                                      // Next column!
-                    }
                 }                                                       //matrix_data is and 8x2 marix, it will be filled with:
                 matrix_data[i][0] = i+1;                                //Row number. i+1 is because the rows start from 1 and NOT 0.
                 matrix_data[i][1] = tmp;                                //Column data. 
@@ -70,3 +55,5 @@ public:
 
     
 };
+
+#endif // MBIN_TO_MHEX_HPP

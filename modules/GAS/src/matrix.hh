@@ -8,7 +8,6 @@
 #include "command.hh"
 #include "mbin_to_mhex.hh"
 
-
 class Matrixz {
 
 private:
