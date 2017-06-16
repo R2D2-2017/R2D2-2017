@@ -17,6 +17,10 @@ Server::Server(const uint16_t port):
     std::string verticeFilePath = "../server/vertice.txt";
     GraphFactory factory;
     factory.createGraph(nodeFilePath,verticeFilePath, g);
+    
+    Node start(g.getNodeByName("S"));
+        Node end(g.getNodeByName("J"));
+        (void)aStar(g, start, end);
 }
 
 template <typename T>
