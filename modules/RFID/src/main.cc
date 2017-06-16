@@ -72,6 +72,7 @@ int main(int argc, char **argv) {
                     printf(" ");
                     printf("%X", rfid.uid.uidByte[i]);
                 }
+                delay(1000);
             }
 
 
