@@ -9,21 +9,18 @@
 #pragma once
 
 #include <SFML/Network.hpp>
-#include <vector>
 #include <memory>
-#include <string>
 
-#include "../common/pathnode.hh"
 #include "../common/protocol.hh"
 #include "../common/graph.hh"
-#include "../common/graph-factory.hh"
 
 typedef std::shared_ptr<sf::TcpSocket> sharedSocketPtr_t;
 
 /**
  * \brief Server class
  *
- * This class handles everything an API server should do, it accepts new clients over TCP and sends messages to them after requests.
+ * This class handles everything an API server should do, it accepts new clients 
+ * over TCP and sends messages to them after requests.
  */
 class Server{
 private:
@@ -44,7 +41,9 @@ public:
 /**
  * \brief Broadcasts a message to all available clients
  *
- * This functions doesn't check yet if clients are still connected, so it can return with error messages if clients have already left.
+ * This functions doesn't check yet if clients are still connected, so it can 
+ * return with error messages if clients have already left.
+ *
  * \param[in]     message    message that needs to broadcast, std::string
  */
     template <typename T>
@@ -53,7 +52,8 @@ public:
 /**
  * \brief Runs the server
  *
- * This function gets called in the main, and handles everything that might happen. It isn't perfect yet, a lot of functionality is still missing.
+ * This function gets called in the main, and handles everything that might 
+ * happen. It isn't perfect yet, a lot of functionality is still missing.
  */
     void run();
 
@@ -62,7 +62,8 @@ public:
  *
  * This functions only handles a graph request right now, which is just a dummy.
  *
- * \param[in]     input    std::string that states the message received from a client
+ * \param[in]     input    std::string that states the message received from a 
+ *                         client
  */
 
     void handleInput(sf::Packet & p);
