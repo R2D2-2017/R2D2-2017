@@ -20,7 +20,7 @@ int main(void) {
     HallSensor      hallSensor(hallPin);
 
     pinMode(statusLed, OUTPUT);
-    Carrier::CarrierController stateMachine(controller, sonarSensor, 100, 50);
+    Carrier::CarrierController stateMachine(controller, sonarSensor, 50, 50);
 
     // test
     while (true) {
@@ -38,24 +38,25 @@ int main(void) {
         std::string command = serialCom.readCommand();
         if (command != "-1") {
             if (command.find("FORWARD") != std::string::npos) {
-                stateMachine.forward(100);
                 serialCom.write("GOING FORWARD");
+                stateMachine.forward(100);
             } else if (command.find("BACKWARD") != std::string::npos) {
-                stateMachine.backward(100);
                 serialCom.write("GOING BACKWARD");
+                stateMachine.backward(100);
             } else if (command.find("LEFT") != std::string::npos) {
-                stateMachine.left(100);
                 serialCom.write("GOING LEFT");
+                stateMachine.left(100);
             } else if (command.find("RIGHT") != std::string::npos) {
-                stateMachine.right(100);
                 serialCom.write("GOING RIGHT");
+                stateMachine.right(100);
             } else if (command.find("STOP") != std::string::npos) {
-                stateMachine.stop();
                 serialCom.write("STOPPING");
+                stateMachine.stop();
             }
 
             printf("%s", command.c_str());
         }
         stateMachine.update();
+        delay(100);
     }
 }

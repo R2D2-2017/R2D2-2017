@@ -5,6 +5,6 @@ Motor::Motor(std::string portName, int baud) : portName(portName), baud(baud) {
 }
 
 void Motor::sendCommand(char hexCommand, int speed) {
-    char fullCommand[] = { MotorControls::startBit, MotorControls::deviceId, hexCommand, char(speed) };
+    char fullCommand[] = { MotorControls::startBit, MotorControls::deviceId, hexCommand, char(speed), '\0' };
     serialPuts(openPort, fullCommand);
 }

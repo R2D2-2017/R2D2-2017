@@ -7,7 +7,6 @@
  */
 #include "hallsensor.hh"
 
-
 HallSensor::HallSensor(const int hallSensorPin, const std::chrono::nanoseconds pollTime)
 : hallSensorPin(hallSensorPin), pollTime(pollTime) {
     pinMode(hallSensorPin, INPUT);
