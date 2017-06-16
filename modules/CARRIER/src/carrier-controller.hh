@@ -42,7 +42,7 @@ public:
      * \param[in]  speed            the speed in ???-units
      */
     CarrierController(MotorController &motorController, HcSr04 &sonarSensor,
-                      float distThreshold = 0.5f, int speed = 0.1f);
+                      float distThreshold = 0.5f, int speed = 1);
 
     /**
      * \brief Deconstructor of CarrierController

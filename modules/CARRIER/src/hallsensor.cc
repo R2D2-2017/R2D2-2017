@@ -6,7 +6,6 @@
  * \license   See LICENSE
  */
 #include "hallsensor.hh"
-#include "wiringPi.h"
 
 
 HallSensor::HallSensor( int & hallSensorPin ):

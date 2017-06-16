@@ -39,9 +39,6 @@ void Carrier::CarrierController::update() {
         }
         break;
     case CarrierState::Turning:
-        if (sonarSensor.getDistance() <= distThreshold) {
-            stop();
-        }
         break;
     case CarrierState::Sensing:
         break;
@@ -49,10 +46,14 @@ void Carrier::CarrierController::update() {
 }
 
 void Carrier::CarrierController::forward(float distance) {
-    state = CarrierState::Driving;
-    motorController.forward(speed);
-    startTime = std::chrono::steady_clock::now();
-    targetTime = std::chrono::steady_clock::time_point(timeUntilDestination(distance) + startTime.time_since_epoch());
+    if (sonarSensor.getDistance() <= distThreshold) {
+        stop();
+    } else {
+        state = CarrierState::Driving;
+        motorController.forward(speed);
+        startTime = std::chrono::steady_clock::now();
+        targetTime = std::chrono::steady_clock::time_point(timeUntilDestination(distance) + startTime.time_since_epoch());
+    }
 }
 
 void Carrier::CarrierController::backward(float distance) {

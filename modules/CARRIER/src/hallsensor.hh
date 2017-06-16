@@ -7,6 +7,7 @@
  */
 
 #pragma once
+#include <wiringPi.h>
 
 class HallSensor {
 private:

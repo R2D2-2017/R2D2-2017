@@ -6,20 +6,20 @@
  * \license   See LICENSE
  */
 #include "hc-sr04.hh"
-#include "wiringPi.h"
 
 
 HcSr04::HcSr04( int & TriggerPin,int & EchoPin ):
     TriggerPin( TriggerPin ),
     EchoPin( EchoPin )
-{}
+{
+        // set pins
+    pinMode (TriggerPin, OUTPUT);
+    pinMode (EchoPin, INPUT);
+}
 
 
 
 double HcSr04::getDistance(){
-    // set pins
-    pinMode (TriggerPin, OUTPUT);
-    pinMode (EchoPin, INPUT);
     // Send signal to sensor
     digitalWrite ( TriggerPin, 1 );
     delayMicroseconds( 10 );
