@@ -1,14 +1,16 @@
 /**
-* \file      button.cc
-* \brief     This class will let a button appear in a SFML window.
-* \author    René de Kluis, Koen de Groot
-* \copyright Copyright (c) 2017, The R2D2 Team
-* \license   See LICENSE
-*/
+ * \file      button.cc
+ * \author    René de Kluis, Koen de Groot
+ * \copyright Copyright (c) 2017, The R2D2 Team
+ * \license   See LICENSE
+ */
 
 #include "button.hh"
+#include <iostream>
+#include "mouse.hh"
 
-Button::Button(sf::RenderWindow & window, sf::Vector2f position, sf::Vector2f size, int id, std::string text, bool isVisable) :
+Button::Button(sf::RenderWindow & window, sf::Vector2f position, 
+               sf::Vector2f size, int id, std::string text, bool isVisable):
     window(window),
     position(position),
     size(size),
@@ -21,7 +23,7 @@ Button::Button(sf::RenderWindow & window, sf::Vector2f position, sf::Vector2f si
     button.setPosition(position);
 
     if (!font.loadFromFile(fontName)) {
-        std::cout << "Requested font could not be loaded.\n";
+        std::cerr << "Requested font could not be loaded.\n";
     }
     buttonText.setFont(font);
     buttonText.setPosition(position);
@@ -36,7 +38,6 @@ Button::Button(sf::RenderWindow & window, sf::Vector2f position, sf::Vector2f si
         button.setFillColor(sf::Color::Transparent);
         button.setOutlineColor(sf::Color::Transparent);
         buttonText.setColor(sf::Color::Transparent);
-        //buttonText.setFillColor(sf::Color::Transparent);
     }
 
 }
@@ -63,17 +64,15 @@ bool Button::getFocus() {
     return isFocused;
 }
 
-
-
-
-void Button::setSize(sf::Vector2f newSize){
+void Button::setSize(sf::Vector2f newSize) {
     button.setSize(newSize);
     size = newSize;
 }
-void Button::setText(std::string newText){
+void Button::setText(std::string newText) {
     buttonText.setString(newText);
 }
-void Button::setPosition(sf::Vector2f newPosition){
+
+void Button::setPosition(sf::Vector2f newPosition) {
     button.setPosition(newPosition);
     buttonText.setPosition(newPosition);
     position = newPosition;
@@ -117,7 +116,5 @@ sf::Vector2f Button::getSize(){
 }
 
 sf::FloatRect Button::getBounds() {
-    sf::FloatRect boundingBox(position.x, position.y, size.x, size.y);
-    return boundingBox;
+    return sf::FloatRect(position.x, position.y, size.x, size.y);
 }
-

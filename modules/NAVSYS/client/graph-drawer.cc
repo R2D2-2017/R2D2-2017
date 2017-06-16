@@ -1,28 +1,26 @@
 /**
-* \file      graph-drawer.cc
-* \brief     graphs in sfmlgraphics window
-* \author    Leo Jenneskens, Arco Gelderblom
-* \copyright Copyright (c) 2017, The R2D2 Team
-* \license   See LICENSE
-*/
+ * \file      graph-drawer.cc
+ * \author    Leo Jenneskens, Arco Gelderblom
+ * \copyright Copyright (c) 2017, The R2D2 Team
+ * \license   See LICENSE
+ */
+
 #include "graph-drawer.hh"
 
 GraphDrawer::GraphDrawer(sf::RenderWindow & window):
-		window( window )
+    window(window)
 {}
 
-void GraphDrawer::draw(){
-	for(auto & it : graphNodes) {
-		it.draw(window);
-	}
-	for(auto & it :  graphVertices) {
-		it.draw(window);
-	}
-        //window.display();
+void GraphDrawer::draw() {
+    for (auto & it : graphNodes) {
+        it.draw(window);
+    }
+    for (auto & it : graphVertices) {
+        it.draw(window);
+    }
 }
 
 void GraphDrawer::reload(Graph * g) {
-    const int scaling = 65;
     clear();
     std::vector<Node> nodeVector = g->getNodes();	
     for (auto & it : nodeVector) {
@@ -31,7 +29,7 @@ void GraphDrawer::reload(Graph * g) {
                 sf::Vector2f(
                     it.getCoordinate().x*scaling,
                     it.getCoordinate().y*scaling),
-                it.getName() ));
+                it.getName()));
     }
     std::vector<Vertice> verticeVector = g->getVertices();	
     for (auto & it : verticeVector) {
@@ -47,7 +45,7 @@ void GraphDrawer::reload(Graph * g) {
     }
 }
 
-void GraphDrawer::clear(){
+void GraphDrawer::clear() {
     graphNodes.clear();
     graphVertices.clear();
 }
@@ -77,10 +75,15 @@ void GraphDrawer::setEndNode(std::string nodeName) {
 void GraphDrawer::highlightPath(std::vector<PathNode> path) {
     // loop through the path
     for (unsigned int i = 0; i < path.size()-1; i++) {
-        for(auto vertice = graphVertices.begin(); vertice != graphVertices.end(); ++vertice) {
-            // check per vertice whether it is the right one, if so, highlight it by changing the color to blue
-            if (vertice->checkVertice(sf::Vector2f(path[i].getCoordinate().x*scaling,path[i].getCoordinate().y*scaling),
-                                  sf::Vector2f(path[i+1].getCoordinate().x*scaling,path[i+1].getCoordinate().y*scaling))) {
+        for (auto vertice = graphVertices.begin();
+            vertice != graphVertices.end(); ++vertice) {
+            // check per vertice whether it is the right one
+            // if so, highlight it by changing the color to blue
+            if (vertice->checkVertice(
+                sf::Vector2f(path[i].getCoordinate().x*scaling,
+                    path[i].getCoordinate().y*scaling),
+                sf::Vector2f(path[i+1].getCoordinate().x*scaling,
+                    path[i+1].getCoordinate().y*scaling))) {
                 vertice->changeColor(sf::Color::Blue);
                 draw();
             }
@@ -88,7 +91,7 @@ void GraphDrawer::highlightPath(std::vector<PathNode> path) {
     }
 }
 
-GraphNode GraphDrawer::checkNodeClicked(){
+GraphNode GraphDrawer::checkNodeClicked() {
     GraphNode dummy({ 0,0 },"dummy");
     for (auto & indexer : graphNodes) {
         if (indexer.isPressed(window)) {

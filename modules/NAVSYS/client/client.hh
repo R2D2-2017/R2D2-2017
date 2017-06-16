@@ -1,5 +1,5 @@
 /**
- * \file 
+ * \file      client.hh
  * \brief     Header for client side connection code for NAVSYS API
  * \author    Philippe Zwietering, Arco Gelderblom
  * \copyright Copyright (c) 2017, The R2D2 Team
@@ -9,13 +9,6 @@
 #pragma once
 
 #include <SFML/Network.hpp>
-#include <string>
-
-#include "../common/graph-factory.hh"
-#include "graph-drawer.hh"
-#include "../common/graph-input.hh"
-#include "button.hh"
-#include "mouse.hh"
 #include "../common/graph.hh"
 #include "../common/protocol.hh"
 
@@ -24,8 +17,9 @@ enum class button {ShutDown,StartNode,EndNode};
 /**
  * \brief Client class
  *
- * This class should contain all the functionality a navigation system should ever want to have.
- *  It makes a connection with a server object via TCP and in the future will handle user input.
+ * This class should contain all the functionality a navigation system should 
+ * ever want to have. It makes a connection with a server object via TCP and 
+ * handles user input
  */
 class Client {
 private:
@@ -60,23 +54,21 @@ public:
     
     /**
      * \brief Runs the client
-     *
-     * Runs all the client things. Only functionality right now is connecting with a server,
-     *  asking for a graph and displaying all server messages on screen.
      */
     void run();
     
     /**
      * \brief Requests the database from the server
      *
-     * this function sends the requests for  the data contained in the node and vertices file.
+     * This function sends the requests for the data contained in the node and 
+     * vertices file.
      */
     void getDatabaseFromServer();
 
     /**
      * \brief Requests the path from the server
      *
-     * this function sends the requests for  the path between two nodes.
+     * This function sends the requests for  the path between two nodes.
      */
     void requestPath(StartEndNodeData nodes);
     
@@ -86,14 +78,4 @@ public:
      * \param[in] cmd The command to send 
      */
     void requestDatabaseUsingCommand(const command & cmd);
-
-
-    /**
-     * \brief Execute a command corresponding with the pressed button.
-     *
-     * \param[in,out]    window          The SFML window
-     * \param[in]        buttonId        The ID of the selected button
-     * \param[in]        clickedNode     The selected GraphNode
-     */
-    void buttonAction(sf::RenderWindow & window, int buttonId, GraphNode clickedNode);
 };

@@ -1,5 +1,5 @@
 /**
- * \file
+ * \file      main.cc
  * \brief     Start up the client side of the navsys system
  * \author    Philippe Zwietering
  * \copyright Copyright (c) 2017, The R2D2 Team
