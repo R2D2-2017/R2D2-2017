@@ -52,12 +52,16 @@ int main() {
     w.startServer();
 
     using namespace RoboArm::Parser;
-    for (int i = 0; i < 600; i++) {
+    r.enable();
+    while (true) {
         hwlib::string<16> command = w.receiveData();
 
         if (command == "ping") {
             w.send("pong\n");
             continue;
+        }
+        if (command == "exit"){
+            break;
         }
 
         Status result = parseCommand(command, r);
@@ -71,13 +75,14 @@ int main() {
                 break;
         }
     }
+    r.disable();
 
 //    I2C i2c(i2c_bus);
 //    i2c.runDemo();
-//
-//    RobotArmTester tester(r);
-//
-//    tester.run();
+
+    RobotArmTester tester(r);
+
+    tester.run();
 
     return 0;
 }
