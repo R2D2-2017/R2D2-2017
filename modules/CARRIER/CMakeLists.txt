@@ -22,6 +22,7 @@ set(sources
     src/states/i-carrier-state.hh   
     src/states/forward-state.cc    
     src/states/backward-state.cc
+    src/states/idle-state.cc    
     src/main.cc
     )
 

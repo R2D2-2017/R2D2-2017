@@ -2,11 +2,12 @@
 namespace Carrier
 {
     enum class CarrierState {
-    Forward,
-    Backward,
-    Clockwise,
-    CounterClockwise
-};
+        Idle,
+        Forward,
+        Backward,
+        Clockwise,
+        CounterClockwise
+    };
 
 class ICarrierState {
     public:

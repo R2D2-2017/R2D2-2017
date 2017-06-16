@@ -15,6 +15,8 @@
 #include "./states/i-carrier-state.hh"
 #include "./states/forward-state.hh"
 #include "./states/backward-state.hh"
+#include "./states/idle-state.hh"
+
 namespace Carrier {
 
 /**

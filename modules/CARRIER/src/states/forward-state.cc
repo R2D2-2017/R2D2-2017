@@ -5,11 +5,10 @@ ForwardState::ForwardState(CarrierController* controller) : controller(controlle
     // if (controller->sonarSensor.getDistance() <= distThreshold) {
         // controller->setState(new IdleState(controller));
     // }
-    //  controller->getMotorController()->forward(100);
+     controller->getMotorController()->forward(100);
 }
 
 void ForwardState::update() {
-    controller->getMotorController()->forward(100);
     // if (controller->sonarSensor.getDistance() <= distThreshold) {
         // controller->setState(new IdleState(controller));
     // }

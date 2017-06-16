@@ -14,11 +14,11 @@ int main(void) {
 
     MotorController controller("/dev/ttyS0", 38400);
     SerialCom       serialCom("/dev/rfcomm0", 9600);
-    // HcSr04          sonarSensor(trigger,echo);
+    HcSr04          sonarSensor(trigger,echo);
 
     wiringPiSetup();
     pinMode(statusLed, OUTPUT);
-    // Carrier::CarrierController stateMachine(controller, sonarSensor, 50, 50);
+    Carrier::CarrierController stateMachine(controller, sonarSensor, 50, 50);
 
     while (serialCom.init() == 0) {
         digitalWrite(statusLed, 1); // On
@@ -26,24 +26,24 @@ int main(void) {
         digitalWrite(statusLed, 0); // off
     }
     digitalWrite(statusLed, 1); // On
- 
-    while (true) {
-        controller.forward(100);
-        delay(100);
-        controller.stop();   
-        // std::string command = serialCom.readCommand();
-        // if (command != "-1") {
-        //     if (command.find("FORWARD") != std::string::npos) {
-        //         serialCom.write("GOING FORWARD");
-        //         stateMachine.setState(Carrier::CarrierState::Forward);
-        //     } else if (command.find("BACKWARD") != std::string::npos) {
-        //         serialCom.write("GOING BACKWARD");
-        //         stateMachine.setState(Carrier::CarrierState::Backward);
-        //     }
 
-        //     printf("%s", command.c_str());
-        // }
-        // stateMachine.update();
+    while (true) {
+        std::string command = serialCom.readCommand();
+        if (command != "-1") {
+            if (command.find("FORWARD") != std::string::npos) {
+                serialCom.write("GOING FORWARD");
+                stateMachine.setState(Carrier::CarrierState::Forward);
+            } else if (command.find("BACKWARD") != std::string::npos) {
+                serialCom.write("GOING BACKWARD");
+                stateMachine.setState(Carrier::CarrierState::Backward);
+            } else if (command.find("STOP") != std::string::npos) {
+                serialCom.write("STOPPING");
+                stateMachine.setState(Carrier::CarrierState::Idle);
+            }
+
+            printf("%s", command.c_str());
+        }
+        stateMachine.update();
         delay(100);
     }
 }

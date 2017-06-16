@@ -6,7 +6,7 @@ CarrierController::CarrierController(MotorController & motorController,
     motorController{ motorController }, sonarSensor{  sonarSensor },
     distThreshold{ distThreshold }, speed{ speed }
 {
-    state = new ForwardState(this);
+    state = new IdleState(this);
 
     targetTime = startTime = std::chrono::steady_clock::now();
     // speed = 0.1; // m/s
@@ -53,6 +53,10 @@ void CarrierController::setState(CarrierState state) {
         
         case CarrierState::Backward:
             this->state = new BackwardState(this);
+        break;
+
+        case CarrierState::Idle:
+            this->state = new IdleState(this);
         break;
     }
 }
