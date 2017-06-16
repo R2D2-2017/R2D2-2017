@@ -63,6 +63,13 @@ int main(int argc, char **argv) {
             if(!rfid.PICC_ReadCardSerial())
                 continue;
 
+            MFRC522::MIFARE_Key key = {0xFF, 0xFF, 0xFF, 0xFF};
+
+            if(!rfid.PCD_Authenticate(MFRC522::PICC_CMD_MF_AUTH_KEY_A, (byte)0x03, &key, &rfid.uid))
+                continue;
+
+            
+
             for(byte i = 0; i < rfid.uid.size; ++i){
                 if(rfid.uid.uidByte[i] < 0x10){
                     printf(" 0");
@@ -73,6 +80,8 @@ int main(int argc, char **argv) {
                     printf("%X", rfid.uid.uidByte[i]);
                 }
             }
+
+
 
 
 
