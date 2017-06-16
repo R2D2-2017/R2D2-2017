@@ -19,6 +19,17 @@ namespace RoboArm {
         };
 
         /**
+         * \brief Check if string is equal to command
+         *
+         * \param[in]  String to compare
+         * \param[in]  String to compare
+         * \param[in]  Length of string
+         *
+         * \return returns true if equal
+         */
+        bool equal(const hwlib::string<0> &l, const char *r, unsigned int len);
+
+        /**
          * \brief Parses a string and drives the servo motor
          *
          * \param[in]  command   how the servo should be moving as a string eg: "x 42"

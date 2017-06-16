@@ -1,4 +1,4 @@
-cmake_minimum_required (VERSION 2.8.11)
+cmake_minimum_required(VERSION 2.8.11)
 set(toolchain ../../toolchain) # Your path to kvasir_toolchain
 set(CMAKE_TOOLCHAIN_FILE ${toolchain}/compilers/arm-none-eabi.cmake)
 project(roboarm CXX)
@@ -6,12 +6,12 @@ project(roboarm CXX)
 include(../../flags.cmake)
 
 set(cxxflags
-    "-Os"
-    "-ffunction-sections"
-    "-fdata-sections"
-    "-fno-exceptions"
-    "-fno-rtti"
-    "-fno-threadsafe-statics")
+        "-Os"
+        "-ffunction-sections"
+        "-fdata-sections"
+        "-fno-exceptions"
+        "-fno-rtti"
+        "-fno-threadsafe-statics")
 
 string(REGEX REPLACE ";" " " cxxflags "${cxxflags}")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${cxxflags}")
@@ -22,19 +22,20 @@ link_libraries(gcc)
 set(hwlib ../../libraries/hwlib)
 include_directories(${hwlib}/library)
 add_definitions(-DBMPTK_TARGET_arduino_due
-                -DBMPTK_TARGET=arduino_due
-                -DBMPTK_BAUDRATE=9600)
-
+        -DBMPTK_TARGET=arduino_due
+        -DBMPTK_BAUDRATE=9600)
 set(sources
-    src/parser.cc
-    src/wrap-hwlib.cc
-    src/libc-stub.cc
-    src/stepper.cc
-    src/ky101.cc
-    src/robot-arm.cc
-    src/wifi.cc
-    src/main.cc
-)
+        src/parser.cc
+        src/wrap-hwlib.cc
+        src/libc-stub.cc
+        src/stepper.cc
+        src/ky101.cc
+        src/robot-arm.cc
+        src/main.cc
+        src/RobotArmTester.cc
+        src/wifi.cc
+        src/I2C.cc
+        )
 
 # The target chip that is compiled for:
 include(${toolchain}/targets/arm32/cm3/atmel/sam3x/sam3x8e/sam3x8e.cmake)
