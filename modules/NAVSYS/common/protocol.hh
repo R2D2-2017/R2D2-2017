@@ -45,7 +45,17 @@ enum class command {
      * \brief Response from server paired with a vector with PathNode type 
      *        containing the path from start to end 
      */
-    ResponsePath
+    ResponsePath,
+    
+    /**
+     * \brief Ask to be disconnected from the server
+     */
+    RequestDisconnect,
+    
+    /**
+     * \brief Disconnect request granted
+     */
+    ResponseDisconnect
 };
 
 /**

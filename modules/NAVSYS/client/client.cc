@@ -27,6 +27,22 @@ Client::Client(sf::IpAddress ipAddress, uint16_t port):
     port(port)
 {}
 
+Client::~Client(){
+    sf::Packet p;
+    p << command::RequestDisconnect;
+    sendPacket(p);
+    
+    checkPacketCorrectlyReceived(p);
+    command cmd = command::None;
+    p >> cmd;
+    if (cmd == command::ResponseDisconnect) {
+        std::cout << "Client correctly disconnected\n";
+    }
+    else {
+        std::cerr << "Client not disconnected\n";
+    }
+}
+
 void Client::sendPacket(sf::Packet & p) {
     if (socket.send(p) != sf::Socket::Done) {
         std::cerr << "Something went wrong while sending your message,\

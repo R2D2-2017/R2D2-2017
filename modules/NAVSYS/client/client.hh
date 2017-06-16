@@ -53,6 +53,15 @@ public:
     Client(sf::IpAddress ipAddress, uint16_t port);
     
     /**
+     * \brief Default destructor
+     * 
+     * The destructor in this case sends a disconnect request to the server to
+     *  make sure the server dus not try to send packages to a disconnected
+     *  client.
+     */
+    ~Client();
+    
+    /**
      * \brief Runs the client
      */
     void run();
