@@ -56,6 +56,7 @@ int main(int argc, char **argv) {
         LedController led(0);
 
         while (true) {
+            delay(1000);
             std::cout << "\n\nWaiting for rfid tag: \n";
 
             if(!rfid.PICC_IsNewCardPresent())
