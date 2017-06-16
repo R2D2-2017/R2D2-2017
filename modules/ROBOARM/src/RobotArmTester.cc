@@ -7,7 +7,7 @@
 
 #include "RobotArmTester.hh"
 
-const hwlib::string<12> RobotArmTester::commandList1[15] = {
+const char *RobotArmTester::commandList1[15] = {
         // Reset
         "RESET 1",
 
@@ -24,7 +24,7 @@ const hwlib::string<12> RobotArmTester::commandList1[15] = {
         "RESET 1",
 };
 
-const hwlib::string<12> RobotArmTester::commandList2[26] = {
+const char *RobotArmTester::commandList2[26] = {
         // Reset
         "RESET 1",
 
@@ -44,11 +44,11 @@ const hwlib::string<12> RobotArmTester::commandList2[26] = {
         "RESET 1",
 };
 
-void RobotArmTester::run_test(const hwlib::string<12> *commandList, int commandListLen){
+void RobotArmTester::run_test(const char *commandList[], int commandListLen){
     using namespace RoboArm::Parser;
 
     for (int i = 0; i < commandListLen; ++i) {
-        Status result = parseCommand(commandList[i], robotarm);
+        Status result = parseCommand((hwlib::string<12>)commandList[i], robotarm);
 
         switch (result) {
             case Status::SyntaxError:
@@ -64,7 +64,6 @@ RobotArmTester::RobotArmTester(RoboArm::RobotArmController &robotarm) :
         robotarm(robotarm) {}
 
 void RobotArmTester::run(int test) {
-
     hwlib::cout << "START SEQUENCE" << "\r\n";
     robotarm.enable();
 

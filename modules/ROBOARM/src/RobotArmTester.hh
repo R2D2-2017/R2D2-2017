@@ -12,12 +12,12 @@
 #include "wrap-hwlib.hh"
 
 class RobotArmTester {
-    static const hwlib::string<12> commandList1[];
-    static const hwlib::string<12> commandList2[];
+    static const char *commandList1[15];
+    static const char *commandList2[26];
 
     RoboArm::RobotArmController &robotarm;
 
-    void run_test(const hwlib::string<12> *commandList, int commandListLen);
+    void run_test(const char *commandList[], int commandListLen);
 
 public:
     RobotArmTester(RoboArm::RobotArmController &robotarm);
