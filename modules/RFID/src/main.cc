@@ -56,6 +56,7 @@ int main(int argc, char **argv) {
         LedController led(0);
 
         while (true) {
+            delay(1000);
             std::cout << "\n\nWaiting for rfid tag: \n";
 
             if(!rfid.PICC_IsNewCardPresent())
@@ -72,7 +73,6 @@ int main(int argc, char **argv) {
                     printf(" ");
                     printf("%X", rfid.uid.uidByte[i]);
                 }
-                delay(1000);
             }
 
 
