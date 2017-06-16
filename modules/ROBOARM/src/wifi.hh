@@ -19,6 +19,7 @@ void temp_wifi_main();
  * commands through it
  */
 class Wifi {
+    bool debug = true;
     /**
      * The client id to response to
      */
@@ -46,7 +47,7 @@ class Wifi {
     /**
      * \brief Sends a string to the wifi module, to end the command send \r\n
      */
-    void AT(const hwlib::string<16> &command);
+    void AT(const hwlib::string<32> &command);
 
     /**
      * \brief Receive a response to a command and store it in the internal buffer
@@ -54,8 +55,7 @@ class Wifi {
     void receive();
 
 public:
-    Wifi(hwlib::pin_in &rx, hwlib::pin_out &tx) :
-            rx(rx), tx(tx) {}
+    Wifi(hwlib::pin_in &rx, hwlib::pin_out &tx);
 
     /**
      * \brief Gets the firmware version of the wifi module

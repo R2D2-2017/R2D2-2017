@@ -37,7 +37,7 @@ void temp_wifi_main() {
     hwlib::cout << "Receiving:\r\n";
     for (int i = 0; i < 600; i++) {
         hwlib::string<16> data = w.receiveData();
-        if(data == "ping"){
+        if (data == "ping") {
             w.send("pong\n");
         }
     }
@@ -49,7 +49,7 @@ void temp_wifi_main() {
     }
 }
 
-void Wifi::AT(const hwlib::string<16> &command) {
+void Wifi::AT(const hwlib::string<32> &command) {
     for (size_t i = 0; i < command.length(); i++) {
         hwlib::uart_putc_bit_banged_pin(command[i], tx);
     }
@@ -192,9 +192,12 @@ hwlib::string<16> Wifi::receiveData() {
         }
         buffer[i] = '\x0';
     }
-    hwlib::cout << "Data:\r\n----------------------------------\r\n";
-    hwlib::cout << buffer;
-    hwlib::cout << "---------------" << i << "---------------\r\n";
+
+    if (debug) {
+        hwlib::cout << "Data:\r\n----------------------------------\r\n";
+        hwlib::cout << buffer;
+        hwlib::cout << "---------------" << i << "---------------\r\n";
+    }
 
     id_last_transmition = buffer[begin + 5];
 
@@ -226,12 +229,8 @@ void Wifi::receive() {
              buffer[i - 3] == 'e'))
             break;
     }
-    //temporary print of responses if response end was found according to
-    //comment above
-    if (buffer[i - 3] == 'y' ||
-        buffer[i - 3] == 'K' ||
-        buffer[i - 3] == 'R' ||
-        buffer[i - 3] == 'e') {
+
+    if (debug) {
         hwlib::cout << "Response:\r\n--------------------------------\r\n";
         hwlib::cout << buffer;
         hwlib::cout << "---------------" << i << "---------------\r\n";
@@ -239,13 +238,30 @@ void Wifi::receive() {
 }
 
 void Wifi::send(const hwlib::string<16> &data) {
-    hwlib::string<16> s = "AT+CIPSEND=";
+    hwlib::string<32> s = "AT+CIPSEND=";
     s += id_last_transmition;
     s += ",";
-    s += (char) (data.length() + '0');
+    int len = data.length();
+    if (len == 0)return;
+    char buf[10] = "";
+    int i = 9;
+    for (; i >= 0 && len > 0; --i) {
+        buf[i] = (char) (len % 10 + '0');
+        len = len / 10;
+    }
+    i++;
+    for (; i < 10; ++i) {
+        s += buf[i];
+    }
     s += "\r\n";
     AT(s);
     receive();
     AT(data);
     receive();
+}
+
+Wifi::Wifi(hwlib::pin_in &rx, hwlib::pin_out &tx) :
+        rx(rx), tx(tx) {
+    //Give ESP more than enough time to boot
+    hwlib::wait_ms(500);
 }
