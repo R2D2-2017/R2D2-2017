@@ -66,9 +66,13 @@ int main(int argc, char **argv) {
 
             MFRC522::MIFARE_Key key = {0xFF, 0xFF, 0xFF, 0xFF};
 
-            long value = 0;
+
+            long value = 0x66676869;
 
             if(!rfid.PCD_Authenticate(MFRC522::PICC_CMD_MF_AUTH_KEY_A, (byte)0x03, &key, &rfid.uid))
+                continue;
+
+            if (!rfid.MIFARE_SetValue((byte)0x03, value))
                 continue;
 
             if (!rfid.MIFARE_GetValue((byte)0x03, &value))
