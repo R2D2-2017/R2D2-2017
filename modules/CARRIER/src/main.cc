@@ -2,6 +2,7 @@
 #include "motor-controller.hh"
 #include "serial-com.hh"
 #include "hc-sr04.hh"
+#include "./states/i-carrier-state.hh"
 #include <wiringPi.h>
 
 
@@ -13,11 +14,11 @@ int main(void) {
 
     MotorController controller("/dev/ttyS0", 38400);
     SerialCom       serialCom("/dev/rfcomm0", 9600);
-    HcSr04          sonarSensor(trigger,echo);
+    // HcSr04          sonarSensor(trigger,echo);
 
     wiringPiSetup();
     pinMode(statusLed, OUTPUT);
-    Carrier::CarrierController stateMachine(controller, sonarSensor, 50, 50);
+    // Carrier::CarrierController stateMachine(controller, sonarSensor, 50, 50);
 
     while (serialCom.init() == 0) {
         digitalWrite(statusLed, 1); // On
@@ -25,30 +26,24 @@ int main(void) {
         digitalWrite(statusLed, 0); // off
     }
     digitalWrite(statusLed, 1); // On
-
+ 
     while (true) {
-        std::string command = serialCom.readCommand();
-        if (command != "-1") {
-            if (command.find("FORWARD") != std::string::npos) {
-                serialCom.write("GOING FORWARD");
-                stateMachine.forward(100);
-            } else if (command.find("BACKWARD") != std::string::npos) {
-                serialCom.write("GOING BACKWARD");
-                stateMachine.backward(100);
-            } else if (command.find("LEFT") != std::string::npos) {
-                serialCom.write("GOING LEFT");
-                stateMachine.left(100);
-            } else if (command.find("RIGHT") != std::string::npos) {
-                serialCom.write("GOING RIGHT");
-                stateMachine.right(100);
-            } else if (command.find("STOP") != std::string::npos) {
-                serialCom.write("STOPPING");
-                stateMachine.stop();
-            }
+        controller.forward(100);
+        delay(100);
+        controller.stop();   
+        // std::string command = serialCom.readCommand();
+        // if (command != "-1") {
+        //     if (command.find("FORWARD") != std::string::npos) {
+        //         serialCom.write("GOING FORWARD");
+        //         stateMachine.setState(Carrier::CarrierState::Forward);
+        //     } else if (command.find("BACKWARD") != std::string::npos) {
+        //         serialCom.write("GOING BACKWARD");
+        //         stateMachine.setState(Carrier::CarrierState::Backward);
+        //     }
 
-            printf("%s", command.c_str());
-        }
-        stateMachine.update();
+        //     printf("%s", command.c_str());
+        // }
+        // stateMachine.update();
         delay(100);
     }
 }

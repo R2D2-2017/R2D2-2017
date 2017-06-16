@@ -12,19 +12,10 @@
 #include <chrono>
 #include <cmath>
 #include <cstdint>
-
+#include "./states/i-carrier-state.hh"
+#include "./states/forward-state.hh"
+#include "./states/backward-state.hh"
 namespace Carrier {
-
-/**
- * \brief The robot's various possible states
- */
-enum class CarrierState
-{
-    Idle,    ///< The robot is idle
-    Driving, ///< The robot is driving (forward or backward)
-    Turning, ///< The robot is turning (left or right)
-    Sensing  ///< The robot is sensing the environment
-};
 
 /**
  * \brief Controls (non-)autonomous actions
@@ -50,22 +41,6 @@ public:
      * Stops the motors during destruction of the object
      */
     ~CarrierController();
-
-    /**
-     * \brief Moves forward
-     * 
-     * Moves the robot forward for the given distance
-     * \param[in]  distance  the distance in meters
-     */
-    void forward(float distance);
-
-    /**
-     * \brief Moves backward
-     * 
-     * Moves the robot backward for the given distance
-     * \param[in]  distance  the distance in meters
-     */
-    void backward(float distance);
 
     /**
      * \brief Rotates left (counter-clockwise)
@@ -105,10 +80,16 @@ public:
      */
     void stop();
 
+    void setState(CarrierState state); 
+
     /**
      * \brief Returns the current state the carrier is in
      */
     CarrierState currentState();
+
+    /**
+     *\
+    void setState(CarrierState state);
 
     // Distance tracking (using only time)
 
@@ -132,6 +113,8 @@ public:
      */
     float distanceTraveled(std::chrono::steady_clock::time_point elapsedTime);
 
+
+    MotorController* getMotorController();
 private:
     MotorController &motorController;
     HcSr04& sonarSensor;
@@ -142,8 +125,8 @@ private:
     /// The speed in ???-units
     int speed;
 
-    /// The current state
-    CarrierState state;
+    /// The current motor state
+    ICarrierState* state;
 
     // Distance tracking (using only time)
     /// Start time for measuring and other uses

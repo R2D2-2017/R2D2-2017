@@ -1,5 +1,5 @@
 #include "motor-controller.hh"
-
+#include <iostream>
 MotorController::MotorController(std::string portName, int baud) :
 	leftMotor(portName, baud),
 	rightMotor(portName, baud)

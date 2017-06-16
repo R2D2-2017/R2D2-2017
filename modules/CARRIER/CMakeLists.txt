@@ -19,6 +19,9 @@ set(sources
     src/motor-controller.cc
     src/carrier-controller.cc
     src/hc-sr04.cc
+    src/states/i-carrier-state.hh   
+    src/states/forward-state.cc    
+    src/states/backward-state.cc
     src/main.cc
     )
 
