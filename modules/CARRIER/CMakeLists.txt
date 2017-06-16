@@ -19,6 +19,7 @@ set(sources
     src/motor-controller.cc
     src/carrier-controller.cc
     src/hc-sr04.cc
+    src/hallsensor.cc
     src/main.cc
     )
 
