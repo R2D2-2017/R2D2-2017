@@ -6,8 +6,10 @@ import os
 import shutil
 import platform
 import argparse
+import json
 import re
 import sys
+import subprocess
 
 __author__ = 'Chris Smeele & Robert Bezem'
 
@@ -40,6 +42,15 @@ def ask_question(question, validator, error):
             print(error)
     return inp
 
+def get_modules(only_generated=False):
+    modules = (re.sub(r'modules[/\\]', '', x) for x in glob.iglob('modules/*')
+               if  os.path.isdir(x)
+               and not x.startswith('modules/template-')
+               and not '~' in x
+               and os.path.exists(x +  '/.bmptkpp'))
+
+    return ((x for x in modules if os.path.exists('modules/' + x + '/build/compile_commands.json'))
+               if only_generated else modules)
 
 def create(args):
     module_name = ask_question('Module name (shortname): ',
@@ -93,11 +104,141 @@ def generate_one(path, override_generator=None):
 
 
 def generate(args):
-    for filename in glob.iglob('modules/*/.bmptkpp'):
-        if 'template' not in filename:
-            print('Generating build directory for {0}'.format(
-                re.sub(r"modules[/\\](.*)[/\\].bmptkpp", r"\1", filename)))
-            generate_one(re.sub(r"[\\/].bmptkpp", "", filename), args.override_generator)
+    for module in get_modules():
+        print('Generating build directory for ' + module)
+        generate_one('modules/' + module, args.override_generator)
+
+
+class CheckError:
+    def __init__(self, checker, module, file, line, description, type=None):
+        self.checker = checker
+        self.module = module
+        self.file = file
+        self.line = line
+        self.description = description
+        self.type = type
+
+    def __eq__(self, other):
+        return \
+            self.checker == other.checker and \
+            self.module == other.module and \
+            self.file == other.file and \
+            self.line == other.line and \
+            self.description == other.description and \
+            self.type == other.type
+
+    def __repr__(self):
+        return "[{0}]{1}:{2} {3}".format(
+            self.checker,
+            "".join(self.file.split("/")[-1:]),
+            self.line,
+            self.description)
+
+
+def check_one(cc_db):
+    errors = []
+    with open(cc_db) as cc_db_file:
+        cc_json = json.load(cc_db_file)
+        module = cc_db.split("/")[-3]
+        for entry in cc_json:
+            if "startup_sam3xa.c" in entry["file"] \
+                    or "wrap-hwlib.cc" in entry["file"] \
+                    or "libc-stub.cc" in entry["file"]:
+                continue
+            tidy_command = 'clang-tidy -header-filter=^{0}[^.] -p={1} {2}'.format(
+                cc_db.replace("build/compile_commands.json", ""),
+                cc_db.replace("compile_commands.json", "")
+                , entry["file"]
+            )
+            cpp_check_command = 'cppcheck -q -v --template=gcc --enable=warning,performance,portability {0}'.format(
+                entry["file"])
+
+            try:
+                tidy_errors = subprocess.check_output(tidy_command.split(), stderr=subprocess.DEVNULL)
+                print(tidy_errors.decode())
+                # for line in tidy_errors.decode().splitlines():
+                #     if entry["file"] in line:
+                #         line = line.split(":")
+                #         error = CheckError("Clang-tidy", module, line[0], line[1], ":".join(line[4:]), line[3])
+                #         if error not in errors:
+                #             errors.append(error)
+            except OSError as e:
+                if e.errno == os.errno.ENOENT:
+                    print("clang-tidy is not found please install it\nNo checks with this checker have been run")
+                else:
+                    raise
+            try:
+                cpp_check_errors = subprocess.check_output(cpp_check_command.split(), stderr=subprocess.STDOUT)
+                # for line in cpp_check_errors.decode().splitlines():
+                #     line = line.split(":")
+                #     error = CheckError("Cppcheck", module, line[0], line[1], line[3], line[2])
+                #     if error not in errors:
+                #         errors.append(error)
+                print(cpp_check_errors.decode())
+            except OSError as e:
+                if e.errno == os.errno.ENOENT:
+                    print("cppcheck is not found please install it\nNo checks with this checker have been run")
+                else:
+                    raise
+
+    errors.sort(key=lambda x: x.checker + x.file + x.line)
+    return errors
+
+
+def check(args):
+    cc_databases = []
+    if args.module:
+        if not os.path.exists("modules/{0}/.bmptkpp".format(args.module.upper())):
+            print("no module named {0}".format(args.module))
+            return
+        if not os.path.exists("modules/{0}/build/compile_commands.json".format(args.module.upper())):
+            print("module is not yet generated. Generate first")
+            return
+        cc_databases.append("modules/{0}/build/compile_commands.json".format(args.module.upper()))
+        print("Checking module {0}".format(args.module))
+    else:
+        print("Checking all generated modules")
+        cc_databases = [filename for filename in glob.iglob('modules/*/build/compile_commands.json')]
+    for cc_database in cc_databases:
+        with open(cc_database.replace("build/compile_commands.json", ".bmptkpp")) as bmptkppfile:
+            if bmptkppfile.readline() == "arduino\n":
+                shutil.copyfile(cc_database, cc_database + ".tmp")
+                cc_json = {}
+                with open(cc_database, "r") as cc_db_file:
+                    cc_json = json.load(cc_db_file)
+                    for entry in cc_json:
+                        entry["command"] = re.sub(r"-m\S*", "", entry["command"])
+                        entry["command"] = re.sub(r"-Wno ", "", entry["command"])
+                with open(cc_database, "w") as cc_db_file:
+                    json.dump(cc_json, cc_db_file)
+                [print(error) for error in check_one(cc_database)]
+                # shutil.copyfile(cc_database + ".tmp", cc_database)
+                # os.remove(cc_database + ".tmp")
+            else:
+                [print(error) for error in check_one(cc_database)]
+
+
+def build_one(module):
+    print('Building ' + module)
+
+    os.chdir('modules/' + module + '/build')
+    os.system('make')
+    os.chdir(running_dir)
+
+def build(args):
+    if args.module:
+        if not os.path.exists('modules/{0}/.bmptkpp'.format(args.module.upper())):
+            print('no module named {0}'.format(args.module))
+            return
+        if not os.path.exists('modules/{0}/build/compile_commands.json'.format(args.module.upper())):
+            print('module is not yet generated. Generate first')
+            return
+
+        build_one(module)
+
+    else:
+        for module in get_modules(only_generated = True):
+            build_one(module)
 
 
 def console(parser, subcommands):
@@ -136,6 +277,14 @@ if __name__ == '__main__':
     generate_command.set_defaults(func=generate)
     generate_command.add_argument('--override-generator',
                                   help="Overwrite the default cmake generator used, does not work for some targets")
+
+    check_command = subcom.add_parser('check', help="Check source files for errors")
+    check_command.set_defaults(func=check)
+    check_command.add_argument('-m', '--module', help="Name of the module to check")
+
+    build_command = subcom.add_parser('build', help="Build modules")
+    build_command.set_defaults(func=build)
+    build_command.add_argument('-m', '--module', help="Name of the module to build")
 
     if len(sys.argv) > 1:
         parser.formatter_class = argparse.RawDescriptionHelpFormatter
