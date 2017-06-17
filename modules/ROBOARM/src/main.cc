@@ -54,7 +54,7 @@ int main() {
     using namespace RoboArm::Parser;
     r.enable();
     while (true) {
-        hwlib::string<16> command = w.receiveData();
+        hwlib::string<16> command = w.receive();
 
         if (command == "ping") {
             w.send("pong\n");

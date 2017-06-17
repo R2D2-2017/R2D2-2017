@@ -10,15 +10,18 @@
 #include "wrap-hwlib.hh"
 
 /**
- * \brief Temporary wifi test code (to be removed before merge)
- */
-void temp_wifi_main();
-
-/**
  * Wifi class implementing the ESP8266 to create a wifi network and receive
  * commands through it
  */
 class Wifi {
+
+    enum class ATSTATUS {
+        OK,
+        READY,
+        ERROR,
+        NO_CHANGE
+    };
+
     bool debug = true;
     /**
      * The client id to response to
@@ -45,22 +48,19 @@ class Wifi {
     char buffer[bufferSize];
 
     /**
-     * \brief Sends a string to the wifi module, to end the command send \r\n
+     * \brief Send the AT command and stores it in the internal buffer
+     * \return ATSTATUS The response status of the at command
      */
-    void AT(const hwlib::string<32> &command);
-
-    /**
-     * \brief Receive a response to a command and store it in the internal buffer
-     */
-    void receive();
+    Wifi::ATSTATUS AT(const hwlib::string<32> &command);
 
 public:
     Wifi(hwlib::pin_in &rx, hwlib::pin_out &tx);
 
     /**
      * \brief Gets the firmware version of the wifi module
+     * \return hwlib::string<16> The version of the firmware on the esp
      */
-    void getVersion();
+    hwlib::string<16> getVersion();
 
     /**
      * \brief Gets the current mode (AP or client)
@@ -69,8 +69,9 @@ public:
 
     /**
      * \brief Gets current access point settings
+     * \return hwlib::string<32> The AccessPoint settings
      */
-    void getAccessPoint();
+    hwlib::string<32> getAccessPoint();
 
     /**
      * \brief Gets ip addresses of clients connected to the access point
@@ -79,15 +80,17 @@ public:
 
     /**
      * \brief Gets own ip address
+     * \return hwlib::string<16> The local ip address
      */
-    void getIpAddress();
+    hwlib::string<16> getIpAddress();
 
     /**
      * \brief Sets up an access point
      * \param ssid The ssid for the access point
      * \param password The password for the access point
+     * \return ATSTATUS The response status of the at command
      */
-    void setupAccessPoint(const hwlib::string<16> &ssid,
+    Wifi::ATSTATUS setupAccessPoint(const hwlib::string<16> &ssid,
                           const hwlib::string<16> &password);
 
     /**
@@ -113,9 +116,13 @@ public:
     void stopServer();
 
     /**
-     * \brief Receives data from the server
+     * \brief Waits for a transmition from a client
+     * \return hwlib::string<32> The data received from the client
      */
-    hwlib::string<16> receiveData();
+    hwlib::string<32> receive();
 
+    /**
+     * \brief Sends a transmition back to the client
+     */
     void send(const hwlib::string<16> &data);
 };
