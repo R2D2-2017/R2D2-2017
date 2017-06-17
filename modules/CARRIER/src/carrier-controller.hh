@@ -2,6 +2,7 @@
  * \file
  * \brief     Controls (non-)autonomous actions
  * \author    Remco Ruttenberg
+ * \author    Bob Thomas
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See LICENSE
  */
@@ -21,14 +22,14 @@ namespace Carrier {
 
 /**
  * \brief Controls (non-)autonomous actions
- * 
+ *
  * A statemachine that controls its various states (and transitions)
  */
 class CarrierController {
 public:
     /**
      * \brief Constructor of CarrierController
-     * 
+     *
      * \param[in]  motorController  class that can control the carrier motors
      * \param[in]  sonarController  class that can control the sonar sensor
      * \param[in]  distThreshold    the threshold for distance to objects
@@ -39,37 +40,21 @@ public:
 
     /**
      * \brief Deconstructor of CarrierController
-     * 
+     *
      * Stops the motors during destruction of the object
      */
     ~CarrierController();
 
     /**
-     * \brief Rotates left (counter-clockwise)
-     * 
-     * Rotates the robot left (counter-clockwise) for the given degrees
-     * \param[in]  degrees  the degrees to turn
-     */
-    void left(float degrees);
-
-    /**
-     * \brief Rotates right (clockwise)
-     * 
-     * Rotates the robot right (clockwise) for the given degrees
-     * \param[in]  degrees  the degrees to turn
-     */
-    void right(float degrees);
-
-    /**
      * \brief Sets the speed
-     * 
+     *
      * \param[in]  speed  the speed in (TODO: figure out which units to use)
      */
     void setSpeed(float speed);
 
     /**
      * \brief Update tick for the controller
-     * 
+     *
      * Allows the controller to perform the actions for the current state,
      * during which the controller may change state
      */
@@ -82,7 +67,11 @@ public:
      */
     void stop();
 
-    void setState(CarrierState state); 
+    /**
+     * \brief Sets the state of the robot based on the Given CarrierState
+     * \param[in] state The state the robot is going to be set in
+     */
+    void setState(CarrierState state);
 
     /**
      * \brief Returns the current state the carrier is in
@@ -97,7 +86,7 @@ public:
 
     /**
      * \brief Calculates time based on distance
-     * 
+     *
      * Calculates the time needed to travel the given distance
      * NOTE: This simple calculation does not (yet) use acceleration
      * \param dist the distance in meters
@@ -107,7 +96,7 @@ public:
 
     /**
      * \brief Calculates distance based on elapsed time
-     * 
+     *
      * Calculates the distance traveled during the given elapsed time
      * NOTE: This simple calculation does not (yet) use acceleration
      * \param elapsedTime the elapsed time during travel
@@ -118,12 +107,15 @@ public:
 
     MotorController* getMotorController();
 private:
+    /// Controller to send commands to the motors
     MotorController &motorController;
+
+    /// Sonar sensor for object avoidance
     HcSr04& sonarSensor;
 
     /// The distance threshold in meters
     float distThreshold;
-    
+
     /// The speed in ???-units
     int speed;
 

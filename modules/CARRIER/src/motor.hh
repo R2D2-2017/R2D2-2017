@@ -12,7 +12,7 @@
 #include <wiringSerial.h>
 
 /**
- *\brief Serial communication clas with wiringPi
+ *\brief Serial communication class with wiringPi
  * Simple class that encapsulates wiringSerial
  * That is able send commands with the protocol required by the Qik2s12v10
 */

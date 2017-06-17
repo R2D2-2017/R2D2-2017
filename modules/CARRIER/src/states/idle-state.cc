@@ -9,7 +9,7 @@ IdleState::IdleState(CarrierController* controller) : controller(controller) {
 }
 
 void IdleState::update() {
-    
+
 }
 
 CarrierState IdleState::getState() {

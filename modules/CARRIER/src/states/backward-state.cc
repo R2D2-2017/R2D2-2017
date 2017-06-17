@@ -9,7 +9,7 @@ BackwardState::BackwardState(CarrierController* controller) : controller(control
 }
 
 void BackwardState::update() {
-    
+
 }
 
 CarrierState BackwardState::getState() {

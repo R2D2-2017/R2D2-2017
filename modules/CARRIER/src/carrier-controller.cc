@@ -1,3 +1,11 @@
+/**
+ * \file
+ * \author    Remco Ruttenberg
+ * \author    Bob Thomas
+ * \copyright Copyright (c) 2017, The R2D2 Team
+ * \license   See LICENSE
+ */
+
 #include "carrier-controller.hh"
 using namespace Carrier;
 
@@ -33,24 +41,12 @@ void CarrierController::update() {
    state->update();
 }
 
-void CarrierController::left(float degrees) {
-    motorController.left(speed);
-    startTime = std::chrono::steady_clock::now();
-    targetTime = std::chrono::steady_clock::time_point(timeUntilDestination(degrees) + startTime.time_since_epoch());
-}
-
-void CarrierController::right(float degrees) {
-    motorController.right(speed);
-    startTime = std::chrono::steady_clock::now();
-    targetTime = std::chrono::steady_clock::time_point(timeUntilDestination(degrees) + startTime.time_since_epoch());
-}
-
 void CarrierController::setState(CarrierState state) {
     switch(state) {
         case CarrierState::Forward:
             this->state = new ForwardState(this);
         break;
-        
+
         case CarrierState::Backward:
             this->state = new BackwardState(this);
         break;

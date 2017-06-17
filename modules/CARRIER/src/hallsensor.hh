@@ -18,11 +18,7 @@ public:
     /**
      * \brief Function to get the value of the hall sensor
      *
-     * \return bool - 1 is on, 0 is off. Sad funtion is sad. 
+     * \return bool - 1 is on, 0 is off. Sad funtion is sad.
      */
     bool get();
 };
-
-
-
-

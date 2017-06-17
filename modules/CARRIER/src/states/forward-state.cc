@@ -1,7 +1,14 @@
+/**
+ * \file
+ * \author    Bob Thomas
+ * \copyright Copyright (c) 2017, The R2D2 Team
+ * \license   See LICENSE
+ */
+
 #include "forward-state.hh"
 using namespace Carrier;
 
-ForwardState::ForwardState(CarrierController* controller) : controller(controller) {    
+ForwardState::ForwardState(CarrierController* controller) : controller(controller) {
     // if (controller->sonarSensor.getDistance() <= distThreshold) {
         // controller->setState(new IdleState(controller));
     // }

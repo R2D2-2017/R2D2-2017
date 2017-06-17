@@ -17,9 +17,8 @@ HallSensor::HallSensor( int & hallSensorPin ):
 bool HallSensor::get(){
     // set pin
     pinMode (hallSensorPin, INPUT);
-    
+
     value = digitalRead(hallSensorPin);
     return value;
 
 }
-

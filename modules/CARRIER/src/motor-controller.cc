@@ -1,5 +1,12 @@
+/**
+ * \file
+ * \brief     Main program to control motor
+ * \author    Jip Galema
+ * \copyright Copyright (c) 2017, The R2D2 Team
+ * \license   See LICENSE
+ */
+
 #include "motor-controller.hh"
-#include <iostream>
 MotorController::MotorController(std::string portName, int baud) :
 	leftMotor(portName, baud),
 	rightMotor(portName, baud)

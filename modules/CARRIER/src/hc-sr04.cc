@@ -30,20 +30,19 @@ double HcSr04::getDistance(){
     }
     // While Echo is high, set end time. When echo goes low again
     // we have the latest result. We're looking for the amount of time
-    // the Echo pin was high. 
+    // the Echo pin was high.
     while(digitalRead(EchoPin)){
         endTimeUsec = micros();
     }
-    
-    // Distance =  Time * speed of sound / 2 
+
+    // Distance =  Time * speed of sound / 2
     // Micros() gives us microseconds, there are 1 million microseconds
     // in a second, which means we need to divide by that amount to get
-    // seconds. We need second because the speed of sound is 
+    // seconds. We need second because the speed of sound is
     // 340.29 is meter per second. I only divide by 10k to make up
-    // for the fact that I want centimeters. 
+    // for the fact that I want centimeters.
     distanceInCm = (((endTimeUsec - startTimeUsec)/10000.0)*340.29)/2;
 
     return distanceInCm;
 
 }
-

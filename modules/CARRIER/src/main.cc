@@ -7,19 +7,24 @@
 
 
 int main(void) {
+    // Wiringpi pin setup
+    wiringPiSetup();
+
+    // Pin configuration - https://pinout.xyz/pinout/wiringpi
     int statusLed = 29;
     int trigger   =  4;
     int echo      =  5;
 
-
+    //Declaration of the system classes
     MotorController controller("/dev/ttyS0", 38400);
     SerialCom       serialCom("/dev/rfcomm0", 9600);
     HcSr04          sonarSensor(trigger,echo);
-
-    wiringPiSetup();
-    pinMode(statusLed, OUTPUT);
     Carrier::CarrierController stateMachine(controller, sonarSensor, 50, 50);
 
+    // Quick bluetooth status led
+    pinMode(statusLed, OUTPUT);
+
+    //If not connected to bluetooth serial blink and poll to connect
     while (serialCom.init() == 0) {
         digitalWrite(statusLed, 1); // On
         delay(1000);
@@ -27,7 +32,9 @@ int main(void) {
     }
     digitalWrite(statusLed, 1); // On
 
+    //When connected go into the carrier state loop
     while (true) {
+        //Read command from the bluetooth serial com
         std::string command = serialCom.readCommand();
         if (command != "-1") {
             if (command.find("FORWARD") != std::string::npos) {
@@ -40,7 +47,6 @@ int main(void) {
                 serialCom.write("STOPPING");
                 stateMachine.setState(Carrier::CarrierState::Idle);
             }
-
             printf("%s", command.c_str());
         }
         stateMachine.update();

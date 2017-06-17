@@ -42,7 +42,7 @@ public:
     int init();
     /**
      *\brief reads command until new line and returns it as a std::string
-     *\return receveid command as string
+     *\return received command as string
      */
     std::string readCommand();
 

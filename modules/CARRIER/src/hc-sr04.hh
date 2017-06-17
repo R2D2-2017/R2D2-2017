@@ -25,7 +25,3 @@ public:
      */
     double  getDistance();
 };
-
-
-
-
