@@ -42,7 +42,7 @@ set(sources
     src/alarm.cc
     src/speaker.cc
     src/mq5.cc
-        src/command.cc
+    src/command.cc
     src/setup.cc
         )
 
