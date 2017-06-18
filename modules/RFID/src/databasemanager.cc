@@ -60,18 +60,6 @@ void databasemanager::setCardAuthorisationInDatabase(bool status, std::string ca
 
 }
 
-void databasemanager::executeQueryNoResult(std::string query) {
-    connection.executeQueryNoResult(query);
-}
-
-void  databasemanager::executequery(std::string query) {
-    connection.executeQuery(query);
-
-}
-std::unique_ptr<sql::ResultSet> &  databasemanager::getFullResultSet(){
-    return connection.getFullResult();
-}
-
 bool databasemanager::addCardToDatabase(std::string cardId) {
 
     if(!isCardInDatabase(cardId)){ return false; }
@@ -103,3 +91,38 @@ bool databasemanager::isCardInDatabase(std::string cardId) {
         return true;
     }
 }
+
+void databasemanager::addEmployeeToDatabase( std::string name, std::string function, std::string adress,
+                                            std::string postalcode, std::string street, std::string city) {
+
+
+
+
+    std::string query;
+    query += "INSERT INTO EMPLOYEE (NAME, FUNCTION, ADRESS, POSTALCODE, STREET, CITY) VALUES ('";
+    query += name += "', '";
+    query += function += "', '";
+    query += adress += "', '";
+    query += postalcode += "', '";
+    query += street += "', '";
+    query += city += "')";
+    std::cout << query << '\n';
+    connection.executeQueryNoResult(query);
+}
+
+void databasemanager::executeQueryNoResult(std::string query) {
+    connection.executeQueryNoResult(query);
+}
+
+void  databasemanager::executequery(std::string query) {
+    connection.executeQuery(query);
+
+}
+
+std::unique_ptr<sql::ResultSet> &  databasemanager::getFullResultSet(){
+    return connection.getFullResult();
+}
+
+
+
+

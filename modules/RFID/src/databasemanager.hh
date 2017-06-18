@@ -28,8 +28,8 @@ public:
     void executequery(std::string query);
     std::unique_ptr<sql::ResultSet> & getFullResultSet();
 
-    //void writeEmployeeDataToDatabase(int id, std::string name, std::string function, std::string adress,
-     //                                std::string postalcode, std::string street, std::string city);
+    void addEmployeeToDatabase(std::string name, std::string function, std::string adress,
+        std::string postalcode, std::string street, std::string city);
 
 
 };
