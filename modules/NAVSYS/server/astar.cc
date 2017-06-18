@@ -266,7 +266,6 @@ std::vector<PathNode> aStar(Graph & g, Node &start, Node &goal) {
 
     // Algorithm loop
     while (!openedNodes.empty()) {
-        std::cout << "current: " << current->getName() << '\n';
         // find the neighbouring PathNode with lowest f value
         // set it to current
         lowestF = std::numeric_limits<float>::infinity();
@@ -274,7 +273,20 @@ std::vector<PathNode> aStar(Graph & g, Node &start, Node &goal) {
             if (it->get()->getPriority() < lowestF) {
                 lowestF = it->get()->getPriority();
                 current = *it;
-                std::cout << "lowestf: " << lowestF << ' ' << current->getName() << '\n';
+            }
+        }
+        
+        //check if next to current is the goal node
+        for (auto it = vertices.begin(); it != vertices.end(); it++) {
+            if (it->getNeighbour()->getCoordinate() == goal.getCoordinate() &&
+                    it->getCurrent()->getCoordinate() == current->getCoordinate()) {
+                PathNode tmp(
+                        goal,
+                        Node(),
+                        float(it->getWeight()) + current->getPathDistance());
+                
+                tmp.setParent(current);
+                current = std::make_shared<PathNode>(tmp);
             }
         }
 
@@ -284,14 +296,7 @@ std::vector<PathNode> aStar(Graph & g, Node &start, Node &goal) {
            return the path
         */
         if (current->getCoordinate() == goal.getCoordinate()) {
-            std::cout << "current reconstruc: " << current->getName() << '\n';
-            path = reconstruct(current);
-            std::cout << "path:\n";
-            for (auto pathnode : path) {
-                std::cout << pathnode.getName() << " --> ";
-            }
-            std::cout << "print het path alleen als er een cout achter staat??????\n";
-            return path;
+            return reconstruct(current);
         }
 
         // close the current node to show that this node has already been 
@@ -324,7 +329,6 @@ std::vector<PathNode> aStar(Graph & g, Node &start, Node &goal) {
 
             // skip this node if it's already closed
             if (closed) {
-                std::cout << "\n\n";
                 continue;
             }
 
@@ -341,7 +345,6 @@ std::vector<PathNode> aStar(Graph & g, Node &start, Node &goal) {
             // calculate what g would be if the neighbour is connected through 
             // the current node
             float tentativeG = current->getPathDistance() + it->getWeight();
-            std::cout << "tentativeG: " << tentativeG << '\n';
             // get what the neighbouring nodes current g is.
             float curG = 0;
             for (auto i = openedNodes.begin(); i != openedNodes.end(); i++) {
@@ -350,7 +353,6 @@ std::vector<PathNode> aStar(Graph & g, Node &start, Node &goal) {
                     curG = i->get()->getPathDistance();
                 }
             }
-            std::cout << "curg: " << curG << '\n';
 
             // open the node if it isn't opened yet, setting its g based on the 
             // vertice weight and the current nodes g
@@ -366,7 +368,6 @@ std::vector<PathNode> aStar(Graph & g, Node &start, Node &goal) {
 
             // check if the new possible path is faster or not, if not skip this neighbour.
             else if (tentativeG >= curG) {
-                std::cout << "\n\n";
                 continue;
             }
 
@@ -381,18 +382,6 @@ std::vector<PathNode> aStar(Graph & g, Node &start, Node &goal) {
                     i->get()->calcPriority(goal);
                 }
             }
-            
-            //extra output
-            std::cout << "openedNodes now:\n";
-            for (auto & node : openedNodes){
-                std::cout << "name: " << node->getName() << '\n';
-            }
-            std::cout << "closedNodes now:\n";
-            for (auto & node : closedNodes){
-                std::cout << "name: " << node->getName() << '\n';
-            }
-            
-            std::cout << "\n\n";
         }
     }
     return path;
@@ -420,53 +409,3 @@ std::vector<PathNode> reconstruct(std::shared_ptr<PathNode> current) {
     // return the found path
     return path;
 }
-
-/*
-(A)-(B)[3]
-(A)-(D)[4]
-(A)-(S)[7]
-(B)-(A)[3]
-(B)-(D)[4]
-(B)-(H)[1]
-(B)-(I)[4]
-(B)-(S)[2]
-(C)-(L)[2]
-(C)-(S)[3]
-(D)-(A)[4]
-(D)-(B)[4]
-(D)-(F)[5]
-(E)-(G)[2]
-(E)-(K)[5]
-(F)-(D)[5]
-(F)-(H)[3]
-(G)-(E)[2]
-(G)-(H)[2]
-(H)-(B)[1]
-(H)-(F)[3]
-(H)-(G)[2]
-(I)-(B)[4]
-(I)-(J)[6]
-(I)-(K)[4]
-(I)-(L)[4]
-(J)-(I)[6]
-(J)-(K)[4]
-(J)-(L)[4]
-(K)-(E)[5]
-(K)-(I)[4]
-(K)-(J)[4]
-(L)-(C)[2]
-(L)-(I)[4]
-(L)-(J)[4]
-(S)-(A)[7]
-(S)-(B)[2]
-(S)-(C)[3]
-
-
-werkend met alleen
-(B)-(S)[2]
-(S)-(B)[2]
-(I)-(B)[4]
-(B)-(I)[4]
-(J)-(I)[6]
-(I)-(J)[6]
- */
