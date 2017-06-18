@@ -11,8 +11,7 @@
 #include <SFML/Network.hpp>
 #include "../common/graph.hh"
 #include "../common/protocol.hh"
-
-enum class button {ShutDown,StartNode,EndNode};
+#include "button.hh"
 
 /**
  * \brief Client class
@@ -23,11 +22,12 @@ enum class button {ShutDown,StartNode,EndNode};
  */
 class Client {
 private:
-	sf::IpAddress ipAddress;
-	uint16_t port;
-	sf::TcpSocket socket;
+    sf::IpAddress ipAddress;
+    uint16_t port;
+    sf::TcpSocket socket;
     sf::Vector2f buttonSize = {100,30};
     Graph g;
+    std::vector<Button*> buttonList;
 
     /**
      * \brief Send a sf packet with error checking

@@ -16,7 +16,6 @@
 #include "../common/pathnode.hh"
 #include "../common/graph-factory.hh"
 #include "../common/graph-input.hh"
-#include "button.hh"
 #include "mouse.hh"
 
 #define WINDOW_WIDTH 800
@@ -40,6 +39,9 @@ Client::~Client(){
     }
     else {
         std::cerr << "Client not disconnected\n";
+    }
+    for (auto it = buttonList.end()-1; it >= buttonList.begin(); it--){
+        delete *it;
     }
 }
 
@@ -82,26 +84,25 @@ void Client::run(){
     Gestures gestureHandler(window);
     
     //Button setup
-    std::vector<Button*> buttonList;
     buttonList.push_back(new Button(
                             window, 
                             {float(window.getSize().x - (buttonSize.x + 10)), 
                              10}, 
                             {buttonSize}, 
-                            static_cast<int>(button::ShutDown), "Shut Down"));
+                            buttonCommand::ShutDown, "Shut Down"));
     buttonList.push_back(new Button(
                             window, 
                             {float(window.getSize().x - (buttonSize.x + 100)),
                              10}, 
                             {buttonSize.x/2, buttonSize.y/2}, 
-                            static_cast<int>(button::StartNode), "Start Node", 
+                            buttonCommand::StartNode, "Start Node", 
                             false));
     buttonList.push_back(new Button(
                             window, 
                             {float(window.getSize().x - (buttonSize.x + 200)), 
                              10}, 
                             {buttonSize.x / 2, buttonSize.y / 2}, 
-                            static_cast<int>(button::EndNode), "End Node", 
+                            buttonCommand::EndNode, "End Node", 
                             false));
 
     bool startNodeSelected = 0;
@@ -118,16 +119,16 @@ void Client::run(){
         drawer.draw();
         window.setView(window.getDefaultView());
         for (auto & indexer : buttonList) {
-            if (indexer->getId() == static_cast<int>(button::ShutDown)) {
+            if (indexer->getId() == buttonCommand::ShutDown) {
                 indexer->draw();
             }
-            else if (indexer->getId() == static_cast<int>(button::StartNode)) {
+            else if (indexer->getId() == buttonCommand::StartNode) {
                 startNodeButtonBounds = indexer->getBounds();
                 window.updateView();
                 indexer->draw();
                 window.setView(window.getDefaultView());
             }
-            else if (indexer->getId() == static_cast<int>(button::EndNode)) {
+            else if (indexer->getId() == buttonCommand::EndNode) {
                 endNodeButtonBounds = indexer->getBounds();
                 window.updateView();
                 indexer->draw();
@@ -137,6 +138,7 @@ void Client::run(){
         }
         window.updateView();
         if (GetMouseClick()) {
+            drawer.reload(&g);
             for (auto & indexer : buttonList) {
                 bool temp = false;
                 if (indexer->isPressed()) { 
@@ -149,15 +151,15 @@ void Client::run(){
                 window.updateView();
                 if (temp) {
                     switch (indexer->getId()) {
-                    case static_cast<int>(button::ShutDown):
+                    case buttonCommand::ShutDown:
                         window.close();
                         exit(0);
                         break;
-                    case static_cast<int>(button::StartNode):
+                    case buttonCommand::StartNode:
                         newPath.startNode = clickedNode.getName();
                         startNodeSelected = 1;
                         break;
-                    case static_cast<int>(button::EndNode):
+                    case buttonCommand::EndNode:
                         newPath.endNode = clickedNode.getName();
                         endNodeSelected = 1;
                         break;
@@ -171,15 +173,14 @@ void Client::run(){
             if (clickedNode.isPressed(window)) {
                 for (auto & indexer : buttonList) {
                     window.setView(window.getDefaultView());
-                    if (indexer->getId() == 
-                        static_cast<int>(button::StartNode)) {
+                    if (indexer->getId() == buttonCommand::StartNode) {
                         indexer->setPosition({
                             clickedNode.getBounds().left, 
                             (clickedNode.getBounds().top + 
                             1.5f*clickedNode.getBounds().height)});
                         indexer->setVisable(true);
                     }
-                    if (indexer->getId() == static_cast<int>(button::EndNode)) {
+                    if (indexer->getId() == buttonCommand::EndNode) {
                         indexer->setPosition({
                             clickedNode.getBounds().left,
                             (clickedNode.getBounds().top + 
@@ -191,10 +192,8 @@ void Client::run(){
             }
             else {
                 for (auto & indexer : buttonList) {
-                    if (indexer->getId() == 
-                        static_cast<int>(button::StartNode) || 
-                        indexer->getId() == 
-                        static_cast<int>(button::EndNode)) {
+                    if (indexer->getId() == buttonCommand::StartNode || 
+                        indexer->getId() == buttonCommand::EndNode) {
                             indexer->setVisable(false);
                     }
                 }

@@ -1,7 +1,7 @@
 /**
  * \file      button.hh
  * \brief     This class will let a button appear in a SFML window.
- * \author    René de Kluis, Koen de Groot
+ * \author    Renï¿½ de Kluis, Koen de Groot
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See LICENSE
  */
@@ -10,12 +10,14 @@
 
 #include <SFML/Graphics.hpp>
 
+enum class buttonCommand {ShutDown,StartNode,EndNode};
+
 class Button {
 private:
     sf::RenderWindow & window;
     sf::Vector2f position;
     sf::Vector2f size;
-    int id;
+    buttonCommand id;
     bool isFocused = false;
     bool isVisable;
     std::string fontName = "../client/arial.ttf";
@@ -34,7 +36,7 @@ public:
      * \param[in]        isVisable   Set the visability of the button
      */
     Button(sf::RenderWindow & window, sf::Vector2f position, sf::Vector2f size, 
-           int id, std::string text, bool isVisable = true);
+           buttonCommand id, std::string text, bool isVisable = true);
     
     /**
      * \brief Draw the button on the window.
@@ -116,7 +118,7 @@ public:
      *
      * \return The ID of the button
      */
-    int getId();
+    buttonCommand getId();
 
     /**
      * \brief Get the size of the button.

@@ -1,6 +1,6 @@
 /**
  * \file      button.cc
- * \author    René de Kluis, Koen de Groot
+ * \author    Rene de Kluis, Koen de Groot
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See LICENSE
  */
@@ -10,7 +10,7 @@
 #include "mouse.hh"
 
 Button::Button(sf::RenderWindow & window, sf::Vector2f position, 
-               sf::Vector2f size, int id, std::string text, bool isVisable):
+               sf::Vector2f size, buttonCommand id, std::string text, bool isVisable):
     window(window),
     position(position),
     size(size),
@@ -108,7 +108,7 @@ bool Button::isPressed() {
 sf::Vector2f Button::getPosition(){
     return position;
 }
-int Button::getId(){
+buttonCommand Button::getId(){
     return id;
 }
 sf::Vector2f Button::getSize(){
