@@ -1,13 +1,8 @@
 //
 // Created by jeremy on 17-6-17.
 //
-
-
-
 #include "databasemanager.hh"
 #include <iostream>
-
-
 
 void databasemanager::connectTo(std::string ip, std::string username, std::string password) {
     connection.connectTo(ip, username, password);
@@ -24,7 +19,6 @@ std::string databasemanager::getAllCardIdFromDatabase() {
         res.append(connection.getFullResult()->getString("CARD_ID"));
         res += '\n';
     }
-
     return res;
 }
 
@@ -57,7 +51,6 @@ void databasemanager::setCardAuthorisationInDatabase(bool status, std::string ca
 
     std::cout<< query << '\n';
     connection.executeQueryNoResult(query);
-
 }
 
 bool databasemanager::addCardToDatabase(std::string cardId) {
@@ -72,7 +65,6 @@ bool databasemanager::addCardToDatabase(std::string cardId) {
     std::cout << query << '\n';
     connection.executeQueryNoResult(query);
     return true;
-
 }
 
 bool databasemanager::isCardInDatabase(std::string cardId) {
@@ -95,9 +87,6 @@ bool databasemanager::isCardInDatabase(std::string cardId) {
 void databasemanager::addEmployeeToDatabase( std::string name, std::string function, std::string adress,
                                             std::string postalcode, std::string street, std::string city) {
 
-
-
-
     std::string query;
     query += "INSERT INTO EMPLOYEE (NAME, FUNCTION, ADRESS, POSTALCODE, STREET, CITY) VALUES ('";
     query += name += "', '";
@@ -116,7 +105,6 @@ void databasemanager::executeQueryNoResult(std::string query) {
 
 void  databasemanager::executequery(std::string query) {
     connection.executeQuery(query);
-
 }
 
 std::unique_ptr<sql::ResultSet> &  databasemanager::getFullResultSet(){
