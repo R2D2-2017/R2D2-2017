@@ -6,6 +6,7 @@
  */
 
 #include "graph-drawer.hh"
+#include <algorithm>
 
 GraphDrawer::GraphDrawer(sf::RenderWindow & window):
     window(window)
@@ -23,24 +24,24 @@ void GraphDrawer::draw() {
 void GraphDrawer::reload(Graph * g) {
     clear();
     std::vector<Node> nodeVector = g->getNodes();	
-    for (auto & it : nodeVector) {
+    for (auto & node : nodeVector) {
         graphNodes.push_back(
             GraphNode(
                 sf::Vector2f(
-                    it.getCoordinate().x*scaling,
-                    it.getCoordinate().y*scaling),
-                it.getName()));
+                    node.getCoordinate().x*scaling,
+                    node.getCoordinate().y*scaling),
+                node.getName()));
     }
     std::vector<Vertice> verticeVector = g->getVertices();	
-    for (auto & it : verticeVector) {
+    for (auto & vertice : verticeVector) {
         graphVertices.push_back(GraphVertice(
             sf::Vector2f(
-                it.getCurrent()->getCoordinate().x*scaling,
-                it.getCurrent()->getCoordinate().y*scaling
+                vertice.getCurrent()->getCoordinate().x*scaling,
+                vertice.getCurrent()->getCoordinate().y*scaling
             ),
             sf::Vector2f(
-                it.getNeighbour()->getCoordinate().x*scaling,
-                it.getNeighbour()->getCoordinate().y*scaling
+                vertice.getNeighbour()->getCoordinate().x*scaling,
+                vertice.getNeighbour()->getCoordinate().y*scaling
             )));
     }
 }
@@ -74,7 +75,7 @@ void GraphDrawer::setEndNode(std::string nodeName) {
 
 void GraphDrawer::highlightPath(std::vector<PathNode> path) {
     // loop through the path
-    for (unsigned int i = 0; i < path.size()-1; i++) {
+    for (size_t i = 0; i < path.size()-1; ++i) {
         for (auto vertice = graphVertices.begin();
             vertice != graphVertices.end(); ++vertice) {
             // check per vertice whether it is the right one
