@@ -26,12 +26,14 @@ public:
     /**
      * \brief Constructor
      *
-     * \param[in,out]    window      The SFML window
+     * \param[in]        window      The SFML window
      * \param[in]        position    Position of the button (x,y)
      * \param[in]        size        Size of the button (x,y)
      * \param[in]        id          ID of the button
      * \param[in]        text        Displaytext what comes on the button
-     * \param[in]        isVisable   Set the visability of the button
+     * \param[in]        isVisable   Set the visability of the button, default
+     *                               is that the button will be visable, so 
+     *                               the default value is true
      */
     Button(sf::RenderWindow & window, sf::Vector2f position, sf::Vector2f size, 
            int id, std::string text, bool isVisable = true);
