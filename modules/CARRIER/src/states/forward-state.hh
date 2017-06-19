@@ -19,9 +19,6 @@ class CarrierController;
  * \brief ForwardState class to control the ForwardState in the CarrierController
  */
 class ForwardState : public ICarrierState {
-    private:
-        /// Reference of the CarrierController so it can be used in the states
-        CarrierController *controller;
     public:
         /**
          * \brief Constructor for the ForwardState class

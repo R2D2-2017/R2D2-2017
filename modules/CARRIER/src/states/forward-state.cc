@@ -8,7 +8,8 @@
 #include "forward-state.hh"
 using namespace Carrier;
 
-ForwardState::ForwardState(CarrierController* controller) : controller(controller) {
+ForwardState::ForwardState(CarrierController* controller) {
+    this->controller = controller;
     if (controller->getSonar()->getDistance() <= 50) {
         controller->setState(CarrierState::Idle);
     } else {

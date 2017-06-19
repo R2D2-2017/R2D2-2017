@@ -1,7 +1,8 @@
 #include "idle-state.hh"
 using namespace Carrier;
 
-IdleState::IdleState(CarrierController* controller) : controller(controller) {
+IdleState::IdleState(CarrierController* controller) {
+    this->controller = controller;
     // if (controller->sonarSensor.getDistance() <= distThreshold) {
         // controller->setState(new IdleState(controller));
     // }

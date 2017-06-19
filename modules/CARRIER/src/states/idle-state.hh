@@ -20,10 +20,7 @@ class CarrierController;
  * \brief IdleState class to control the IdleState in the CarrierController
  */
 class IdleState : public ICarrierState {
-    private:
-        /// Reference of the CarrierController so it can be used in the states
-        CarrierController* controller;
-    public:\
+    public:
         /**
          * \brief Constructor for the IdleState class
          * \param[in] controller Reference of a CarrierController that the IdleState can use to controll the carrier
