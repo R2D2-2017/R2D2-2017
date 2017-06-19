@@ -88,8 +88,8 @@ void Client::run(){
                             static_cast<int>(button::EndNode), "End Node", 
                             false));
 
-    bool startNodeSelected = 0;
-    bool endNodeSelected = 0;
+    bool startNodeSelected = false;
+    bool endNodeSelected = false;
 
     sf::FloatRect startNodeButtonBounds;
     sf::FloatRect endNodeButtonBounds;
@@ -101,38 +101,38 @@ void Client::run(){
         sf::sleep(sf::milliseconds(20));
         drawer.draw();
         window.setView(window.getDefaultView());
-        for (auto & indexer : buttonList) {
-            if (indexer->getId() == static_cast<int>(button::ShutDown)) {
-                indexer->draw();
+        for (auto & button : buttonList) {
+            if (button->getId() == static_cast<int>(button::ShutDown)) {
+                button->draw();
             }
-            else if (indexer->getId() == static_cast<int>(button::StartNode)) {
-                startNodeButtonBounds = indexer->getBounds();
+            else if (button->getId() == static_cast<int>(button::StartNode)) {
+                startNodeButtonBounds = button->getBounds();
                 window.updateView();
-                indexer->draw();
+                button->draw();
                 window.setView(window.getDefaultView());
             }
-            else if (indexer->getId() == static_cast<int>(button::EndNode)) {
-                endNodeButtonBounds = indexer->getBounds();
+            else if (button->getId() == static_cast<int>(button::EndNode)) {
+                endNodeButtonBounds = button->getBounds();
                 window.updateView();
-                indexer->draw();
+                button->draw();
                 window.setView(window.getDefaultView());
             }
             
         }
         window.updateView();
         if (GetMouseClick()) {
-            for (auto & indexer : buttonList) {
+            for (auto & button : buttonList) {
                 bool temp = false;
-                if (indexer->isPressed()) { 
+                if (button->isPressed()) { 
                     temp = true; 
                 }
                 window.setView(window.getDefaultView());
-                if (indexer->isPressed()) { 
+                if (button->isPressed()) { 
                     temp = true; 
                 }
                 window.updateView();
                 if (temp) {
-                    switch (indexer->getId()) {
+                    switch (button->getId()) {
                     case static_cast<int>(button::ShutDown):
                         window.close();
                         exit(0);
@@ -153,33 +153,33 @@ void Client::run(){
             window.updateView();
             clickedNode = drawer.checkNodeClicked();
             if (clickedNode.isPressed(window)) {
-                for (auto & indexer : buttonList) {
+                for (auto & button : buttonList) {
                     window.setView(window.getDefaultView());
-                    if (indexer->getId() == 
+                    if (button->getId() == 
                         static_cast<int>(button::StartNode)) {
-                        indexer->setPosition({
+                        button->setPosition({
                             clickedNode.getBounds().left, 
                             (clickedNode.getBounds().top + 
                             1.5f*clickedNode.getBounds().height)});
-                        indexer->setVisable(true);
+                        button->setVisable(true);
                     }
-                    if (indexer->getId() == static_cast<int>(button::EndNode)) {
-                        indexer->setPosition({
+                    if (button->getId() == static_cast<int>(button::EndNode)) {
+                        button->setPosition({
                             clickedNode.getBounds().left,
                             (clickedNode.getBounds().top + 
                             2.5f * clickedNode.getBounds().height)});
-                        indexer->setVisable(true);
+                        button->setVisable(true);
                     }
                 }
                 window.updateView();
             }
             else {
-                for (auto & indexer : buttonList) {
-                    if (indexer->getId() == 
+                for (auto & button : buttonList) {
+                    if (button->getId() == 
                         static_cast<int>(button::StartNode) || 
-                        indexer->getId() == 
+                        button->getId() == 
                         static_cast<int>(button::EndNode)) {
-                            indexer->setVisable(false);
+                            button->setVisable(false);
                     }
                 }
             }
