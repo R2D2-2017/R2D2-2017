@@ -1,11 +1,11 @@
-
  /**
  * \file      main.cc
  * \brief     Program for giving an indication when a rfid card has been detected, a database connection has been made and a string has been encrypted
- * \author    Tim IJntema, Stefan de Beer, Arco Gelderblom, Rik Honcoop, Koen de Groot, Ricardo Bouwman
+ * \author    Tim IJntema, Stefan de Beer, Arco Gelderblom, Rik Honcoop, Koen de Groot, Ricardo Bouwman, Leo Jenneskens, Luuk Steeman
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See LICENSE
  */
+
 
 #include "mysql.hh"
 #include "mfrc522.hh"
@@ -61,29 +61,61 @@ int main(int argc, char **argv) {
             delay(1000);
             std::cout << "\n\nWaiting for rfid tag: \n";
 
-            if(!rfid.PICC_IsNewCardPresent())
-                continue;
-            if(!rfid.PICC_ReadCardSerial())
-                continue;
+            rfid.PICC_IsNewCardPresent();
+               
+            rfid.PICC_ReadCardSerial();
+                
             // Hier moet het database gedeelte komen om te checken of je ID al in de database staat
 
 #ifdef USING_PIN
-            MFRC522::MIFARE_Key key = {0xFF, 0xFF, 0xFF, 0xFF};
+            MFRC522::MIFARE_Key key = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
 
             std::cout << "Input PIN and finish with #\n";
 
-            long value = atol(keypad.getString().c_str());
+            std::string value = keypad.getString();
+            long result;
 
-            if(!rfid.PCD_Authenticate(MFRC522::PICC_CMD_MF_AUTH_KEY_A, (byte)0x03, &key, &rfid.uid))
-                continue;
+            auto status = rfid.PCD_Authenticate(MFRC522::PICC_CMD_MF_AUTH_KEY_A, (byte)0x05, &key, &rfid.uid);
+            while (!(status == MFRC522::StatusCode::STATUS_OK)){
+                status = rfid.PCD_Authenticate(MFRC522::PICC_CMD_MF_AUTH_KEY_A, (byte)0x05, &key, &rfid.uid);
+            }
+            std::cout << (int)status;
+		byte  writearray[16] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+		int index = 0;
+             for(auto c :value){
+		if (c >47 && c < 58 ){
+		int number = c - 48;
+		writearray[index++] = (byte)number;
+		}
+	}
 
-            if (!rfid.MIFARE_SetValue((byte)0x03, value))
-                continue;
+           
+            rfid.MIFARE_Write((byte)0x05, writearray, (byte)16);
 
-            if (!rfid.MIFARE_GetValue((byte)0x03, &value))
-                continue;
+            for (int i = 0; i < 16; i++)
+            {
+                std::cout <<(int)writearray[i] << '\n';
+            } 
 
-            std::cout << value << '\n';
+
+
+            byte buffersize = (byte)18;
+            byte readarray[18] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+
+            
+
+
+            rfid.MIFARE_Read((byte)0x05,readarray, &buffersize);
+
+            std::cout << "Readarray contains: \n";
+            for (int i = 0; i < 18; i++)
+            {
+                std::cout <<(int)readarray[i] << '\n';
+            } 
+		
+		
+
+            
 #endif
 
             rfid.PCD_StopCrypto1();
