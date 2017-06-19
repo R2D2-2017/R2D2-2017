@@ -47,8 +47,8 @@ int main(int argc, char **argv) {
         rfid.PCD_Init();
 
         //Keypad pinSetup
-        const int keypadRow[] = {4, 1, 16, 15};
-        const int keypadColumn[] = {2, 7, 9, 8};
+        const int keypadRow[] = {15, 16, 1, 4};
+        const int keypadColumn[] = {8, 9, 7, 2};
 
         //Keypad objects
         MatrixKeypad keypad(keypadRow, keypadColumn, 4);
