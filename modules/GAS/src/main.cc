@@ -67,7 +67,7 @@ int main(){
 
     // thresholds
     int warningThreshold = 101; //green till 100
-    int dangerThreshold = 111;  // yrllow till 110
+    int dangerThreshold = 110;  // yrllow till 110
 
     // Initialize classes
     SdSpi sd(cs, spiBus);
