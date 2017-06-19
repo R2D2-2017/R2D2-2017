@@ -16,9 +16,9 @@
 int main() {
     WDT->WDT_MR = WDT_MR_WDDIS;
    
-    auto sclPin = hwlib::target::pin_oc(hwlib::target::pins::d21);
-    auto sdaPin = hwlib::target::pin_oc(hwlib::target::pins::d20);
- 	hwlib::i2c_bus_bit_banged_scl_sda i2c_bus(sclPin,sdaPin);
+  //   auto sclPin = hwlib::target::pin_oc(hwlib::target::pins::d21);
+  //   auto sdaPin = hwlib::target::pin_oc(hwlib::target::pins::d20);
+ 	// hwlib::i2c_bus_bit_banged_scl_sda i2c_bus(sclPin,sdaPin);
 
 
     auto ky101Pin = hwlib::target::pin_in(hwlib::target::pins::d14);
@@ -43,8 +43,8 @@ int main() {
     Stepper z(dirZ, stepZ, ENZ);
     RoboArm::RobotArmController r(x, y, z, xLimitSwitch, yLimitSwitch, ky101);
 
-    I2C i2c(i2c_bus);
-    i2c.runDemo();
+   // I2C i2c(i2c_bus);
+   // i2c.runDemo();
 
     RobotArmTester tester(r);
 
