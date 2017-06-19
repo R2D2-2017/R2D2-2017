@@ -22,7 +22,7 @@ set(sources
     src/encryption.cc
     src/led-controller.cc
     src/matrix-keypad.cc
-    src/config-file-parser.cc)
+    src/config-file-parser.cc src/databasemanager.cc src/databasemanager.hh)
 
 add_executable(${exe_name} ${sources})
 target_link_libraries(${exe_name} ${WIRINGPI_LIBRARIES} ${mysqlcppconn_LIBRARIES})
