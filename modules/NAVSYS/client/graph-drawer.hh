@@ -35,7 +35,7 @@ public:
      * \brief Draw the graph on the SFML window.
      *
      * This function will draw the nodes en vertices in the window given in the
-     * parameter.
+     * constructor of the class.
      * 
      */
     void draw();
@@ -54,22 +54,23 @@ public:
     /**
      * \brief Clear the vectors with nodes and vertices
      *
-     * This function will clear the std::vectors
-     * 
+     * calling this function will empty the vectors 
+     * storing the node en vertice vectors
+     *
      */
     void clear();
 
     /**
      * \brief Set the begin node for the path
      *
-     * \param[in] nodeName The name of the node that is the begin
+     * \param[in] nodeName The Unique name of the node that is the begin
      */
     void setBeginNode(std::string nodeName);
 
     /**
      * \brief Set the end node for the path
      *
-     * \param[in] nodeName The name of the node that is the end
+     * \param[in] nodeName The Unique name of the node that is the end
      */
     void setEndNode(std::string nodeName);
 
