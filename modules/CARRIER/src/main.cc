@@ -6,6 +6,7 @@
 #include "hc-sr04.hh"
 #include "./states/i-carrier-state.hh"
 #include <wiringPi.h>
+#include <vector>
 
 int main(void) {
     // Wiringpi pin setup
@@ -13,15 +14,26 @@ int main(void) {
 
     // Pin configuration - https://pinout.xyz/pinout/wiringpi
     int statusLed = 29;
-    int trigger   =  4;
-    int echo      =  5;
+
+    int northTrigger   =  4;
+    int northEcho      =  5;
+
+    int eastTrigger   =  25;
+    int eastEcho      =  24;
+
+    int southTrigger   =  0;
+    int southEcho      =  7;
+
+    int westTrigger   =  27;
+    int westEcho      =  28;
+
     int hallPin   =  8;
 
     //Declaration of the system classes
     MotorController                  controller("/dev/ttyS0", 38400);
     SerialCom                        serialCom("/dev/rfcomm0", 9600);
-    HcSr04                           sonarSensor(trigger, echo);
-    Carrier::CarrierController       stateMachine(controller, sonarSensor, 50);
+    std::vector<HcSr04> sonarSensors = {HcSr04(northTrigger, northEcho), HcSr04(eastTrigger, eastEcho), HcSr04(southTrigger, southEcho), HcSr04(westTrigger, westEcho)  };
+    Carrier::CarrierController       stateMachine(controller, sonarSensors, 127);
 
     // Quick bluetooth status led
     pinMode(statusLed, OUTPUT);

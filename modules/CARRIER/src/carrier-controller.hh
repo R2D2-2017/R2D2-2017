@@ -19,10 +19,21 @@
 #include "./states/clockwise-state.hh"
 #include "./states/counter-clockwise-state.hh"
 #include "./states/idle-state.hh"
-
 #include <memory>
+#include <vector>
 
 namespace Carrier {
+
+/**
+ * \brief enum for the different distance sensors
+ */
+enum SonarDirections {
+    North = 0,
+    East,
+    South,
+    West,
+    All,
+};
 
 /**
  * \brief Controls (non-)autonomous actions
@@ -40,7 +51,7 @@ public:
      * \param[in]  speed            the speed in ???-units
      */
     CarrierController(MotorController &motorController,
-                      HcSr04 &sonarSensor, int speed = 1);
+                      std::vector<HcSr04>& sonarSensors, int speed = 1);
 
     /**
      * \brief Sets the speed
@@ -72,14 +83,14 @@ public:
 
     MotorController &getMotorController();
 
-    HcSr04 &getSonar();
+    std::vector<int> getSonarValue(SonarDirections direction);
 
 private:
     /// Controller to send commands to the motors
     MotorController &motorController;
 
     /// Sonar sensor for object avoidance
-    HcSr04 &sonarSensor;
+    std::vector<HcSr04> &sonarSensors;
 
     /// The speed in ???-units
     int speed;

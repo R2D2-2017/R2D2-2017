@@ -9,7 +9,7 @@
 using namespace Carrier;
 
 ForwardState::ForwardState(CarrierController &controller) : ICarrierState{ controller } {
-    if (controller.getSonar().getDistance() <= 50) {
+    if (controller.getSonarValue(SonarDirections::North)[0] <= 50) {
         controller.setState(CarrierState::Idle);
     } else {
         controller.getMotorController().forward(controller.getSpeed());
@@ -17,7 +17,7 @@ ForwardState::ForwardState(CarrierController &controller) : ICarrierState{ contr
 }
 
 void ForwardState::update() {
-    if (controller.getSonar().getDistance() <= 50) {
+    if (controller.getSonarValue(SonarDirections::North)[0] <= 50) {
         controller.setState(CarrierState::Idle);
     }
 }
