@@ -1,4 +1,6 @@
 #include "carrier-controller.hh"
+#include "hallsensor.hh"
+#include "hc-sr04.hh"
 #include "motor-controller.hh"
 #include "serial-com.hh"
 #include "hc-sr04.hh"
@@ -14,6 +16,7 @@ int main(void) {
     int statusLed = 29;
     int trigger   =  4;
     int echo      =  5;
+    int hallPin   =  8;
 
     //Declaration of the system classes
     MotorController controller("/dev/ttyS0", 38400);

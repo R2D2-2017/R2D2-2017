@@ -1,24 +1,38 @@
 /**
  * \file
- * \brief     Sonar Sensor header file
- * \author    Luke Roovers
+ * \brief     Hall sensor header file
+ * \author    Luke Roovers, Jan Halsema
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See LICENSE
  */
 
 #pragma once
+
+#include <atomic>
+#include <chrono>
+#include <mutex>
+#include <thread>
+
 #include <wiringPi.h>
+
+using namespace std::literals;
 
 class HallSensor {
 private:
-    int     hallSensorPin;
-    bool    Value = 0;
+    const int hallSensorPin;
+
+    const std::chrono::nanoseconds pollTime;
+
+    std::atomic_uint rotationCount{ 0 };
+
+    std::thread pollThread;
+    bool running = true;
+    void threadMain();
+
 public:
-    HallSensor(int & hallSensorPin);
-    /**
-     * \brief Function to get the value of the hall sensor
-     *
-     * \return bool - 1 is on, 0 is off. Sad funtion is sad.
-     */
-    bool get();
+    HallSensor(const int hallSensorPin, const std::chrono::nanoseconds pollTime = 2s);
+    ~HallSensor();
+
+    int  rotations();
+    void reset();
 };
