@@ -23,8 +23,7 @@ set(hwlib ../../libraries/hwlib)
 include_directories(${hwlib}/library)
 add_definitions(-DBMPTK_TARGET_arduino_due
         -DBMPTK_TARGET=arduino_due
-        -DBMPTK_BAUDRATE=19200)
-
+        -DBMPTK_BAUDRATE=9600)
 set(sources
         src/parser.cc
         src/wrap-hwlib.cc
@@ -32,7 +31,8 @@ set(sources
         src/ky101.cc
         src/robot-arm.cc
         src/main.cc
-        src/RobotArmTester.cc
+        src/robot-arm-tester.cc
+        src/wifi.cc
         src/I2C.cc
         )
 

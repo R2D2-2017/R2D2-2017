@@ -9,7 +9,9 @@
 #include "parser.hh"
 #include "robot-arm.hh"
 #include "stepper.hh"
+#include "wifi.hh"
 #include "wrap-hwlib.hh"
+#include "robot-arm-tester.hh"
 #include "I2C.hh"
 
 
@@ -19,7 +21,7 @@ int main() {
 
     auto sclPin = hwlib::target::pin_oc(hwlib::target::pins::d21);
     auto sdaPin = hwlib::target::pin_oc(hwlib::target::pins::d20);
-    hwlib::i2c_bus_bit_banged_scl_sda i2c_bus(sclPin,sdaPin);
+    hwlib::i2c_bus_bit_banged_scl_sda i2c_bus(sclPin, sdaPin);
 
     auto ky101Pin = hwlib::target::pin_in(hwlib::target::pins::d14);
 
@@ -41,6 +43,11 @@ int main() {
     auto m1LimitSwitch = hwlib::target::pin_in(hwlib::target::pins::d2);
     auto m2LimitSwitch = hwlib::target::pin_in(hwlib::target::pins::d3);
 
+    auto wifiRx = hwlib::target::pin_in(hwlib::target::pins::d19);
+    auto wifiTx = hwlib::target::pin_out(hwlib::target::pins::d18);
+
+    auto wifi = Wifi(wifiRx, wifiTx);
+
     Ky101 ky101(ky101Pin);
 
     Stepper m1Stepper(m1Dir, m1Step, m1Enable);
@@ -55,7 +62,10 @@ int main() {
                                          ky101);
 
     I2C i2c(i2c_bus);
-    i2c.runDemo();
+    RobotArmTester tester(robotarm, i2c);
+
+    wifi.setupAccessPoint("ROBOARM", "123454321");
+    wifi.startServer();
 
     hwlib::cout << "start\r\n";
     robotarm.enable();
@@ -63,18 +73,59 @@ int main() {
     robotarm.startup(); // resets the robot position
     hwlib::cout << "started up\r\n";
 
-    hwlib::wait_ms(2000);
+    //hwlib::wait_ms(2000);
 
-    robotarm.moveTo({ 12, 12,  0 });
-    hwlib::wait_ms(3000);
-    robotarm.moveTo({ 12, 12,  45 });
-    hwlib::wait_ms(3000);
-    robotarm.moveTo({ 12, 12,  0 });
+    //robotarm.moveTo({ 12, 12,  0 });
+    //hwlib::wait_ms(3000);
+    //robotarm.moveTo({ 12, 12,  45 });
+    //hwlib::wait_ms(3000);
+    //robotarm.moveTo({ 12, 12,  0 });
 
-    robotarm.moveTo({ 24, 18,  20 });
-    hwlib::wait_ms(3000);
-    robotarm.moveTo({ 15, 2,   20 });
-    hwlib::wait_ms(2000);
+    //robotarm.moveTo({ 24, 18,  20 });
+    //hwlib::wait_ms(3000);
+    //robotarm.moveTo({ 15, 2,   20 });
+    //hwlib::wait_ms(2000);
+
+    using namespace RoboArm::Parser;
+    while (true) {
+        hwlib::string<16> command = wifi.receive();
+
+        if (command == "TEST 0") {
+            tester.run(0);
+            wifi.send("Done\n");
+        } else if (command == "TEST 1") {
+            tester.run(1);
+            wifi.send("Done\n");
+        } else if (command == "TEST 2") {
+            tester.run(2);
+            wifi.send("Done\n");
+        } else if (command == "ping") {
+            wifi.send("pong\n");
+        } else if (command == "help") {
+            wifi.send("EN\n");
+            wifi.send("DIS\n");
+            wifi.send("I2CDemo\n");
+            wifi.send("RESET\n");
+            wifi.send("X\n");
+            wifi.send("Y\n");
+            wifi.send("Z\n");
+            wifi.send("WAIT_S\n");
+            wifi.send("WAIT_MS\n");
+            wifi.send("TEST\n\n");
+        } else if (command == "exit") {
+            break;
+        } else {
+            Status result = parseCommand(command, robotarm, i2c);
+            switch (result) {
+                case Status::SyntaxError:
+                    wifi.send("Syntax error\n");
+                    break;
+                case Status::Successful:
+                    wifi.send("Done\n");
+                    break;
+            }
+        }
+    }
 
     hwlib::cout << "end\r\n";
     robotarm.disable();
