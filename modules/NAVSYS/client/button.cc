@@ -116,5 +116,5 @@ sf::Vector2f Button::getSize(){
 }
 
 sf::FloatRect Button::getBounds() {
-    return sf::FloatRect(position.x, position.y, size.x, size.y);
+    return button.getGlobalBounds();
 }
