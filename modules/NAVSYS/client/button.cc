@@ -59,10 +59,6 @@ void Button::setState(bool b) {
     pressedState = b;
 }
 
-bool Button::getFocus() {
-    return pressedState;
-}
-
 void Button::setSize(sf::Vector2f newSize) {
     button.setSize(newSize);
     size = newSize;

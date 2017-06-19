@@ -23,7 +23,7 @@ private:
     sf::Font font;
     sf::Text buttonText;
     sf::RectangleShape button;
-    int outlineThickness = 2;
+    float outlineThickness = 2;
     float xScaleDivider = 20;
     float yScaleDivider = 2;
 	
