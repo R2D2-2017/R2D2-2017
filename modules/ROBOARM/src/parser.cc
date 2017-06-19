@@ -61,19 +61,16 @@ Status RoboArm::Parser::parseCommand(const hwlib::string<0> &command,
         // debug output for the parser
         hwlib::cout << action << ' ' << amount << "\r\n";
 
-        if (action == "X") {
-            robotArmController.rotateAxis(RobotAxis::X, intAmount,
-                                          !direction);
+        if (action == "M1") {
+            robotArmController.rotateMotor(Motor::M1, intAmount, direction);
             return Status::Successful;
         }
-        if (action == "Y") {
-            robotArmController.rotateAxis(RobotAxis::Y, intAmount,
-                                          direction);
+        if (action == "M2") {
+            robotArmController.rotateMotor(Motor::M2, intAmount, direction);
             return Status::Successful;
         }
-        if (action == "Z") {
-            robotArmController.rotateAxis(RobotAxis::Z, intAmount,
-                                          !direction);
+        if (action == "M3") {
+            robotArmController.rotateMotor(Motor::M3, intAmount, direction);
             return Status::Successful;
         }
         if (action == "WAIT_S") {
