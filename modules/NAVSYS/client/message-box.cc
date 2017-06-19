@@ -4,10 +4,9 @@
 
 
 
-MessageBox::MessageBox(sf::RenderWindow & window, sf::Vector2f position, sf::View viewPort):
+MessageBox::MessageBox(sf::RenderWindow & window, sf::Vector2f position) :
     window(window),
-    position(position),
-    viewPort(viewPort)
+    position(position)
 {
     if (!font.loadFromFile(fontName)) {
         std::cerr << "Requested font could not be loaded.\n";
@@ -16,15 +15,20 @@ MessageBox::MessageBox(sf::RenderWindow & window, sf::Vector2f position, sf::Vie
     messageText.setPosition(position);
     messageText.setString(message);
     messageText.setColor(sf::Color::White);
+    messageText.setScale({0.5f, 0.5f});
+    clock.restart();
 }
 
 
-void MessageBox::update(){
-    messageText.setString(message);
-    window.draw(messageText);
+void MessageBox::draw(){
+    if (clock.getElapsedTime() < sf::seconds(2)) {
+        window.draw(messageText);
+    }
 }
 
 void MessageBox::setMessage(std::string newMessage) {
     message = newMessage;
+    messageText.setString(message);
+    clock.restart();
 }
 
