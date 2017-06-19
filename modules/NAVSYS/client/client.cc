@@ -52,7 +52,7 @@ void Client::run(){
     
     //create the window
     Window window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "NAVSYS", 
-                  sf::Style::Default);
+                  sf::Style::Fullscreen);
     
     //Add a viewport
     window.setViewPort(sf::Vector2f(WINDOW_WIDTH, WINDOW_HEIGHT), 
@@ -160,14 +160,14 @@ void Client::run(){
                         indexer->setPosition({
                             clickedNode.getBounds().left, 
                             (clickedNode.getBounds().top + 
-                            1.5f*clickedNode.getBounds().height)});
+                            3.f*clickedNode.getBounds().height)});
                         indexer->setVisable(true);
                     }
                     if (indexer->getId() == static_cast<int>(button::EndNode)) {
                         indexer->setPosition({
                             clickedNode.getBounds().left,
                             (clickedNode.getBounds().top + 
-                            2.5f * clickedNode.getBounds().height)});
+                            5.f * clickedNode.getBounds().height)});
                         indexer->setVisable(true);
                     }
                 }
@@ -223,7 +223,7 @@ void Client::run(){
                     window.close();
                 }
             }
-            window.moveViewPort(gestureHandler.getMouseDrag(20));
+            window.moveViewPort(gestureHandler.getMouseDrag(20, 150));
             window.updateView();
         }
     }
