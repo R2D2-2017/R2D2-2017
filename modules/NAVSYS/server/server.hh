@@ -41,8 +41,8 @@ public:
     /**
      * \brief Broadcasts a message to all available clients
      *
-     * This functions doesn't check yet if clients are still connected, so it can 
-     * return with error messages if clients have already left.
+     * This functions doesn't check yet if clients are still connected, so it 
+     * can return with error messages if clients have already left.
      *
      * \param[in] message Message that needs to broadcast, std::string
      */
@@ -52,8 +52,8 @@ public:
     /**
      * \brief Runs the server
      *
-     * This function gets called in the main, and handles everything that might 
-     * happen. It isn't perfect yet, a lot of functionality is still missing.
+     * This function holds the main loop of the server. If you want to edit the
+     * functionality of the server that can be done here.
      */
     void run();
 
