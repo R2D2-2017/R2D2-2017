@@ -26,7 +26,7 @@ public:
 
     /**
      * \brief
-     * @param input
+     * @param input the input to parse
      */
     void parseArray(char* input);
 
