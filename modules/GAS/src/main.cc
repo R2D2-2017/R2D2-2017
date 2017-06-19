@@ -47,16 +47,14 @@ int main(){
     target::pin_out cs(target::pins::d7);
 
     // matrix pins
-    auto digitalIn  = target::pin_out( target::pins::d4 );
-    auto chipSelect  = target::pin_out( target::pins::d5 );
-    auto clock  = target::pin_out( target::pins::d6 );
+    target::pin_out digitalIn( target::pins::d4 );
+    target::pin_out chipSelect( target::pins::d5 );
+    target::pin_out clock( target::pins::d6 );
 
     // alarm leds
     target::pin_out redAlarmLed(target::pins::d8);
     target::pin_out yellowAlarmLed(target::pins::d9);
     target::pin_out greenAlarmLed(target::pins::d10);
-
-
 
     // speaker sound players
     target::pin_out warningSpeakerPin(target::pins::d11);
@@ -71,7 +69,6 @@ int main(){
     int warningThreshold = 0;
     int dangerThreshold = 120;
 
-
     // Initialize classes
     SdSpi sd(cs, spiBus);
     Speaker warningPlayer( warningSpeakerPin );
@@ -82,7 +79,6 @@ int main(){
 
     MuStore::FatFs fileSystem(&sd);
     MuStore::FsError err;
-
     MuStore::FsNode dataFile = fileSystem.get("/data.txt", err);
     hwlib::cout << "\r\n";
     hwlib::cout << (int)err << "\r\n";
@@ -115,8 +111,6 @@ int main(){
     dataFile.write(sessionSeparator, sizeof(sessionSeparator), err);
 
     //start loop
-
-    int mockup = 0;
     //hwlib::cout << "Writing to sd card\r\n";
     using namespace hwlib;
     while (true) {
@@ -124,16 +118,15 @@ int main(){
 
         //read mq-5 sensor
         mq5Value = mq5.getSensorPercentage();
-        convertToChar(mockup++, charValue);
+        convertToChar(mq5Value, charValue);
         matrix.operate(charValue);
         //write it to sd card and check if alarm needs to go off
+        hwlib::cout << charValue << "\r\n";
         dataFile.write(charValue, 3, err);
         hwlib::cout << "wiring data 0 for success: " << (int)err << "\r\n";
         dataFile.write("\r\n", 2, err);
         hwlib::cout << "wiring newline 0 for success: " << (int)err << "\r\n";
         alarm.checkGasValue(mq5Value);
-
-
 
         //print error value of the write action
         //hwlib::cout << (int)err << "\r\n";
