@@ -1,0 +1,203 @@
+Current output:
+ 
+ 
+ Starting server
+current: 
+lowestf: 6.7082 S
+tentativeG: 7
+curg: 0
+openedNodes now:
+name: A
+closedNodes now:
+name: S
+
+
+tentativeG: 2
+curg: 0
+openedNodes now:
+name: A
+name: B
+closedNodes now:
+name: S
+
+
+tentativeG: 3
+curg: 0
+openedNodes now:
+name: A
+name: B
+name: C
+closedNodes now:
+name: S
+
+
+current: S
+lowestf: 14.2801 A
+lowestf: 8.08276 B
+lowestf: 7.24264 C
+tentativeG: 10
+curg: 7
+
+
+tentativeG: 5
+curg: 2
+
+
+
+
+tentativeG: 5
+curg: 0
+openedNodes now:
+name: A
+name: B
+name: L
+closedNodes now:
+name: S
+name: C
+
+
+
+
+current: C
+lowestf: 14.2801 A
+lowestf: 8.08276 B
+lowestf: 6.41421 L
+tentativeG: 12
+curg: 7
+
+
+tentativeG: 7
+curg: 2
+
+
+
+
+
+
+
+
+
+
+tentativeG: 9
+curg: 0
+openedNodes now:
+name: A
+name: B
+name: I
+closedNodes now:
+name: S
+name: C
+name: L
+
+
+tentativeG: 9
+curg: 0
+openedNodes now:
+name: A
+name: B
+name: I
+name: J
+closedNodes now:
+name: S
+name: C
+name: L
+
+
+current: L
+lowestf: 14.2801 A
+lowestf: 8.08276 B
+tentativeG: 9
+curg: 7
+
+
+
+
+
+
+
+
+
+
+
+
+tentativeG: 6
+curg: 9
+openedNodes now:
+name: A
+name: I
+name: J
+closedNodes now:
+name: S
+name: C
+name: L
+name: B
+
+
+tentativeG: 6
+curg: 9
+openedNodes now:
+name: A
+name: I
+name: J
+closedNodes now:
+name: S
+name: C
+name: L
+name: B
+
+
+tentativeG: 5
+curg: 7
+openedNodes now:
+name: A
+name: I
+name: J
+closedNodes now:
+name: S
+name: C
+name: L
+name: B
+
+
+tentativeG: 6
+curg: 0
+openedNodes now:
+name: A
+name: I
+name: J
+name: D
+closedNodes now:
+name: S
+name: C
+name: L
+name: B
+
+
+tentativeG: 3
+curg: 0
+openedNodes now:
+name: A
+name: I
+name: J
+name: D
+name: H
+closedNodes now:
+name: S
+name: C
+name: L
+name: B
+
+
+tentativeG: 6
+curg: 6
+
+
+
+
+current: B
+lowestf: 12.2801 A
+lowestf: 8 I
+lowestf: 6 J
+current reconstruc: J
+path:
+S --> B --> J --> print het path alleen als er een cout achter staat??????
