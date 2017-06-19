@@ -1,6 +1,6 @@
 /**
  * \file      mouse.cc
- * \author    René de Kluis, Koen de Groot
+ * \author    Rene de Kluis, Koen de Groot
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See LICENSE
  */

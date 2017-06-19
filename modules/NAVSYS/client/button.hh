@@ -1,7 +1,7 @@
 /**
  * \file      button.hh
  * \brief     This class will let a button appear in a SFML window.
- * \author    René de Kluis, Koen de Groot
+ * \author    Rene de Kluis, Koen de Groot
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See LICENSE
  */
@@ -23,7 +23,7 @@ private:
     sf::Font font;
     sf::Text buttonText;
     sf::RectangleShape button;
-    int outlineThickness = 2;
+    float outlineThickness = 2;
     float xScaleDivider = 20;
     float yScaleDivider = 2;
 

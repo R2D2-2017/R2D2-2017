@@ -2,7 +2,7 @@
  * \file      mouse.cc
  * \brief     This file has global functions to recieve information about the 
  *            mouse.
- * \author    René de Kluis, Koen de Groot
+ * \author    Rene de Kluis, Koen de Groot
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See LICENSE
  */

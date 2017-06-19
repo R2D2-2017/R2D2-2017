@@ -1,6 +1,6 @@
 /**
  * \file      button.cc
- * \author    René de Kluis, Koen de Groot
+ * \author    Rene de Kluis, Koen de Groot
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See LICENSE
  */
@@ -39,7 +39,6 @@ Button::Button(sf::RenderWindow & window, sf::Vector2f position,
         button.setOutlineColor(sf::Color::Transparent);
         buttonText.setColor(sf::Color::Transparent);
     }
-
 }
 
 void Button::draw() {
