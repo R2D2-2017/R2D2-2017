@@ -10,6 +10,7 @@
 #pragma once
 
 #include <wiringPi.h>
+#include <string>
 
 /**
  * \brief Library for using a 3x4 or 4x4 keypad
@@ -60,5 +61,15 @@ public:
     * 
     */
     char getKey();
+
+    /**
+    * \brief Obtain a string of keys
+    * This function will collect keys that are pressed on the keypad.
+    * The keys will be collected until the '#' key is pressed.
+    *
+    * \return The a string containing the pressed keys.
+    *
+    */
+    std::string getString();
 };
 

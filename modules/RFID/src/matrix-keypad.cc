@@ -22,13 +22,15 @@ MatrixKeypad::MatrixKeypad(const int *row, const int *column, int colSize):
 }
 
 char MatrixKeypad::getKey() {
-    pinMode(column[0], OUTPUT);
-    digitalWrite(column[0], 0);
-    for (int currentRow = 0; currentRow < rowSize; currentRow++) {
-        pinMode(row[currentRow], INPUT);
-        pullUpDnControl(row[currentRow], PUD_UP);
-        if (digitalRead(row[currentRow]) == 0) {
-            activeRow = currentRow;
+    for (int currentCol = 0; currentCol < colSize; currentCol++) {
+        pinMode(column[currentCol], OUTPUT);
+        digitalWrite(column[currentCol], 0);
+        for (int currentRow = 0; currentRow < rowSize; currentRow++) {
+            pinMode(row[currentRow], INPUT);
+            pullUpDnControl(row[currentRow], PUD_UP);
+            if (digitalRead(row[currentRow]) == 0) {
+                activeRow = currentRow;
+            }
         }
     }
 
@@ -42,4 +44,21 @@ char MatrixKeypad::getKey() {
         }
     }
     return 'h';
+}
+
+std::string MatrixKeypad::getString(){
+    std::string pincode;
+    char c = getKey();
+    while (c != '#'){
+        if (c != 'h') {
+            pincode += c;
+            std::cout << "Key entered\n";
+        }
+        char heldKey = c;
+        while ((c = getKey()) == heldKey){
+            delay(10);
+        }
+        c= getKey();
+    }
+    return pincode;
 }
