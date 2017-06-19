@@ -61,13 +61,16 @@ int main(){
     target::pin_out startLed(target::pins::d13);
 
     // Initialize variables
-    int mq5Value = 0;
+    int measureWaitTime             = 2000000; //default value to prevent cpu slurp.
+    int mq5Value                    = 0;
+    const int startupLedWait        = 200;
+
     char charValue[4];
-    const char dataFilePath[] = "/data.txt";
-    const char confFilePath[] = "/conf.txt";
-    const char calibrationPath[] = "/calib.txt"
-    const char sessionSeparator[] = "\r\n=========================\r\n";
-    char configurationInput[100];
+    const char dataFilePath[]        = "/data.txt";
+    const char confFilePath[]        = "/conf.txt";
+    const char calibFilePath[]       = "/calib.txt";
+    const char sessionSeparator[]    = "\r\n=========================\r\n";
+    char configurationInput[200];
 
     // Initialize classes
     // Initialize classes for writing and reading from files
@@ -81,13 +84,14 @@ int main(){
     Alarm alarm(greenAlarmLed, yellowAlarmLed, redAlarmLed, warningPlayer, dangerPlayer);
     Mq5 mq5(sensor);
 
-    Parser parser(alarm, mq5);
+    Parser parser(alarm, mq5, &measureWaitTime);
 
+    hwlib::cout << (int)fileSystem.getFsSubType() << "\r\n";
     // Startup blink
     startLed.set(0);
-    hwlib::wait_ms(200);
+    hwlib::wait_ms(startupLedWait);
     startLed.set(1);
-    hwlib::wait_ms(100);
+    hwlib::wait_ms(startupLedWait);
     startLed.set(0);
 
     //Try to acces conf.txt and data.txt and check if they are actually on the SD card.
@@ -116,7 +120,6 @@ int main(){
         hwlib::cout << "conf.txt does not exist.\r\n";
     }
 
-
     //read data from configuration file TODO make that thing propper size.
     confFile.read(configurationInput, confFile.getSize(), err);
     configurationInput[confFile.getSize()] = '\0';
@@ -128,9 +131,12 @@ int main(){
     //to this location to append data instead of overwriting it.
     dataFile.seek(dataFile.getSize());
 
+    hwlib::cout << "insert general debug statement\r\n";
 
     //Write a sepearation line to the datafile to show where measurement sessions start and end.
     dataFile.write(sessionSeparator, sizeof(sessionSeparator), err);
+
+    hwlib::cout << "insert general debug statement\r\n";
 
     if (err != MuStore::FsError::FS_ERR_OK) {
         hwlib::cout << "Writing returend error: " << (char)err << "\r\n";
@@ -138,9 +144,9 @@ int main(){
 
     //Checks if the mq5 is callibrated and gets a calibration value if it is not calibrated.
     if(!mq5.getMq5Iscalibrated()){
-        char tempvaluearray[4] = '\0';
+        char tempvaluearray[4];
 
-        hwlib::cout << "Sensor is not calibrated.\r\nCallibration will start"
+        hwlib::cout << "Sensor is not calibrated.\r\nCallibration will start\r\n";
 
         MuStore::FsNode calibFile = fileSystem.get(calibFilePath, err);
 
@@ -154,9 +160,11 @@ int main(){
             hwlib::cout << "calib.txt does not exist.\r\n";
         }
 
-        convertToChar((int)mq5.getCalibrationValue(), tempvaluearray)
-        calibfile.write(tempvaluearray,sizeof(tempvaluearray) ,err);
+        convertToChar((int)mq5.getCalibrationValue(), tempvaluearray);
+        calibFile.write(tempvaluearray,sizeof(tempvaluearray) ,err);
         hwlib::cout << "wiring data 0 for success: " << (int)err << "\r\n";
+        calibFile.truncate();
+        hwlib::cout << "Calibration done.\r\nCheck calib.txt for the value\r\n";
         return 0;
     }
 
@@ -182,7 +190,7 @@ int main(){
         //print error value of the write action
         //hwlib::cout << (int)err << "\r\n";
 
-        hwlib::wait_us((int_fast32_t)(2000000 - (hwlib::now_us() - time)));
+        hwlib::wait_us((int_fast32_t)(measureWaitTime - (hwlib::now_us() - time)));
     }
 
     return 0;

@@ -24,8 +24,7 @@ public:
 	 * \param meanFilter The strictness of the mean-filter used on the average calculation
 	 */
 	Mq5(hwlib::target::pin_adc &sensor, float meanFilter = 0.2f)
-			: sensor(sensor), meanFilter(meanFilter) {
-	}
+			: sensor(sensor), meanFilter(meanFilter) { }
 
 
 	/**

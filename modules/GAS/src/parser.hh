@@ -21,30 +21,31 @@ public:
     /**
      * \brief Constructor for Parser
      */
-    Parser(Alarm &alarm, Mq5 &mq5);
+    Parser(Alarm &alarm, Mq5 &mq5, int *measurmentWaitTime);
 
     /**
      * \brief
      * @param input the input to parse
      */
-    void parseArray(char* input);
+    void parseArray(char *input);
 
 private:
 
     Alarm &alarm;
     Mq5 &mq5;
 
+    int *measurmentWaitTime;
     char variableName[20];
     int variableValue = 0;
 
-    char firstNoteString[10]            = "firstNote";
-    char secondNoteString[11]           = "secondNote";
-    char warningThresholdString[17]     = "warningThreshold";
-    char dangerThresholdString[16]      = "dangerThreshold";
-    char mq5CalibrationValueString[20]  = "mq5CalibrationValue";
-    char measureFrequencyString[17]     = "measureFrequency";
-	char isCalibratedString[13]			= "isCalibrated";
+    const char *firstNoteString             = "firstNote";
+    const char *secondNoteString            = "secondNote";
+    const char *warningThresholdString      = "warningThreshold";
+    const char *dangerThresholdString       = "dangerThreshold";
+    const char *mq5CalibrationValueString   = "mq5CalibrationValue";
+    const char *measureWaitTimeString       = "measureWaitTime";
+	const char *isCalibratedString          = "isCalibrated";
 
-    bool ifContainsString(char array[], char* string);
+    bool ifContainsString(char array[], const char *string);
 
 };

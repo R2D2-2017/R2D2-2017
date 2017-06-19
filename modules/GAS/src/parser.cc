@@ -11,11 +11,12 @@
 
 #include "parser.hh"
 
-Parser::Parser(Alarm &alarm, Mq5 &mq5) :
+Parser::Parser(Alarm &alarm, Mq5 &mq5, int *measurmentWaitTime) :
         alarm(alarm),
-        mq5(mq5) {}
+        mq5(mq5),
+        measurmentWaitTime(measurmentWaitTime) {}
 
-bool Parser::ifContainsString(char array[], char string[]) {
+bool Parser::ifContainsString(char array[], const char *string) {
     bool containsString = false;
     for (int i = 0; array[i] != '\0'; i++) {
         if (containsString) {break;}
@@ -99,22 +100,20 @@ void Parser::parseArray(char* input) {
             }
             else if (ifContainsString(variableName, mq5CalibrationValueString)) {
 				if (mq5.getMq5Iscalibrated()) {
-					mq5.setmq5CalibrationValue(variableValue);
+					mq5.setMq5CalibrationValue(variableValue);
                     mq5.setMq5Iscalibrated(true);
 				} else {
                     hwlib::cout << "isCalibrated is false callibrationvalue will not be set \r\n";
                 }
             }
-            else if (ifContainsString(variableName, measureFrequencyString)) {
-                //???.setMeasureFrequency(variableValue);
-                hwlib::cout << "TODO: ???.setMeasureFrequency(" << variableValue << ")" << "\r\n";
+            else if (ifContainsString(variableName, measureWaitTimeString)) {
+                *measurmentWaitTime = variableValue;
             }
 			else if (ifContainsString(variableName, isCalibratedString)) {
 				mq5.setMq5Iscalibrated((bool)variableValue);
 				hwlib::cout << "is calibrated = " << (bool)variableValue << "\r\n";
-            else {
+            } else {
                 hwlib::cout << ">>>PARSER ERROR : [ " << variableName << " ] is not a valid/known variable!" << "\r\n";
-            }
             }
         }
     }

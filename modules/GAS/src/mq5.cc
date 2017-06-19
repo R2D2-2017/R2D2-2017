@@ -23,8 +23,10 @@ float Mq5::readSensorAverage(int quantityCounter) {
     float totalValue = 0;
     float sensorValue;
     for(int i = 0; i < quantityCounter; i++){
+        hwlib::cout << i << "\r\n";
         do {
-            sensorValue = readSensor();
+            sensorValue = readSensor() * 1000;
+            hwlib::cout << (int)sensorValue << "\r\n";
         }
         while((1+meanFilter) > (sensorValue / (totalValue/quantityCounter)) && (sensorValue / (totalValue/quantityCounter)) > (1-meanFilter));
         totalValue += readSensor();
@@ -37,7 +39,7 @@ int Mq5::getSensorPercentage() {
     return (int)(100 / calibrationValue * readSensorAverage(1));
 }
 float Mq5::getCalibrationValue(/*int quantity*/){
-    int measurementQuantity = 200;
+    int measurementQuantity = 50;
     return readSensorAverage(measurementQuantity);
 }
 
