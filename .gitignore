@@ -241,10 +241,10 @@ local.properties
 .worksheet
 
 ### Eclipse Patch ###
-# Eclipse Core		
+# Eclipse Core
 .project
 
-# JDT-specific (Eclipse Java Development Tools)		
+# JDT-specific (Eclipse Java Development Tools)
 .classpath
 
 ### Emacs ###
@@ -725,5 +725,8 @@ __pycache__/
 *.btm.cs
 *.odx.cs
 *.xsd.cs
+
+# hwlib autocomplete
+clang_complete
 
 # End of https://www.gitignore.io/api/c,vim,c++,joe,cmake,clion,emacs,xcode,anjuta,appcode,eclipse,netbeans,jetbrains,notepadpp,slickedit,codeblocks,sublimetext,visualstudio,visualstudiocode
