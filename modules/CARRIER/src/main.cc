@@ -19,7 +19,7 @@ int main(void) {
     MotorController controller("/dev/ttyS0", 38400);
     SerialCom       serialCom("/dev/rfcomm0", 9600);
     HcSr04          sonarSensor(trigger,echo);
-    Carrier::CarrierController stateMachine(controller, sonarSensor, 50, 50);
+    Carrier::CarrierController stateMachine(controller, sonarSensor, 50);
 
     // Quick bluetooth status led
     pinMode(statusLed, OUTPUT);
@@ -43,6 +43,12 @@ int main(void) {
             } else if (command.find("BACKWARD") != std::string::npos) {
                 serialCom.write("GOING BACKWARD");
                 stateMachine.setState(Carrier::CarrierState::Backward);
+            } else if (command.find("LEFT") != std::string::npos) {
+                serialCom.write("GOING COUNTER ClOCKWISE");
+                stateMachine.setState(Carrier::CarrierState::CounterClockwise);
+            } else if (command.find("RIGHT") != std::string::npos) {
+                serialCom.write("GOING CLOCKWISE");
+                stateMachine.setState(Carrier::CarrierState::Clockwise);
             } else if (command.find("STOP") != std::string::npos) {
                 serialCom.write("STOPPING");
                 stateMachine.setState(Carrier::CarrierState::Idle);

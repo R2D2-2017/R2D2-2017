@@ -16,6 +16,8 @@
 #include "./states/i-carrier-state.hh"
 #include "./states/forward-state.hh"
 #include "./states/backward-state.hh"
+#include "./states/clockwise-state.hh"
+#include "./states/counter-clockwise-state.hh"
 #include "./states/idle-state.hh"
 
 namespace Carrier {
@@ -35,22 +37,14 @@ public:
      * \param[in]  distThreshold    the threshold for distance to objects
      * \param[in]  speed            the speed in ???-units
      */
-    CarrierController(MotorController &motorController, HcSr04 &sonarSensor,
-                      float distThreshold = 0.5f, int speed = 1);
-
-    /**
-     * \brief Deconstructor of CarrierController
-     *
-     * Stops the motors during destruction of the object
-     */
-    ~CarrierController();
+    CarrierController(MotorController &motorController, HcSr04 &sonarSensor, int speed = 1);
 
     /**
      * \brief Sets the speed
      *
      * \param[in]  speed  the speed in (TODO: figure out which units to use)
      */
-    void setSpeed(float speed);
+    void setSpeed(int speed);
 
     /**
      * \brief Update tick for the controller
@@ -59,13 +53,6 @@ public:
      * during which the controller may change state
      */
     void update();
-
-    /**
-     * \brief Stops the robot
-     *
-     * Stops the robot
-     */
-    void stop();
 
     /**
      * \brief Sets the state of the robot based on the Given CarrierState
@@ -78,54 +65,23 @@ public:
      */
     CarrierState currentState();
 
-    /**
-     *\
-    void setState(CarrierState state);
-
-    // Distance tracking (using only time)
-
-    /**
-     * \brief Calculates time based on distance
-     *
-     * Calculates the time needed to travel the given distance
-     * NOTE: This simple calculation does not (yet) use acceleration
-     * \param dist the distance in meters
-     * \returns The time to travel in nanoseconds
-     */
-    std::chrono::nanoseconds timeUntilDestination(float dist);
-
-    /**
-     * \brief Calculates distance based on elapsed time
-     *
-     * Calculates the distance traveled during the given elapsed time
-     * NOTE: This simple calculation does not (yet) use acceleration
-     * \param elapsedTime the elapsed time during travel
-     * \returns The distance traveled in meters
-     */
-    float distanceTraveled(std::chrono::steady_clock::time_point elapsedTime);
-
+    int getSpeed();
 
     MotorController* getMotorController();
+
+    HcSr04* getSonar();
+
 private:
     /// Controller to send commands to the motors
     MotorController &motorController;
 
     /// Sonar sensor for object avoidance
-    HcSr04& sonarSensor;
-
-    /// The distance threshold in meters
-    float distThreshold;
+    HcSr04 &sonarSensor;
 
     /// The speed in ???-units
     int speed;
 
     /// The current motor state
     ICarrierState* state;
-
-    // Distance tracking (using only time)
-    /// Start time for measuring and other uses
-    std::chrono::steady_clock::time_point startTime;
-    /// Target time for driving a fixed distance
-    std::chrono::steady_clock::time_point targetTime;
 };
 } // namespace Carrier

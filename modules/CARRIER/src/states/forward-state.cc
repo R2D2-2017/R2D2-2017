@@ -9,16 +9,17 @@
 using namespace Carrier;
 
 ForwardState::ForwardState(CarrierController* controller) : controller(controller) {
-    // if (controller->sonarSensor.getDistance() <= distThreshold) {
-        // controller->setState(new IdleState(controller));
-    // }
-     controller->getMotorController()->forward(100);
+    if (controller->getSonar()->getDistance() <= 50) {
+        controller->setState(CarrierState::Idle);
+    } else {
+        controller->getMotorController()->forward(controller->getSpeed());
+    }
 }
 
 void ForwardState::update() {
-    // if (controller->sonarSensor.getDistance() <= distThreshold) {
-        // controller->setState(new IdleState(controller));
-    // }
+    if (controller->getSonar()->getDistance() <= 50) {
+        controller->setState(CarrierState::Idle);
+    }
 }
 
 CarrierState ForwardState::getState() {

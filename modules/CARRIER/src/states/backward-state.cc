@@ -5,7 +5,7 @@ BackwardState::BackwardState(CarrierController* controller) : controller(control
     // if (controller->sonarSensor.getDistance() <= distThreshold) {
         // controller->setState(new IdleState(controller));
     // }
-     controller->getMotorController()->backward(100);
+     controller->getMotorController()->backward(controller->getSpeed());
 }
 
 void BackwardState::update() {
