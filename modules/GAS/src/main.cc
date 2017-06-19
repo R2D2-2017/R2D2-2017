@@ -54,6 +54,7 @@ int main(){
     Speaker player( speakerPin );
     Alarm alarm(105, alarmLed, player);
     Mq5 mq5(sensor,0.2);
+    hwlib::cout << (int)mq5.getCalibrationValue()<<"\r\n";
     MuStore::FatFs fileSystem(&sd);
     MuStore::FsError err;
 
