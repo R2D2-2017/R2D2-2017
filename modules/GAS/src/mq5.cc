@@ -15,7 +15,7 @@
 float Mq5::readSensor() {
     // 4096.0f is previous max value
     // 3.3f is new max value
-    float analogValue = (((float)sensor.get()) / 4096.0f * 3.3f);
+    float analogValue = ((((float)sensor.get()) / 4096.0f * 3.3f)*1000);
     return analogValue;
 }
 
@@ -25,7 +25,7 @@ float Mq5::readSensorAverage(int quantityCounter) {
     for(int i = 0; i < quantityCounter; i++){
         hwlib::cout << i << "\r\n";
         do {
-            sensorValue = readSensor() * 1000;
+            sensorValue = readSensor();
             hwlib::cout << (int)sensorValue << "\r\n";
         }
         while((1+meanFilter) > (sensorValue / (totalValue/quantityCounter)) && (sensorValue / (totalValue/quantityCounter)) > (1-meanFilter));
