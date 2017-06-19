@@ -11,9 +11,8 @@
 
 #include "parser.hh"
 
-Parser::Parser(Alarm &alarm, Speaker &speaker, Mq5 &mq5) :
+Parser::Parser(Alarm &alarm, Mq5 &mq5) :
         alarm(alarm),
-        speaker(speaker),
         mq5(mq5) {}
 
 bool Parser::ifContainsString(char array[], char string[]) {
