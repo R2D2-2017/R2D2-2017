@@ -1,7 +1,7 @@
 /**
  * \file      client.hh
  * \brief     Header for client side connection code for NAVSYS API
- * \author    Philippe Zwietering, Arco Gelderblom, Tim IJntema
+ * \author    Philippe Zwietering, Arco Gelderblom, Tim IJntema, Rene de Kluis
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See ../../LICENSE
  */

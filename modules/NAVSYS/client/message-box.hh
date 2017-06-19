@@ -1,4 +1,13 @@
+/**
+* \file      message-box.hh
+* \brief     Class that gives runtime information on the SFML-window.
+* \author    Rene de Kluis
+* \copyright Copyright (c) 2017, The R2D2 Team
+* \license   See ../../LICENSE
+*/
+
 #pragma once
+
 
 #include <iostream>
 #include <SFML\Graphics.hpp>
@@ -22,7 +31,7 @@ public:
     /**
      * \brief Constructor.
      *
-     * \param[in]    window      the SFML-window
+     * \param[in]    window      The SFML-window
      * \param[in]    position    The position of the messagebox on the SFML-window   
      *
      */

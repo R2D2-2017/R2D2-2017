@@ -1,8 +1,11 @@
+/**
+* \file      message-box.cc
+* \author    Rene de Kluis
+* \copyright Copyright (c) 2017, The R2D2 Team
+* \license   See ../../LICENSE
+*/
+
 #include "message-box.hh"
-
-
-
-
 
 MessageBox::MessageBox(sf::RenderWindow & window, sf::Vector2f position) :
     window(window),
