@@ -10,18 +10,3 @@
 #pragma once
 
 //IF THE ALARM AND PARSER WORK, REMOVE THIS CLASS
-
-
-/** 
- * Enum class that contains specified notes
- *
-enum class Note {
-    highNote = 880,
-    lowNote = 698,
-<<<<<<< HEAD
-};
-=======
-};*/
-
-#endif //GAS_ENUM_HH
->>>>>>> feat-gas-new-parser

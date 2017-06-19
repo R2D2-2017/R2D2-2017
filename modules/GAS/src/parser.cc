@@ -84,29 +84,29 @@ void Parser::parseArray(char* input) {
             //set all variables
             if(ifContainsString(variableName, firstNoteString)) {
                 alarm.setFirstNote(variableValue);
-                hwlib::cout << "alarm.setFirstNote(" << variableValue << ")" << "\r\n";
+               // hwlib::cout << "alarm.setFirstNote(" << variableValue << ")" << "\r\n";
             }
             else if(ifContainsString(variableName, secondNoteString)) {
                 alarm.setSecondNote(variableValue);
-                hwlib::cout << "alarm.setSecondNote(" << variableValue << ")" << "\r\n";
+              //  hwlib::cout << "alarm.setSecondNote(" << variableValue << ")" << "\r\n";
             }
             else if(ifContainsString(variableName, warningThresholdString)) {
                 alarm.setWarningThreshold(variableValue);
-                hwlib::cout << "alarm.setWarningThreshold(" << variableValue << ")" << "\r\n";
+               // hwlib::cout << "alarm.setWarningThreshold(" << variableValue << ")" << "\r\n";
             }
             else if(ifContainsString(variableName, dangerThresholdString)) {
                 alarm.setDangerThreshold(variableValue);
-                hwlib::cout << "alarm.setDangerThreshold(" << variableValue << ")" << "\r\n";
+              //  hwlib::cout << "alarm.setDangerThreshold(" << variableValue << ")" << "\r\n";
             }
             else if(ifContainsString(variableName, mq5CalibrationValueString)) {
 				if (isCalibrated) {
 					mq5.setmq5CalibrationValue(variableValue);
 				}
-                hwlib::cout << "mq5.setmq5CalibrationValue(" << variableValue << ")" << "\r\n";
+              //  hwlib::cout << "mq5.setmq5CalibrationValue(" << variableValue << ")" << "\r\n";
             }
             else if(ifContainsString(variableName, measureFrequencyString)) {
                 //???.setMeasureFrequency(variableValue);
-                hwlib::cout << "???.setMeasureFrequency(" << variableValue << ")" << "\r\n";
+                hwlib::cout << "TODO: ???.setMeasureFrequency(" << variableValue << ")" << "\r\n";
             }
 			else if (ifContainsString(variableName, isCalibratedString)) {
 				isCalibrated = variableValue;

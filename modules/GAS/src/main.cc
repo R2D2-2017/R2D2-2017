@@ -6,9 +6,10 @@
  * \author    Paul Ettema
  * \author    Robbie Valkenburg
  * \author    Mike Hilhorst
- * \author	  Bram van Btrgeijk
+ * \author	  Bram van Bergeijk
  * \author	  Wilco Louwerse
  * \author    David de Jong
+ * \author	  Nicky van Steensel van der Aa
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See LICENSE
  * \wiki	  https://github.com/R2D2-2017/R2D2-2017/wiki/Gas-safety-system
@@ -59,29 +60,17 @@ int main(){
     // flash led
     target::pin_out startLed(target::pins::d13);
 
-    // thresholds
-    int warningThreshold = 0;
-    int dangerThreshold = 120;
-
-
     // Initialize classes
     SdSpi sd(cs, spiBus);
-<<<<<<< HEAD
     Speaker warningPlayer( warningSpeakerPin );
     Speaker dangerPlayer( dangerSpeakerPin );
-    Alarm alarm(warningThreshold, dangerThreshold, greenAlarmLed, yellowAlarmLed, redAlarmLed, warningPlayer, dangerPlayer);
-
-    Mq5 mq5(        sensor);
-=======
-    Speaker player( speakerPin );
-    Alarm alarm(105, alarmLed, player);
+    Alarm alarm(greenAlarmLed, yellowAlarmLed, redAlarmLed, warningPlayer, dangerPlayer);
     Mq5 mq5(sensor);
 
-    Parser parser(alarm, player, mq5);
+    Parser parser(alarm, mq5);
     char testArray[] = "@firstNote:880\n@secondNote:698\n@warningThreshold:110\n@dangerThreshold:105\n@mq5CalibrationValue:100\n@measureFrequency:1000\n";          //DELETE (TEST)
     parser.parseArray(testArray);                                                                                                                               //DELETE (TEST)
 
->>>>>>> feat-gas-new-parser
     MuStore::FatFs fileSystem(&sd);
     MuStore::FsError err;
 

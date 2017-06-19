@@ -5,10 +5,7 @@
  * \author    Jeroen Kok
  * \author    Robbie Vlakenburg
  * \author    Mike Hilhorst.
-=======
- * \brief     The declarations of the class Alarm of GAS-01
- * \author    Jeroen Kok, Robbie Vlakenburg, Mike Hilhorst en Nicky van Steensel van der Aa.
->>>>>>> feat-gas-new-parser
+ * \author    Nicky van Steensel van der Aa.
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See LICENSE
  */
@@ -33,10 +30,8 @@ public:
      * \param warningPlayer is the speaker that should play when gas-value is between warning-threshold and danger-threshold.
      * \param dangerPlayer is the speaker that should play when gas-value is above danger-threshold.
      */
-    Alarm(int warningThreshold, int dangerThreshold, hwlib::pin_out &greenAlarmLed, hwlib::pin_out &yellowAlarmLed, hwlib::pin_out &redAlarmLed,
+    Alarm(hwlib::pin_out &greenAlarmLed, hwlib::pin_out &yellowAlarmLed, hwlib::pin_out &redAlarmLed,
           Speaker &warningPlayer, Speaker &dangerPlayer):
-            warningThreshold(warningThreshold),
-            dangerThreshold(dangerThreshold),
             greenAlarmLed(greenAlarmLed),
             yellowAlarmLed(yellowAlarmLed),
             redAlarmLed(redAlarmLed),
@@ -67,13 +62,13 @@ public:
 	* \brief Sets the threshold of the alarm warning
 	* \param warningThreshold the value to be set
 	*/
-	void setWarningThreshold(int warningThreshold);
+	void setWarningThreshold(int Threshold);
 
 	/**
 	* \brief Sets the threshold of the danger alarm
 	* \param dangerThreshold the value to be set
 	*/
-	void setDangerThreshold(int dangerThreshold);
+	void setDangerThreshold(int Threshold);
 
 private:
 

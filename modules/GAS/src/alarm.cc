@@ -18,20 +18,25 @@ void Alarm::checkGasValue(int gasValue) {
         redAlarmLed.set(true);
 
         for(int amountOfPlaying = 3; amountOfPlaying >= 0; amountOfPlaying--) {
-            dangerPlayer.playNote((int) Note::highNote);
-            dangerPlayer.playNote((int) Note::lowNote);
+            dangerPlayer.playNote(firstNote);
+            dangerPlayer.playNote(secondNote);
         }
     }
 
-<<<<<<< HEAD
     else if (gasValue >= warningThreshold && gasValue < dangerThreshold){
         greenAlarmLed.set(false);
         yellowAlarmLed.set(true);
         redAlarmLed.set(false);
-        warningPlayer.playNote((int) Note::highNote);
-        warningPlayer.playNote((int) Note::lowNote);
+        warningPlayer.playNote(firstNote);
+        warningPlayer.playNote(secondNote);
     }
-=======
+	else {
+		greenAlarmLed.set(true);
+		yellowAlarmLed.set(false);
+		redAlarmLed.set(false);
+	}
+
+
 void Alarm::setFirstNote(int Note) {
 	firstNote = Note;
 }
@@ -40,12 +45,12 @@ void Alarm::setSecondNote(int Note) {
 	secondNote = Note;
 }
 
-void Alarm::setWarningThreshold(int warningThreshold) {
-	//TODO implement shit
+void Alarm::setWarningThreshold(int Threshold) {
+	warningThreshold = Threshold;
 }
 
-void Alarm::setDangerThreshold(int dangerThreshold) {
-	//TODO implement shit
+void Alarm::setDangerThreshold(int Threshold) {
+	dangerThreshold = Threshold;
 }
 
 void Alarm::triggerAlarm() {
@@ -54,13 +59,6 @@ void Alarm::triggerAlarm() {
         player.playNote((int) firstNote);
         player.playNote((int) secondNote);
     };
->>>>>>> feat-gas-new-parser
-
-    else {
-        greenAlarmLed.set(true);
-        yellowAlarmLed.set(false);
-        redAlarmLed.set(false);
-    }
 }
 
 
