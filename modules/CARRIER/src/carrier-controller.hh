@@ -20,6 +20,8 @@
 #include "./states/counter-clockwise-state.hh"
 #include "./states/idle-state.hh"
 
+#include <memory>
+
 namespace Carrier {
 
 /**
@@ -37,7 +39,8 @@ public:
      * \param[in]  distThreshold    the threshold for distance to objects
      * \param[in]  speed            the speed in ???-units
      */
-    CarrierController(MotorController &motorController, HcSr04 &sonarSensor, int speed = 1);
+    CarrierController(std::shared_ptr<MotorController> motorController,
+                      std::shared_ptr<HcSr04> sonarSensor, int speed = 1);
 
     /**
      * \brief Sets the speed
@@ -67,21 +70,21 @@ public:
 
     int getSpeed();
 
-    MotorController* getMotorController();
+    std::shared_ptr<MotorController> getMotorController();
 
-    HcSr04* getSonar();
+    std::shared_ptr<HcSr04> getSonar();
 
 private:
     /// Controller to send commands to the motors
-    MotorController &motorController;
+    std::shared_ptr<MotorController> motorController;
 
     /// Sonar sensor for object avoidance
-    HcSr04 &sonarSensor;
+    std::shared_ptr<HcSr04> sonarSensor;
 
     /// The speed in ???-units
     int speed;
 
     /// The current motor state
-    ICarrierState* state;
+    std::unique_ptr<ICarrierState> state;
 };
 } // namespace Carrier
