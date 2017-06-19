@@ -1,7 +1,7 @@
  /**
  * \file      main.cc
  * \brief     Program for giving an indication when a rfid card has been detected, a database connection has been made and a string has been encrypted
- * \author    Tim IJntema, Stefan de Beer, Arco Gelderblom, Rik Honcoop, Koen de Groot, Ricardo Bouwman
+ * \author    Tim IJntema, Stefan de Beer, Arco Gelderblom, Rik Honcoop, Koen de Groot, Ricardo Bouwman, jeremy ruizenaar
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See LICENSE
  */
@@ -12,6 +12,7 @@
 #include "led-controller.hh"
 #include "matrix-keypad.hh"
 #include "config-file-parser.hh"
+#include "databasemanager.hh"
 
 #include <wiringPi.h>
 #include <wiringPiSPI.h>
@@ -31,10 +32,10 @@ int main(int argc, char **argv) {
         factory.loadDatabaseSettings(ip, username, password);
         factory.loadEncryptionSettings(encryptionKey);
 
-        MySql connection;
-        
-        connection.connectTo(ip, username, password);
-        connection.selectDatabase("R2D2");
+        databasemanager database;
+
+        database.connectTo(ip, username, password);
+        database.selectDatabase("R2D2");
 
         std::cout << "Made connection to the database\n";
         wiringPiSetup();
@@ -72,10 +73,8 @@ int main(int argc, char **argv) {
             std::string pin = keypad.getString();
             std::cout << "The pin you entered was: " << pin << "\n";
 
-            connection.executeQuery("SELECT * FROM RFID");
-                
             std::cout << "Database information: "
-                      << connection.getPreviousResponseColumn("CARD_ID")
+                      << database.getAllCardIdFromDatabase()
                       << '\n';
             
             std::cout << "String before encryption: R2D2 project\n";
