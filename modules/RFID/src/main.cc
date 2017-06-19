@@ -26,6 +26,7 @@ struct MFAuthentData {
 };
 
 int main(int argc, char **argv) {
+#define USING_PIN           // Comment out this rule if not using a pincode on your application
     try {
         std::string ip;
         std::string username;
@@ -64,7 +65,9 @@ int main(int argc, char **argv) {
                 continue;
             if(!rfid.PICC_ReadCardSerial())
                 continue;
+            // Hier moet het database gedeelte komen om te checken of je ID al in de database staat
 
+#ifdef USING_PIN
             MFRC522::MIFARE_Key key = {0xFF, 0xFF, 0xFF, 0xFF};
 
             std::cout << "Input PIN and finish with #\n";
@@ -81,6 +84,7 @@ int main(int argc, char **argv) {
                 continue;
 
             std::cout << value << '\n';
+#endif
 
             rfid.PCD_StopCrypto1();
 
