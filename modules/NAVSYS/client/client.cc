@@ -9,6 +9,7 @@
 #include "client.hh"
 
 #include <iostream>
+#include <memory>
 
 #include "window.hh"
 #include "gestures.hh"
@@ -66,27 +67,27 @@ void Client::run(){
     Gestures gestureHandler(window);
     
     //Button setup
-    std::vector<Button*> buttonList;
-    buttonList.push_back(new Button(
-                            window, 
-                            {float(window.getSize().x - (buttonSize.x + 10)), 
-                             10}, 
-                            {buttonSize}, 
-                            static_cast<int>(button::ShutDown), "Shut Down"));
-    buttonList.push_back(new Button(
-                            window, 
-                            {float(window.getSize().x - (buttonSize.x + 100)),
-                             10}, 
-                            {buttonSize.x/2, buttonSize.y/2}, 
-                            static_cast<int>(button::StartNode), "Start Node", 
-                            false));
-    buttonList.push_back(new Button(
-                            window, 
-                            {float(window.getSize().x - (buttonSize.x + 200)), 
-                             10}, 
-                            {buttonSize.x / 2, buttonSize.y / 2}, 
-                            static_cast<int>(button::EndNode), "End Node", 
-                            false));
+    std::vector<std::unique_ptr<Button>> buttonList;
+    buttonList.push_back(std::unique_ptr<Button>(new Button(
+                                    window, 
+                                    {float(window.getSize().x - (buttonSize.x + 10)), 
+                                            10}, 
+                                    {buttonSize}, 
+                                    static_cast<int>(button::ShutDown), "Shut Down")));
+    buttonList.push_back(std::unique_ptr<Button>(new Button(
+                                    window, 
+                                    {float(window.getSize().x - (buttonSize.x + 100)),
+                                            10}, 
+                                    {buttonSize.x/2, buttonSize.y/2}, 
+                                    static_cast<int>(button::StartNode), "Start Node", 
+                                    false)));
+    buttonList.push_back(std::unique_ptr<Button>(new Button(
+                                    window, 
+                                    {float(window.getSize().x - (buttonSize.x + 200)), 
+                                            10}, 
+                                    {buttonSize.x / 2, buttonSize.y / 2}, 
+                                    static_cast<int>(button::EndNode), "End Node", 
+                                    false)));
 
     bool startNodeSelected = false;
     bool endNodeSelected = false;
@@ -158,16 +159,16 @@ void Client::run(){
                     if (currButton->getId() == 
                         static_cast<int>(button::StartNode)) {
                         currButton->setPosition({
-                            clickedNode.getBounds().left, 
-                            (clickedNode.getBounds().top + 
-                            1.5f*clickedNode.getBounds().height)});
+                                clickedNode.getBounds().left, 
+                                    (clickedNode.getBounds().top + 
+                                     1.5f*clickedNode.getBounds().height)});
                         currButton->setVisable(true);
                     }
                     if (currButton->getId() == static_cast<int>(button::EndNode)) {
                         currButton->setPosition({
-                            clickedNode.getBounds().left,
-                            (clickedNode.getBounds().top + 
-                            2.5f * clickedNode.getBounds().height)});
+                                clickedNode.getBounds().left,
+                                    (clickedNode.getBounds().top + 
+                                     2.5f * clickedNode.getBounds().height)});
                         currButton->setVisable(true);
                     }
                 }
@@ -179,7 +180,7 @@ void Client::run(){
                         static_cast<int>(button::StartNode) || 
                         currButton->getId() == 
                         static_cast<int>(button::EndNode)) {
-                            currButton->setVisable(false);
+                        currButton->setVisable(false);
                     }
                 }
             }
