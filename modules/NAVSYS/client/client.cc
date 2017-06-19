@@ -43,16 +43,19 @@ void Client::checkPacketCorrectlyReceived(sf::Packet & p) {
 }
 
 void Client::run(){
+    //create the window
+    Window window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "NAVSYS",
+        sf::Style::Default);
+    
+    MessageBox messageBox(window, { 0,0 }, window.getViewPort());
+
     sf::Socket::Status connectionStatus = socket.connect(ipAddress, port);
     if (connectionStatus != sf::Socket::Done) {
-        std::cerr << "Connection failed\n";
+        messageBox.setMessage("Connection FAILED\n");
     }
     
     getDatabaseFromServer();
     
-    //create the window
-    Window window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "NAVSYS", 
-                  sf::Style::Default);
     
     //Add a viewport
     window.setViewPort(sf::Vector2f(WINDOW_WIDTH, WINDOW_HEIGHT), 
@@ -64,6 +67,7 @@ void Client::run(){
     
     drawer.reload(&g);
     Gestures gestureHandler(window);
+    
     
     //Button setup
     std::vector<Button*> buttonList;
@@ -93,7 +97,6 @@ void Client::run(){
 
     sf::FloatRect startNodeButtonBounds;
     sf::FloatRect endNodeButtonBounds;
-
     StartEndNodeData newPath;
     GraphNode clickedNode = drawer.checkNodeClicked();
     while(true) {
@@ -101,6 +104,7 @@ void Client::run(){
         sf::sleep(sf::milliseconds(20));
         drawer.draw();
         window.setView(window.getDefaultView());
+        messageBox.update();
         for (auto & indexer : buttonList) {
             if (indexer->getId() == static_cast<int>(button::ShutDown)) {
                 indexer->draw();
@@ -117,7 +121,6 @@ void Client::run(){
                 indexer->draw();
                 window.setView(window.getDefaultView());
             }
-            
         }
         window.updateView();
         if (GetMouseClick()) {
@@ -133,15 +136,22 @@ void Client::run(){
                 window.updateView();
                 if (temp) {
                     switch (indexer->getId()) {
-                    case static_cast<int>(button::ShutDown):
+                    case static_cast<int>(button::ShutDown) :
+                        window.clear();
+                        messageBox.setMessage( "Shutting Down" );
+                        messageBox.update();
+                        window.display();
+                        _sleep(1000);
                         window.close();
                         exit(0);
                         break;
                     case static_cast<int>(button::StartNode):
+                        messageBox.setMessage( "StartNode selected" );
                         newPath.startNode = clickedNode.getName();
                         startNodeSelected = 1;
                         break;
                     case static_cast<int>(button::EndNode):
+                        messageBox.setMessage( "EndNode selected" );
                         newPath.endNode = clickedNode.getName();
                         endNodeSelected = 1;
                         break;
@@ -150,6 +160,7 @@ void Client::run(){
                     }
                 }
             }
+            
             window.updateView();
             clickedNode = drawer.checkNodeClicked();
             if (clickedNode.isPressed(window)) {

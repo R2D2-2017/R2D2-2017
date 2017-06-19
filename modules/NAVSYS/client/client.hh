@@ -11,6 +11,7 @@
 #include <SFML/Network.hpp>
 #include "../common/graph.hh"
 #include "../common/protocol.hh"
+#include "message-box.hh"
 
 enum class button {ShutDown,StartNode,EndNode};
 
@@ -28,6 +29,7 @@ private:
 	sf::TcpSocket socket;
     sf::Vector2f buttonSize = {100,30};
     Graph g;
+
 
     /**
      * \brief Send a sf packet with error checking
