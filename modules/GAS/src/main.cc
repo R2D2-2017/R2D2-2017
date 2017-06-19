@@ -66,8 +66,8 @@ int main(){
     auto spi  = hwlib::spi_bus_bit_banged_sclk_mosi_miso(clock, digitalIn, hwlib::pin_in_dummy);
 
     // thresholds
-    int warningThreshold = 0;
-    int dangerThreshold = 120;
+    int warningThreshold = 101; //green till 100
+    int dangerThreshold = 111;  // yrllow till 110
 
     // Initialize classes
     SdSpi sd(cs, spiBus);
@@ -75,7 +75,7 @@ int main(){
     Speaker dangerPlayer( dangerSpeakerPin );
     Alarm alarm(warningThreshold, dangerThreshold, greenAlarmLed, yellowAlarmLed, redAlarmLed, warningPlayer, dangerPlayer);
     Mq5 mq5( sensor);
-    Setup matrix(spi, chipSelect, 1, 4, 8);
+    Setup matrix(spi, chipSelect, 1, 4);
 
     MuStore::FatFs fileSystem(&sd);
     MuStore::FsError err;

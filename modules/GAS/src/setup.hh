@@ -20,7 +20,7 @@ private:
     hwlib::pin_out & chipSelect;
     int numberOfUnusedMatrices;
     int numberOfMatrices;
-    int numberOfRows;
+    int numberOfRows = 8;
 
     uint8_t charSpace[8][8] = {0};
     uint8_t charOne[8][8]   = {{0,0,0,0,0,0,0,0},{0,0,1,1,1,0,0,0},{0,1,1,1,1,0,0,0},{0,0,0,1,1,0,0,0},{0,0,0,1,1,0,0,0},{0,0,0,1,1,0,0,0},{0,1,1,1,1,1,1,0},{0,0,0,0,0,0,0,0}};
@@ -35,12 +35,11 @@ private:
     uint8_t charZero[8][8]  = {{0,0,0,0,0,0,0,0},{0,0,1,1,1,1,0,0},{0,1,0,0,0,0,1,0},{0,1,0,0,0,0,1,0},{0,1,0,0,0,0,1,0},{0,1,0,0,0,0,1,0},{0,0,1,1,1,1,0,0},{0,0,0,0,0,0,0,0}};
     uint8_t charMinus[8][8] = {{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},{0,1,1,1,1,1,1,0},{0,1,1,1,1,1,1,0},{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0}};
     uint8_t charPlus[8][8]  = {{0,0,0,0,0,0,0,0},{0,0,0,1,1,0,0,0},{0,0,0,1,1,0,0,0},{0,1,1,1,1,1,1,0},{0,1,1,1,1,1,1,0},{0,0,0,1,1,0,0,0},{0,0,0,1,1,0,0,0},{0,0,0,0,0,0,0,0}};
-    uint8_t settings[5][2]  = {{0x09,0x00},{0x0c,0x01},{0x0f,0x00},{0x0A,0x0A},{0x0B,0x07}};
-
+    uint8_t settings[5][2]  = {{0x09,0x00},{0x0c,0x01},{0x0f,0x00},{0x0A,0x0f},{0x0B,0x07}};
 
 public:
-    Setup(hwlib::spi_bus & spiBus, hwlib::pin_out & chipSelect, int numberOfUnusedMatrices, int numberOfMatrices, int numberOfRows):
-            spiBus(spiBus), chipSelect(chipSelect), numberOfUnusedMatrices(numberOfUnusedMatrices),numberOfMatrices(numberOfMatrices), numberOfRows(numberOfRows)
+    Setup(hwlib::spi_bus & spiBus, hwlib::pin_out & chipSelect, int numberOfUnusedMatrices, int numberOfMatrices):
+            spiBus(spiBus), chipSelect(chipSelect), numberOfUnusedMatrices(numberOfUnusedMatrices),numberOfMatrices(numberOfMatrices)
     {};
 
     void operate(char* inputString);

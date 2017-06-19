@@ -58,7 +58,6 @@ void command::converter(uint8_t (*renderInput)[8], uint8_t (*converterOutput)[2]
 void command::render(uint8_t (*renderInput)[8]) {
 
     converter(renderInput, converterOutput);
-    static int numberOfWrites = 0;
     for (int i = 0; i < numberOfRows; i++) {
         commands[numberOfWrites][i][1] = converterOutput[i][1];
     }

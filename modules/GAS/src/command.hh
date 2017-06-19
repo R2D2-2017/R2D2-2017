@@ -18,6 +18,7 @@ private:
     int numberOfMatrices;
     int numberOfRows;
     int stringLength;
+    int numberOfWrites = 0;
     uint8_t processedCommands[1000];
     uint8_t converterOutput[8][2];
     uint8_t commands[1000][8][2];
