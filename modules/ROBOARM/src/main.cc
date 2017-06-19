@@ -1,7 +1,7 @@
 /**
  * \file
- * \brief     Usage example
- * \author    Bob Thomas, David Driessen
+ * \author    Other author names missing due to previously missing file header
+ * \author    Chris Smeele
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See LICENSE
  */
@@ -10,16 +10,16 @@
 #include "robot-arm.hh"
 #include "stepper.hh"
 #include "wrap-hwlib.hh"
-#include "RobotArmTester.hh"
 #include "I2C.hh"
 
+
 int main() {
+    hwlib::cout << "hallo\r\n";
     WDT->WDT_MR = WDT_MR_WDDIS;
-   
+
     auto sclPin = hwlib::target::pin_oc(hwlib::target::pins::d21);
     auto sdaPin = hwlib::target::pin_oc(hwlib::target::pins::d20);
- 	hwlib::i2c_bus_bit_banged_scl_sda i2c_bus(sclPin,sdaPin);
-
+    hwlib::i2c_bus_bit_banged_scl_sda i2c_bus(sclPin,sdaPin);
 
     auto ky101Pin = hwlib::target::pin_in(hwlib::target::pins::d14);
 
@@ -41,14 +41,24 @@ int main() {
     Stepper x(dirX, stepX, ENX);
     Stepper y(dirY, stepY, ENY);
     Stepper z(dirZ, stepZ, ENZ);
-    RoboArm::RobotArmController r(x, y, z, xLimitSwitch, yLimitSwitch, ky101);
+    RoboArm::RobotArmController robotarm(x, y, z, xLimitSwitch, yLimitSwitch, ky101);
 
     I2C i2c(i2c_bus);
     i2c.runDemo();
 
-    RobotArmTester tester(r);
+    hwlib::cout << "start\r\n";
+    robotarm.enable();
+    hwlib::cout << "enabled\r\n";
+    robotarm.startup(); // resets the robot position
+    hwlib::cout << "started up\r\n";
 
-    tester.run();
+    hwlib::wait_ms(2000);
 
+    robotarm.moveTo({ 24, 18,  20 });
+    hwlib::wait_ms(2000);
+    robotarm.moveTo({ 20,  5, -20 });
+
+    hwlib::cout << "end\r\n";
+    robotarm.disable();
     return 0;
 }
