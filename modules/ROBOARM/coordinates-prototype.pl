@@ -89,7 +89,7 @@ sub arm_move {
     # Tilt with the destination's angle.
     $rot1 += $off_rot;
     # rot2 was based on rot1, rebase it onto ground level.
-    $rot2  = $rot1 - deg2rad(180) + $rot2;
+    $rot2 += $rot1 - deg2rad(180);
 
     say "move to -> " . fmtpos(@pos)
         . " off(" . sprintf("%3.1f", rad2deg $off_rot)
@@ -116,9 +116,10 @@ sub show_arm {
     my $black = $im->colorAllocate(0x00, 0x00, 0x00);
     my $white = $im->colorAllocate(0xff, 0xff, 0xff);
     my $grey  = $im->colorAllocate(0xdd, 0xdd, 0xdd);
-    my $red   = $im->colorAllocate(0xdd, 0x00, 0x00);
-    my $green = $im->colorAllocate(0x00, 0xdd, 0x00);
-    my $blue  = $im->colorAllocate(0x00, 0x00, 0xdd);
+    my $dgrey = $im->colorAllocate(0xaa, 0xaa, 0xaa);
+    my $red   = $im->colorAllocate(0xdd, 0x22, 0x22);
+    my $green = $im->colorAllocate(0x22, 0xdd, 0x22);
+    my $blue  = $im->colorAllocate(0x22, 0x22, 0xdd);
 
     # Background.
     $im->fill(0, 0, $white);
@@ -129,7 +130,7 @@ sub show_arm {
         $im->line($r*10*$scale, 0, $r*10*$scale, 10*10*$scale, $grey);
 
         for my $c (0..10) {
-            $im->filledRectangle($r*10*$scale-$scale/2,        $c*10*$scale - $scale/2,
+            $im->filledRectangle($r*10*$scale-$scale/2, $c*10*$scale - $scale/2,
                                  $r*10*$scale+$scale/2, $c*10*$scale + $scale/2,
                                  $grey);
         }
@@ -138,15 +139,30 @@ sub show_arm {
     my %pos = arm_get_positions %arm;
 
     # Scale / translate to center of image.
-    my $tl = sub { map { $_ * $scale } ($_[0] + 50, $_[1]) };
+    my $tl = sub { map { $_ * $scale } ($_[0] + 50, $_[1] + 20) };
 
     $im->setThickness($scale);
+
+    # Draw ground.
+    $im->line($tl->(-50, 0), $tl->(50, 0), $dgrey);
 
     # Draw arm.
     $im->line($tl->(@{$arm{base}}),   $tl->(@{$pos{point1}}), $red);
     $im->line($tl->(@{$pos{point1}}), $tl->(@{$pos{point2}}), $green);
 
     $im->setPixel($tl->(@{$arm{base}}), $black);
+
+    my $bigdot = sub {
+        my $color = shift;
+        $im->filledRectangle(map { $_-(2*($scale/2)) } @_,
+                             map { $_+(2*($scale/2)) } @_,
+                             $color);
+    };
+
+    $bigdot->($blue, $tl->(@{$arm{base}}));
+    $bigdot->($blue, $tl->(@{$pos{point1}}));
+    $bigdot->($red,  $tl->(@{$pos{point2}}));
+
 
     # Y coordinate 0 is at the top of the canvas. This is annoying.
     $im->flipVertical();
