@@ -95,57 +95,13 @@ int main(int argc, char **argv) {
                 }
             }
 
+            connection.executeQuery("SELECT * FROM RFID");
 
+            std::cout << "Database information: "
+                      << connection.getPreviousResponseColumn("CARD_ID")
+                      << '\n';
 
-
-
-//            while (!rfid.isTagPresent()) {
-//            }
-            // MFAuthentData x;
-            // uint8_t receiveData[64];
-            // int block = 0;
-            // rfid.communicateWithTag(Mfrc522::mfrc522Commands::receive,
-                                    // &block,
-                                    // 1,
-                                    // receiveData,
-                                    // 64*8);
-            // rfid.communicateWithTag(Mfrc522::mfrc522Commands::mfAuthent, nullptr, 0, nullptr, 0);
-
-            // uint8_t tag[16];
-
-//            Mfrc522::statusCodes s = rfid.receiveTagId(tag);
-//            if(s == Mfrc522::statusCodes::statusOk){
-//                std::cout << "Hello tag\n";
-//                std::cout << "Your id = ";
-//                for(size_t i = 0; i < 4; i++){
-//                    std::cout << std::hex << tag[i];
-//                }
-//                std::cout << "\n";
-//            } else if(s == Mfrc522::statusCodes::statusError){
-//                std::cout << "ERROR\n";
-//            } else{
-//                std::cout << "Something else went wrong reading the key\n";
-//            }
-//
-//            std::cout << "Waiting for key press\n";
-//            while ((c = keypad.getKey()) == 'h') {
-//                delay(100);
-//            }
-//
-//            std::cout << c << " key has been pressed\n";
-//
-//            std::cout << "Enter a pincode, ending with '#'\n";
-//
-//            std::string pin = keypad.getString();
-//            std::cout << "The pin you entered was: " << pin << "\n";
-//
-//            connection.executeQuery("SELECT * FROM RFID");
-//
-//            std::cout << "Database information: "
-//                      << connection.getPreviousResponseColumn("CARD_ID")
-//                      << '\n';
-//
-//            led.blinkLed(1000);
+            led.blinkLed(1000);
         }
     } catch (const std::string &error) {
         std::cerr << error << '\n';
