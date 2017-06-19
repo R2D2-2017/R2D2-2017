@@ -21,6 +21,7 @@
 #include "alarm.hh"
 #include "speaker.hh"
 #include "mq5.hh"
+#include <store.hh>
 #include <fatfs.hh>
 
 /**
@@ -51,29 +52,20 @@ int main(){
 
     // Initialize classes
     SdSpi sd(cs, spiBus);
-    Speaker player( speakerPin );
-    Alarm alarm(105, alarmLed, player);
-    Mq5 mq5(sensor);
     MuStore::FatFs fileSystem(&sd);
     MuStore::FsError err;
 
-    MuStore::FsNode dataFile = fileSystem.get("/data.txt", err);
-    hwlib::cout << "\r\n";
-    hwlib::cout << (int)err << "\r\n";
-
-    //check if the filesystem is correct
-    hwlib::cout << fileSystem.getFsType() << "\r\n";
-    hwlib::cout << (int)fileSystem.getFsSubType() << "\r\n";
-
-    //check if the file is present on the sd
-    if(!dataFile.doesExist()) {
-        hwlib::cout << "data.txt does not exist \r\n";
-    }
+    Speaker player( speakerPin );
+    Alarm alarm(105, alarmLed, player);
+    Mq5 mq5(sensor);
 
     // Initialize variables
     int mq5Value = 0;
     char charValue[3];
-    char sessionSeparator[] = "\r\n=========================\r\n";
+    const char dataFilePath[] = "/data.txt";
+    const char confFilePath[] = "/conf.txt";
+    const char sessionSeparator[] = "\r\n=========================\r\n";
+    char configurationInput[100];
 
     // Startup blink
     startLed.set(0);
@@ -82,11 +74,49 @@ int main(){
     hwlib::wait_ms(100);
     startLed.set(0);
 
-    //seek EOF to append data instead of overwriting it.
+    //Try to acces conf.txt and data.txt and check if they are actually on the SD card.
+    MuStore::FsNode dataFile = fileSystem.get(dataFilePath, err);
+
+    if (err == MuStore::FsError::FS_ERR_OK){
+        hwlib::cout << "data.txt found.\r\n";
+    } else {
+        hwlib::cout << "Filesystem returned error: " <<(int)err << "\r\n";
+    }
+
+    if (!dataFile.doesExist()){
+        hwlib::cout << "data.txt does not exist.\r\n";
+    }
+
+
+    MuStore::FsNode confFile = fileSystem.get(confFilePath, err);
+
+    if (err == MuStore::FsError::FS_ERR_OK) {
+        hwlib::cout << "conf.txt found.\r\n";
+    } else {
+        hwlib::cout << "Filesystem returned error: " <<(char)err << "\r\n ";
+    }
+
+    if (!dataFile.doesExist()) {
+        hwlib::cout << "conf.txt does not exist.\r\n";
+    }
+
+    //read data from configuration file TODO make that thing propper size.
+    confFile.read(configurationInput, confFile.getSize(), err);
+    configurationInput[confFile.getSize()] = '\0';
+    hwlib::cout << configurationInput << "\r\n";
+
+    //seek last entry in the data file and set the pointer
+    //to this location to append data instead of overwriting it.
     dataFile.seek(dataFile.getSize());
 
-    //Write separation line between measurement sessions.
+
+    //Write a sepearation line to the datafile to show where measurement sessions start and end.
     dataFile.write(sessionSeparator, sizeof(sessionSeparator), err);
+
+    if (err != MuStore::FsError::FS_ERR_OK) {
+        hwlib::cout << "Writing returend error: " << (char)err << "\r\n";
+    }
+
 
     //start loop
     hwlib::cout << "Writing to sd card\r\n";
@@ -101,7 +131,7 @@ int main(){
         //write it to sd card and check if alarm needs to go off
         dataFile.write(charValue, 3, err);
         hwlib::cout << "wiring data 0 for success: " << (int)err << "\r\n";
-        dataFile.write("\r\n", 2, err);
+        dataFile.write("\r\n", 1, err);
         hwlib::cout << "wiring newline 0 for success: " << (int)err << "\r\n";
         alarm.checkGasValue(mq5Value);
 
