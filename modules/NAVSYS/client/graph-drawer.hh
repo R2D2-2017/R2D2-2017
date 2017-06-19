@@ -49,7 +49,7 @@ public:
      * \param[in,out]    g      Graph to be build
      * 
      */
-    void reload(Graph * g);
+    void reload(Graph & g);
 
     /**
      * \brief Clear the vectors with nodes and vertices

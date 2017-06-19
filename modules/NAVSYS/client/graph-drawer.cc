@@ -21,9 +21,9 @@ void GraphDrawer::draw() {
     }
 }
 
-void GraphDrawer::reload(Graph * g) {
+void GraphDrawer::reload(Graph & g) {
     clear();
-    std::vector<Node> nodeVector = g->getNodes();	
+    std::vector<Node> nodeVector = g.getNodes();	
     for (auto & node : nodeVector) {
         graphNodes.push_back(
             GraphNode(
@@ -32,7 +32,7 @@ void GraphDrawer::reload(Graph * g) {
                     node.getCoordinate().y*scaling),
                 node.getName()));
     }
-    std::vector<Vertice> verticeVector = g->getVertices();	
+    std::vector<Vertice> verticeVector = g.getVertices();	
     for (auto & vertice : verticeVector) {
         graphVertices.push_back(GraphVertice(
             sf::Vector2f(
