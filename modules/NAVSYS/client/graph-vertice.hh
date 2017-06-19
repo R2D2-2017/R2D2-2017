@@ -55,4 +55,24 @@ public:
     * \return Returns 1 if the vertice is indeed the vertice connecting the nodes, otherwise returns 0
     */
     bool checkVertice(sf::Vector2f positionNodeOne, sf::Vector2f positionNodeTwo);
+    
+    	/**
+	* \brief Get the "real" non graphical position of the node
+	*/
+    int getRealPositionAY();
+    
+    	/**
+	* \brief Get the "real" non graphical position of the node
+	*/
+    int getRealPositionAX();
+    
+    	/**
+	* \brief Get the "real" non graphical position of the node
+	*/
+    int getRealPositionBY();
+    
+    	/**
+	* \brief Get the "real" non graphical position of the node
+	*/
+    int getRealPositionBX();
 };

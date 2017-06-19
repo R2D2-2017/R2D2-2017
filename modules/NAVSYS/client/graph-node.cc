@@ -54,6 +54,14 @@ sf::Vector2f GraphNode::getPosition() {
 	return sf::Vector2f(position.x+size,position.y+size);
 }
 
+int GraphNode::getRealPositionX() {
+	return (int)position.x;
+}
+
+int GraphNode::getRealPositionY() {
+	return (int)position.y;
+}
+
 sf::FloatRect GraphNode::getBounds() {
     sf::FloatRect boundingBox(position.x-size, position.y-size, size*2, size*2);
     return boundingBox;

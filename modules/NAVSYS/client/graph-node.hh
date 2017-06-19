@@ -32,6 +32,8 @@ private:
     */
 	std::string name;
 public:
+    
+
 	/**
     *\brief constructor for the graphnodes class 
     *
@@ -88,4 +90,14 @@ public:
 	* \brief Get the position of the node
 	*/
 	sf::Vector2f getPosition();
+	
+    /**
+	* \brief Get the "real" non graphical position of the node
+	*/
+	int getRealPositionX();
+	
+	/**
+	* \brief Get the "real" non graphical position of the node
+	*/
+    int getRealPositionY();
 };

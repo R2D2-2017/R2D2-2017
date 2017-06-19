@@ -19,13 +19,16 @@
 
 class GraphDrawer{
 private:	
-
-	std::vector<GraphNode> graphNodes;
-	std::vector<GraphVertice> graphVertices;
 	sf::RenderWindow & window;
+    std::vector<GraphNode> graphNodes;
+	std::vector<GraphVertice> graphVertices;
 	int scaling = 65;
 
 public:
+
+	std::vector<GraphNode> getGraphNode();
+	std::vector<GraphVertice> getGraphVertice();
+
     /**
      * \brief Constructor.
      *

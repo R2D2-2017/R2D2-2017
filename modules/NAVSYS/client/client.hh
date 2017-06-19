@@ -9,6 +9,7 @@
 #pragma once
 
 #include <SFML/Network.hpp>
+#include <SFML/System/Vector2.hpp>
 #include <string>
 
 #include "../common/graph-factory.hh"
@@ -18,6 +19,10 @@
 #include "mouse.hh"
 #include "../common/graph.hh"
 #include "../common/protocol.hh"
+
+#include <exception>
+
+
 
 enum class button {ShutDown,StartNode,EndNode};
 
@@ -48,6 +53,15 @@ private:
      * \param[in] p The packet to put the received data in
      */
     void checkPacketCorrectlyReceived(sf::Packet & p);
+    
+    
+    bool checkIfNodesCanBeStartNode(std::vector<GraphNode> nodes, std::vector<GraphVertice> vertices, std::string nodeName);
+    
+    bool checkIfNodesCanBeEndNode(std::vector<GraphNode> nodes, std::vector<GraphVertice> vertices, std::string nodeName);
+    
+    
+    void connectToServer();
+    
 public:
 
     /**
@@ -58,6 +72,8 @@ public:
      */
     Client(sf::IpAddress ipAddress, uint16_t port);
     
+    
+
     /**
      * \brief Runs the client
      *

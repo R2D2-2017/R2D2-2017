@@ -35,3 +35,19 @@ bool GraphVertice::checkVertice(sf::Vector2f positionNodeOne, sf::Vector2f posit
     }
     return 0;
 }
+
+int GraphVertice::getRealPositionAY(){
+	return (int)positiona.y;
+}
+
+int GraphVertice::getRealPositionAX(){
+	return (int)positiona.x;
+}
+
+int GraphVertice::getRealPositionBY(){
+	return (int)positionb.y;
+}
+
+int GraphVertice::getRealPositionBX(){
+	return (int)positionb.x;
+}

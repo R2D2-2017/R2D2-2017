@@ -14,9 +14,24 @@
 #include "gestures.hh"
 #include "../common/pathnode.hh"
 #include "graph-drawer.hh"
+#include <exception>
 
 #define WINDOW_WIDTH 800
 #define WINDOW_HEIGHT 480
+
+struct receivingFailed : public std::exception {
+	const char * what () const throw() {
+		
+		return "Something went wrong with receiving\n";
+	}
+};
+
+struct sendMessageFailed : public std::exception {
+	const char * what () const throw() {
+		
+		return "Something went wrong with sending your message\n";
+	}
+};
 
 Client::Client(sf::IpAddress ipAddress, uint16_t port):
     ipAddress(ipAddress),
@@ -25,19 +40,54 @@ Client::Client(sf::IpAddress ipAddress, uint16_t port):
 
 void Client::sendPacket(sf::Packet & p) {
     if (socket.send(p) != sf::Socket::Done) {
-        std::cout << "Something went wrong while sending your message, please try again later\n";
-        exit(-1);
+        throw sendMessageFailed() ;
     }
 }
 
-void Client::checkPacketCorrectlyReceived(sf::Packet & p) {;
-    if (socket.receive(p) != sf::Socket::Done) {
-        std::cout << "Something went wrong with receiving\n";
-        exit(-1);
+void Client::checkPacketCorrectlyReceived(sf::Packet & p) {
+    if (socket.receive(p) != sf::Socket::Done) {      
+        throw receivingFailed() ;
     }
+}
+
+void Client::connectToServer(){
+		socket.disconnect();
+        socket.connect(ipAddress, port);
+}
+
+bool Client::checkIfNodesCanBeStartNode(std::vector<GraphNode> nodes, std::vector<GraphVertice> vertices, std::string nodeName){
+	bool checkbool =false;
+	for(GraphNode & tempNode : nodes){
+	    if(tempNode.getName() == nodeName){
+            for(GraphVertice & tempVert : vertices){
+                if(tempNode.getRealPositionX() == tempVert.getRealPositionAX() && tempNode.getRealPositionY() == tempVert.getRealPositionAY()){
+			        checkbool = true;
+				}
+		    }				
+		}
+			//std::cout << temp.getName() << " " << temp.getRealPositionX() << " " << temp.getRealPositionX() << " \n";
+	}
+	return checkbool;
+}
+
+bool Client::checkIfNodesCanBeEndNode(std::vector<GraphNode> nodes, std::vector<GraphVertice> vertices, std::string nodeName){
+    bool checkbool =false;
+	for(GraphNode & tempNode : nodes){
+	    if(tempNode.getName() == nodeName){
+            for(GraphVertice & tempVert : vertices){
+                if(tempNode.getRealPositionX() == tempVert.getRealPositionBX() && tempNode.getRealPositionY() == tempVert.getRealPositionBY()){
+			        checkbool = true;
+				}
+		    }				
+		}
+			//std::cout << temp.getName() << " " << temp.getRealPositionX() << " " << temp.getRealPositionX() << " \n";
+	}
+	return checkbool;	    
 }
 
 void Client::run(){
+	
+//connectToServer();
     sf::Socket::Status connectionStatus = socket.connect(ipAddress, port);
     if (connectionStatus != sf::Socket::Done) {
         std::cout << "Connection failed\n";
@@ -53,6 +103,9 @@ void Client::run(){
     
     GraphDrawer drawer(window);
     
+    
+    
+    
     sf::Packet receivedMessage;
     
     drawer.reload(&g);
@@ -64,12 +117,22 @@ void Client::run(){
     buttonList.push_back(new Button(window, { float(window.getSize().x - (buttonSize.x + 100)), 10 }, { buttonSize.x/2, buttonSize.y/2 }, static_cast<int>(button::StartNode), "Start Node", false));
     buttonList.push_back(new Button(window, { float(window.getSize().x - (buttonSize.x + 200)), 10 }, { buttonSize.x / 2, buttonSize.y / 2 }, static_cast<int>(button::EndNode), "End Node", false));
 
-    bool startNodeSelected = 0;
-    bool endNodeSelected = 0;
+    bool startNodeSelected = false;
+    bool endNodeSelected = false;
 
     StartEndNodeData newPath;
     GraphNode clickedNode = drawer.checkNodeClicked();
     while(true){
+		  try{
+				
+    // if getRemotePort = 0, no connention with socket.
+    if (socket.getRemotePort() == 0) {
+		socket.disconnect();
+        socket.connect(ipAddress, port);
+    }
+						
+						
+						
         window.clear(sf::Color::Black);
         sf::sleep(sf::milliseconds(20));
 
@@ -129,16 +192,31 @@ void Client::run(){
         }
 
         drawer.draw(); 
-
-        if(startNodeSelected && endNodeSelected) {
+        
+        if(startNodeSelected && endNodeSelected && !checkIfNodesCanBeStartNode(drawer.getGraphNode(), drawer.getGraphVertice(), newPath.startNode)){
+			std::cout << "Start node can not be used. because it has no connection to the grid \n"; 
+			endNodeSelected =false;
+			startNodeSelected = false;
+		}else if(startNodeSelected && endNodeSelected && !checkIfNodesCanBeEndNode(drawer.getGraphNode(), drawer.getGraphVertice(), newPath.endNode)){
+			std::cout << "End node can not be used. because it has no connection to the grid \n"; 
+			endNodeSelected =false;
+			startNodeSelected = false;
+		
+	    }else if(startNodeSelected && endNodeSelected && newPath.startNode == newPath.endNode) {
+			std::cout << "Start and end node cannot be the same, you are at the endpoint \n"; 
+			endNodeSelected =false;
+			startNodeSelected = false;
+			
+        }else if(startNodeSelected && endNodeSelected && newPath.startNode != newPath.endNode) {
             std::cout << "name of start node > " << newPath.startNode << "\n";
             drawer.setBeginNode(newPath.startNode);
             std::cout << "name of end node > " << newPath.endNode << "\n";
             drawer.setEndNode(newPath.endNode);
 
             requestPath(newPath);
+
             checkPacketCorrectlyReceived(receivedMessage);
-            
+
             std::vector<PathNode> thePath;
             command cmd = command::none;
             receivedMessage >> cmd >> thePath;
@@ -172,8 +250,17 @@ void Client::run(){
             }
             window.moveViewPort(gestureHandler.getMouseDrag(20));
             window.updateView();
-        }
-    }
+        }  
+        }catch(receivingFailed & e){
+		std::cout << e.what() << "\n";
+		startNodeSelected = false;
+		endNodeSelected = false;
+
+	    }catch(sendMessageFailed & e){
+		std::cout << e.what() << "\n";
+		startNodeSelected = false;
+		endNodeSelected = false;
+    }}
 }
 
 void Client::getDatabaseFromServer() {

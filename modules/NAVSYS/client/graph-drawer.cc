@@ -11,6 +11,14 @@ GraphDrawer::GraphDrawer(sf::RenderWindow & window):
 		window( window )
 {}
 
+std::vector<GraphNode> GraphDrawer::getGraphNode(){
+	return graphNodes;
+}
+	
+std::vector<GraphVertice> GraphDrawer::getGraphVertice(){
+    return graphVertices;
+}
+
 void GraphDrawer::draw(){
 	for(auto & it : graphNodes) {
 		it.draw(window);
