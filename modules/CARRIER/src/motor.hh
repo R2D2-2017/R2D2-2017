@@ -16,7 +16,7 @@
  * Simple class that encapsulates wiringSerial
  * That is able send commands with the protocol required by the Qik2s12v10
 */
-enum MotorControls : char {
+enum MotorControls : uint8_t {
 	startBit = 0xAA,
     deviceId = 0x0A
 };
@@ -48,5 +48,5 @@ public:
      *\param[in]  speed       the motors will be turning this number has to be
 	 * between 0 and 127
      */
-	void sendCommand(char hexCommand, int speed);
+	void sendCommand(uint8_t hexCommand, uint8_t speed);
 };

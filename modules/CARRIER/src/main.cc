@@ -32,7 +32,12 @@ int main(void) {
     //Declaration of the system classes
     MotorController                  controller("/dev/ttyS0", 38400);
     SerialCom                        serialCom("/dev/rfcomm0", 9600);
-    std::vector<HcSr04> sonarSensors = {HcSr04(northTrigger, northEcho), HcSr04(eastTrigger, eastEcho), HcSr04(southTrigger, southEcho), HcSr04(westTrigger, westEcho)  };
+    std::vector<HcSr04> sonarSensors = {
+        HcSr04(northTrigger, northEcho),
+        HcSr04(eastTrigger, eastEcho),
+        HcSr04(southTrigger, southEcho),
+        HcSr04(westTrigger, westEcho)
+    };
     Carrier::CarrierController       stateMachine(controller, sonarSensors, 127);
 
     // Quick bluetooth status led
@@ -41,8 +46,9 @@ int main(void) {
     //If not connected to bluetooth serial blink and poll to connect
     while (serialCom.init() == 0) {
         digitalWrite(statusLed, 1); // On
-        delay(1000);
+        delay(500);
         digitalWrite(statusLed, 0); // off
+        delay(500);
     }
     digitalWrite(statusLed, 1); // On
 

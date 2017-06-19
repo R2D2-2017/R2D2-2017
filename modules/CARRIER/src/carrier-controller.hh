@@ -79,10 +79,23 @@ public:
      */
     CarrierState currentState();
 
+    /**
+     * \brief returns the current speed
+     * \returns integer with current speed value
+     */
     int getSpeed();
 
+    /**
+     * \brief Returns a reference of the motorController
+     */
     MotorController &getMotorController();
 
+    /**
+     * \brief returns selected sensor reading cm
+     * \param[in] direction selection from the enum to select what sensor to read
+     * Can be use to read the 4 sensor individually or use the All enum to read out all at once
+     * \return Vector of read sensor values
+     */
     std::vector<int> getSonarValue(SonarDirections direction);
 
 private:
