@@ -25,10 +25,10 @@ void GraphNode::draw(sf::RenderWindow & window) {
     sf::Text txt;
     txt.setFont(font);
     txt.setString(name);
-    txt.setCharacterSize(30);
+    txt.setCharacterSize(characterSize);
     txt.setStyle(sf::Text::Bold);
     txt.setColor(sf::Color::Green);
-    txt.setPosition(position.x+20,position.y+20);
+    txt.setPosition(position.x+positionOffset,position.y+positionOffset);
     window.draw(txt);
 
     circle.setRadius(size);
@@ -36,7 +36,7 @@ void GraphNode::draw(sf::RenderWindow & window) {
     circle.setOrigin(size,size);
     circle.setFillColor(color);
     circle.setOutlineColor(sf::Color::Black);
-    circle.setOutlineThickness(2);
+    circle.setOutlineThickness(outlineThickness);
     window.draw(circle);
 }
 

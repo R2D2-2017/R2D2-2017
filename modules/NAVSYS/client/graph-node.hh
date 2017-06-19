@@ -14,7 +14,9 @@ class GraphNode {
 private:
     sf::Vector2f position;
     sf::CircleShape circle;
-
+    static const unsigned int characterSize = 30;
+    static constexpr float positionOffset = 20;
+    static const int outlineThickness = 2;
     /*
      * \brief The default color for a Vertic is white
      */
@@ -47,14 +49,15 @@ public:
 
     /**
      * \brief Draw function
-     *
-     * The draw function will draw the node on the window with the adress of 
-     * the parameter. 
+     * 
+     * \param[in] window Draws the node on this sfml window
      */
     void draw( sf::RenderWindow & window ) ;
 
     /**
      * \brief Get the name of the GraphNode
+     *
+     * \return The name of the node as an std::string
      */
     std::string getName();
 
@@ -72,7 +75,7 @@ public:
     /**
      * \brief Check if the GraphNode is selected.
      *
-     * \param[in,out]    window      The SFML window
+     * \param[in]    window      The SFML window
      *
      * \return This function returns True if the GraphNode is pressed, 
      *         otherwise it will return False.
@@ -92,6 +95,8 @@ public:
 
     /**
      * \brief Get the position of the node
+     *
+     * \return get the position of the node as an sfml vector
      */
     sf::Vector2f getPosition();
 };
