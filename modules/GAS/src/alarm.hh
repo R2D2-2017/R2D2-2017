@@ -1,9 +1,14 @@
 /**
  * \file
+<<<<<<< HEAD
  * \brief     The declarations of the class Alarm of GAS-03
  * \author    Jeroen Kok
  * \author    Robbie Vlakenburg
  * \author    Mike Hilhorst.
+=======
+ * \brief     The declarations of the class Alarm of GAS-01
+ * \author    Jeroen Kok, Robbie Vlakenburg, Mike Hilhorst en Nicky van Steensel van der Aa.
+>>>>>>> feat-gas-new-parser
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See LICENSE
  */
@@ -46,6 +51,30 @@ public:
      */
     void checkGasValue(int gasValue);
 
+	/**
+	* \brief Set the firstNote to this value
+	* \param Note the first tone to be played 
+	*/
+	void setFirstNote(int Note);
+
+	/**
+	* \brief Set the SecondNote to this value
+	* \param Note the second tone to be played
+	*/
+	void setSecondNote(int Note);
+
+	/**
+	* \brief Sets the threshold of the alarm warning
+	* \param warningThreshold the value to be set
+	*/
+	void setWarningThreshold(int warningThreshold);
+
+	/**
+	* \brief Sets the threshold of the danger alarm
+	* \param dangerThreshold the value to be set
+	*/
+	void setDangerThreshold(int dangerThreshold);
+
 private:
 
     /**
@@ -53,6 +82,16 @@ private:
      */
     int warningThreshold;
     int dangerThreshold;
+
+	/**
+	* The first note to be played
+	*/
+	int firstNote = 880;
+
+	/**
+	* The second note to be played
+	*/
+	int secondNote = 698;
 
     /**
      * The pins the alarm is connected to

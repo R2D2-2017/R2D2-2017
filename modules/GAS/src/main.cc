@@ -21,6 +21,7 @@
 #include "alarm.hh"
 #include "speaker.hh"
 #include "mq5.hh"
+#include "parser.hh"
 #include <fatfs.hh>
 
 /**
@@ -65,11 +66,22 @@ int main(){
 
     // Initialize classes
     SdSpi sd(cs, spiBus);
+<<<<<<< HEAD
     Speaker warningPlayer( warningSpeakerPin );
     Speaker dangerPlayer( dangerSpeakerPin );
     Alarm alarm(warningThreshold, dangerThreshold, greenAlarmLed, yellowAlarmLed, redAlarmLed, warningPlayer, dangerPlayer);
 
     Mq5 mq5(        sensor);
+=======
+    Speaker player( speakerPin );
+    Alarm alarm(105, alarmLed, player);
+    Mq5 mq5(sensor);
+
+    Parser parser(alarm, player, mq5);
+    char testArray[] = "@firstNote:880\n@secondNote:698\n@warningThreshold:110\n@dangerThreshold:105\n@mq5CalibrationValue:100\n@measureFrequency:1000\n";          //DELETE (TEST)
+    parser.parseArray(testArray);                                                                                                                               //DELETE (TEST)
+
+>>>>>>> feat-gas-new-parser
     MuStore::FatFs fileSystem(&sd);
     MuStore::FsError err;
 

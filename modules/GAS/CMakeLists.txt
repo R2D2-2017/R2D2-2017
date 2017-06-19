@@ -42,6 +42,7 @@ set(sources
     src/alarm.cc
     src/speaker.cc
     src/mq5.cc
+    src/parser.cc
 	)
 
 # The target chip that is compiled for:
