@@ -13,7 +13,6 @@
 
 #include "wrap-hwlib.hh"
 #include "alarm.hh"
-#include "speaker.hh"
 #include "mq5.hh"
 
 class Parser {
@@ -22,7 +21,7 @@ public:
     /**
      * \brief Constructor for Parser
      */
-    Parser(Alarm &alarm, Speaker &speaker, Mq5 &mq5);
+    Parser(Alarm &alarm, Mq5 &mq5);
 
     /**
      * \brief
@@ -33,7 +32,6 @@ public:
 private:
 
     Alarm &alarm;
-    Speaker &speaker;
     Mq5 &mq5;
 
     char variableName[20];
