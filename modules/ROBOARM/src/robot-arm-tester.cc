@@ -5,7 +5,7 @@
  * \license   See LICENSE
  */
 
-#include "RobotArmTester.hh"
+#include "robot-arm-tester.hh"
 
 const hwlib::string<12> RobotArmTester::commandList1[15] = {
         // Reset
@@ -44,11 +44,12 @@ const hwlib::string<12> RobotArmTester::commandList2[26] = {
         "RESET 1",
 };
 
-void RobotArmTester::run_test(const hwlib::string<12> *commandList, int commandListLen){
+void RobotArmTester::run_test(const hwlib::string<12> *commandList,
+                              int commandListLen) {
     using namespace RoboArm::Parser;
 
     for (int i = 0; i < commandListLen; ++i) {
-        Status result = parseCommand(commandList[i], robotarm);
+        Status result = parseCommand(commandList[i], robotarm, i2c);
 
         switch (result) {
             case Status::SyntaxError:
@@ -60,8 +61,8 @@ void RobotArmTester::run_test(const hwlib::string<12> *commandList, int commandL
     }
 }
 
-RobotArmTester::RobotArmTester(RoboArm::RobotArmController &robotarm) :
-        robotarm(robotarm) {}
+RobotArmTester::RobotArmTester(RoboArm::RobotArmController &robotarm, I2C &i2c)
+        : robotarm(robotarm), i2c(i2c) {}
 
 void RobotArmTester::run(int test) {
 
@@ -73,12 +74,12 @@ void RobotArmTester::run(int test) {
 
     if (test == 0 || test == 1) {
         hwlib::cout << "Run test 1" << "\r\n";
-        run_test(commandList1, sizeof(commandList1)/ sizeof(commandList1[0]));
+        run_test(commandList1, sizeof(commandList1) / sizeof(commandList1[0]));
     }
 
     if (test == 0 || test == 2) {
         hwlib::cout << "Run test 2" << "\r\n";
-        run_test(commandList2, sizeof(commandList2)/ sizeof(commandList2[0]));
+        run_test(commandList2, sizeof(commandList2) / sizeof(commandList2[0]));
     }
 
     robotarm.disable();

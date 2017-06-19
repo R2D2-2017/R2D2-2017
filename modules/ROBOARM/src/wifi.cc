@@ -70,20 +70,20 @@ Wifi::ATSTATUS Wifi::setupAccessPoint(const hwlib::string<16> &ssid,
 hwlib::string<16> Wifi::getVersion() {
     if (AT("AT+GMR") == ATSTATUS::OK) {
         hwlib::string<16> ip;
-        bool begin = false;
+        int begin = 0;
         for (int i = 0; i < bufferSize; ++i) {
-            if (begin) {
+            if (begin == 2) {
                 if (buffer[i] == '\n') {
                     break;
                 }
                 ip += buffer[i];
-            } else if (buffer[i] == '\n') {
-                begin = true;
+            } else if (buffer[i] == ':') {
+                begin++;
             }
         }
         return ip;
     }
-    return new hwlib::string<16>;
+    return "";
 }
 
 void Wifi::getMode() {
@@ -106,11 +106,31 @@ hwlib::string<32> Wifi::getAccessPoint() {
         }
         return ip;
     }
-    return new hwlib::string<32>;
+    return "";
 }
 
-void Wifi::getIpAddresses() {
-    AT("AT+CWLIF");
+hwlib::string<32> Wifi::getIpAddresses() {
+    if (AT("AT+CWLIF") == ATSTATUS::OK) {
+        hwlib::string<32> addresses;
+        bool begin = false;
+        for (int i = 0; i < bufferSize; ++i) {
+            if (begin) {
+                if (buffer[i] == ',') {
+                    begin = false;
+                    addresses += '\n';
+                    continue;
+                }
+                if (buffer[i] == '\n') {
+                    break;
+                }
+                addresses += buffer[i];
+            } else if (buffer[i] == '\n') {
+                begin = true;
+            }
+        }
+        return addresses;
+    }
+    return "";
 }
 
 hwlib::string<16> Wifi::getIpAddress() {
@@ -119,17 +139,17 @@ hwlib::string<16> Wifi::getIpAddress() {
         bool begin = false;
         for (int i = 0; i < bufferSize; ++i) {
             if (begin) {
-                if (buffer[i] == '\n') {
+                if (buffer[i] == '"') {
                     break;
                 }
                 ip += buffer[i];
-            } else if (buffer[i] == '\n') {
+            } else if (buffer[i] == '"') {
                 begin = true;
             }
         }
         return ip;
     }
-    return new hwlib::string<16>;
+    return "";
 }
 
 void Wifi::multipleConnections(bool multiple) {
@@ -166,7 +186,7 @@ void Wifi::stopServer() {
     multipleConnections(false);
 }
 
-hwlib::string<16> Wifi::receive() {
+hwlib::string<32> Wifi::receive() {
     //index in the buffer
     int i = 0;
 
@@ -231,8 +251,8 @@ hwlib::string<16> Wifi::receive() {
     return returnData;
 }
 
-void Wifi::send(const hwlib::string<16> &data) {
-    hwlib::string<32> s = "AT+CIPSEND=";
+void Wifi::send(const hwlib::string<32> &data) {
+    hwlib::string<48> s = "AT+CIPSEND=";
     s += id_last_transmition;
     s += ",";
     int len = data.length();
@@ -255,4 +275,8 @@ Wifi::Wifi(hwlib::pin_in &rx, hwlib::pin_out &tx) :
         rx(rx), tx(tx) {
     //Give ESP more than enough time to boot
     hwlib::wait_ms(500);
+}
+
+void Wifi::enDebug() {
+    debug = true;
 }

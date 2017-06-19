@@ -11,7 +11,7 @@
 #include "stepper.hh"
 #include "wifi.hh"
 #include "wrap-hwlib.hh"
-#include "RobotArmTester.hh"
+#include "robot-arm-tester.hh"
 #include "I2C.hh"
 
 int main() {
@@ -47,24 +47,47 @@ int main() {
     Stepper y(dirY, stepY, ENY);
     Stepper z(dirZ, stepZ, ENZ);
     RoboArm::RobotArmController r(x, y, z, xLimitSwitch, yLimitSwitch, ky101);
+    I2C i2c(i2c_bus);
+    RobotArmTester tester(r, i2c);
 
     w.setupAccessPoint("ROBOARM", "123454321");
     w.startServer();
 
     using namespace RoboArm::Parser;
-    r.enable();
     while (true) {
         hwlib::string<16> command = w.receive();
 
+        if (command == "TEST 0") {
+            tester.run(0);
+        }
+        if (command == "TEST 1") {
+            tester.run(1);
+        }
+        if (command == "TEST 2") {
+            tester.run(2);
+        }
         if (command == "ping") {
             w.send("pong\n");
             continue;
         }
-        if (command == "exit"){
+        if (command == "help") {
+            w.send("EN\n");
+            w.send("DIS\n");
+            w.send("I2CDemo\n");
+            w.send("RESET\n");
+            w.send("X\n");
+            w.send("Y\n");
+            w.send("Z\n");
+            w.send("WAIT_S\n");
+            w.send("WAIT_MS\n");
+            w.send("TEST\n\n");
+            continue;
+        }
+        if (command == "exit") {
             break;
         }
 
-        Status result = parseCommand(command, r);
+        Status result = parseCommand(command, r, i2c);
 
         switch (result) {
             case Status::SyntaxError:
@@ -75,14 +98,6 @@ int main() {
                 break;
         }
     }
-    r.disable();
-
-//    I2C i2c(i2c_bus);
-//    i2c.runDemo();
-
-    RobotArmTester tester(r);
-
-    tester.run();
 
     return 0;
 }

@@ -22,7 +22,7 @@ class Wifi {
         NO_CHANGE
     };
 
-    bool debug = true;
+    bool debug = false;
     /**
      * The client id to response to
      */
@@ -57,6 +57,11 @@ public:
     Wifi(hwlib::pin_in &rx, hwlib::pin_out &tx);
 
     /**
+     * \brief Enable debug mode
+     */
+    void enDebug();
+
+    /**
      * \brief Gets the firmware version of the wifi module
      * \return hwlib::string<16> The version of the firmware on the esp
      */
@@ -76,7 +81,7 @@ public:
     /**
      * \brief Gets ip addresses of clients connected to the access point
      */
-    void getIpAddresses();
+    hwlib::string<32> getIpAddresses();
 
     /**
      * \brief Gets own ip address
@@ -91,7 +96,7 @@ public:
      * \return ATSTATUS The response status of the at command
      */
     Wifi::ATSTATUS setupAccessPoint(const hwlib::string<16> &ssid,
-                          const hwlib::string<16> &password);
+                                    const hwlib::string<16> &password);
 
     /**
      * \brief Sets the wifi module to multiple connections or single connection
@@ -124,5 +129,5 @@ public:
     /**
      * \brief Sends a transmition back to the client
      */
-    void send(const hwlib::string<16> &data);
+    void send(const hwlib::string<32> &data);
 };

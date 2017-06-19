@@ -10,6 +10,8 @@
 
 #include "wrap-hwlib.hh"
 #include "robot-arm.hh"
+#include "robot-arm-tester.hh"
+#include "I2C.hh"
 
 namespace RoboArm {
     namespace Parser {
@@ -19,24 +21,16 @@ namespace RoboArm {
         };
 
         /**
-         * \brief Check if string is equal to command
-         *
-         * \param[in]  String to compare
-         * \param[in]  String to compare
-         * \param[in]  Length of string
-         *
-         * \return returns true if equal
-         */
-        bool equal(const hwlib::string<0> &l, const char *r, unsigned int len);
-
-        /**
          * \brief Parses a string and drives the servo motor
          *
          * \param[in]  command   how the servo should be moving as a string eg: "x 42"
-         * \param[in]  RobotArmController  RobotArmController class that parser can executes commands for
+         * \param[in]  RobotArmController  RobotArmController class that the parser can executes commands for
+         * \param[in]  I2C  I2C class that the parser can executes commands for
          *
          * \return returns an status code so you can check if the execution was done successfully
          */
-        Status parseCommand(const hwlib::string<0> &command, RobotArmController &robotArm);
+        Status parseCommand(const hwlib::string<0> &command,
+                            RobotArmController &robotArm,
+                            I2C &i2ck);
     }
 }
