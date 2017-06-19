@@ -29,8 +29,9 @@
 #define CLOCK_FREQ 25000000.0 //25MHz default osc clock
 
 class I2C {
+public:
 	I2C(hwlib::i2c_bus &i2c_bus);
-	virtual ~I2C();
+	// virtual ~I2C();
 	void setPWMFreq(int);
 	void setPWM(uint8_t, int, int);
 	void setPWM(uint8_t, int);
@@ -43,7 +44,7 @@ class I2C {
 
     uint8_t slaveAdress;
 	
-public:
+
 	
 	void reset(void);
 

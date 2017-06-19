@@ -14,9 +14,9 @@ I2C::I2C(hwlib::i2c_bus &i2c_bus):
 i2c_bus(i2c_bus)
 {
 }
-I2C::~I2C(){
-	// delete i2c_bus;
-}
+// I2C::~I2C(){
+// 	// delete i2c_bus;
+// }
 
 void I2C::reset(){
 	sendCommand(0x00,0x00);//Normal mode
