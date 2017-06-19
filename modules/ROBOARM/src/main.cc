@@ -23,25 +23,36 @@ int main() {
 
     auto ky101Pin = hwlib::target::pin_in(hwlib::target::pins::d14);
 
-    auto ENX = hwlib::target::pin_out(2, 6); //d38
-    auto stepX = hwlib::target::pin_out(hwlib::target::pins::a0);
-    auto dirX = hwlib::target::pin_out(hwlib::target::pins::a1);
-    auto ENY = hwlib::target::pin_out(hwlib::target::pins::a2);
-    auto stepY = hwlib::target::pin_out(hwlib::target::pins::a6);
-    auto dirY = hwlib::target::pin_out(hwlib::target::pins::a7);
+    // XY motor controlling the angle of the base joint.
+    auto m1Enable = hwlib::target::pin_out(hwlib::target::pins::a2);
+    auto m1Step   = hwlib::target::pin_out(hwlib::target::pins::a6);
+    auto m1Dir    = hwlib::target::pin_out(hwlib::target::pins::a7);
 
-    auto ENZ = hwlib::target::pin_out(hwlib::target::pins::a8);
-    auto stepZ = hwlib::target::pin_out(hwlib::target::pins::d46);
-    auto dirZ = hwlib::target::pin_out(hwlib::target::pins::d48);
+    // XY motor controlling the angle of the middle joint.
+    auto m2Enable = hwlib::target::pin_out(2, 6); //d38
+    auto m2Step   = hwlib::target::pin_out(hwlib::target::pins::a0);
+    auto m2Dir    = hwlib::target::pin_out(hwlib::target::pins::a1);
 
-    auto xLimitSwitch = hwlib::target::pin_in(hwlib::target::pins::d3);
-    auto yLimitSwitch = hwlib::target::pin_in(hwlib::target::pins::d2);
+    // Motor controlling the rotation of the Y axis. (rotates the base of the robot)
+    auto m3Enable = hwlib::target::pin_out(hwlib::target::pins::a8);
+    auto m3Step   = hwlib::target::pin_out(hwlib::target::pins::d46);
+    auto m3Dir    = hwlib::target::pin_out(hwlib::target::pins::d48);
+
+    auto m1LimitSwitch = hwlib::target::pin_in(hwlib::target::pins::d2);
+    auto m2LimitSwitch = hwlib::target::pin_in(hwlib::target::pins::d3);
 
     Ky101 ky101(ky101Pin);
-    Stepper x(dirX, stepX, ENX);
-    Stepper y(dirY, stepY, ENY);
-    Stepper z(dirZ, stepZ, ENZ);
-    RoboArm::RobotArmController robotarm(x, y, z, xLimitSwitch, yLimitSwitch, ky101);
+
+    Stepper m1Stepper(m1Dir, m1Step, m1Enable);
+    Stepper m2Stepper(m2Dir, m2Step, m2Enable);
+    Stepper m3Stepper(m3Dir, m3Step, m3Enable);
+
+    RoboArm::RobotArmController robotarm(m1Stepper,
+                                         m2Stepper,
+                                         m3Stepper,
+                                         m1LimitSwitch,
+                                         m2LimitSwitch,
+                                         ky101);
 
     I2C i2c(i2c_bus);
     i2c.runDemo();
@@ -54,9 +65,16 @@ int main() {
 
     hwlib::wait_ms(2000);
 
+    robotarm.moveTo({ 12, 12,  0 });
+    hwlib::wait_ms(3000);
+    robotarm.moveTo({ 12, 12,  45 });
+    hwlib::wait_ms(3000);
+    robotarm.moveTo({ 12, 12,  0 });
+
     robotarm.moveTo({ 24, 18,  20 });
+    hwlib::wait_ms(3000);
+    robotarm.moveTo({ 15, 2,   20 });
     hwlib::wait_ms(2000);
-    robotarm.moveTo({ 20,  5, -20 });
 
     hwlib::cout << "end\r\n";
     robotarm.disable();

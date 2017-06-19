@@ -59,17 +59,17 @@ Status RoboArm::Parser::parseCommand(const hwlib::string<0> &command,
 
     if (action.length() == 1) {
         if (action[0] == 'X') {
-            robotArmController.rotateAxis(RobotAxis::X, intAmount, !direction);
+            robotArmController.rotateMotor(Motor::M1, intAmount, !direction);
             return Status::Successful;
         }
 
         if (action[0] == 'Y') {
-            robotArmController.rotateAxis(RobotAxis::Y, intAmount, direction);
+            robotArmController.rotateMotor(Motor::M2, intAmount, direction);
             return Status::Successful;
         }
 
         if (action[0] == 'Z') {
-            robotArmController.rotateAxis(RobotAxis::Z, intAmount, !direction);
+            robotArmController.rotateMotor(Motor::M3, intAmount, !direction);
             return Status::Successful;
         }
     } else {

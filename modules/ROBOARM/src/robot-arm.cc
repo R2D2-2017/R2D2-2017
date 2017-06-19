@@ -13,27 +13,27 @@
 using namespace RoboArm;
 
 RobotArmController::RobotArmController(
-    Stepper &xAxis,
-    Stepper &yAxis,
-    Stepper &zAxis,
-    hwlib::target::pin_in &xLimitSwitch,
-    hwlib::target::pin_in &yLimitSwitch,
+    Stepper &m1Stepper,
+    Stepper &m2Stepper,
+    Stepper &m3Stepper,
+    hwlib::target::pin_in &m1LimitSwitch,
+    hwlib::target::pin_in &m2LimitSwitch,
     Ky101 &ky101)
-    : xAxis(xAxis),
-      yAxis(yAxis),
-      zAxis(zAxis),
-      xLimitSwitch(xLimitSwitch),
-      yLimitSwitch(yLimitSwitch),
+    : m1Stepper(m1Stepper),
+      m2Stepper(m2Stepper),
+      m3Stepper(m3Stepper),
+      m1LimitSwitch(m1LimitSwitch),
+      m2LimitSwitch(m2LimitSwitch),
       ky101(ky101)
 { }
 
-void RobotArmController::rotateAxis(RobotAxis axis,
-                                    int degrees,
-                                    bool clockwise) {
+void RobotArmController::rotateMotor(Motor motor,
+                                     int   degrees,
+                                     bool  clockwise) {
 
-    int selectedMicroSteps = (axis == RobotAxis::Z) ? microStepsBase
+    int selectedMicroSteps = (motor == Motor::M3) ? microStepsBase
                                                     : microStepsArms;
-    int selectedRatio = (int) ((axis == RobotAxis::Z) ? baseStepRatio
+    int selectedRatio = (int) ((motor == Motor::M3) ? baseStepRatio
                                                       : armStepRatio);
     int requiredSteps = (int) (selectedMicroSteps
                                * (degrees * selectedRatio) / stepSize);
@@ -45,22 +45,22 @@ void RobotArmController::rotateAxis(RobotAxis axis,
         RobotLimitSwitch switchEnabled = checkLimitations();
         hwlib::cout << "\r" << stepsTaken;
 
-        if ((axis == RobotAxis::X && !clockwise
+        if ((motor == Motor::M1 && !clockwise
              && (   switchEnabled == RobotLimitSwitch::BOTH
-                 || switchEnabled == RobotLimitSwitch::X))
-            || (axis == RobotAxis::Y && !clockwise &&
+                 || switchEnabled == RobotLimitSwitch::M1))
+            || (motor == Motor::M2 && !clockwise &&
                 (   switchEnabled == RobotLimitSwitch::BOTH
-                 || switchEnabled == RobotLimitSwitch::Y))) {
+                 || switchEnabled == RobotLimitSwitch::M2))) {
 
             break;
         }
 
-        if (axis == RobotAxis::X)
-            xAxis.step(clockwise);
-        else if (axis == RobotAxis::Y)
-            yAxis.step(clockwise);
-        else if (axis == RobotAxis::Z)
-            zAxis.step(clockwise);
+        if (motor == Motor::M1)
+            m1Stepper.step(!clockwise);
+        else if (motor == Motor::M2)
+            m2Stepper.step(clockwise);
+        else if (motor == Motor::M3)
+            m3Stepper.step(clockwise);
     }
 }
 
@@ -78,6 +78,9 @@ RobotArmController::positionToMotorRotations(Position pos) {
 
     // FIXME: Make it clear where radians/degrees are used.
 
+    // See https://github.com/R2D2-2017/R2D2-2017/wiki/%5BROBOARM%5D-Forward-and--Inverse-kinematics
+    // for an explanation for these formulas.
+
     float distance = sqrt(pow2(pos.x) + pow2(pos.y));
     float slope    =  atan(pos.y / pos.x);
 
@@ -90,7 +93,7 @@ RobotArmController::positionToMotorRotations(Position pos) {
 
     float yRot = deg2rad(pos.yRot);
 
-    return std::make_tuple(joint1Rot, -joint2Rot, yRot);
+    return std::make_tuple(joint1Rot, joint2Rot, yRot);
 }
 
 static hwlib::ostream &operator<<(hwlib::ostream &stream, float v) {
@@ -121,27 +124,27 @@ bool RobotArmController::moveTo(Position pos) {
 
     hwlib::cout << "rotate 1 by " << (std::get<0>(newMotorRotations)
                                       - std::get<0>(motorRotations)) << "\r\n";
-    rotateAxis(RobotAxis::Y,
+    rotateMotor(Motor::M1,
                fabs(std::get<0>(newMotorRotations)
                     - std::get<0>(motorRotations)),
                std::get<0>(newMotorRotations)
-               - std::get<0>(motorRotations) >= 0);
+               - std::get<0>(motorRotations) < 0);
 
     hwlib::cout << "rotate 2 by " << (std::get<1>(newMotorRotations)
                                       - std::get<1>(motorRotations)) << "\r\n";
-    rotateAxis(RobotAxis::X,
+    rotateMotor(Motor::M2,
                fabs(std::get<1>(newMotorRotations)
                     - std::get<1>(motorRotations)),
                std::get<1>(newMotorRotations)
-               - std::get<1>(motorRotations) >= 0);
+               - std::get<1>(motorRotations) < 0);
 
     hwlib::cout << "rotate 3 by " << (std::get<2>(newMotorRotations)
                                       - std::get<2>(motorRotations)) << "\r\n";
-    rotateAxis(RobotAxis::Z,
+    rotateMotor(Motor::M3,
                fabs(std::get<2>(newMotorRotations)
                     - std::get<2>(motorRotations)),
                std::get<2>(newMotorRotations)
-               - std::get<2>(motorRotations) >= 0);
+               - std::get<2>(motorRotations) < 0);
 
     motorRotations = newMotorRotations;
 
@@ -149,40 +152,36 @@ bool RobotArmController::moveTo(Position pos) {
 }
 
 RobotLimitSwitch RobotArmController::checkLimitations() {
-    if (!xLimitSwitch.get() && !yLimitSwitch.get()) {
-        return RobotLimitSwitch::BOTH;
-    } else if (!xLimitSwitch.get()) {
-        return RobotLimitSwitch::X;
-    } else if (!yLimitSwitch.get()) {
-        return RobotLimitSwitch::Y;
-    } else {
+    if (!m1LimitSwitch.get())
+        if (!m2LimitSwitch.get())
+            return RobotLimitSwitch::BOTH;
+        else
+            return RobotLimitSwitch::M1;
+    else if (!m2LimitSwitch.get())
+        return RobotLimitSwitch::M2;
+    else
         return RobotLimitSwitch::NONE;
-    }
 }
 
-// The amounts of steps in rotateAxis functions is yet to be determined through testing.
-// TODO test variables
 void RobotArmController::startup() {
-    //TODO add new chip to the robot current one is damaged
-//    while (!ky101.get()) {
-//        rotateAxis(RobotAxis::Z, 1, true);
-//    }
-    while (xLimitSwitch.get()) {
-        rotateAxis(RobotAxis::X, 1, false);
-    }
-    while (yLimitSwitch.get()) {
-        rotateAxis(RobotAxis::Y, 1, true);
-    }
+    // TODO: Add sensor for yRot/Z motor limits.
+    // while (!ky101.get()) {
+    //     rotateMotor(Motor::M3, 1, false);
+    // }
+    while (m2LimitSwitch.get())
+        rotateMotor(Motor::M2, 1, false);
+    while (m1LimitSwitch.get())
+        rotateMotor(Motor::M1, 1, false);
 }
 
 void RobotArmController::enable() {
-    xAxis.enable();
-    yAxis.enable();
-    zAxis.enable();
+    m1Stepper.enable();
+    m2Stepper.enable();
+    m3Stepper.enable();
 }
 
 void RobotArmController::disable() {
-    xAxis.disable();
-    yAxis.disable();
-    zAxis.disable();
+    m1Stepper.disable();
+    m2Stepper.disable();
+    m3Stepper.disable();
 }

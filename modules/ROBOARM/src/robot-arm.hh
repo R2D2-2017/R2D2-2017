@@ -33,14 +33,14 @@ namespace RoboArm {
         float yRot;
     };
 
-    /// Enum class for the different axes on the robot arm
-    enum class RobotAxis {
-        X, Y, Z
+    /// Enum class for the different motors on the robot arm
+    enum class Motor {
+        M1, M2, M3
     };
 
     /// Enum class for the different limit switches
     enum class RobotLimitSwitch {
-        BOTH, X, Y, NONE
+        BOTH, M1, M2, NONE
     };
 
     /**
@@ -48,19 +48,22 @@ namespace RoboArm {
      */
     class RobotArmController {
 
-        /// microSteps the driver board is using to control the X and Y axes.
+        /// microSteps the driver board is using to control the X and Y position.
         static constexpr int microStepsArms = EIGHTHSTEP;
 
-        /// microSteps the driver board is using to control the Z axis
+        /// microSteps the driver board is using to control the Y axis rotation.
         static constexpr int microStepsBase = QUARTERSTEP;
 
+        /// Length of the arm from the base joint to the middle joint.
         static constexpr float arm1Length = 18.5;
+
+        /// Length of the arm from the middle joint to the hand.
         static constexpr float arm2Length = 21;
 
-        /// How many teeth the driver gear has on the Z axis
+        /// How many teeth the driver gear of M3 has.
         static constexpr int smallBaseGear = 20;
 
-        /// How many teeth the driver gear for the arms have for the X and Y axes
+        /// How many teeth the driver gear for the arms have for M1 and M2 (XY axes)
         static constexpr int smallArmGear = 11;
 
         /// How many teeth the driven gear has for all three axes
@@ -78,44 +81,44 @@ namespace RoboArm {
         Position position {0, 0, 0};
         std::tuple<float,float,float> motorRotations {150, 0, 0};
 
-        /// The different stepper motors you can use
-        Stepper &xAxis, &yAxis, &zAxis;
-        /// Input pins on which the X limit switch get wired to check limitation status
-        hwlib::target::pin_in &xLimitSwitch;
-        /// Input pins on which the Y limit switch get wired to check limitation status
-        hwlib::target::pin_in &yLimitSwitch;
-        /// Class that reads input to see if the base is on it's starting position for the Z axis
+        /// The different stepper motors you can use.
+        Stepper &m1Stepper, &m2Stepper, &m3Stepper;
+        /// Input pins on which the M1 limit switch get wired to check limitation status
+        hwlib::target::pin_in &m1LimitSwitch;
+        /// Input pins on which the M2 limit switch get wired to check limitation status
+        hwlib::target::pin_in &m2LimitSwitch;
+        /// Class that reads input to see if the base is on it's starting position for Yrot.
         Ky101 ky101;
 
     public:
         /**
          * \brief Constructor for the Robot arm controller
          *
-         * \param[in]  xAxis  stepper motor that is used as the x axis
-         * \param[in]  yAxis  stepper motor that is used as the y axis
-         * \param[in]  zAxis  stepper motor that is used as the z axis
-         * \param[in]  xLimitSwitch  pin on which the limit switch for the X axis is wired
-         * \param[in]  yLimitSwitch  pin on which the limit switch for the Y axis is wired
-         * \param[in]  ky101 class that's used to determine the start position for the Z axis
+         * \param[in]  m1Stepper  stepper motor 1 - controls joint 1
+         * \param[in]  m2Stepper  stepper motor 1 - controls joint 2
+         * \param[in]  m3Stepper  stepper motor 1 - controls Y axis rotation
+         * \param[in]  m1LimitSwitch  pin on which the limit switch for M1 is wired
+         * \param[in]  m2LimitSwitch  pin on which the limit switch for M2 is wired
+         * \param[in]  ky101 class that's used to determine the start position for m3
          */
-        RobotArmController(Stepper &xAxis,
-                           Stepper &yAxis,
-                           Stepper &zAxis,
-                           hwlib::target::pin_in &xLimitSwitch,
-                           hwlib::target::pin_in &yLimitSwitch,
+        RobotArmController(Stepper &m1Stepper,
+                           Stepper &m2Stepper,
+                           Stepper &m3Stepper,
+                           hwlib::target::pin_in &m1LimitSwitch,
+                           hwlib::target::pin_in &m2LimitSwitch,
                            Ky101 &ky101);
 
 
         static std::tuple<float,float,float> positionToMotorRotations(Position pos);
 
         /**
-         * \brief Rotate the given axis to the set amount of degrees (clockwise or counterclockwise)
+         * \brief Rotate the given motor to the set amount of degrees (clockwise or counterclockwise)
          *
-         * \param[in]  axis      The axis you want to rotate on
+         * \param[in]  motor     The motor you want to rotate
          * \param[in]  degrees   how many degrees you want to rotate
-         * \param[in]  clockwise the direction the axis will rotate
+         * \param[in]  clockwise the direction the motor will rotate
          */
-        void rotateAxis(RobotAxis axis, int degrees, bool clockwise);
+        void rotateMotor(Motor motor, int degrees, bool clockwise);
 
         /**
          * \brief Move the hand to the given position by turning the arm's motors.
@@ -141,7 +144,6 @@ namespace RoboArm {
          * \brief Disable the robot arm's motors.
          */
         void disable();
-
 
         /**
          * \brief Function check if the robot has reached its limitations
