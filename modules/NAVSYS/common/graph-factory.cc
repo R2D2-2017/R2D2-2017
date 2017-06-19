@@ -18,14 +18,16 @@ void GraphFactory::createGraph(const std::string &nodeFilePath,
 
 Node GraphFactory::getNodeByName(const std::string &name, 
                                  std::vector<Node> nodes) {
-    std::vector<Node>::iterator it;
-    it = std::find_if(
+    std::vector<Node>::iterator it = std::find_if(
             std::begin(nodes),
             std::end(nodes),
             [&](Node & node) -> bool {
                 return node.getName() == name;
             });
-    return *it;
+    if (it != nodes.end()) {
+        return *it;
+    }
+    return Node();
 }
 
 std::vector<Node> GraphFactory::RunNodeFactory(
@@ -43,30 +45,30 @@ std::vector<Node> GraphFactory::RunNodeFactory(
 
         // flags to to deside based on specific chars, 
         // which data element is being read.
-        bool nameFlag = 0;
-        bool coordinateFlagX = 0;
-        bool coordinateFlagY = 0;
+        bool nameFlag = false;
+        bool coordinateFlagX = false;
+        bool coordinateFlagY = false;
 
         // for each char in line
-        unsigned int i = 0;
+        unsigned int i = false;
         while (i < nodeEntry.length()) {
 
             char c = nodeEntry.at(i);
             if (c == '(') {
-                nameFlag = 1;
+                nameFlag = true;
             }
             else if (c == ')') {
-                nameFlag = 0;
+                nameFlag = false;
             }
             else if (c == '[') {
-                coordinateFlagX = 1;
+                coordinateFlagX = true;
             }
             else if (c == ']') {
-                coordinateFlagY = 0;
+                coordinateFlagY = false;
             }
             else if (c == ',') {
-                coordinateFlagX = 0;
-                coordinateFlagY = 1;
+                coordinateFlagX = false;
+                coordinateFlagY = true;
             }
             else {
                 if (nameFlag) {
@@ -112,32 +114,32 @@ std::vector<Vertice> GraphFactory::RunVerticeFactory(
             std::string nodeB = "";
             std::string weight = "";
             // flags to to deside based on specific chars, which data element is being read.
-            bool nodeFlagA = 0;
-            bool nodeFlagB = 0;
-            bool weightFlag = 0;
+            bool nodeFlagA = false;
+            bool nodeFlagB = false;
+            bool weightFlag = false;
 
             // for each char in line
-            unsigned int i = 0;
+            unsigned int i = false;
             while (i < verticeEntry.length()) {
                 char c = verticeEntry.at(i);
                 if (c == '(' && !nodeFlagB) {
-                    nodeFlagA = 1;
+                    nodeFlagA = true;
                 }
                 else if (c == '(' && nodeFlagB) {
                     //nothing
                 }
                 else if (c == ')') {
-                    nodeFlagA = 0;
-                    nodeFlagB = 0;
+                    nodeFlagA = false;
+                    nodeFlagB = false;
                 }
                 else if (c == '[') {
-                    weightFlag = 1;
+                    weightFlag = true;
                 }
                 else if (c == ']') {
-                    weightFlag = 0;
+                    weightFlag = false;
                 }
                 else if (c == '-'){
-                    nodeFlagB =1;
+                    nodeFlagB = true;
                 }
                 else {
                     if (nodeFlagA) {

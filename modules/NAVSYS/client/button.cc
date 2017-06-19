@@ -1,6 +1,6 @@
 /**
  * \file      button.cc
- * \author    René de Kluis, Koen de Groot
+ * \author    Rene de Kluis, Koen de Groot
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See LICENSE
  */
@@ -19,7 +19,7 @@ Button::Button(sf::RenderWindow & window, sf::Vector2f position,
 {
     button.setSize(size);
     button.setOutlineColor(sf::Color::Red);
-    button.setOutlineThickness(2);
+    button.setOutlineThickness(outlineThickness);
     button.setPosition(position);
 
     if (!font.loadFromFile(fontName)) {
@@ -30,8 +30,8 @@ Button::Button(sf::RenderWindow & window, sf::Vector2f position,
     buttonText.setString(text);
     buttonText.setColor(sf::Color::Black);
     buttonText.setScale(
-        float(((1 / buttonText.getGlobalBounds().width) * (size.x-(size.x/20)))),
-        float((1 / buttonText.getGlobalBounds().height) * size.y/2)
+        ((1 / buttonText.getGlobalBounds().width) * (size.x-(size.x/xScaleDivider))),
+        ((1 / buttonText.getGlobalBounds().height) * (size.y/yScaleDivider))
     );
 
     if (!isVisable) {
@@ -39,29 +39,28 @@ Button::Button(sf::RenderWindow & window, sf::Vector2f position,
         button.setOutlineColor(sf::Color::Transparent);
         buttonText.setColor(sf::Color::Transparent);
     }
-
 }
 
 void Button::draw() {
     if (isVisable) {
-        if (isFocused) {
+        if (pressedState) {
             button.setFillColor(sf::Color::Blue);
         }
         else {
             button.setFillColor(sf::Color::White);
         }
     }
-    isFocused = false;
+    pressedState = false;
     window.draw(button);
     window.draw(buttonText);
 }
 
-void Button::setFocus(bool b) {
-    isFocused = b;
+void Button::setState(bool b) {
+    pressedState = b;
 }
 
 bool Button::getFocus() {
-    return isFocused;
+    return pressedState;
 }
 
 void Button::setSize(sf::Vector2f newSize) {
@@ -99,10 +98,10 @@ void Button::setVisable(bool visable) {
 bool Button::isPressed() {
     if (getBounds().contains(getMousePosition(window))) {
         if (button.getFillColor() != sf::Color::Transparent) {
-            isFocused = true;
+            pressedState = true;
         }
     }
-    return isFocused;
+    return pressedState;
 }
 
 sf::Vector2f Button::getPosition(){
