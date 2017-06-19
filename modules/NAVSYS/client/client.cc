@@ -20,8 +20,8 @@
 #include "button.hh"
 #include "mouse.hh"
 
-#define WINDOW_WIDTH 800
-#define WINDOW_HEIGHT 480
+const int window_width = 800;
+const int window_height = 480;
 
 Client::Client(sf::IpAddress ipAddress, uint16_t port):
     ipAddress(ipAddress),
@@ -49,14 +49,14 @@ void Client::run(){
         std::cerr << "Connection failed\n";
     }
     
-    getDatabaseFromServer();
+    getGraphFromServer();
     
     //create the window
-    Window window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "NAVSYS", 
+    Window window(sf::VideoMode(window_width, window_height), "NAVSYS", 
                   sf::Style::Default);
     
     //Add a viewport
-    window.setViewPort(sf::Vector2f(WINDOW_WIDTH, WINDOW_HEIGHT), 
+    window.setViewPort(sf::Vector2f(window_width, window_height), 
                        sf::Vector2f(100, 100));
     
     GraphDrawer drawer(window);
@@ -230,13 +230,13 @@ void Client::run(){
     }
 }
 
-void Client::getDatabaseFromServer() {
+void Client::getGraphFromServer() {
     sf::Packet receivedMessage;
     command commands[] = {command::RequestNodes, command::RequestVertices};
     command receivedCommand = command::None;
     
     for (const auto & cmd : commands) {
-        requestDatabaseUsingCommand(cmd);
+        requestGraphUsingCommand(cmd);
         checkPacketCorrectlyReceived(receivedMessage);
         
         receivedMessage >> receivedCommand;
@@ -258,7 +258,7 @@ void Client::getDatabaseFromServer() {
     }
 }
 
-void Client::requestDatabaseUsingCommand(const command &cmd) {
+void Client::requestGraphUsingCommand(const command &cmd) {
     sf::Packet p;
     p << cmd;  
     sendPacket(p);
