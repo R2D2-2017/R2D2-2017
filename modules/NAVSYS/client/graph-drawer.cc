@@ -36,12 +36,12 @@ void GraphDrawer::reload(Graph & g) {
     for (auto & vertice : verticeVector) {
         graphVertices.push_back(GraphVertice(
             sf::Vector2f(
-                vertice.getCurrent()->getCoordinate().x*scaling,
-                vertice.getCurrent()->getCoordinate().y*scaling
+                vertice.getCurrent().getCoordinate().x*scaling,
+                vertice.getCurrent().getCoordinate().y*scaling
             ),
             sf::Vector2f(
-                vertice.getNeighbour()->getCoordinate().x*scaling,
-                vertice.getNeighbour()->getCoordinate().y*scaling
+                vertice.getNeighbour().getCoordinate().x*scaling,
+                vertice.getNeighbour().getCoordinate().y*scaling
             )));
     }
 }

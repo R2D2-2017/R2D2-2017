@@ -72,14 +72,14 @@ public:
      * 
      * \return The second node
      */
-    Node * getNeighbour();
+    Node & getNeighbour();
     
     /**
      * \brief Get the first node
      * 
      * \return The first node
      */
-    Node * getCurrent();
+    Node & getCurrent();
     
     /**
      * \brief Get the weigth of a vertice
