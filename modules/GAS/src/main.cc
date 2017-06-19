@@ -54,7 +54,8 @@ int main(){
     Speaker player( speakerPin );
     Alarm alarm(105, alarmLed, player);
     Mq5 mq5(sensor,0.2);
-    hwlib::cout << (int)mq5.getCalibrationValue()<<"\r\n";
+    // Uncomment line below to get calibrationValue
+    hwlib::cout << "The calibration value is: " << (int)mq5.getCalibrationValue()<<"\r\n";
     MuStore::FatFs fileSystem(&sd);
     MuStore::FsError err;
 
@@ -64,7 +65,8 @@ int main(){
 
     //check if the filesystem is correct
     hwlib::cout << fileSystem.getFsType() << "\r\n";
-    hwlib::cout << (int)fileSystem.getFsSubType() << "\r\n";
+
+    hwlib::cout <<(int)fileSystem.getFsSubType() << "\r\n";
 
     //check if the file is present on the sd
     if(!dataFile.doesExist()) {
