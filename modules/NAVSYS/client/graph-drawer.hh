@@ -26,7 +26,7 @@ public:
     /**
      * \brief Constructor.
      *
-     * \param[in,out]    window      The SFML window
+     * \param[in]    window      The SFML window
      *
      */
     GraphDrawer(sf::RenderWindow & window);
@@ -34,9 +34,8 @@ public:
     /**
      * \brief Draw the graph on the SFML window.
      *
-     * This function will draw the nodes en vertices in the window given in the
+     * This function will draw the nodes en vertices on the window given in the
      * constructor of the class.
-     * 
      */
     void draw();
 

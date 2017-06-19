@@ -13,11 +13,11 @@ GraphDrawer::GraphDrawer(sf::RenderWindow & window):
 {}
 
 void GraphDrawer::draw() {
-    for (auto & it : graphNodes) {
-        it.draw(window);
+    for (auto & node : graphNodes) {
+        node.draw(window);
     }
-    for (auto & it : graphVertices) {
-        it.draw(window);
+    for (auto & vertice : graphVertices) {
+        vertice.draw(window);
     }
 }
 
@@ -53,23 +53,37 @@ void GraphDrawer::clear() {
 
 void GraphDrawer::setBeginNode(std::string nodeName) {
     // search through the vector for the node and change it's color to green
-    for (auto node = graphNodes.begin(); node != graphNodes.end(); ++node) {
-        if (node->getName() == nodeName) {
-            node->changeColor(sf::Color::Green);
-            break;
-        }
+    auto foundNode = std::find_if(graphNodes.begin(), graphNodes.end(), 
+                                  [&](GraphNode & node)->bool{
+                                    return node.getName() == nodeName;
+    });
+    if (foundNode != graphNodes.end()) {
+        foundNode->changeColor(sf::Color::Green);
     }
+    // for (auto node = graphNodes.begin(); node != graphNodes.end(); ++node) {
+    //     if (node->getName() == nodeName) {
+    //         node->changeColor(sf::Color::Green);
+    //         break;
+    //     }
+    // }
     draw();
 }
 
 void GraphDrawer::setEndNode(std::string nodeName) {
     // search through the vector for the node and change it's color to red
-    for (auto node = graphNodes.begin(); node != graphNodes.end(); ++node) {
-        if (node->getName() == nodeName) {
-            node->changeColor(sf::Color::Red);
-            break;
-        }
+    auto foundNode = std::find_if(graphNodes.begin(), graphNodes.end(), 
+                                  [&](GraphNode & node)->bool{
+                                    return node.getName() == nodeName;
+    });
+    if (foundNode != graphNodes.end()) {
+        foundNode->changeColor(sf::Color::Red);
     }
+    // for (auto node = graphNodes.begin(); node != graphNodes.end(); ++node) {
+    //     if (node->getName() == nodeName) {
+    //         node->changeColor(sf::Color::Red);
+    //         break;
+    //     }
+    // }
     draw();
 }
 
