@@ -59,18 +59,16 @@ int main() {
 
         if (command == "TEST 0") {
             tester.run(0);
-        }
-        if (command == "TEST 1") {
+            w.send("Done\n");
+        } else if (command == "TEST 1") {
             tester.run(1);
-        }
-        if (command == "TEST 2") {
+            w.send("Done\n");
+        } else if (command == "TEST 2") {
             tester.run(2);
-        }
-        if (command == "ping") {
+            w.send("Done\n");
+        } else if (command == "ping") {
             w.send("pong\n");
-            continue;
-        }
-        if (command == "help") {
+        } else if (command == "help") {
             w.send("EN\n");
             w.send("DIS\n");
             w.send("I2CDemo\n");
@@ -81,21 +79,18 @@ int main() {
             w.send("WAIT_S\n");
             w.send("WAIT_MS\n");
             w.send("TEST\n\n");
-            continue;
-        }
-        if (command == "exit") {
+        } else if (command == "exit") {
             break;
-        }
-
-        Status result = parseCommand(command, r, i2c);
-
-        switch (result) {
-            case Status::SyntaxError:
-                w.send("Syntax error\n");
-                break;
-            case Status::Successful:
-                w.send("Done\n");
-                break;
+        } else {
+            Status result = parseCommand(command, r, i2c);
+            switch (result) {
+                case Status::SyntaxError:
+                    w.send("Syntax error\n");
+                    break;
+                case Status::Successful:
+                    w.send("Done\n");
+                    break;
+            }
         }
     }
 
