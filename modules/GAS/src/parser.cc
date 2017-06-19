@@ -99,13 +99,19 @@ void Parser::parseArray(char* input) {
                 hwlib::cout << "alarm.setDangerThreshold(" << variableValue << ")" << "\r\n";
             }
             else if(ifContainsString(variableName, mq5CalibrationValueString)) {
-                mq5.setmq5CalibrationValue(variableValue);
+				if (isCalibrated) {
+					mq5.setmq5CalibrationValue(variableValue);
+				}
                 hwlib::cout << "mq5.setmq5CalibrationValue(" << variableValue << ")" << "\r\n";
             }
             else if(ifContainsString(variableName, measureFrequencyString)) {
                 //???.setMeasureFrequency(variableValue);
                 hwlib::cout << "???.setMeasureFrequency(" << variableValue << ")" << "\r\n";
             }
+			else if (ifContainsString(variableName, isCalibratedString)) {
+				isCalibrated = variableValue;
+				hwlib::cout << "is calibrated = " << variableValue << "\r\n";
+			}
             else {
                 hwlib::cout << ">>>PARSER ERROR : [ " << variableName << " ] is not a valid/known variable!" << "\r\n";
             }
