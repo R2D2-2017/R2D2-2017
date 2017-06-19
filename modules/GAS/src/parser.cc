@@ -38,7 +38,7 @@ void Parser::parseArray(char* input) {
     int i, j;
 
     //read input array variables
-    //example of 1 variable:      @highNote:880\n
+    //example of 1 variable:      @firstNote:880\n
     for(i = 0; input[i] != '\0'; ++i) {
 
         //start reading new variable at '@'
@@ -82,24 +82,24 @@ void Parser::parseArray(char* input) {
             }
 
             //set all variables
-            if(ifContainsString(variableName, highNoteString)) {
-                //alarm.setHighNote(variableValue);
-                hwlib::cout << "alarm.setHighNote(" << variableValue << ")" << "\r\n";
+            if(ifContainsString(variableName, firstNoteString)) {
+                alarm.setFirstNote(variableValue);
+                hwlib::cout << "alarm.setFirstNote(" << variableValue << ")" << "\r\n";
             }
-            else if(ifContainsString(variableName, lowNoteString)) {
-                //alarm.setLowNote(variableValue);
-                hwlib::cout << "alarm.setLowNote(" << variableValue << ")" << "\r\n";
+            else if(ifContainsString(variableName, secondNoteString)) {
+                alarm.setSecondNote(variableValue);
+                hwlib::cout << "alarm.setSecondNote(" << variableValue << ")" << "\r\n";
             }
             else if(ifContainsString(variableName, warningThresholdString)) {
-                //alarm.setWarningThreshold(variableValue);
+                alarm.setWarningThreshold(variableValue);
                 hwlib::cout << "alarm.setWarningThreshold(" << variableValue << ")" << "\r\n";
             }
             else if(ifContainsString(variableName, dangerThresholdString)) {
-                //alarm.setDangerThreshold(variableValue);
+                alarm.setDangerThreshold(variableValue);
                 hwlib::cout << "alarm.setDangerThreshold(" << variableValue << ")" << "\r\n";
             }
             else if(ifContainsString(variableName, mq5CalibrationValueString)) {
-                //mq5.setmq5CalibrationValue(variableValue);
+                mq5.setmq5CalibrationValue(variableValue);
                 hwlib::cout << "mq5.setmq5CalibrationValue(" << variableValue << ")" << "\r\n";
             }
             else if(ifContainsString(variableName, measureFrequencyString)) {

@@ -3,6 +3,7 @@
  * \brief     The declarations of the class Mq5 of GAS-02, used for reading the mq-5 gas sensor.
  * \author    Wilco Louwerse
  * \author	  Bram van bergeijk
+ * \author    Nicky van Steensel van der Aa
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See LICENSE
  * \wiki      https://github.com/R2D2-2017/R2D2-2017/wiki/MQ-5-gas-sensor
@@ -24,7 +25,7 @@ public:
 	Mq5(hwlib::target::pin_adc &sensor)
 			: sensor(sensor) {
 		hwlib::cout << "Calibrating mq-5...\r\n";
-		calibrationValue = readSensorAverage(25);
+		calibrationValue = readSensorAverage(25);// we dont need to do this anymore as we get a calibration value from config.txt
 		hwlib::cout << "Done Calibrating mq-5!\r\n\n";
 	}
 
@@ -35,6 +36,12 @@ public:
 	 * \returns A percentage which is equal to 100 when the read value is equal to the calibration value.
 	 */
 	int getSensorPercentage();
+
+	/**
+	* \brief calibrates the sensor to the given value
+	* \param mq5calibrationValue the value to calibrate the sensor to
+	*/
+	void setmq5CalibrationValue(int mq5calibrationValue);
 
 private:
 

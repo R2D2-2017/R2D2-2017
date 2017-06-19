@@ -39,8 +39,8 @@ private:
     char variableName[20];
     int variableValue = 0;
 
-    char highNoteString[9]              = "highNote";
-    char lowNoteString[8]               = "lowNote";
+    char firstNoteString[10]            = "firstNote";
+    char secondNoteString[11]           = "secondNote";
     char warningThresholdString[17]     = "warningThreshold";
     char dangerThresholdString[16]      = "dangerThreshold";
     char mq5CalibrationValueString[20]  = "mq5CalibrationValue";
