@@ -25,7 +25,8 @@ private:
      * \param[in] name, name of node
      * \param[in] nodes, list of nodes
      * 
-     * \return it iterator to node element
+     * \return The Node element, when the node was not found it
+     *         returns an default node. Node()
      */
     Node getNodeByName(const std::string &name, std::vector<Node> nodes);
 
@@ -92,8 +93,7 @@ public:
      * 
      * \param[in] nodeFilePath Path to node file
      * \param[in] verticeFilePath Path to vertice file
-     * \param[in] graph Reference to the graph to be filled by the factory
-     * \param[out] graph Reference to the filled graph
+     * \param[in,out] graph Reference to the graph to be filled by the factory
      */
     void createGraph(const std::string &nodeFilePath, 
                      const std::string &verticeFilePath, 

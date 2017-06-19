@@ -18,14 +18,16 @@ void GraphFactory::createGraph(const std::string &nodeFilePath,
 
 Node GraphFactory::getNodeByName(const std::string &name, 
                                  std::vector<Node> nodes) {
-    std::vector<Node>::iterator it;
-    it = std::find_if(
+    std::vector<Node>::iterator it = std::find_if(
             std::begin(nodes),
             std::end(nodes),
             [&](Node & node) -> bool {
                 return node.getName() == name;
             });
-    return *it;
+    if (it != nodes.end()) {
+        return *it;
+    }
+    return Node();
 }
 
 std::vector<Node> GraphFactory::RunNodeFactory(
