@@ -25,16 +25,19 @@
 #include <fatfs.hh>
 
 /**
- * \brief Casts int value of maximum 3 numbers to characters,
+ * \brief Casts int value of maximum 4 digits to characters,
  *		  The characters are stored in the second parameter
- *		  mq5Char.
+ *		  convertedString.
+ * \param toConvert  integer that's needs to be converted to char array.
+ * \param convertedString the converted integer is stored in this char array.
  */
-void convertToChar(int mq5Value, char mq5Char[3]);
+void convertToChar(int toConvert, char convertedString[4]);
 
-void convertToChar(int mq5Value, char mq5Char[3]){
-    mq5Char[0] = ((char)(mq5Value / 100 % 10) + '0');
-    mq5Char[1] = ((char)(mq5Value % 100 / 10) + '0');
-    mq5Char[2] = ((char)(mq5Value % 10 ) + '0');
+void convertedString(int toConvert, char convertedString[4]){
+    convertedString[0] = ((char)(toConvert / 1000 % 10) + '0');     //Isolates the 4th digit from right and adds to the char array
+    convertedString[1] = ((char)(toConvert % 1000 / 100) + '0');    //Isolates the 3rd digit from right and adds to the char array
+    convertedString[2] = ((char)(toConvert % 100 / 10) + '0');      //Isolates the 2nd digit from right and adds to the char array
+    convertedString[3] = ((char)(toConvert % 10 ) + '0');           //Isolates the 1st digit from right and adds to the char array
 }
 
 int main(){
@@ -61,7 +64,7 @@ int main(){
 
     // Initialize variables
     int mq5Value = 0;
-    char charValue[3];
+    char charValue[4];
     const char dataFilePath[] = "/data.txt";
     const char confFilePath[] = "/conf.txt";
     const char sessionSeparator[] = "\r\n=========================\r\n";

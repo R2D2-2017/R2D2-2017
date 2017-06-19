@@ -17,7 +17,7 @@ public:
 	/**
 	 * \brief Constructor for Mq5
 	 * Initializes the sensor adc pin and sets the calibration value by using readSensorAverage(25)
-	 * @param sensor 	The analog pin the gas sensor is connected to.
+	 * \param sensor 	The analog pin the gas sensor is connected to.
 	 */
 	Mq5(hwlib::target::pin_adc &sensor)
 			: sensor(sensor) {
