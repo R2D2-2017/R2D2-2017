@@ -95,7 +95,7 @@ void GraphDrawer::highlightPath(std::vector<PathNode> path) {
 }
 
 GraphNode GraphDrawer::checkNodeClicked() {
-    GraphNode dummy({ 0,0 },"dummy");
+    GraphNode dummy({ 0,0 },"");
     for (auto & indexer : graphNodes) {
         if (indexer.isPressed(window)) {
             dummy = indexer;

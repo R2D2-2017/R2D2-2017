@@ -86,7 +86,7 @@ public:
      * This function checks all the Graphnodes in the graph if they are 
      * selected. If one of these GraphNodes is selected the function returns
      * the selected GraphNode. In any other case the function will return a 
-     * dummy GraphNode with the position (0, 0) and named "dummy".
+     * dummy GraphNode with the position (0, 0) and named "".
      *
      * \return This function returns The selected GraphNode or Dummy GraphNode.
      *
