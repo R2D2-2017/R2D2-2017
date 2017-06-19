@@ -36,8 +36,11 @@ class CarrierController;
 class ICarrierState {
     protected:
         /// Reference of the CarrierController so it can be used in the states
-        CarrierController *controller = nullptr;
+        CarrierController &controller;
     public:
+        ICarrierState(CarrierController & controller) : controller{ controller }
+        {}
+
         /**
          * \brief Virtual method that can be called in every subclass to update the state
          */

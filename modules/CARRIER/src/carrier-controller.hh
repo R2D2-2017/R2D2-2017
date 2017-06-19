@@ -39,8 +39,8 @@ public:
      * \param[in]  distThreshold    the threshold for distance to objects
      * \param[in]  speed            the speed in ???-units
      */
-    CarrierController(std::shared_ptr<MotorController> motorController,
-                      std::shared_ptr<HcSr04> sonarSensor, int speed = 1);
+    CarrierController(MotorController &motorController,
+                      HcSr04 &sonarSensor, int speed = 1);
 
     /**
      * \brief Sets the speed
@@ -70,16 +70,16 @@ public:
 
     int getSpeed();
 
-    std::shared_ptr<MotorController> getMotorController();
+    MotorController &getMotorController();
 
-    std::shared_ptr<HcSr04> getSonar();
+    HcSr04 &getSonar();
 
 private:
     /// Controller to send commands to the motors
-    std::shared_ptr<MotorController> motorController;
+    MotorController &motorController;
 
     /// Sonar sensor for object avoidance
-    std::shared_ptr<HcSr04> sonarSensor;
+    HcSr04 &sonarSensor;
 
     /// The speed in ???-units
     int speed;

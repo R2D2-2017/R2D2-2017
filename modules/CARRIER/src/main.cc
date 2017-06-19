@@ -6,7 +6,6 @@
 #include "hc-sr04.hh"
 #include "./states/i-carrier-state.hh"
 #include <wiringPi.h>
-#include <memory>
 
 int main(void) {
     // Wiringpi pin setup
@@ -19,9 +18,9 @@ int main(void) {
     int hallPin   =  8;
 
     //Declaration of the system classes
-    std::shared_ptr<MotorController> controller = std::make_shared<MotorController>("/dev/ttyS0", 38400);
+    MotorController                  controller("/dev/ttyS0", 38400);
     SerialCom                        serialCom("/dev/rfcomm0", 9600);
-    std::shared_ptr<HcSr04>          sonarSensor = std::make_shared<HcSr04>(trigger, echo);
+    HcSr04                           sonarSensor(trigger, echo);
     Carrier::CarrierController       stateMachine(controller, sonarSensor, 50);
 
     // Quick bluetooth status led

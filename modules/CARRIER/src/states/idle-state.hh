@@ -25,7 +25,7 @@ class IdleState : public ICarrierState {
          * \brief Constructor for the IdleState class
          * \param[in] controller Reference of a CarrierController that the IdleState can use to controll the carrier
          */
-        IdleState(CarrierController* controller);
+        IdleState(CarrierController &controller);
 
         /**
          * \brief Updates the current state

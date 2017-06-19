@@ -8,18 +8,17 @@
 #include "forward-state.hh"
 using namespace Carrier;
 
-ForwardState::ForwardState(CarrierController* controller) {
-    this->controller = controller;
-    if (controller->getSonar()->getDistance() <= 50) {
-        controller->setState(CarrierState::Idle);
+ForwardState::ForwardState(CarrierController &controller) : ICarrierState{ controller } {
+    if (controller.getSonar().getDistance() <= 50) {
+        controller.setState(CarrierState::Idle);
     } else {
-        controller->getMotorController()->forward(controller->getSpeed());
+        controller.getMotorController().forward(controller.getSpeed());
     }
 }
 
 void ForwardState::update() {
-    if (controller->getSonar()->getDistance() <= 50) {
-        controller->setState(CarrierState::Idle);
+    if (controller.getSonar().getDistance() <= 50) {
+        controller.setState(CarrierState::Idle);
     }
 }
 

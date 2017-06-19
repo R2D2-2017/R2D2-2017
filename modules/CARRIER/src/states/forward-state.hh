@@ -24,7 +24,7 @@ class ForwardState : public ICarrierState {
          * \brief Constructor for the ForwardState class
          * \param[in] controller Reference of a CarrierController that the forwardState can use to controll the carrier
          */
-        ForwardState(CarrierController *controller);
+        ForwardState(CarrierController &controller);
 
         /**
          * \brief Updates the current state

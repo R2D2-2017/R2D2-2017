@@ -24,7 +24,7 @@ class CounterClockwiseState : public ICarrierState {
          * \brief Constructor for the CounterClockwiseStateState class
          * \param[in] controller Reference of a CarrierController that the CounterClockwiseStateState can use to controll the carrier
          */
-        CounterClockwiseState(CarrierController* controller);
+        CounterClockwiseState(CarrierController &controller);
 
         /**
          * \brief Updates the current state

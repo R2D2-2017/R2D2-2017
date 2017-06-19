@@ -24,7 +24,7 @@ class BackwardState : public ICarrierState {
          * \brief Constructor for the BackwardState class
          * \param[in] controller Reference of a CarrierController that the BackwardState can use to controll the carrier
          */
-        BackwardState(CarrierController* controller);
+        BackwardState(CarrierController &controller);
 
         /**
          * \brief Updates the current state

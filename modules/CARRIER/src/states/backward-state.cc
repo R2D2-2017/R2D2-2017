@@ -1,12 +1,11 @@
 #include "backward-state.hh"
 using namespace Carrier;
 
-BackwardState::BackwardState(CarrierController* controller) {
-    this->controller = controller;
+BackwardState::BackwardState(CarrierController &controller) : ICarrierState{ controller } {
     // if (controller->sonarSensor.getDistance() <= distThreshold) {
         // controller->setState(new IdleState(controller));
     // }
-     controller->getMotorController()->backward(controller->getSpeed());
+    controller.getMotorController().backward(controller.getSpeed());
 }
 
 void BackwardState::update() {
