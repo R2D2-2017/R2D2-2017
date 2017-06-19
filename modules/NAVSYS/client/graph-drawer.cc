@@ -60,12 +60,6 @@ void GraphDrawer::setBeginNode(std::string nodeName) {
     if (foundNode != graphNodes.end()) {
         foundNode->changeColor(sf::Color::Green);
     }
-    // for (auto node = graphNodes.begin(); node != graphNodes.end(); ++node) {
-    //     if (node->getName() == nodeName) {
-    //         node->changeColor(sf::Color::Green);
-    //         break;
-    //     }
-    // }
     draw();
 }
 
@@ -78,12 +72,6 @@ void GraphDrawer::setEndNode(std::string nodeName) {
     if (foundNode != graphNodes.end()) {
         foundNode->changeColor(sf::Color::Red);
     }
-    // for (auto node = graphNodes.begin(); node != graphNodes.end(); ++node) {
-    //     if (node->getName() == nodeName) {
-    //         node->changeColor(sf::Color::Red);
-    //         break;
-    //     }
-    // }
     draw();
 }
 
