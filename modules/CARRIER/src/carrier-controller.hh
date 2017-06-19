@@ -23,7 +23,8 @@ enum class CarrierState
     Idle,    ///< The robot is idle
     Driving, ///< The robot is driving (forward or backward)
     Turning, ///< The robot is turning (left or right)
-    Sensing  ///< The robot is sensing the environment
+    Sensing,  ///< The robot is sensing the environment
+    Avoidance ///< The robot
 };
 
 /**

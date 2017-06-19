@@ -30,18 +30,21 @@ float Carrier::CarrierController::distanceTraveled(std::chrono::time_point<std::
 
 void Carrier::CarrierController::update() {
     switch (state) {
-    case CarrierState::Idle:
-        motorController.stop();
-        break;
-    case CarrierState::Driving:
-        if (sonarSensor.getDistance() <= distThreshold) {
-            stop();
-        }
-        break;
-    case CarrierState::Turning:
-        break;
-    case CarrierState::Sensing:
-        break;
+        case CarrierState::Idle:
+            motorController.stop();
+            break;
+        case CarrierState::Driving:
+            if (sonarSensor.getDistance() <= distThreshold) {
+                //stop();
+                avoidance();
+            }
+            break;
+        case CarrierState::Turning:
+            break;
+        case CarrierState::Sensing:
+            break;
+        case CarrierState::Avoidance:
+            break;
     }
 }
 
@@ -83,4 +86,8 @@ void Carrier::CarrierController::setSpeed(float speed) {
 
 void Carrier::CarrierController::stop() {
     state = CarrierState::Idle;
+}
+
+void Carrier::CarrierController::avoidance(){
+    state = CarrierState::Avoidance;
 }
