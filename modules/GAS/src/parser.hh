@@ -36,7 +36,6 @@ private:
 
     char variableName[20];
     int variableValue = 0;
-	bool isCalibrated = false;
 
     char firstNoteString[10]            = "firstNote";
     char secondNoteString[11]           = "secondNote";
@@ -45,7 +44,7 @@ private:
     char mq5CalibrationValueString[20]  = "mq5CalibrationValue";
     char measureFrequencyString[17]     = "measureFrequency";
 	char isCalibratedString[13]			= "isCalibrated";
-	
+
     bool ifContainsString(char array[], char* string);
 
 };

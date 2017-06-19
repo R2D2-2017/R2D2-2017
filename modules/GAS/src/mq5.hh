@@ -23,11 +23,8 @@ public:
 	 * \param sensor 	The analog pin the gas sensor is connected to.
 	 * \param meanFilter The strictness of the mean-filter used on the average calculation
 	 */
-	Mq5(hwlib::target::pin_adc &sensor, float meanFilter)
+	Mq5(hwlib::target::pin_adc &sensor, float meanFilter = 0.2f)
 			: sensor(sensor), meanFilter(meanFilter) {
-		hwlib::cout << "Calibrating mq-5...\r\n";
-		calibrationValue = readSensorAverage(25);// we dont need to do this anymore as we get a calibration value from config.txt
-		hwlib::cout << "Done Calibrating mq-5!\r\n\n";
 	}
 
 
@@ -49,7 +46,17 @@ public:
 	* \brief calibrates the sensor to the given value
 	* \param mq5calibrationValue the value to calibrate the sensor to
 	*/
-	void setmq5CalibrationValue(int mq5calibrationValue);
+    void setMq5CalibrationValue(float value);
+
+    /**
+     *
+     */
+    bool getMq5Iscalibrated();
+
+    /**
+     * \param bool [description]
+     */
+    void setMq5Iscalibrated(bool calibrated);
 
 private:
 
@@ -67,6 +74,12 @@ private:
 	 * The calibration value read/set during startup
 	 */
 	float calibrationValue = 0;
+
+    /**
+     * Value that says uf the sensor has a calibration value.
+     * False by default to prevent non calibrated initialization.
+     */
+    bool isCalibrated = false;
 
 	/**
 	 * \brief Reads the gas sensor data.

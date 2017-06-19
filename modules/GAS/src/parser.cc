@@ -17,11 +17,11 @@ Parser::Parser(Alarm &alarm, Mq5 &mq5) :
 
 bool Parser::ifContainsString(char array[], char string[]) {
     bool containsString = false;
-    for(int i = 0; array[i] != '\0'; i++) {
-        if(containsString) {break;}
+    for (int i = 0; array[i] != '\0'; i++) {
+        if (containsString) {break;}
         int j = 0;
-        while(string[j] == array[i+j]) {
-            if(string[j] == '\0') {
+        while (string[j] == array[i+j]) {
+            if (string[j] == '\0') {
                 containsString = true;
                 break;
             }
@@ -38,10 +38,10 @@ void Parser::parseArray(char* input) {
 
     //read input array variables
     //example of 1 variable:      @firstNote:880\n
-    for(i = 0; input[i] != '\0'; ++i) {
+    for (i = 0; input[i] != '\0'; ++i) {
 
         //start reading new variable at '@'
-        if(input[i] == '@') {
+        if (input[i] == '@') {
 
             //reset variable value to 0
             variableValue = 0;
@@ -50,8 +50,8 @@ void Parser::parseArray(char* input) {
             i++;
 
             //read variable name from input array
-            for(j = 0; input[i] != ':'; ++i, ++j) {
-                if(input[i] == '\0') {                          //prevent endless loop
+            for (j = 0; input[i] != ':'; ++i, ++j) {
+                if (input[i] == '\0') {                          //prevent endless loop
                     hwlib::cout << ">>>PARSER ERROR : while reading variable name, prevent endless loop!" << "\r\n";
                     break;
                 }
@@ -63,16 +63,16 @@ void Parser::parseArray(char* input) {
             i++;
 
             //read variable value from input array (always int)
-            for(j = 0; input[i] != '\n'; ++i, ++j) {
-                if(input[i] == '\0') {                          //prevent endless loop
+            for (j = 0; input[i] != '\n'; ++i, ++j) {
+                if (input[i] == '\0') {                          //prevent endless loop
                     hwlib::cout << ">>>PARSER ERROR : while reading variable value for [ " << variableName
                                 << " ], prevent endless loop!" << "\r\n";
                     break;
                 }
-                if(variableValue != 0) {
+                if (variableValue != 0) {
                     variableValue *= 10;
                 }
-                if((input[i] < '0') || (input[i] > '9')) {      //check if variable value is an integer or not
+                if ((input[i] < '0') || (input[i] > '9')) {      //check if variable value is an integer or not
                     hwlib::cout << ">>>PARSER ERROR : while reading variable value for [ " << variableName
                                 << " ], [ " << input[i] << " ] is not an integer!" << "\r\n";
                     break;
@@ -81,38 +81,40 @@ void Parser::parseArray(char* input) {
             }
 
             //set all variables
-            if(ifContainsString(variableName, firstNoteString)) {
+            if (ifContainsString(variableName, firstNoteString)) {
                 alarm.setFirstNote(variableValue);
                // hwlib::cout << "alarm.setFirstNote(" << variableValue << ")" << "\r\n";
             }
-            else if(ifContainsString(variableName, secondNoteString)) {
+            else if (ifContainsString(variableName, secondNoteString)) {
                 alarm.setSecondNote(variableValue);
               //  hwlib::cout << "alarm.setSecondNote(" << variableValue << ")" << "\r\n";
             }
-            else if(ifContainsString(variableName, warningThresholdString)) {
+            else if (ifContainsString(variableName, warningThresholdString)) {
                 alarm.setWarningThreshold(variableValue);
                // hwlib::cout << "alarm.setWarningThreshold(" << variableValue << ")" << "\r\n";
             }
-            else if(ifContainsString(variableName, dangerThresholdString)) {
+            else if (ifContainsString(variableName, dangerThresholdString)) {
                 alarm.setDangerThreshold(variableValue);
               //  hwlib::cout << "alarm.setDangerThreshold(" << variableValue << ")" << "\r\n";
             }
-            else if(ifContainsString(variableName, mq5CalibrationValueString)) {
-				if (isCalibrated) {
+            else if (ifContainsString(variableName, mq5CalibrationValueString)) {
+				if (mq5.getMq5Iscalibrated()) {
 					mq5.setmq5CalibrationValue(variableValue);
-				}
-              //  hwlib::cout << "mq5.setmq5CalibrationValue(" << variableValue << ")" << "\r\n";
+                    mq5.setMq5Iscalibrated(true);
+				} else {
+                    hwlib::cout << "isCalibrated is false callibrationvalue will not be set \r\n";
+                }
             }
-            else if(ifContainsString(variableName, measureFrequencyString)) {
+            else if (ifContainsString(variableName, measureFrequencyString)) {
                 //???.setMeasureFrequency(variableValue);
                 hwlib::cout << "TODO: ???.setMeasureFrequency(" << variableValue << ")" << "\r\n";
             }
 			else if (ifContainsString(variableName, isCalibratedString)) {
-				isCalibrated = variableValue;
-				hwlib::cout << "is calibrated = " << variableValue << "\r\n";
-			}
+				mq5.setMq5Iscalibrated((bool)variableValue);
+				hwlib::cout << "is calibrated = " << (bool)variableValue << "\r\n";
             else {
                 hwlib::cout << ">>>PARSER ERROR : [ " << variableName << " ] is not a valid/known variable!" << "\r\n";
+            }
             }
         }
     }

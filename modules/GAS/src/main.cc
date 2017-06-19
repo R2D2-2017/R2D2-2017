@@ -29,6 +29,7 @@
  *		  The characters are stored in the second parameter
  *		  mq5Char.
  */
+void convertToChar(int toConvert, char converted[4]);
 
 void convertToChar(int toConvert, char converted[4]){
     converted[0] = ((char)(toConvert / 1000 % 10) + '0');
@@ -61,9 +62,10 @@ int main(){
 
     // Initialize variables
     int mq5Value = 0;
-    char charValue[3];
+    char charValue[4];
     const char dataFilePath[] = "/data.txt";
     const char confFilePath[] = "/conf.txt";
+    const char calibrationPath[] = "/calib.txt"
     const char sessionSeparator[] = "\r\n=========================\r\n";
     char configurationInput[100];
 
@@ -114,6 +116,7 @@ int main(){
         hwlib::cout << "conf.txt does not exist.\r\n";
     }
 
+
     //read data from configuration file TODO make that thing propper size.
     confFile.read(configurationInput, confFile.getSize(), err);
     configurationInput[confFile.getSize()] = '\0';
@@ -133,6 +136,29 @@ int main(){
         hwlib::cout << "Writing returend error: " << (char)err << "\r\n";
     }
 
+    //Checks if the mq5 is callibrated and gets a calibration value if it is not calibrated.
+    if(!mq5.getMq5Iscalibrated()){
+        char tempvaluearray[4] = '\0';
+
+        hwlib::cout << "Sensor is not calibrated.\r\nCallibration will start"
+
+        MuStore::FsNode calibFile = fileSystem.get(calibFilePath, err);
+
+        if (err == MuStore::FsError::FS_ERR_OK) {
+            hwlib::cout << "calib.txt found.\r\n";
+        } else {
+            hwlib::cout << "Filesystem returned error: " <<(char)err << "\r\n ";
+        }
+
+        if (!dataFile.doesExist()) {
+            hwlib::cout << "calib.txt does not exist.\r\n";
+        }
+
+        convertToChar((int)mq5.getCalibrationValue(), tempvaluearray)
+        calibfile.write(tempvaluearray,sizeof(tempvaluearray) ,err);
+        hwlib::cout << "wiring data 0 for success: " << (int)err << "\r\n";
+        return 0;
+    }
 
     //start loop
     hwlib::cout << "Writing to sd card\r\n";
@@ -145,7 +171,7 @@ int main(){
         convertToChar(mq5Value, charValue);
 
         //write it to sd card and check if alarm needs to go off
-        dataFile.write(charValue, 3, err);
+        dataFile.write(charValue, sizeof(charValue), err);
         hwlib::cout << "wiring data 0 for success: " << (int)err << "\r\n";
         dataFile.write("\r\n", 1, err);
         hwlib::cout << "wiring newline 0 for success: " << (int)err << "\r\n";

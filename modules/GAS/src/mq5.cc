@@ -40,3 +40,15 @@ float Mq5::getCalibrationValue(/*int quantity*/){
     int measurementQuantity = 200;
     return readSensorAverage(measurementQuantity);
 }
+
+void Mq5::setMq5CalibrationValue(float value){
+    calibrationValue = value;
+}
+
+bool Mq5::getMq5Iscalibrated(){
+    return isCalibrated;
+}
+
+void Mq5::setMq5Iscalibrated(bool calbrated){
+    isCalibrated = calbrated;
+}
