@@ -1,6 +1,6 @@
 /**
- * \file      vector.cc
- * \author    Robert Bezem
+ * \file      vectice.cc
+ * \author    Robert Bezem, Tim IJntema
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See LICENSE
  */
