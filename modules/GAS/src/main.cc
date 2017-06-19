@@ -16,7 +16,6 @@
  * \trello	  https://trello.com/c/etqKmerH/93-gas-gas-safety-system
  */
 #include "wrap-hwlib.hh"
-
 #include "hwlib-due-spi.hh"
 #include "sd-spi.hh"
 #include "alarm.hh"
@@ -30,12 +29,12 @@
  *		  The characters are stored in the second parameter
  *		  mq5Char.
  */
-void convertToChar(int mq5Value, char mq5Char[3]);
 
-void convertToChar(int mq5Value, char mq5Char[3]){
-    mq5Char[0] = ((char)(mq5Value / 100 % 10) + '0');
-    mq5Char[1] = ((char)(mq5Value % 100 / 10) + '0');
-    mq5Char[2] = ((char)(mq5Value % 10 ) + '0');
+void convertToChar(int toConvert, char converted[4]){
+    converted[0] = ((char)(toConvert / 1000 % 10) + '0');
+    converted[1] = ((char)(toConvert % 1000 / 100) + '0');
+    converted[2] = ((char)(toConvert % 100 / 10) + '0');
+    converted[3] = ((char)(toConvert % 10 ) + '0');
 }
 
 int main(){
