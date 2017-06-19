@@ -2,7 +2,7 @@
  /**
  * \file      main.cc
  * \brief     Program for giving an indication when a rfid card has been detected, a database connection has been made and a string has been encrypted
- * \author    Tim IJntema, Stefan de Beer, Arco Gelderblom, Rik Honcoop, Koen de Groot, Ricardo Bouwman
+ * \author    Tim IJntema, Stefan de Beer, Arco Gelderblom, Rik Honcoop, Koen de Groot, Ricardo Bouwman, Philippe Zwietering, Luuk Steeman
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See LICENSE
  */
