@@ -35,7 +35,7 @@ void Alarm::checkGasValue(int gasValue) {
 		yellowAlarmLed.set(false);
 		redAlarmLed.set(false);
 	}
-
+}
 
 void Alarm::setFirstNote(int Note) {
 	firstNote = Note;
@@ -52,15 +52,3 @@ void Alarm::setWarningThreshold(int Threshold) {
 void Alarm::setDangerThreshold(int Threshold) {
 	dangerThreshold = Threshold;
 }
-
-void Alarm::triggerAlarm() {
-    alarmLed.set(true);
-    for(int amountOfPlaying = 3; amountOfPlaying >= 0; amountOfPlaying--) {
-        player.playNote((int) firstNote);
-        player.playNote((int) secondNote);
-    };
-}
-
-
-
-

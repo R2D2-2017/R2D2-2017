@@ -22,11 +22,7 @@
 #include "alarm.hh"
 #include "speaker.hh"
 #include "mq5.hh"
-<<<<<<< HEAD
 #include "parser.hh"
-=======
-#include <store.hh>
->>>>>>> feat-gas-new-readwrite
 #include <fatfs.hh>
 
 /**
