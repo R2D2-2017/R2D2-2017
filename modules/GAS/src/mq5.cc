@@ -23,17 +23,17 @@ float Mq5::readSensorAverage(int quantityCounter) {
     float totalValue = 1;
     float sensorValue;
     for(int i = 1; i <= quantityCounter; i++){
-        hwlib::cout << i << "\r\n";
+        //hwlib::cout << i << "\r\n";
         do {
             sensorValue = readSensor();
-            hwlib::cout << "sensorValue: " << (int)sensorValue << "\r\n"
-            << "totalValue: " <<(int)totalValue << "\r\n"
-            << (1+(int)meanFilter) * 1000 << ((int)sensorValue * 1000 / ((int)totalValue/i) * 1000) << "\r\n"
-            << (1-(int)meanFilter) * 1000 << ((int)sensorValue * 1000 / ((int)totalValue/i) * 1000) << "\r\n";
+            //hwlib::cout << "sensorValue: " << (int)sensorValue << "\r\n";
+            //<< "totalValue: " <<(int)totalValue << "\r\n";
+            //<< (1+(int)meanFilter) * 1000 << ' ' <<((int)(sensorValue * 1000) / ((int)(totalValue * 1000) / (i * 1000))) << "\r\n"
+            //<< (1-(int)meanFilter) * 1000 << ' ' <<((int)(sensorValue * 1000) / ((int)(totalValue * 1000) / (i * 1000))) << "\r\n";
 
-            hwlib::wait_ms(500);
+            //hwlib::wait_ms(500);
         }
-        while((1+meanFilter) > (sensorValue / (totalValue/i)) && (sensorValue / (totalValue/i)) > (1-meanFilter));
+        while((1+meanFilter) < (sensorValue / ((totalValue + sensorValue)/i)) && (sensorValue / ((totalValue + sensorValue)/i))  < (1-meanFilter));
         totalValue += sensorValue;
         hwlib::wait_ms(200);
     }
@@ -44,7 +44,7 @@ int Mq5::getSensorPercentage() {
     return (int)(100 / calibrationValue * readSensorAverage(1));
 }
 float Mq5::getCalibrationValue(/*int quantity*/){
-    int measurementQuantity = 50;
+    int measurementQuantity = 200;
     return readSensorAverage(measurementQuantity);
 }
 

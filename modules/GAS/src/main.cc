@@ -131,12 +131,8 @@ int main(){
     //to this location to append data instead of overwriting it.
     dataFile.seek(dataFile.getSize());
 
-    hwlib::cout << "insert general debug statement\r\n";
-
     //Write a sepearation line to the datafile to show where measurement sessions start and end.
     dataFile.write(sessionSeparator, sizeof(sessionSeparator), err);
-
-    hwlib::cout << "insert general debug statement\r\n";
 
     if (err != MuStore::FsError::FS_ERR_OK) {
         hwlib::cout << "Writing returend error: " << (char)err << "\r\n";
@@ -180,11 +176,11 @@ int main(){
 
         //write it to sd card and check if alarm needs to go off
         dataFile.write(charValue, sizeof(charValue), err);
-        hwlib::cout << "wiring data 0 for success: " << (int)err << "\r\n";
+        //hwlib::cout << "wiring data 0 for success: " << (int)err << "\r\n";
         dataFile.write("\r\n", 1, err);
-        hwlib::cout << "wiring newline 0 for success: " << (int)err << "\r\n";
+        //hwlib::cout << "wiring newline 0 for success: " << (int)err << "\r\n";
         alarm.checkGasValue(mq5Value);
-        hwlib::cout << (mq5Value) << "\r\n";
+        //hwlib::cout << (mq5Value) << "\r\n";
 
 
         //print error value of the write action
