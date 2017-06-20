@@ -18,7 +18,7 @@
 using namespace std::literals; // for the std::chrono literals
 
 /**
- * Hallsensor Class, counts how often the sensor has been activated since the last reset
+ * Slitsensor Class, counts how often the sensor has been activated since the last reset
  */
 class SlitSensor {
 private:
