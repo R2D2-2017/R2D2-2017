@@ -1,33 +1,37 @@
 /**
- * \file
+ * \file      coordinate.hh
  * \brief     This file contains the coordinate class definition
- * \author    Robert
+ * \author    Robert Bezem
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See LICENSE
  */
+
 #pragma once
 #include <ostream>
+#include <SFML/Network.hpp>
 
 /**
  * \brief 2D Coordinate class
- * \details
- * Coordinate class for coordinates on a 2d plane.
+ * 
+ * \details Coordinate class for coordinates on a 2d plane.
  */
 class Coordinate {
 public:
     /**
-     * Instantiate a Coordinate
-     * \param x X position
-     * \param y Y position
+     * \brief Instantiate a Coordinate
+     * 
+     * \param[in] x X position
+     * \param[in] y Y position
      */
     Coordinate(float x, float y);
 
     /**
-     * X position of Coordinate
+     * \brief X position of Coordinate
      */
     float x;
+    
     /**
-     * Y position of Coordinate
+     * \brief Y position of Coordinate
      */
     float y;
 
@@ -43,16 +47,24 @@ public:
 
     friend Coordinate operator-(Coordinate lhs, const Coordinate &rhs);
 
-    friend std::ostream &operator<<(std::ostream &os, const Coordinate &coordinate);
+    friend std::ostream & operator<<(std::ostream &os, 
+                                    const Coordinate &coordinate);
 
     /**
      * \brief Get the euclidean distance between Coordinates
+     * 
      * \details
      * Returns the euclidean distance calculated with the following function:
      * \f$(x_1,y_1)\f$ and \f$(x_2,y_2)\f$
-     * \param rhs Other coordinate
+     * 
+     * \param[in] rhs Other coordinate
+     * 
      * \return Distance between Coordinates
      */
     float euclideanDistance(const Coordinate &rhs) const;
-
+    
+    friend sf::Packet & operator<<(sf::Packet & lhs, 
+                                   const Coordinate & coordinate);
+    
+    friend sf::Packet & operator>>(sf::Packet & lhs, Coordinate & coordinate);
 };
