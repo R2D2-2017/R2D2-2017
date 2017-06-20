@@ -35,12 +35,12 @@ bool Vertice::operator!=(const Vertice &rhs) const {
     return !(rhs == *this);
 }
 
-Node * Vertice::getNeighbour() {
-    return &node2;
+Node & Vertice::getNeighbour() {
+    return node2;
 }
 
-Node * Vertice::getCurrent() {
-    return &node1;
+Node & Vertice::getCurrent() {
+    return node1;
 }
 
 int Vertice::getWeight() {
