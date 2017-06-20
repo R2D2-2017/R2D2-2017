@@ -1,6 +1,6 @@
 /**
  * \file      graph-drawer.cc
- * \author    Leo Jenneskens, Arco Gelderblom
+ * \author    Leo Jenneskens, Arco Gelderblom, Rik Honcoop
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See LICENSE
  */
@@ -11,6 +11,14 @@
 GraphDrawer::GraphDrawer(sf::RenderWindow & window):
     window(window)
 {}
+
+std::vector<GraphNode> GraphDrawer::getGraphNode(){
+	return graphNodes;
+}
+	
+std::vector<GraphVertice> GraphDrawer::getGraphVertice(){
+    return graphVertices;
+}
 
 void GraphDrawer::draw() {
     for (auto & node : graphNodes) {

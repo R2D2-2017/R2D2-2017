@@ -99,4 +99,14 @@ public:
      * \return get the position of the node as an sfml vector
      */
     sf::Vector2f getPosition();
+	
+	    /**
+	* \brief Get the "real" non graphical position X coordinate of the node
+	*/
+	int getRealPositionX();
+	
+	/**
+	* \brief Get the "real" non graphical position Y coordinate of the node
+	*/
+    int getRealPositionY();
 };

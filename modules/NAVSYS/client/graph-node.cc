@@ -1,6 +1,7 @@
 /**
  * \file      graph-node.cc
- * \author    Leo Jenneskens, Arco Gelderblom, Rene de Kluis, Koen de Groot
+ * \author    Leo Jenneskens, Arco Gelderblom, Rene de Kluis, Koen de Groot,
+              Rik Honcoop
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See LICENSE
  */
@@ -47,6 +48,13 @@ std::string GraphNode::getName() {
 void GraphNode::changeColor(sf::Color newColor) {
     color = newColor;
 }
+
+int GraphNode::getRealPositionX() {
+	return (int)position.x;
+}
+
+int GraphNode::getRealPositionY() {
+	return (int)position.y;
 
 sf::Vector2f GraphNode::getPosition() {
     return sf::Vector2f(position.x+size,position.y+size);

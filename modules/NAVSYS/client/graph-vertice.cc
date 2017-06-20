@@ -1,6 +1,6 @@
 /**
  * \file      graph-vertice.cc
- * \author    Leo Jenneskens, Arco Gelderblom
+ * \author    Leo Jenneskens, Arco Gelderblom, Rik Honcoop
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See LICENSE
  */
@@ -34,4 +34,20 @@ bool GraphVertice::checkVertice(sf::Vector2f positionNodeOne,
         return 1;
     }
     return 0;
+}
+
+int GraphVertice::getRealPositionAY(){
+	return (int)positiona.y;
+}
+
+int GraphVertice::getRealPositionAX(){
+	return (int)positiona.x;
+}
+
+int GraphVertice::getRealPositionBY(){
+	return (int)positionb.y;
+}
+
+int GraphVertice::getRealPositionBX(){
+	return (int)positionb.x;
 }
