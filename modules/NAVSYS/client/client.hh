@@ -26,7 +26,7 @@ private:
     sf::IpAddress ipAddress;
     uint16_t port;
     sf::TcpSocket socket;
-    sf::Vector2f buttonSize = {100,30};
+    sf::Vector2f buttonSize = {200,60};
     Graph g;
 
     /**

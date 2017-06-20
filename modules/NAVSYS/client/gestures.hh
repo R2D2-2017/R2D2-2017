@@ -17,7 +17,8 @@ class Gestures{
 private:
     sf::RenderWindow & window;
     sf::Vector2i mousePos;
-    sf::Clock clock;
+    sf::Clock dragClock;
+    sf::Clock pressClock;
 public:
     /**
      * \brief the constructor Gesture class
@@ -26,9 +27,11 @@ public:
     Gestures(sf::RenderWindow & window);
     /**
      * \brief this function detect how far the mouse has moved in the given 
-     * update inteval. This function is used for dragging a window using the 
+     * update inteval when the left mouse button has been pressed. This function is used for dragging a window using the 
      * mouse.
+     * \param  updateInterval The time in milliseconds between every mouse position read
+     * \param  waitForFrag The time in milliseconds the left mouse button should be pressed before the function starts measuring the mouse movements.
      * \return how far the mouse has moved in the given update interval
      */
-    sf::Vector2i getMouseDrag(const int updateInterval);
+    sf::Vector2i getMouseDrag(const int updateInterval, const int waitForDrag);
 };
