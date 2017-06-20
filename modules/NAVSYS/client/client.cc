@@ -169,7 +169,7 @@ void Client::run(){
     sf::FloatRect startNodeButtonBounds;
     sf::FloatRect endNodeButtonBounds;
     StartEndNodeData newPath;
-    GraphNode clickedNode = drawer.checkNodeClicked();
+    clickedNode node = drawer.checkNodeClicked();
     while(true) {
 			try {
 			 // if getRemotePort = 0, no connention with socket / server.
