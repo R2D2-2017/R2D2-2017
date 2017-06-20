@@ -5,14 +5,15 @@
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See LICENSE
  */
+
 #pragma once
+
 #include "../carrier-controller.hh"
 #include "i-carrier-state.hh"
+
 namespace Carrier {
 
-/**
- * \brief Forward declaration of the CarrierController class
- */
+// Forward declaration of the CarrierController class
 class CarrierController;
 
 /**
@@ -22,14 +23,16 @@ class ForwardState : public ICarrierState {
     public:
         /**
          * \brief Constructor for the ForwardState class
-         * \param[in] controller Reference of a CarrierController that the forwardState can use to controll the carrier
+         * 
+         * \param[in] controller Reference of the CarrierController that the forwardState can use to control the carrier
          */
         ForwardState(CarrierController &controller);
 
         /**
-         * \brief Updates the current state
+         * \brief Perform (update) actions based on the current state.
+         *
          * Implementation of the virtual method from the interface.
-         * Will be called in the CarrierController class to update
+         * Will be called in the CarrierController class to update.
          */
         void update();
 
@@ -37,7 +40,6 @@ class ForwardState : public ICarrierState {
          * \brief Returns the ForwardState enum from CarrierState
          */
         CarrierState getState();
-
 };
 
 }

@@ -5,7 +5,9 @@
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See LICENSE
  */
+
 #pragma once
+
 #include <iostream>
 #include <stdio.h>
 #include <string>
@@ -13,9 +15,10 @@
 #include <wiringSerial.h>
 
 /**
- *\brief Serial communication class with wiring pi
+ * \brief Serial communication class with wiring pi
+ * 
  * Simple class that encapsulates wiringSerial
- * That is able read commands with a newline and write data into the serial
+ * that is able read commands with a newline and write data into the serial
  */
 class SerialCom {
 private:
@@ -30,25 +33,31 @@ private:
 
 public:
     /**
-     *\brief constructor for serialCom class
-     *\param[in]  serial  path to serial connection port
-     *\param[in]  baud    baudrate you want to open the serial connection on
+     * \brief Constructor for SerialCom class
+     * 
+     * \param[in]  serial  path to serial connection port
+     * \param[in]  baud    baudrate you want to open the serial connection on
      */
     SerialCom(std::string serial, int baud);
+
     /**
-     *\brief Try to connect to the serial port
-     *\return 0 if can't connect and 1 if connected
+     * \brief Try to connect to the serial port
+     * 
+     * \return 0 if can't connect and 1 if connected
      */
     int init();
+
     /**
-     *\brief reads command until new line and returns it as a std::string
-     *\return received command as string
+     * \brief reads command until new line and returns it as a std::string
+     * 
+     * \return received command as string
      */
     std::string readCommand();
 
     /**
-     *\brief Write string to connected serial port
-     *\param[in]  data  string you want to be written to the serial port
+     * \brief Write string to connected serial port
+     * 
+     * \param[in]  data  string you want to be written to the serial port
      */
     void write(std::string data);
 };

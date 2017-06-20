@@ -8,11 +8,16 @@
  */
 
 #pragma once
-#include "motor-controller.hh"
-#include "hc-sr04.hh"
 #include <chrono>
 #include <cmath>
 #include <cstdint>
+#include <memory> // Used for smart pointers
+#include <vector>
+#include "motor-controller.hh"
+#include "hc-sr04.hh"
+#include "serial-com.hh"
+#include "motor-controller.hh"
+#include "hc-sr04.hh"
 #include "./states/i-carrier-state.hh"
 #include "./states/forward-state.hh"
 #include "./states/backward-state.hh"
@@ -21,9 +26,18 @@
 #include "./states/idle-state.hh"
 #include "./states/auto-state.hh"
 
-#include <memory>
-
 namespace Carrier {
+
+/**
+ * \brief enum for the different distance sensors
+ */
+enum SonarDirections {
+    North = 0,
+    East,
+    South,
+    West,
+    All,
+};
 
 /**
  * \brief Controls (non-)autonomous actions
@@ -41,7 +55,8 @@ public:
      * \param[in]  speed            the speed in ???-units
      */
     CarrierController(MotorController &motorController,
-                      HcSr04 &sonarSensor, int speed = 1);
+                      SerialCom& serialCom,
+                      std::vector<HcSr04>& sonarSensors, int speed = 1);
 
     /**
      * \brief Sets the speed
@@ -66,21 +81,46 @@ public:
 
     /**
      * \brief Returns the current state the carrier is in
+     *
+     * \return an enum containing the current state
      */
     CarrierState currentState();
 
+    /**
+     * \brief Returns the current speed
+     *
+     * \returns integer with current speed value
+     */
     int getSpeed();
 
+    /**
+     * \brief Returns a reference of the motorController
+     */
     MotorController &getMotorController();
 
-    HcSr04 &getSonar();
+    /**
+     * \brief Returns a reference of the serialCom
+     */
+    SerialCom &getSerialCom();
+
+    /**
+     * \brief Returns selected sensor reading in cm
+     *
+     * \param[in] direction selection from the enum to select what sensor to read
+     * Can be use to read the 4 sensor individually or use the All enum to read out all at once
+     * \return Vector of read sensor values
+     */
+    std::vector<int> getSonarValue(SonarDirections direction);
 
 private:
     /// Controller to send commands to the motors
     MotorController &motorController;
 
+    /// Controller to send commands to the motors
+    SerialCom &serialCom;
+
     /// Sonar sensor for object avoidance
-    HcSr04 &sonarSensor;
+    std::vector<HcSr04> &sonarSensors;
 
     /// The speed in ???-units
     int speed;

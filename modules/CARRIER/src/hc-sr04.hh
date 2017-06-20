@@ -23,5 +23,5 @@ public:
      *
      * \return Double - Centimeters
      */
-    double  getDistance();
+    int  getDistance();
 };

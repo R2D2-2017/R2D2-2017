@@ -7,12 +7,13 @@
  */
 
 #include "carrier-controller.hh"
+
 using namespace Carrier;
 
 CarrierController::CarrierController(MotorController &motorController,
-                                     HcSr04 &sonarSensor, int speed) :
-    motorController{ motorController }, sonarSensor{ sonarSensor }, speed{ speed }
-{
+                                     SerialCom& serialCom,
+                                     std::vector<HcSr04>& sonarSensors, int speed) :
+    motorController{ motorController }, serialCom{serialCom}, sonarSensors{ sonarSensors }, speed{ speed } {
     state = std::make_unique<IdleState>(*this);
 }
 
@@ -63,6 +64,14 @@ MotorController& CarrierController::getMotorController() {
     return motorController;
 }
 
-HcSr04& CarrierController::getSonar() {
-    return sonarSensor;
+SerialCom& CarrierController::getSerialCom() {
+    return serialCom;
+}
+
+std::vector<int> CarrierController::getSonarValue(SonarDirections direction) {
+    if(direction == SonarDirections::All) {
+        return std::vector<int>{sonarSensors[0].getDistance(), sonarSensors[1].getDistance(),sonarSensors[2].getDistance(),sonarSensors[3].getDistance()};
+    } else {
+        return std::vector<int>{sonarSensors[direction].getDistance()};
+    }
 }
