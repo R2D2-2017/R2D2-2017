@@ -10,7 +10,7 @@
 #include <iostream>
 
 int main() {
-    std::cout << "Starting server\n";
+    std::cout << "Starting server..\n";
     Server(5000).run();
     return 0;
 }

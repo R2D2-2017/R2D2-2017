@@ -10,6 +10,36 @@
 #include "astar.hh"
 #include "../common/graph-factory.hh"
 
+struct messageBroadcastFailed : public std::exception {
+  const char * what () const throw() {
+	   return "The message had failed to broadcast.\n";
+	}
+};
+
+struct messageToClientFailed : public std::exception {
+  const char * what () const throw() {
+	   return "The message had failed to send the client.\n";
+	}
+};
+
+struct socketConnectionFailed : public std::exception {
+  const char * what () const throw() {
+	   return "The server failed to connect to the socket.\n";
+	}
+};
+
+struct packageReceiveFailed : public std::exception {
+  const char * what () const throw() {
+	   return "The server failed to receive a message.\n";
+	}
+};
+
+struct inputHandleFailed : public std::exception {
+  const char * what () const throw() {
+	   return "The server failed to handle the input.\n";
+	}
+};
+
 Server::Server(const uint16_t port):
     port(port)
 {
@@ -24,10 +54,9 @@ void Server::broadcastMessage(const command &cmd, const T & message) {
     if (!connectedClientSockets.empty()) {
         sf::Packet p;
         p << cmd << message;
-        for (auto &s : connectedClientSockets) { 
+        for (auto &s : connectedClientSockets) {
             if (s->send(p) != sf::Socket::Done) {
-                std::cout << "Sending message failed\n";
-                exit(-1);
+                throw messageBroadcastFailed ();
             }
         }
     }
@@ -38,15 +67,14 @@ void Server::sendMessageToClient(sharedSocketPtr_t &client, const command &cmd, 
     sf::Packet p;
     p << cmd << message;
     if (client->send(p) != sf::Socket::Done) {
-        std::cout << "Sending message failed\n";
-        exit(-1);
+        throw messageToClientFailed ();
     }
 }
 
 void Server::run() {
     socketListener.listen(port);
     socketSelector.add(socketListener);
-    
+
     while(true) {
 
         sf::sleep(sf::milliseconds(100));
@@ -55,23 +83,22 @@ void Server::run() {
             if (socketSelector.isReady(socketListener)) {
                 sharedSocketPtr_t client = std::make_shared<sf::TcpSocket>();
                 if (socketListener.accept(*client) != sf::Socket::Done) {
-                    std::cout << "Something went wrong connecting to a new\
-                                  socket, please try again\n";
-                    exit(-1);
+                    throw socketConnectionFailed ();
                 }
-                
-                std::cout << "New client hype" << std::endl;
+
+                std::cout << "Adding new client. \n";
                 connectedClientSockets.push_back(client);
                 socketSelector.add(*client);
-
+                std::cout << "The server has started succesfully.\n";
+                
             } else {
                 for (auto &s : connectedClientSockets) {
                     if (socketSelector.isReady(*s)) {
                         sf::Packet p;
-                        
+
                         if (s->receive(p) == sf::Socket::Done) {
-                            std::cout << "Hooray, you received a package\n";
-                            
+                            std::cout << "You have received a package. \n";
+
                             handleInput(p, s);
 
                         }
@@ -97,7 +124,7 @@ void Server::handleInput(sf::Packet & p, sharedSocketPtr_t & client) {
     //command::none due to initialization warning
     command cmd = command::None;
     p >> cmd;
-    
+
     if (cmd == command::RequestNodes) {
         sendMessageToClient(client, command::ResponseNodes, g.getNodes());
     }
@@ -107,7 +134,7 @@ void Server::handleInput(sf::Packet & p, sharedSocketPtr_t & client) {
     else if (cmd == command::RequestPath) {
         StartEndNodeData pathToFind;
         p >> pathToFind;
-        
+
         Node start(g.getNodeByName(pathToFind.startNode));
         Node end(g.getNodeByName(pathToFind.endNode));
         std::vector<PathNode> path = aStar(g, start, end);
@@ -117,5 +144,8 @@ void Server::handleInput(sf::Packet & p, sharedSocketPtr_t & client) {
         //disconnect client
         disconnectClients.push_back(client);
         sendMessageToClient(client, command::ResponseDisconnect, "You have been succesfully disconnected");
+    } else {
+        throw inputHandleFailed ();
     }
+
 }
