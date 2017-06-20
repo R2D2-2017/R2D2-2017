@@ -1,7 +1,11 @@
  /**
  * \file      main.cc
  * \brief     Program for giving an indication when a rfid card has been detected, a database connection has been made and a string has been encrypted
+<<<<<<< HEAD
  * \author    Tim IJntema, Stefan de Beer, Arco Gelderblom, Rik Honcoop, Koen de Groot, Ricardo Bouwman, Philippe Zwietering, Luuk Steeman,Leo Jenneskens
+=======
+ * \author    Tim IJntema, Stefan de Beer, Arco Gelderblom, Rik Honcoop, Koen de Groot, Ricardo Bouwman, jeremy ruizenaar
+>>>>>>> feat-rfid-new
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See LICENSE
  */
@@ -12,6 +16,7 @@
 #include "led-controller.hh"
 #include "matrix-keypad.hh"
 #include "config-file-parser.hh"
+#include "databasemanager.hh"
 
 #include <wiringPi.h>
 #include <wiringPiSPI.h>
@@ -28,9 +33,11 @@ struct MFAuthentData {
 int main(int argc, char **argv) {
 #define USING_PIN           // Comment out this rule if not using a pincode on your application
     try {
+
         std::string ip;
         std::string username;
         std::string password;
+
         //int encryptionKey;
 
         ConfigFileParser factory("database-config.txt");
@@ -109,7 +116,7 @@ int main(int argc, char **argv) {
             connection.executeQuery("SELECT * FROM RFID");
 
             std::cout << "Database information: "
-                      << connection.getPreviousResponseColumn("CARD_ID")
+                      << database.getAllCardIdFromDatabase()
                       << '\n';
 
             led.blinkLed(1000);
