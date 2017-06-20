@@ -27,19 +27,36 @@ RobotArmController::RobotArmController(
       ky101(ky101)
 { }
 
-void RobotArmController::rotateMotor(Motor motor,
-                                     int   degrees,
-                                     bool  clockwise) {
+
+
+bool RobotArmController::canRotateMotor(Motor motor, int degrees) const {
+    auto limits = motorLimits[motor == Motor::M1 ? 0 : motor == Motor::M2 ? 1 : 2];
+
+    // This is annoying. 💩
+    auto oldRot = (  motor == Motor::M1 ? std::get<0>(motorRotations)
+                   : motor == Motor::M2 ? std::get<1>(motorRotations)
+                   :                      std::get<2>(motorRotations));
+
+    auto newRot = oldRot + degrees;
+
+    return newRot >= limits.first && newRot <= limits.second;
+}
+
+bool RobotArmController::rotateMotor(Motor motor, int degrees) {
+
+    if (!canRotateMotor(motor, degrees))
+        return false;
 
     int selectedMicroSteps = (motor == Motor::M3) ? microStepsBase
-                                                    : microStepsArms;
+                                                  : microStepsArms;
     int selectedRatio = (int) ((motor == Motor::M3) ? baseStepRatio
-                                                      : armStepRatio);
+                                                    :  armStepRatio);
     int requiredSteps = (int) (selectedMicroSteps
-                               * (degrees * selectedRatio) / stepSize);
+                               * (abs(degrees) * selectedRatio) / stepSize);
 
     hwlib::cout << "required: " << requiredSteps << "\r\n";
 
+    bool clockwise = degrees < 0;
 
     for (int stepsTaken = 0; stepsTaken < requiredSteps; stepsTaken++) {
         RobotLimitSwitch switchEnabled = checkLimitations();
@@ -66,7 +83,9 @@ void RobotArmController::rotateMotor(Motor motor,
     (  motor == Motor::M1 ? std::get<0>(motorRotations)
      : motor == Motor::M2 ? std::get<1>(motorRotations)
      :                      std::get<2>(motorRotations))
-        += clockwise ? -degrees : degrees;
+        += degrees;
+
+    return true;
 }
 
 template<typename T>
@@ -77,17 +96,14 @@ constexpr float pi = 3.141592653589793;
 constexpr float rad2deg(float rad) { return rad * (180/pi); }
 constexpr float deg2rad(float deg) { return deg * (pi/180); }
 
-
 std::tuple<float,float,float>
 RobotArmController::positionToMotorRotations(Position pos) {
-
-    // FIXME: Make it clear where radians/degrees are used.
 
     // See https://github.com/R2D2-2017/R2D2-2017/wiki/%5BROBOARM%5D-Forward-and--Inverse-kinematics
     // for an explanation for these formulas.
 
-    float distance = sqrt(pow2(pos.x) + pow2(pos.y));
-    float slope    =  atan(pos.y / pos.x);
+    float distance  = sqrt(pow2(pos.x) + pow2(pos.y));
+    float slope     = atan(pos.y / pos.x);
 
     float joint1Rot = acos((pow2(arm1Length) + pow2(distance) - pow2(arm2Length))
                            / (2 * arm1Length * distance)) + slope;
@@ -96,9 +112,9 @@ RobotArmController::positionToMotorRotations(Position pos) {
                     + acos((pow2(arm1Length) + pow2(arm2Length) - pow2(distance))
                            / (2 * arm1Length * arm2Length));
 
-    float yRot = deg2rad(pos.yRot);
-
-    return std::make_tuple(joint1Rot, joint2Rot, yRot);
+    return std::make_tuple(rad2deg(joint1Rot),
+                           rad2deg(joint2Rot),
+                           pos.yRot);
 }
 
 static hwlib::ostream &operator<<(hwlib::ostream &stream, float v) {
@@ -119,37 +135,27 @@ bool RobotArmController::moveTo(Position pos) {
     auto newMotorRotations = positionToMotorRotations(pos);
 
     hwlib::cout << "motors: "
-                << rad2deg(std::get<0>(newMotorRotations)) << ", "
-                << rad2deg(std::get<1>(newMotorRotations)) << ", "
-                << rad2deg(std::get<2>(newMotorRotations)) << "\r\n";
-
-    std::get<0>(newMotorRotations) = rad2deg(std::get<0>(newMotorRotations));
-    std::get<1>(newMotorRotations) = rad2deg(std::get<1>(newMotorRotations));
-    std::get<2>(newMotorRotations) = rad2deg(std::get<2>(newMotorRotations));
+                << std::get<0>(newMotorRotations) << ", "
+                << std::get<1>(newMotorRotations) << ", "
+                << std::get<2>(newMotorRotations) << "\r\n";
 
     hwlib::cout << "rotate 1 by " << (std::get<0>(newMotorRotations)
                                       - std::get<0>(motorRotations)) << "\r\n";
     rotateMotor(Motor::M1,
-               fabs(std::get<0>(newMotorRotations)
-                    - std::get<0>(motorRotations)),
-               std::get<0>(newMotorRotations)
-               - std::get<0>(motorRotations) < 0);
+                std::get<0>(newMotorRotations)
+                - std::get<0>(motorRotations));
 
     hwlib::cout << "rotate 2 by " << (std::get<1>(newMotorRotations)
                                       - std::get<1>(motorRotations)) << "\r\n";
     rotateMotor(Motor::M2,
-               fabs(std::get<1>(newMotorRotations)
-                    - std::get<1>(motorRotations)),
-               std::get<1>(newMotorRotations)
-               - std::get<1>(motorRotations) < 0);
+                std::get<1>(newMotorRotations)
+                - std::get<1>(motorRotations));
 
     hwlib::cout << "rotate 3 by " << (std::get<2>(newMotorRotations)
                                       - std::get<2>(motorRotations)) << "\r\n";
     rotateMotor(Motor::M3,
-               fabs(std::get<2>(newMotorRotations)
-                    - std::get<2>(motorRotations)),
-               std::get<2>(newMotorRotations)
-               - std::get<2>(motorRotations) < 0);
+                std::get<2>(newMotorRotations)
+                - std::get<2>(motorRotations));
 
     return true;
 }
@@ -171,10 +177,20 @@ void RobotArmController::startup() {
     // while (!ky101.get()) {
     //     rotateMotor(Motor::M3, 1, false);
     // }
-    while (m2LimitSwitch.get())
-        rotateMotor(Motor::M2, 1, false);
-    while (m1LimitSwitch.get())
-        rotateMotor(Motor::M1, 1, false);
+
+    auto initialRotations = motorRotations;
+
+    while (m2LimitSwitch.get()) {
+        // Override rotation limit checks - we don't know the current rotation anyway.
+        std::get<1>(motorRotations) = motorLimits[1].first + 5;
+        rotateMotor(Motor::M2, 1);
+    }
+    while (m1LimitSwitch.get()) {
+        std::get<0>(motorRotations) = motorLimits[0].first + 5;
+        rotateMotor(Motor::M1, 1);
+    }
+
+    motorRotations = initialRotations;
 }
 
 void RobotArmController::enable() {

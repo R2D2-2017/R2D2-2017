@@ -83,25 +83,26 @@ Status RoboArm::Parser::parseCommand(const hwlib::string<0> &command,
             return Status::Successful;
         } else {
             // true if we go counterclockwise (negative value)
-            bool direction = amount[0] == '-';
             int16_t intAmount = (int16_t) stringToInt(amount);
-            if (intAmount < 0) {
+            if (intAmount < 0)
                 return Status::SyntaxError;
-            }
+
+            if (amount[0] == '-')
+                intAmount = -intAmount;
 
             // debug output for the parser
             hwlib::cout << action << ' ' << amount << "\r\n";
 
             if (action == "M1") {
-                robotArmController.rotateMotor(Motor::M1, intAmount, direction);
+                robotArmController.rotateMotor(Motor::M1, intAmount);
                 return Status::Successful;
             }
             if (action == "M2") {
-                robotArmController.rotateMotor(Motor::M2, intAmount, direction);
+                robotArmController.rotateMotor(Motor::M2, intAmount);
                 return Status::Successful;
             }
             if (action == "M3") {
-                robotArmController.rotateMotor(Motor::M3, intAmount, direction);
+                robotArmController.rotateMotor(Motor::M3, intAmount);
                 return Status::Successful;
             }
             if (action == "WAIT_S") {

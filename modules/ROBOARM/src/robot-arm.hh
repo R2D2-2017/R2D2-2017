@@ -43,6 +43,12 @@ namespace RoboArm {
         BOTH, M1, M2, NONE
     };
 
+    static constexpr std::pair<float,float> motorLimits[] {
+        {    0, 150 },
+        {    0,  90 },
+        { -180, 180 },
+    };
+
     /**
      * \brief Robot Arm Controller to control 3 different stepper motors.
      */
@@ -78,7 +84,8 @@ namespace RoboArm {
         /// Calculating the ratio to drive a gear correctly - http://www.wikihow.com/Determine-Gear-Ratio
         static constexpr float armStepRatio = bigGear / smallArmGear;
 
-        /// The current rotations of M[123].
+        /// The current rotations of M[123] in degrees.
+        /// These initial values match the motor rotations after startup.
         std::tuple<float,float,float> motorRotations {150, 0, 0};
 
         /// The different stepper motors you can use.
@@ -111,17 +118,25 @@ namespace RoboArm {
 
         static std::tuple<float,float,float> positionToMotorRotations(Position pos);
 
+        bool canRotateMotor(Motor motor, int degrees) const;
+
         /**
-         * \brief Rotate the given motor to the set amount of degrees (clockwise or counterclockwise)
+         * \brief Rotate the given motor with the set amount of degrees.
+         *
+         * Note: A negative degree value means clockwise rotation.
          *
          * \param[in]  motor     The motor you want to rotate
          * \param[in]  degrees   how many degrees you want to rotate
-         * \param[in]  clockwise the direction the motor will rotate
+         *
+         * \retval true  When rotation succeeded
+         * \retval false When rotation failed (due to motor limits)
          */
-        void rotateMotor(Motor motor, int degrees, bool clockwise);
+        bool rotateMotor(Motor motor, int degrees);
 
         /**
          * \brief Move the hand to the given position by turning the arm's motors.
+         *
+         * Note: yRot is given in degrees.
          *
          * \param[in] pos The new position
          *
