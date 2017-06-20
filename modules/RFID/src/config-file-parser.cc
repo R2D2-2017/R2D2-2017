@@ -12,7 +12,7 @@
 #include <iostream>
 
 
-ConfigFileParser::ConfigFileParser(const std::string & databaseFile, const std::string & encryptionFile):
+ConfigFileParser::ConfigFileParser(const std::string & databaseFile):
     databaseFile( databaseFile )
 {}
 
