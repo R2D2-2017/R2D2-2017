@@ -44,11 +44,19 @@ int main() {
     RoboArm::RobotArmController r(x, y, z, xLimitSwitch, yLimitSwitch, ky101);
 
    I2C i2c(i2c_bus);
-   i2c.runDemo();
+   i2c.reset();
+   i2c.setPWMFreq(60);
+   for(int i=0;i<5;i++){
+   hwlib::cout << "0,0,5" << "\r\n";
+   i2c.setPWM(0,0,5);
+   hwlib::wait_ms(100);
+    hwlib::cout << "0,10,0" << "\r\n";
+   i2c.setPWM(0,5,0);
+    hwlib::wait_ms(250);
+};
+    // RobotArmTester tester(r);
 
-    RobotArmTester tester(r);
-
-    tester.run();
+    // tester.run();
 
     return 0;
 }
