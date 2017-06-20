@@ -78,7 +78,10 @@ int main(int argc, char **argv) {
                 }
             }
             DatabaseManager information;
-            information.isCardInDatabase(id);
+            if ( information.isCardInDatabase(id)){
+                std::cout << " id in database";
+            }
+            
 
 #ifdef USING_PIN
             MFRC522::MIFARE_Key key = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
