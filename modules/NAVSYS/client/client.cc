@@ -36,7 +36,7 @@ void Client::sendPacket(sf::Packet & p) {
     }
 }
 
-void Client::checkPacketCorrectlyReceived(sf::Packet & p) {
+void Client::receivePacket(sf::Packet & p) {
     if (socket.receive(p) != sf::Socket::Done) {
         std::cerr << "Something went wrong with receiving\n";
         exit(-1);
@@ -195,7 +195,7 @@ void Client::run(){
             drawer.setEndNode(newPath.endNode);
 
             requestPath(newPath);
-            checkPacketCorrectlyReceived(receivedMessage);
+            receivePacket(receivedMessage);
             
             std::vector<PathNode> thePath;
             command cmd = command::None;
@@ -237,7 +237,7 @@ void Client::getGraphFromServer() {
     
     for (const auto & cmd : commands) {
         requestGraphUsingCommand(cmd);
-        checkPacketCorrectlyReceived(receivedMessage);
+        receivePacket(receivedMessage);
         
         receivedMessage >> receivedCommand;
         

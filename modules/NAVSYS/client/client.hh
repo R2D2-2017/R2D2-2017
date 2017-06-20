@@ -41,7 +41,7 @@ private:
      * 
      * \param[in] p The packet to put the received data in
      */
-    void checkPacketCorrectlyReceived(sf::Packet & p);
+    void receivePacket(sf::Packet & p);
 public:
 
     /**
