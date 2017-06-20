@@ -5,16 +5,15 @@
  * \author	  Nicky van Steensel van der Aa
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See LICENSE
- * \wiki      ...
  * \trello    https://trello.com/c/zSJnP0Rw/5-a-parser-must-be-made-that-can-read-the-conftxt-and-set-the-variables
  */
 
 #include "parser.hh"
 
-Parser::Parser(Alarm &alarm, Mq5 &mq5, int *measurmentWaitTime) :
+Parser::Parser(Alarm &alarm, Mq5 &mq5, int *measureWaitTime) :
         alarm(alarm),
         mq5(mq5),
-        measurmentWaitTime(measurmentWaitTime) {}
+        measureWaitTime(measureWaitTime) {}
 
 bool Parser::ifContainsString(char array[], const char *string) {
     bool containsString = false;
@@ -107,7 +106,7 @@ void Parser::parseArray(char* input) {
                 }
             }
             else if (ifContainsString(variableName, measureWaitTimeString)) {
-                *measurmentWaitTime = variableValue;
+                *measureWaitTime = variableValue;
             }
 			else if (ifContainsString(variableName, isCalibratedString)) {
 				mq5.setMq5Iscalibrated((bool)variableValue);
