@@ -1,6 +1,7 @@
 #pragma once
 #include "../carrier-controller.hh"
 #include "i-carrier-state.hh"
+#include "../hc-sr04.hh"
 namespace Carrier {
 
 /**
@@ -12,23 +13,16 @@ namespace Carrier {
     private:
         /// Reference of the CarrierController so it can be used in the states
         CarrierController *controller;
-
+        /// Threshold for the distance between the sensor and the object
         int threshold = 25;
     public:
-
+        /**
+         * \brief Constructor for the AvoidanceState
+         * @param controller
+         */
         AvoidanceState(CarrierController *controller, HcS);
 
         void update();
-
-        void leftCornerState();
-
-        void rightCornerState();
-
-        void valleyState();
-
-        void deadEndState();
-
-        void wallState();
 
         CarrierState getState();
 
