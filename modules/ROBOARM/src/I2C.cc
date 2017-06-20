@@ -57,6 +57,14 @@ void I2C::setPWM(uint8_t led,int value){
  	
 
  }
+
+ void I2C::moveServoTo(uint8_t servo,int degrease){
+	 static const int min = 4095 / 100 * 4;
+	 static const int max = 4095 / 100 * 14;
+
+	 setPWM(servo, min + ((max - min) / 180) * degrease);
+ }
+
  //! Get current PWM value
 /*!
  \param led channel (1-16) to get PWM value from, not working yet

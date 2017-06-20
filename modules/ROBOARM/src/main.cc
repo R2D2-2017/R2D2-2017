@@ -15,10 +15,10 @@
 
 int main() {
     WDT->WDT_MR = WDT_MR_WDDIS;
-   
+
     auto sclPin = hwlib::target::pin_oc(hwlib::target::pins::d21);
     auto sdaPin = hwlib::target::pin_oc(hwlib::target::pins::d20);
- 	hwlib::i2c_bus_bit_banged_scl_sda i2c_bus(sclPin,sdaPin);
+    hwlib::i2c_bus_bit_banged_scl_sda i2c_bus(sclPin, sdaPin);
 
 
     auto ky101Pin = hwlib::target::pin_in(hwlib::target::pins::d14);
@@ -45,37 +45,9 @@ int main() {
 
     I2C i2c(i2c_bus);
     i2c.reset();
-    i2c.setPWMFreq(40);
-   
-    hwlib::cout << "01,01,10" << "\r\n";
-    while(true){
-        if(!xLimitSwitch.get()){
+    i2c.setPWMFreq(50);
 
-             i2c.setPWM(1,0,0);       
-        }else{
-            i2c.setPWM(1,2500,2000); //move clockwise 
-            
-             
-              // i2c.setPWM(1,2500,0); 
-               
-        }
-   
-    hwlib::wait_ms(200);    
-    }
-    
-    
-   
-    // hwlib::wait_ms(350);
-    // i2c.setPWM(1,0,0);
-   // i2c.setPWM(1,0,2);
-    //hwlib::wait_ms(200);
-    
-   
-    
 
-    // RobotArmTester tester(r);
-
-    // tester.run();
 
     return 0;
 }
