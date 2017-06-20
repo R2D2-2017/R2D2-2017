@@ -103,9 +103,6 @@ void Client::run(){
     
     GraphDrawer drawer(window);
     
-    
-    
-    
     sf::Packet receivedMessage;
     
     drawer.reload(&g);
@@ -125,7 +122,7 @@ void Client::run(){
     while(true){
 		  try{
 				
-    // if getRemotePort = 0, no connention with socket.
+    // if getRemotePort = 0, no connention with socket / server.
     if (socket.getRemotePort() == 0) {
 		socket.disconnect();
         socket.connect(ipAddress, port);
