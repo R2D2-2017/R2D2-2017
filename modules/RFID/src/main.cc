@@ -84,30 +84,30 @@ int main(int argc, char **argv) {
                     id += ' ';
                 }
             }
-            std::cout << id;
+            std::cout << id << " is the presented ID\n";
             if (!information.isCardInDatabase(id)){
-                std::cout << " id in database";
+                std::cout << "This ID is in the database\n";
+            }
+            else{
+                std::cout << "This ID is NOT in the database\n";
             }
 
 #ifdef USING_PIN
             MFRC522::MIFARE_Key key = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
             if( 1 !=rfid.PCD_Authenticate(MFRC522::PICC_CMD_MF_AUTH_KEY_A, (byte)0x05, &key, &rfid.uid))
                 continue;
+
             //read pincode
-
-            
-
-
             byte bufferSize = (byte)18;
             byte readArray[18] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
             rfid.MIFARE_Read((byte)0x05,readArray, &bufferSize);
             std::cout << "Readarray contains: \n";
             for (int i = 0; i < 18; i++){
-                std::cout <<(int)readArray[i] << '\n';
-            }         
+                std::cout <<(int)readArray[i] << ' ';
+            }
 
             //pincode invoeren
-            std::cout << "Input PIN and finish with #\n";
+            std::cout << "\nInput PIN and finish with #\n";
             std::string value = keypad.getString();
 
             // write pincode
@@ -120,10 +120,11 @@ int main(int argc, char **argv) {
 		        }
 	        }
             rfid.MIFARE_Write((byte)0x05, writeArray, (byte)16);
+            std::cout << "Writearray contains: \n";
             for (int i = 0; i < 16; i++){
-                std::cout <<(int)writeArray[i] << '\n';
-            } 
-            
+                std::cout <<(int)writeArray[i] << ' ';
+            }
+
 #endif
 
             rfid.PCD_StopCrypto1();
