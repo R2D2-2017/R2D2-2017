@@ -89,7 +89,7 @@ bool DatabaseManager::isCardInDatabase(std::string cardId) {
     query += "SELECT CARD_ID FROM RFID WHERE EXISTS ( SELECT CARD_ID FROM RFID WHERE CARD_ID =\'";
     query += cardId;
     query += "\')";
-   // std::cout <<query << "\n";
+    //std::cout <<query << "\n";
     connection.executeQuery(query);
 
     // if there is a result the card is already in the database

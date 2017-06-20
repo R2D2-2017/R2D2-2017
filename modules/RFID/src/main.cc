@@ -17,6 +17,7 @@
 #include <wiringPi.h>
 #include <wiringPiSPI.h>
 
+#include <iomanip>
 #include <iostream>
 
 struct MFAuthentData {
@@ -75,15 +76,16 @@ int main(int argc, char **argv) {
             // Hier moet het database gedeelte komen om te checken of je ID al in de database staat
             std::string id;
             for(byte i = 0; i < rfid.uid.size; ++i){
-
-                if(rfid.uid.uidByte[i] < 0x10){
-                    id +=(char)rfid.uid.uidByte[i];
-                }
-                else{
-                    id += (char)rfid.uid.uidByte[i];
+                std::stringstream ss;
+                ss << std::hex << (int)rfid.uid.uidByte[i];
+                std::string res (ss.str());
+                id += res;
+                if (i != rfid.uid.size-1){
+                    id += ' ';
                 }
             }
-            if ( information.isCardInDatabase(id)){
+            std::cout << id;
+            if (!information.isCardInDatabase(id)){
                 std::cout << " id in database";
             }
 
@@ -126,18 +128,7 @@ int main(int argc, char **argv) {
 
             rfid.PCD_StopCrypto1();
 
-            for(byte i = 0; i < rfid.uid.size; ++i){
-                if(rfid.uid.uidByte[i] < 0x10){
-                    printf(" 0");
-                    printf("%X",rfid.uid.uidByte[i]);
-                }
-                else{
-                    printf(" ");
-                    printf("%X", rfid.uid.uidByte[i]);
-                }
-            }
-
-            connection.executeQuery("SELECT * FROM RFID");
+            //connection.executeQuery("SELECT * FROM RFID");
 
 //            std::cout << "Database information: "
 //                      << database.getAllCardIdFromDatabase()
