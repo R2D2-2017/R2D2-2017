@@ -54,12 +54,31 @@ private:
      */
     void checkPacketCorrectlyReceived(sf::Packet & p);
     
-    
+	/**
+	* \brief Methode that checks if a selected start node can be startnode
+	*
+	* \param[in] nodes this is a vector of graphnodes that contain the position and name of the nodes
+	* \param[in] vertices this is a vector og graphvertices
+	* \param[in] node name that needs te be compaired to a node is nodes
+	* \param[out] boolean check true if node can be start node
+	*/
     bool checkIfNodesCanBeStartNode(std::vector<GraphNode> nodes, std::vector<GraphVertice> vertices, std::string nodeName);
     
+	/**
+	* \brief Methode that checks if a slected end node can be a endNode
+	*
+	* \param[in] nodes this is a vector of graphnodes that contain the position and name of the nodes 
+	* \param[in] vertices this is a vector og graphvertices 
+	* \param[in] node name that needs te be compaired to a node is nodes
+	* \param[out] boolean check true if node can be end node
+	*/
     bool checkIfNodesCanBeEndNode(std::vector<GraphNode> nodes, std::vector<GraphVertice> vertices, std::string nodeName);
     
     
+	/**
+	* \brief connects/reconnects to the server is methode is called.
+	*
+	*/
     void connectToServer();
     
 public:

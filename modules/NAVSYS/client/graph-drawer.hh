@@ -26,7 +26,20 @@ private:
 
 public:
 
+	/**
+	* \brief returns the vector of GraphNode
+	*
+	* \return returns the vector of GraphNode
+	*
+	*/
 	std::vector<GraphNode> getGraphNode();
+
+	/**
+	* \brief returns the vector of GraphVertice
+	*
+	* \return returns the vector of GraphVertice
+	*
+	*/
 	std::vector<GraphVertice> getGraphVertice();
 
     /**

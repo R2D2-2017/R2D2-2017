@@ -57,22 +57,22 @@ public:
     bool checkVertice(sf::Vector2f positionNodeOne, sf::Vector2f positionNodeTwo);
     
     	/**
-	* \brief Get the "real" non graphical position of the node
+	* \brief Get the "real" non graphical positionA Y coordinate of the node
 	*/
     int getRealPositionAY();
     
     	/**
-	* \brief Get the "real" non graphical position of the node
+	* \brief Get the "real" non graphical positionA X coordinate of the node
 	*/
     int getRealPositionAX();
     
     	/**
-	* \brief Get the "real" non graphical position of the node
+	* \brief Get the "real" non graphical positionB Y coordinate of the node
 	*/
     int getRealPositionBY();
     
     	/**
-	* \brief Get the "real" non graphical position of the node
+	* \brief Get the "real" non graphical positionB X coordinate of the node
 	*/
     int getRealPositionBX();
 };
