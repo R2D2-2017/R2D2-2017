@@ -37,6 +37,7 @@ private:
      */
     std::string name;
 public:
+    GraphNode();
     /**
      * \brief constructor for the graphnodes class 
      *

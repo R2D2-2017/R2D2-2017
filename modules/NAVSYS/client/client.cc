@@ -96,7 +96,7 @@ void Client::run(){
     sf::FloatRect endNodeButtonBounds;
 
     StartEndNodeData newPath;
-    GraphNode clickedNode = drawer.checkNodeClicked();
+    clickedNode node = drawer.checkNodeClicked();
     while(true) {
         window.clear(sf::Color::Black);
         sf::sleep(sf::milliseconds(20));
@@ -139,11 +139,11 @@ void Client::run(){
                         exit(0);
                         break;
                     case static_cast<int>(button::StartNode):
-                        newPath.startNode = clickedNode.getName();
+                        newPath.startNode = node.node->getName();
                         startNodeSelected = 1;
                         break;
                     case static_cast<int>(button::EndNode):
-                        newPath.endNode = clickedNode.getName();
+                        newPath.endNode = node.node->getName();
                         endNodeSelected = 1;
                         break;
                     default:
@@ -152,23 +152,23 @@ void Client::run(){
                 }
             }
             window.updateView();
-            clickedNode = drawer.checkNodeClicked();
-            if (clickedNode.isPressed(window)) {
+            node = drawer.checkNodeClicked();
+            if (node.clicked) {
                 for (auto & currButton : buttonList) {
                     window.setView(window.getDefaultView());
                     if (currButton->getId() == 
                         static_cast<int>(button::StartNode)) {
                         currButton->setPosition({
-                                clickedNode.getBounds().left, 
-                                    (clickedNode.getBounds().top + 
-                                     1.5f*clickedNode.getBounds().height)});
+                                node.node->getBounds().left, 
+                                    (node.node->getBounds().top + 
+                                     1.5f*node.node->getBounds().height)});
                         currButton->setVisable(true);
                     }
                     if (currButton->getId() == static_cast<int>(button::EndNode)) {
                         currButton->setPosition({
-                                clickedNode.getBounds().left,
-                                    (clickedNode.getBounds().top + 
-                                     2.5f * clickedNode.getBounds().height)});
+                                 node.node->getBounds().left,
+                                    (node.node->getBounds().top + 
+                                     2.5f * node.node->getBounds().height)});
                         currButton->setVisable(true);
                     }
                 }

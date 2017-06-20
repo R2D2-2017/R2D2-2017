@@ -8,13 +8,17 @@
 
 #pragma once 
 
-#include <vector>
+#include <memory>
 #include <SFML/Graphics.hpp>
 #include "graph-vertice.hh" 
 #include "graph-node.hh" 
 #include "graph.hh"
-#include "../common/pathnode.hh"
+#include "pathnode.hh"
 
+struct clickedNode {
+    std::unique_ptr<GraphNode> node = nullptr;
+    bool clicked = false;
+};
 
 class GraphDrawer {
 private:
@@ -81,15 +85,15 @@ public:
     void highlightPath(std::vector<PathNode> path);
 
     /**
-     * \brief Get the selected GraphNode.
+     * \brief Get a clickedNode 
      * 
-     * This function checks all the Graphnodes in the graph if they are 
-     * selected. If one of these GraphNodes is selected the function returns
-     * the selected GraphNode. In any other case the function will return a 
-     * dummy GraphNode with the position (0, 0) and named "".
+     * This function checks all the graphnodes in the graph if they are 
+     * selected. If one of these graphnodes is selected the function returns
+     * the selected GraphNode and a bool stating that it is selected as a 
+     * clickedNode. 
      *
-     * \return This function returns The selected GraphNode or Dummy GraphNode.
+     * \return This function returns the clickedNode
      *
      */
-    GraphNode checkNodeClicked();
+    clickedNode checkNodeClicked();
 };
