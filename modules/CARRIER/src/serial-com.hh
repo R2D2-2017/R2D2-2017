@@ -43,9 +43,9 @@ public:
     /**
      * \brief Try to connect to the serial port
      * 
-     * \return 0 if can't connect and 1 if connected
+     * \return true if connected, false unable to connect
      */
-    int init();
+    bool init();
 
     /**
      * \brief reads command until new line and returns it as a std::string

@@ -7,31 +7,32 @@
  */
 #include "hc-sr04.hh"
 
-
-HcSr04::HcSr04( int & TriggerPin,int & EchoPin ):
-    TriggerPin( TriggerPin ),
-    EchoPin( EchoPin )
+HcSr04::HcSr04( int triggerPin,int echoPin ):
+    triggerPin( triggerPin ),
+    echoPin( echoPin )
 {
-        // set pins
-    pinMode (TriggerPin, OUTPUT);
-    pinMode (EchoPin, INPUT);
+    // Set pins
+    pinMode (triggerPin, OUTPUT);
+    pinMode (echoPin, INPUT);
 }
-
-
 
 int HcSr04::getDistance(){
     // Send signal to sensor
-    digitalWrite ( TriggerPin, 1 );
+    digitalWrite ( triggerPin, 1 );
     delayMicroseconds( 10 );
-    digitalWrite ( TriggerPin, 0 );
-    //Keep setting the start time untill Echo is high
-    while (!digitalRead(EchoPin)){
+    digitalWrite ( triggerPin, 0 );
+
+    // Keep setting the start time untill Echo is high
+    long startTimeUsec = 0;
+    while (!digitalRead(echoPin)){
         startTimeUsec = micros();
     }
+
     // While Echo is high, set end time. When echo goes low again
     // we have the latest result. We're looking for the amount of time
     // the Echo pin was high.
-    while(digitalRead(EchoPin)){
+    long endTimeUsec = 0;
+    while(digitalRead(echoPin)){
         endTimeUsec = micros();
     }
 
@@ -41,8 +42,5 @@ int HcSr04::getDistance(){
     // seconds. We need second because the speed of sound is
     // 340.29 is meter per second. I only divide by 10k to make up
     // for the fact that I want centimeters.
-    distanceInCm = (((endTimeUsec - startTimeUsec)/10000.0)*340.29)/2;
-
-    return (int)distanceInCm;
-
+    return (int)((((endTimeUsec - startTimeUsec) / 10000.0f) * 340.29f) / 2);
 }

@@ -1,3 +1,11 @@
+/**
+ * \file
+ * \author    Jip Galema
+ * \author    Luke Roovers
+ * \brief     Class to control the  autonomous state of the carrier
+ * \copyright Copyright (c) 2017, The R2D2 Team
+ * \license   See LICENSE
+ */
 #pragma once
 #include "../carrier-controller.hh"
 #include "i-carrier-state.hh"

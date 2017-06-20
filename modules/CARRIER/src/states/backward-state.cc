@@ -19,7 +19,7 @@ BackwardState::BackwardState(CarrierController &controller) : ICarrierState{ con
 }
 
 void BackwardState::update() {
- if (controller.getSonarValue(SonarDirections::South)[0] <= 50) {
+    if (controller.getSonarValue(SonarDirections::South)[0] <= 50) {
         controller.setState(CarrierState::Idle);
         controller.getSerialCom().write("PATH OBSTRUCTED CANT GO BACKWARDS");
     }

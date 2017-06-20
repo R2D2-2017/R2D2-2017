@@ -8,9 +8,6 @@
  */
 
 #pragma once
-#include <chrono>
-#include <cmath>
-#include <cstdint>
 #include <memory> // Used for smart pointers
 #include <vector>
 #include "motor-controller.hh"
@@ -46,11 +43,28 @@ enum SonarDirections {
  * A statemachine that controls its various states (and transitions)
  */
 class CarrierController {
+private:
+    /// Controller to send commands to the motors
+    MotorController &motorController;
+    
+    /// Controller to send commands to the motors
+    SerialCom &serialCom;
+    
+    /// Sonar sensor for object avoidance
+    std::vector<HcSr04> &sonarSensors;
+
+    /// The speed in ???-units
+    int speed;
+
+    /// The current motor state
+    std::unique_ptr<ICarrierState> state;
+
 public:
     /**
      * \brief Constructor of CarrierController
      *
      * \param[in]  motorController  class that can control the carrier motors
+     * \param[in]  serialCom        class that can control the serial
      * \param[in]  sonarController  class that can control the sonar sensor
      * \param[in]  distThreshold    the threshold for distance to objects
      * \param[in]  speed            the speed in ???-units
@@ -112,21 +126,5 @@ public:
      * \return Vector of read sensor values
      */
     std::vector<int> getSonarValue(SonarDirections direction);
-
-private:
-    /// Controller to send commands to the motors
-    MotorController &motorController;
-
-    /// Controller to send commands to the motors
-    SerialCom &serialCom;
-
-    /// Sonar sensor for object avoidance
-    std::vector<HcSr04> &sonarSensors;
-
-    /// The speed in ???-units
-    int speed;
-
-    /// The current motor state
-    std::unique_ptr<ICarrierState> state;
 };
 } // namespace Carrier

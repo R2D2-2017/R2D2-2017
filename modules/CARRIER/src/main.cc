@@ -55,7 +55,7 @@ int main(void) {
     pinMode(statusLed, OUTPUT);
 
     //If not connected to bluetooth serial blink and poll to connect
-    while (serialCom.init() == 0) {
+    while (!serialCom.init()) {
         digitalWrite(statusLed, 1); // On
         delay(500);
         digitalWrite(statusLed, 0); // off
