@@ -49,6 +49,7 @@ void CarrierController::setState(CarrierState state) {
 
         case CarrierState::Auto:
             this->state = std::make_unique<AutoState>(*this);
+        break;
     }
 }
 

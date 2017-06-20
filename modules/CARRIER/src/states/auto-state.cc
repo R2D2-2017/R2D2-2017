@@ -1,7 +1,7 @@
 #include "auto-state.hh"
 using namespace Carrier;
 
-AutoState::AutoState(CarrierController &controller): ICarrierState(controller) {
+AutoState::AutoState(CarrierController &controller) : ICarrierState{ controller } {
     controller.getMotorController().forward(controller.getSpeed());
 }
 
@@ -9,7 +9,7 @@ void AutoState::update() {
     srand(time(NULL));
     CarrierState next_state;
     for(int i = 0; i < 20; i++) {
-        x = rand() % 5;
+        int x = rand() % 5;
         next_state = states[x];
         if (next_state == CarrierState::CounterClockwise) {
             controller.getMotorController().left(controller.getSpeed());
@@ -18,11 +18,20 @@ void AutoState::update() {
             controller.getMotorController().right(controller.getSpeed());
             delay(250);
         } else if (next_state == CarrierState::Forward) {
-            if(controller.getSonar() <= )
+            if (controller.getSonarValue(SonarDirections::North)[0] <= 50) {
+                controller.getMotorController().stop();
+                controller.getSerialCom().write("PATH OBSTRUCTED CANT GO FORWARDS");
+            } else {
             controller.getMotorController().forward(controller.getSpeed());
+            }
             delay(500);
         } else if (next_state == CarrierState::Backward) {
-            controller.getMotorController().backward(controller.getSpeed());
+            if (controller.getSonarValue(SonarDirections::South)[0] <= 50) {
+                controller.getMotorController().stop();
+                controller.getSerialCom().write("PATH OBSTRUCTED CANT GO BACKWARDS");
+            } else {
+                controller.getMotorController().forward(controller.getSpeed());
+            }
             delay(500);
         } else if (next_state == CarrierState::Idle) {
             controller.getMotorController().stop();

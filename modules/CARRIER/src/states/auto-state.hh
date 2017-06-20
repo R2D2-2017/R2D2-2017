@@ -10,7 +10,7 @@
 #include "../carrier-controller.hh"
 #include <stdlib.h>
 #include <time.h>
-
+#include <array>
 namespace Carrier{
 
 
@@ -47,9 +47,9 @@ class AutoState : public ICarrierState{
         CarrierState getState();
     private:
         /// Array of available states
-        CarrierState states[] = {Carrier::CarrierState::Idle, Carrier::CarrierState::Forward,
-                               Carrier::CarrierState::Backward, Carrier::CarrierState::Clockwise,
-                               Carrier::CarrierState::CounterClockwise};
+        std::array<CarrierState, 5> states = {CarrierState::Idle, CarrierState::Forward,
+                                              CarrierState::Backward, CarrierState::Clockwise,
+                                              CarrierState::CounterClockwise};
     };
 
 
