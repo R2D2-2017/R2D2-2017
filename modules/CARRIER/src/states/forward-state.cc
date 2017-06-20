@@ -6,6 +6,7 @@
  */
 
 #include "forward-state.hh"
+
 using namespace Carrier;
 
 ForwardState::ForwardState(CarrierController &controller) : ICarrierState{ controller } {

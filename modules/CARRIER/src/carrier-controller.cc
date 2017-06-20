@@ -7,6 +7,7 @@
  */
 
 #include "carrier-controller.hh"
+
 using namespace Carrier;
 
 CarrierController::CarrierController(MotorController &motorController,

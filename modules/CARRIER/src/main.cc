@@ -1,3 +1,16 @@
+/**
+ * \file
+ * \author    Bob Thomas
+ * \author    Remco Ruttenberg
+ * \author    Jip Galema
+ * \author    Jan Halsema
+ * \author    Luke Roovers
+ * \copyright Copyright (c) 2017, The R2D2 Team
+ * \license   See LICENSE
+ */
+
+#include <wiringPi.h>
+#include <vector>
 #include "carrier-controller.hh"
 #include "hallsensor.hh"
 #include "hc-sr04.hh"
@@ -5,8 +18,6 @@
 #include "serial-com.hh"
 #include "hc-sr04.hh"
 #include "./states/i-carrier-state.hh"
-#include <wiringPi.h>
-#include <vector>
 
 int main(void) {
     // Wiringpi pin setup

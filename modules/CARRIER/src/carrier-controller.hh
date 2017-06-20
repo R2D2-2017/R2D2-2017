@@ -11,17 +11,19 @@
 #include <chrono>
 #include <cmath>
 #include <cstdint>
+#include <memory> // Used for smart pointers
+#include <vector>
 #include "motor-controller.hh"
 #include "hc-sr04.hh"
 #include "serial-com.hh"
+#include "motor-controller.hh"
+#include "hc-sr04.hh"
 #include "./states/i-carrier-state.hh"
 #include "./states/forward-state.hh"
 #include "./states/backward-state.hh"
 #include "./states/clockwise-state.hh"
 #include "./states/counter-clockwise-state.hh"
 #include "./states/idle-state.hh"
-#include <memory>
-#include <vector>
 
 namespace Carrier {
 
