@@ -22,8 +22,8 @@
 #include "speaker.hh"
 #include "mq5.hh"
 #include "parser.hh"
-#include <fatfs.hh>
 #include "setup.hh"
+#include <fatfs.hh>
 
 /**
  * \brief Casts int value of maximum 3 numbers to characters,
@@ -50,13 +50,10 @@ int main(){
     target::pin_out cs(target::pins::d7);
 
     // matrix pins
-    target::pin_out digitalIn( target::pins::d4 );
-    target::pin_out chipSelect( target::pins::d5 );
-    target::pin_out clock( target::pins::d6 );
+    target::pin_out digitalIn(target::pins::d4);
+    target::pin_out chipSelect(target::pins::d5);
+    target::pin_out clock(target::pins::d6);
     auto spi  = hwlib::spi_bus_bit_banged_sclk_mosi_miso(clock, digitalIn, hwlib::pin_in_dummy);
-
-
-
 
     // alarm leds
     target::pin_out greenAlarmLed(target::pins::d22);
@@ -71,20 +68,22 @@ int main(){
     target::pin_out startLed(target::pins::d13);
 
     // Initialize variables
-    int measureWaitTime             = 2000000; //default value to prevent cpu slurp.
-    int mq5Value                    = 0;
-    const int startupLedWait        = 200;
-
-    // matrix settings
-    int numberOfUnusedMatrices = 0;
-    int numberOfMatrices = 4;
+    int measureWaitTime                     = 2000000; //default value to prevent cpu slurp.
+    int mq5Value                            = 0;
+    const int numberOfUnusedMatrices        = 0;
+    const int numberOfMatrices              = 4;
+    const int startupLedWait                = 200;
 
     char charValue[4];
-    const char dataFilePath[]        = "/data.txt";
-    const char confFilePath[]        = "/conf.txt";
-    const char calibFilePath[]       = "/calib.txt";
-    const char sessionSeparator[]    = "\r\n=========================\r\n";
+    const char dataFilePath[]               = "/data.txt";
+    const char confFilePath[]               = "/conf.txt";
+    const char calibFilePath[]              = "/calib.txt";
+    const char sessionSeparator[]           = "\r\n=========================\r\n";
     char configurationInput[200];
+
+
+
+
 
     // Initialize classes
     // Initialize classes for writing and reading from files
@@ -99,10 +98,11 @@ int main(){
     Mq5 mq5(sensor);
     Setup matrix(spi, chipSelect, numberOfUnusedMatrices, numberOfMatrices);
 
-
+    // Initialize the parser
     Parser parser(alarm, mq5, &measureWaitTime);
 
-    hwlib::cout << (int)fileSystem.getFsSubType() << "\r\n";
+    //hwlib::cout << (int)fileSystem.getFsSubType() << "\r\n";
+
     // Startup blink
     startLed.set(0);
     hwlib::wait_ms(startupLedWait);
@@ -189,7 +189,6 @@ int main(){
         //read mq-5 sensor
         mq5Value = mq5.getSensorPercentage();
         convertToChar(mq5Value, charValue);
-        matrix.operate(charValue);
 
         //write it to sd card and check if alarm needs to go off
         dataFile.write(charValue, sizeof(charValue), err);
@@ -197,7 +196,13 @@ int main(){
         dataFile.write("\r\n", 1, err);
         //hwlib::cout << "wiring newline 0 for success: " << (int)err << "\r\n";
         alarm.checkGasValue(mq5Value);
-        //hwlib::cout << (mq5Value) << "\r\n";
+        hwlib::cout << mq5Value << "\r\n";
+        char wololo[] = {"11998"};
+
+
+        matrix.operate(wololo);
+
+
 
 
         //print error value of the write action
