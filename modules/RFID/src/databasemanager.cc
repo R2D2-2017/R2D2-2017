@@ -1,5 +1,5 @@
 /**
- * \file      databasemanager.hh
+ * \file      DatabaseManager.hh
  * \brief     Library for executing query on a rfid database
  * \author    Jeremy Ruizenaar
  * \copyright Copyright (c) 2017, The R2D2 Team
@@ -8,15 +8,15 @@
 #include "databasemanager.hh"
 
 
-void databasemanager::connectTo(std::string ip, std::string username, std::string password) {
+void DatabaseManager::connectTo(std::string ip, std::string username, std::string password) {
     connection.connectTo(ip, username, password);
 }
 
-void databasemanager::selectDatabase(std::string database) {
+void DatabaseManager::selectDatabase(std::string database) {
     connection.selectDatabase(database);
 }
 
-std::string databasemanager::getAllCardIdFromDatabase() {
+std::string DatabaseManager::getAllCardIdFromDatabase() {
     connection.executeQuery("SELECT CARD_ID FROM RFID");
     std::string res;
     while(connection.getFullResult()->next()){
@@ -26,7 +26,7 @@ std::string databasemanager::getAllCardIdFromDatabase() {
     return res;
 }
 
-bool databasemanager::getCardAuthorisationFromDatabase(std::string cardId) {
+bool DatabaseManager::getCardAuthorisationFromDatabase(std::string cardId) {
 
     //format the sql query string
     std::string query;
@@ -47,7 +47,7 @@ bool databasemanager::getCardAuthorisationFromDatabase(std::string cardId) {
 
 }
 
-void databasemanager::setCardAuthorisationInDatabase(bool status, std::string cardId) {
+void DatabaseManager::setCardAuthorisationInDatabase(bool status, std::string cardId) {
 
     //format the sql query string
     std::string query;
@@ -67,7 +67,7 @@ void databasemanager::setCardAuthorisationInDatabase(bool status, std::string ca
     connection.executeQueryNoResult(query);
 }
 
-bool databasemanager::addCardToDatabase(std::string cardId) {
+bool DatabaseManager::addCardToDatabase(std::string cardId) {
 
     // check if card id is already in the database
     if(!isCardInDatabase(cardId)){ return false; }
@@ -82,7 +82,7 @@ bool databasemanager::addCardToDatabase(std::string cardId) {
     return true;
 }
 
-bool databasemanager::isCardInDatabase(std::string cardId) {
+bool DatabaseManager::isCardInDatabase(std::string cardId) {
 
     //format the sql query string
     std::string query;
@@ -101,15 +101,15 @@ bool databasemanager::isCardInDatabase(std::string cardId) {
     }
 }
 
-void databasemanager::executeQueryNoResult(std::string query) {
+void DatabaseManager::executeQueryNoResult(std::string query) {
     connection.executeQueryNoResult(query);
 }
 
-void  databasemanager::executeQuery(std::string query) {
+void  DatabaseManager::executeQuery(std::string query) {
     connection.executeQuery(query);
 }
 
-std::unique_ptr<sql::ResultSet> &  databasemanager::getFullResultSet(){
+std::unique_ptr<sql::ResultSet> &  DatabaseManager::getFullResultSet(){
     return connection.getFullResult();
 }
 

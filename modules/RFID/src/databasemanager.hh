@@ -9,7 +9,7 @@
 
 #include "mysql.hh"
 
-class databasemanager {
+class DatabaseManager {
 private:
     MySql  connection;
 
