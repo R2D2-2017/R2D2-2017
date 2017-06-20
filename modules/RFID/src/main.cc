@@ -1,11 +1,7 @@
  /**
  * \file      main.cc
  * \brief     Program for giving an indication when a rfid card has been detected, a database connection has been made and a string has been encrypted
-<<<<<<< HEAD
- * \author    Tim IJntema, Stefan de Beer, Arco Gelderblom, Rik Honcoop, Koen de Groot, Ricardo Bouwman, Philippe Zwietering, Luuk Steeman,Leo Jenneskens
-=======
- * \author    Tim IJntema, Stefan de Beer, Arco Gelderblom, Rik Honcoop, Koen de Groot, Ricardo Bouwman, jeremy ruizenaar
->>>>>>> feat-rfid-new
+ * \author    Tim IJntema, Stefan de Beer, Arco Gelderblom, Rik Honcoop, Koen de Groot, Ricardo Bouwman, Philippe Zwietering, Luuk Steeman, Leo Jenneskens, Jeremy Ruijzenaars
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See LICENSE
  */
@@ -115,9 +111,9 @@ int main(int argc, char **argv) {
 
             connection.executeQuery("SELECT * FROM RFID");
 
-            std::cout << "Database information: "
-                      << database.getAllCardIdFromDatabase()
-                      << '\n';
+//            std::cout << "Database information: "
+//                      << database.getAllCardIdFromDatabase()
+//                      << '\n';
 
             led.blinkLed(1000);
         }
