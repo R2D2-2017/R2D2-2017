@@ -20,9 +20,6 @@
 #include "button.hh"
 #include "mouse.hh"
 
-const int window_width = 800;
-const int window_height = 480;
-
 Client::Client(sf::IpAddress ipAddress, uint16_t port):
     ipAddress(ipAddress),
     port(port)
