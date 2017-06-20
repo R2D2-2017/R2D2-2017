@@ -19,6 +19,7 @@
 #include "./states/clockwise-state.hh"
 #include "./states/counter-clockwise-state.hh"
 #include "./states/idle-state.hh"
+#include "./states/auto-state.hh"
 
 #include <memory>
 

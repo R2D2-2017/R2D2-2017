@@ -54,6 +54,9 @@ int main(void) {
             } else if (command.find("STOP") != std::string::npos) {
                 serialCom.write("STOPPING");
                 stateMachine.setState(Carrier::CarrierState::Idle);
+            } else if(command.find("AUTO") != std::string::npos){
+                serialCom.write("AUTO-DRIVING MODE ACTIVATED");
+
             }
             printf("%s", command.c_str());
         }

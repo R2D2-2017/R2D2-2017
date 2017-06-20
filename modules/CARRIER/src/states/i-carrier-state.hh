@@ -20,7 +20,8 @@ enum class CarrierState {
     Forward,
     Backward,
     Clockwise,
-    CounterClockwise
+    CounterClockwise,
+    Auto
 };
 
 /**
