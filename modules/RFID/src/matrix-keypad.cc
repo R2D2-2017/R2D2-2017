@@ -49,12 +49,17 @@ char MatrixKeypad::getKey() {
 std::string MatrixKeypad::getString(){
     std::string pincode;
     char c = getKey();
-    while (c != '#'){
-        if (c != 'h') {
+    int length = 0;
+    while (c != '#' && length < 16){
+        if (c > 47 && c < 58) {
             pincode += c;
+            length += 1;
             std::cout << "Key entered\n";
         }
-        delay(300);
+        char heldKey = c;
+        while ((c = getKey()) == heldKey){
+            delay(10);
+        }
         c= getKey();
     }
     return pincode;

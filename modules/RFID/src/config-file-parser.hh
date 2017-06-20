@@ -1,7 +1,7 @@
 /**
  * \file      config-file-parser.hh
  * \brief     Library for getting information out of a file
- * \author    Tim IJntema, Jeremy Ruizenaar
+ * \author    Tim IJntema, Jeremy Ruizenaar, Ricardo Bouwman
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See LICENSE
  */
@@ -22,7 +22,6 @@
 class ConfigFileParser {
 private:
     const std::string  databaseFile;
-    const std::string  encryptionFile;
 
     /**
      * \brief Checks for errors when executing a statement
@@ -55,7 +54,7 @@ public:
      * \param [in] databaseFile   The name of the file to open
      * \param [in] encryptionFile The name of the file to open
      */
-    ConfigFileParser(const std::string & databaseFile, const std::string & encryptionFile);
+    ConfigFileParser(const std::string & databaseFile);
 
     /**
      * \brief Load the database ip, password and username from a file
@@ -76,20 +75,4 @@ public:
      * \param [out] password The password to be read from the file
      */
     void loadDatabaseSettings(std::string & ip, std::string & username, std::string & password);
-    
-    /**
-     * \brief Load the encryption key from a file
-     *
-     * If an error occurs, a const std::string will be thrown with the line the
-     *  error occured on.
-     *
-     * Typical usage:
-     * \code
-     *     int encryptionKey;
-     *     loadDatabaseSettings(encryptionKey);
-     * \endcode
-     *
-     * \param [out] encryptionKey The encryption key to be read from the file
-     */
-    void loadEncryptionSettings(int & encryptionKey);
 };

@@ -1,7 +1,7 @@
 /**
  * \file      config-file-parser.cc
  * \brief     Library for getting information out of a config file
- * \author    Tim IJntema, Jeremy Ruizenaar
+ * \author    Tim IJntema, Jeremy Ruizenaar, Ricardo Bouwman
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See LICENSE
  */
@@ -12,9 +12,8 @@
 #include <iostream>
 
 
-ConfigFileParser::ConfigFileParser(const std::string & databaseFile, const std::string & encryptionFile):
-    databaseFile( databaseFile ),
-    encryptionFile ( encryptionFile )
+ConfigFileParser::ConfigFileParser(const std::string & databaseFile):
+    databaseFile( databaseFile )
 {}
 
 
@@ -60,30 +59,6 @@ void ConfigFileParser::loadDatabaseSettings(std::string & ip, std::string & user
 
     // throw error if reading went wrong
     if (ip.empty() || username.empty() || password.empty()) {
-        throw std::runtime_error("Missing input after reading file: ");
-    }
-    file.close();
-}
-
-void ConfigFileParser::loadEncryptionSettings(int & encryptionKey){
-
-    //open encryption file if not opened throw error
-    std::ifstream file;
-    file.open(encryptionFile);
-    if(!file.is_open()){
-        throw std::runtime_error("File not opened ");
-    }
-
-    // the string for reading input
-    std::string input;
-
-    file >> input;
-    incorrectLineCheck(input != "KEY:");
-    file >> encryptionKey;
-    incorrectLineCheck(file.eof());
-
-    // throw error if reading went wrong
-    if (!encryptionKey) {
         throw std::runtime_error("Missing input after reading file: ");
     }
     file.close();

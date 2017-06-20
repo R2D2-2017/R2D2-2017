@@ -1,96 +1,126 @@
  /**
  * \file      main.cc
  * \brief     Program for giving an indication when a rfid card has been detected, a database connection has been made and a string has been encrypted
- * \author    Tim IJntema, Stefan de Beer, Arco Gelderblom, Rik Honcoop, Koen de Groot, Ricardo Bouwman, jeremy ruizenaar
+ * \author    Tim IJntema, Stefan de Beer, Arco Gelderblom, Rik Honcoop, Koen de Groot, Ricardo Bouwman, Philippe Zwietering, Luuk Steeman, Leo Jenneskens, Jeremy Ruijzenaars
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See LICENSE
  */
- 
+
+
 #include "mysql.hh"
 #include "mfrc522.hh"
-#include "encryption.hh"
 #include "led-controller.hh"
 #include "matrix-keypad.hh"
 #include "config-file-parser.hh"
 #include "databasemanager.hh"
 
-#include <wiringPi.h>
 #include <wiringPiSPI.h>
- 
-#include <iostream>
+
+#include <iomanip>
 
 int main(int argc, char **argv) {
+#define USING_PIN           // Comment out this rule if not using a pincode on your application
     try {
 
         std::string ip;
         std::string username;
         std::string password;
-        int encryptionKey;
-        
-        ConfigFileParser factory("database-config.txt", "encryption-config.txt");
 
+        ConfigFileParser factory("database-config.txt");
         factory.loadDatabaseSettings(ip, username, password);
-        factory.loadEncryptionSettings(encryptionKey);
 
-        databasemanager database;
-
-        database.connectTo(ip, username, password);
-        database.selectDatabase("R2D2");
+        MySql connection;
 
         std::cout << "Made connection to the database\n";
         wiringPiSetup();
         wiringPiSPISetup(0, 10000000);//max speed for mfrc522 is 10Mhz
-        Mfrc522 rfid;
-        rfid.init();
+        MFRC522 rfid;
+        rfid.PCD_Init();
 
         //Keypad pinSetup
-        const int keypadRow[] = {4, 1, 16, 15};
-        const int keypadColumn[] = {2, 7, 9, 8};
+        const int keypadRow[] = {15, 16, 1, 4};
+        const int keypadColumn[] = {8, 9, 7, 2};
 
         //Keypad objects
         MatrixKeypad keypad(keypadRow, keypadColumn, 4);
-        char c;
-        
-        Encryption encryption(encryptionKey);
 
         LedController led(0);
-
+        DatabaseManager information;
+        information.connectTo(ip,username,password);
+        information.selectDatabase("R2D2");
         while (true) {
+            delay(1000);
             std::cout << "\n\nWaiting for rfid tag: \n";
 
-            while (!rfid.isTagPresent()) {}
-            
-            std::cout << "Hello tag\n";
-            std::cout << "Waiting for key press\n";
-            while ((c = keypad.getKey()) == 'h') {
-                delay(100);
+             if(!rfid.PICC_IsNewCardPresent())
+                continue;
+               
+            if(!rfid.PICC_ReadCardSerial())
+                continue;
+
+            std::string id;
+            for(byte i = 0; i < rfid.uid.size; ++i){
+                std::stringstream ss;
+                ss << std::hex << (int)rfid.uid.uidByte[i];
+                std::string res (ss.str());
+                id += res;
+                if (i != rfid.uid.size-1){
+                    id += ' ';
+                }
+            }
+            std::cout << id << " is the presented ID\n";
+            if (!information.isCardInDatabase(id)){
+                std::cout << "This ID is in the database\n";
+            }
+            else{
+                std::cout << "This ID is NOT in the database\n";
             }
 
-            std::cout << c << " key has been pressed\n";
+#ifdef USING_PIN
+            MFRC522::MIFARE_Key key = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
+            if( 1 !=rfid.PCD_Authenticate(MFRC522::PICC_CMD_MF_AUTH_KEY_A, (byte)0x05, &key, &rfid.uid))
+                continue;
 
-            std::cout << "Enter a pincode, ending with '#'\n";
+            //read pincode
+            byte bufferSize = (byte)18;
+            byte readArray[18] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+            rfid.MIFARE_Read((byte)0x05,readArray, &bufferSize);
+            std::cout << "Readarray contains: \n";
+            for (int i = 0; i < 18; i++){
+                std::cout <<(int)readArray[i] << ' ';
+            }
 
-            std::string pin = keypad.getString();
-            std::cout << "The pin you entered was: " << pin << "\n";
+            //enter pincode
+            std::cout << "\nInput PIN and finish with #\n";
+            std::string value = keypad.getString();
 
-            std::cout << "Database information: "
-                      << database.getAllCardIdFromDatabase()
-                      << '\n';
-            
-            std::cout << "String before encryption: R2D2 project\n";
-            std::cout << "String after encryption: "
-                      << encryption.Encrypt("R2D2 project")
-                      << '\n';
+            // write pincode
+	       	byte  writeArray[16] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+		    int index = 0;
+            for(auto c :value){
+                if (c >47 && c < 58 ){
+                    int number = c - 48;
+                    writeArray[index++] = (byte)number;
+		        }
+	        }
+            rfid.MIFARE_Write((byte)0x05, writeArray, (byte)16);
+            std::cout << "Writearray contains: \n";
+            for (int i = 0; i < 16; i++){
+                std::cout <<(int)writeArray[i] << ' ';
+            }
 
+#endif
+
+            rfid.PCD_StopCrypto1();
             led.blinkLed(1000);
         }
-    } catch(const std::string & error) {
+    } catch (const std::string &error) {
         std::cerr << error << '\n';
         exit(EXIT_FAILURE);
-    } catch(...) {
+    } catch (...) {
         std::cerr << "Something went wrong\n";
         exit(EXIT_FAILURE);
-    }  
+    }
     return 0;
 }
 

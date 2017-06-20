@@ -9,7 +9,7 @@
 
 #include "mysql.hh"
 
-class databasemanager {
+class DatabaseManager {
 private:
     MySql  connection;
 
@@ -144,6 +144,3 @@ public:
     std::unique_ptr<sql::ResultSet> & getFullResultSet();
 
 };
-
-
-#endif //TEMPLATE_PC_DATABASEMANAGER_HH
