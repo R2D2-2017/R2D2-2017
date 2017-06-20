@@ -1,6 +1,6 @@
 /**
  * \file      client.cc
- * \author    Philippe Zwietering, René de Kluis, Koen de Groot, 
+ * \author    Philippe Zwietering, René de Kluis, Koen de Groot,
  *            Arco Gelderblom, Tim IJntema
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See ../../LICENSE
@@ -48,45 +48,49 @@ void Client::run(){
     if (connectionStatus != sf::Socket::Done) {
         std::cerr << "Connection failed\n";
     }
-    
+
     getGraphFromServer();
-    
-    //create the window
-    Window window(sf::VideoMode(window_width, window_height), "NAVSYS", 
-                  sf::Style::Default);
-    
-    //Add a viewport
-    window.setViewPort(sf::Vector2f(window_width, window_height), 
-                       sf::Vector2f(100, 100));
-    
+
+    // Get available VideoModes
+    std::vector<sf::VideoMode> modes = sf::VideoMode::getFullscreenModes();
+
+    // Store highest resolution VideoMode available
+    sf::VideoMode fullscreenVideoMode = modes[3];
+
+    // Create the window
+    Window window(fullscreenVideoMode, "NAVSYS", sf::Style::Default);
+
+    // Add a viewport
+    window.setViewPort(sf::Vector2f(WINDOW_WIDTH, WINDOW_HEIGHT), sf::Vector2f(100, 100));
+
     GraphDrawer drawer(window);
-    
+
     sf::Packet receivedMessage;
-    
+
     drawer.reload(g);
     Gestures gestureHandler(window);
-    
+
     //Button setup
     std::vector<std::unique_ptr<Button>> buttonList;
     buttonList.push_back(std::unique_ptr<Button>(new Button(
-                                    window, 
-                                    {float(window.getSize().x - (buttonSize.x + 10)), 
-                                            10}, 
-                                    {buttonSize}, 
+                                    window,
+                                    {float(window.getSize().x - (buttonSize.x + 10)),
+                                            10},
+                                    {buttonSize},
                                     static_cast<int>(button::ShutDown), "Shut Down")));
     buttonList.push_back(std::unique_ptr<Button>(new Button(
-                                    window, 
+                                    window,
                                     {float(window.getSize().x - (buttonSize.x + 100)),
-                                            10}, 
-                                    {buttonSize.x/2, buttonSize.y/2}, 
-                                    static_cast<int>(button::StartNode), "Start Node", 
+                                            10},
+                                    {buttonSize.x/2, buttonSize.y/2},
+                                    static_cast<int>(button::StartNode), "Start Node",
                                     false)));
     buttonList.push_back(std::unique_ptr<Button>(new Button(
-                                    window, 
-                                    {float(window.getSize().x - (buttonSize.x + 200)), 
-                                            10}, 
-                                    {buttonSize.x / 2, buttonSize.y / 2}, 
-                                    static_cast<int>(button::EndNode), "End Node", 
+                                    window,
+                                    {float(window.getSize().x - (buttonSize.x + 200)),
+                                            10},
+                                    {buttonSize.x / 2, buttonSize.y / 2},
+                                    static_cast<int>(button::EndNode), "End Node",
                                     false)));
 
     bool startNodeSelected = false;
@@ -118,18 +122,18 @@ void Client::run(){
                 currButton->draw();
                 window.setView(window.getDefaultView());
             }
-            
+
         }
         window.updateView();
         if (GetMouseClick()) {
             for (auto & currButton : buttonList) {
                 bool temp = false;
-                if (currButton->isPressed()) { 
-                    temp = true; 
+                if (currButton->isPressed()) {
+                    temp = true;
                 }
                 window.setView(window.getDefaultView());
-                if (currButton->isPressed()) { 
-                    temp = true; 
+                if (currButton->isPressed()) {
+                    temp = true;
                 }
                 window.updateView();
                 if (temp) {
@@ -156,18 +160,18 @@ void Client::run(){
             if (clickedNode.isPressed(window)) {
                 for (auto & currButton : buttonList) {
                     window.setView(window.getDefaultView());
-                    if (currButton->getId() == 
+                    if (currButton->getId() ==
                         static_cast<int>(button::StartNode)) {
                         currButton->setPosition({
-                                clickedNode.getBounds().left, 
-                                    (clickedNode.getBounds().top + 
+                                clickedNode.getBounds().left,
+                                    (clickedNode.getBounds().top +
                                      1.5f*clickedNode.getBounds().height)});
                         currButton->setVisable(true);
                     }
                     if (currButton->getId() == static_cast<int>(button::EndNode)) {
                         currButton->setPosition({
                                 clickedNode.getBounds().left,
-                                    (clickedNode.getBounds().top + 
+                                    (clickedNode.getBounds().top +
                                      2.5f * clickedNode.getBounds().height)});
                         currButton->setVisable(true);
                     }
@@ -176,18 +180,18 @@ void Client::run(){
             }
             else {
                 for (auto & currButton : buttonList) {
-                    if (currButton->getId() == 
-                        static_cast<int>(button::StartNode) || 
-                        currButton->getId() == 
+                    if (currButton->getId() ==
+                        static_cast<int>(button::StartNode) ||
+                        currButton->getId() ==
                         static_cast<int>(button::EndNode)) {
                         currButton->setVisable(false);
                     }
                 }
             }
         }
-        
+
         window.display();
-        
+
         if (startNodeSelected && endNodeSelected) {
             std::cout << "name of start node > " << newPath.startNode << "\n";
             drawer.setBeginNode(newPath.startNode);
@@ -196,11 +200,11 @@ void Client::run(){
 
             requestPath(newPath);
             receivePacket(receivedMessage);
-            
+
             std::vector<PathNode> thePath;
             command cmd = command::None;
             receivedMessage >> cmd >> thePath;
-            
+
             if (cmd != command::ResponsePath) {
                 std::cout << "Incorrect response from server\n";
             }
@@ -216,7 +220,7 @@ void Client::run(){
             startNodeSelected = 0;
             endNodeSelected = 0;
         }
-        
+
         if (window.isOpen()) {
             sf::Event event;
             while (window.pollEvent(event)) {
@@ -234,13 +238,13 @@ void Client::getGraphFromServer() {
     sf::Packet receivedMessage;
     command commands[] = {command::RequestNodes, command::RequestVertices};
     command receivedCommand = command::None;
-    
+
     for (const auto & cmd : commands) {
         requestGraphUsingCommand(cmd);
         receivePacket(receivedMessage);
-        
+
         receivedMessage >> receivedCommand;
-        
+
         if (receivedCommand == command::ResponseNodes) {
             std::vector<Node> nodes;
             receivedMessage >> nodes;
@@ -260,7 +264,7 @@ void Client::getGraphFromServer() {
 
 void Client::requestGraphUsingCommand(const command &cmd) {
     sf::Packet p;
-    p << cmd;  
+    p << cmd;
     sendPacket(p);
 }
 
