@@ -53,7 +53,6 @@ int main(int argc, char **argv) {
 
         //Keypad objects
         MatrixKeypad keypad(keypadRow, keypadColumn, 4);
-        char c;
 
         LedController led(0);
 
