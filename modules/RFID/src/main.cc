@@ -58,18 +58,18 @@ int main(int argc, char **argv) {
         MatrixKeypad keypad(keypadRow, keypadColumn, 4);
 
         LedController led(0);
-        DatabaseManager information;
-        information.connectTo(ip,username,password);
-        information.selectDatabase("R2D2");
+       // DatabaseManager information;
+        //information.connectTo(ip,username,password);
+        //information.selectDatabase("R2D2");
         while (true) {
             delay(1000);
             std::cout << "\n\nWaiting for rfid tag: \n";
 
-             if(!rfid.PICC_IsNewCardPresent())
-                continue;
+             rfid.PICC_IsNewCardPresent()
+                //continue;
                
-            if(!rfid.PICC_ReadCardSerial())
-                continue;
+            rfid.PICC_ReadCardSerial()
+               // continue;
 
                 
             // Hier moet het database gedeelte komen om te checken of je ID al in de database staat
