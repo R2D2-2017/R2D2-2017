@@ -50,6 +50,7 @@ class AutoState : public ICarrierState{
         std::array<CarrierState, 5> states = {CarrierState::Idle, CarrierState::Forward,
                                               CarrierState::Backward, CarrierState::Clockwise,
                                               CarrierState::CounterClockwise};
+        int threshold = 25;
     };
 
 

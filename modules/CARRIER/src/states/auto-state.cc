@@ -18,15 +18,16 @@ void AutoState::update() {
             controller.getMotorController().right(controller.getSpeed());
             delay(250);
         } else if (next_state == CarrierState::Forward) {
-            if (controller.getSonarValue(SonarDirections::North)[0] <= 50) {
+            if (controller.getSonarValue(SonarDirections::North)[0] <= threshold) {
                 controller.getMotorController().stop();
                 controller.getSerialCom().write("PATH OBSTRUCTED CANT GO FORWARDS");
+                controller.setState(CarrierState::Avoidance);
             } else {
             controller.getMotorController().forward(controller.getSpeed());
             }
             delay(500);
         } else if (next_state == CarrierState::Backward) {
-            if (controller.getSonarValue(SonarDirections::South)[0] <= 50) {
+            if (controller.getSonarValue(SonarDirections::South)[0] <= threshold) {
                 controller.getMotorController().stop();
                 controller.getSerialCom().write("PATH OBSTRUCTED CANT GO BACKWARDS");
             } else {

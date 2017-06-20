@@ -23,7 +23,8 @@ enum class CarrierState {
     Backward,
     Clockwise,
     CounterClockwise,
-    Auto
+    Auto,
+    Avoidance
 };
 
 // Forward declaration of the CarrierController class

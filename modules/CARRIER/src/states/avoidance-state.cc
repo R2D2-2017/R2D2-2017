@@ -12,12 +12,16 @@ CarrierState AvoidanceState::getState() {
 }
 
 void AvoidanceState::update() {
-    if (north.getDistance() <= threshold) {
-        controller->getMotorController()->stop(controller->getSpeed());
-        while (!(south.getDistance() <= threshold)) {
-            controller->getMotorController()->left(controller->getSpeed());
+    if (controller.getSonarValue(SonarDirections::North)[0] <= threshold) {
+        controller.getMotorController().stop(controller->getSpeed());
+        while (controller.getSonarValue(SonarDirections::South)[0] > threshold) {
+            controller.getMotorController().left(controller->getSpeed());
         }
     }
 
 
+}
+
+CarrierState AvoidanceState::getState() {
+    return CarrierState::Avoidance;
 }
