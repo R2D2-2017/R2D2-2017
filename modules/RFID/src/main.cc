@@ -68,13 +68,39 @@ int main(int argc, char **argv) {
             rfid.PICC_ReadCardSerial();
                 
             // Hier moet het database gedeelte komen om te checken of je ID al in de database staat
+            std::string id;
+            for(byte i = 0; i < rfid.uid.size; ++i){
+                if(rfid.uid.uidByte[i] < 0x10){
+                    id.append((char)rfid.uid.uidByte[i]);
+                }
+                else{
+                    id.append((char)rfid.uid.uidByte[i]);
+                }
+            }
+            
 
 #ifdef USING_PIN
             MFRC522::MIFARE_Key key = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
             if( 1 !=rfid.PCD_Authenticate(MFRC522::PICC_CMD_MF_AUTH_KEY_A, (byte)0x05, &key, &rfid.uid))
                 continue;
+            //read pincode
+
+
+            Database information: 
+            database.isCardInDatabase();
+            byte bufferSize = (byte)18;
+            byte readArray[18] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+            rfid.MIFARE_Read((byte)0x05,readArray, &bufferSize);
+            std::cout << "Readarray contains: \n";
+            for (int i = 0; i < 18; i++){
+                std::cout <<(int)readArray[i] << '\n';
+            }         
+
+            //pincode invoeren
             std::cout << "Input PIN and finish with #\n";
             std::string value = keypad.getString();
+
+            // write pincode
 	       	byte  writeArray[16] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 		    int index = 0;
             for(auto c :value){
@@ -87,13 +113,7 @@ int main(int argc, char **argv) {
             for (int i = 0; i < 16; i++){
                 std::cout <<(int)writeArray[i] << '\n';
             } 
-            byte bufferSize = (byte)18;
-            byte readArray[18] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
-            rfid.MIFARE_Read((byte)0x05,readArray, &bufferSize);
-            std::cout << "Readarray contains: \n";
-            for (int i = 0; i < 18; i++){
-                std::cout <<(int)readArray[i] << '\n';
-            }         
+            
 #endif
 
             rfid.PCD_StopCrypto1();
