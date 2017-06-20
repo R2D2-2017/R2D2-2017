@@ -77,6 +77,7 @@ int main(int argc, char **argv) {
             //read pincode
             std::string id;
             for(byte i = 0; i < rfid.uid.size; ++i){
+                std::cout <<"0";
                 if(rfid.uid.uidByte[i] < 0x10){
                     id +=(char)rfid.uid.uidByte[i];
                     std::cout<<"1" ;
@@ -86,7 +87,7 @@ int main(int argc, char **argv) {
                         std::cout<<"2" ;
                 }
             }
-                std::cout<<"philips" ;
+                std::cout<<"philips " ;
             DatabaseManager information;
             if ( information.isCardInDatabase(id)){
                 std::cout << " id in database";
