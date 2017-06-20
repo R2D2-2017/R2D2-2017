@@ -112,6 +112,7 @@ int main() {
             wifi.send("WAIT_S\n");
             wifi.send("WAIT_MS\n");
             wifi.send("TEST\n\n");
+            wifi.send("MOVETO\n\n");
         } else if (command == "exit") {
             break;
         } else {
