@@ -14,18 +14,9 @@
 #include "config-file-parser.hh"
 #include "databasemanager.hh"
 
-#include <wiringPi.h>
 #include <wiringPiSPI.h>
 
 #include <iomanip>
-#include <iostream>
-
-struct MFAuthentData {
-    uint8_t command_code;
-    uint8_t blockAddress;
-    uint8_t sectorKey[5];
-    uint8_t serialNumber[4];
-};
 
 int main(int argc, char **argv) {
 #define USING_PIN           // Comment out this rule if not using a pincode on your application
@@ -35,15 +26,10 @@ int main(int argc, char **argv) {
         std::string username;
         std::string password;
 
-        //int encryptionKey;
-
         ConfigFileParser factory("database-config.txt");
         factory.loadDatabaseSettings(ip, username, password);
 
         MySql connection;
-
-        connection.connectTo(ip, username, password);
-        connection.selectDatabase("R2D2");
 
         std::cout << "Made connection to the database\n";
         wiringPiSetup();
@@ -72,8 +58,6 @@ int main(int argc, char **argv) {
             if(!rfid.PICC_ReadCardSerial())
                 continue;
 
-                
-            // Hier moet het database gedeelte komen om te checken of je ID al in de database staat
             std::string id;
             for(byte i = 0; i < rfid.uid.size; ++i){
                 std::stringstream ss;
@@ -106,7 +90,7 @@ int main(int argc, char **argv) {
                 std::cout <<(int)readArray[i] << ' ';
             }
 
-            //pincode invoeren
+            //enter pincode
             std::cout << "\nInput PIN and finish with #\n";
             std::string value = keypad.getString();
 
@@ -128,13 +112,6 @@ int main(int argc, char **argv) {
 #endif
 
             rfid.PCD_StopCrypto1();
-
-            //connection.executeQuery("SELECT * FROM RFID");
-
-//            std::cout << "Database information: "
-//                      << database.getAllCardIdFromDatabase()
-//                      << '\n';
-
             led.blinkLed(1000);
         }
     } catch (const std::string &error) {

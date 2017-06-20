@@ -9,12 +9,6 @@ enable_testing()
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 
-#set(ldflags
-#        "-lbcm2835")
-#
-#string(REGEX REPLACE ";" " " ldflags "${ldflags}")
-#set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${LDflags}")
-
 find_library(WIRINGPI_LIBRARIES NAMES wiringPi)
 find_path(WIRINGPI_INCLUDE_DIRS NAMES wiringPi.h)
 include_directories(${WIRINGPI_INCLUDE_DIRS})
