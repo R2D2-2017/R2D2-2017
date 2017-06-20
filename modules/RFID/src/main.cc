@@ -63,9 +63,11 @@ int main(int argc, char **argv) {
             delay(1000);
             std::cout << "\n\nWaiting for rfid tag: \n";
 
-            rfid.PICC_IsNewCardPresent();
+             if(!rfid.PICC_IsNewCardPresent())
+                continue;
                
-            rfid.PICC_ReadCardSerial();
+            if(!rfid.PICC_ReadCardSerial())
+                continue;
                 std::cout<<"rickaerdotje" ;
                 
             // Hier moet het database gedeelte komen om te checken of je ID al in de database staat
