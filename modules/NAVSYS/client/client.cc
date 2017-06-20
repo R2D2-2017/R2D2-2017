@@ -157,12 +157,12 @@ void Client::run(){
                                     buttonCommand::StartNode, "Start Node", 
                                     false)));
     buttonList.push_back(std::unique_ptr<Button>(new Button(
-                                    window, 
-                                    {float(window.getSize().x - (buttonSize.x + 200)), 
-                                            10}, 
-                                    {buttonSize.x / 2, buttonSize.y / 2}, 
-                                    buttonCommand::EndNode, "End Node", 
-                                    false)));
+                                                            window, 
+                                                            {float(window.getSize().x - (buttonSize.x + 200)), 
+                                                                    10}, 
+                                                            {buttonSize.x / 2, buttonSize.y / 2}, 
+                                                            buttonCommand::EndNode, "End Node", 
+                                                            false)));
     bool startNodeSelected = false;
     bool endNodeSelected = false;
 
@@ -171,91 +171,95 @@ void Client::run(){
     StartEndNodeData newPath;
     clickedNode node = drawer.checkNodeClicked();
     while(true) {
-			try {
-			 // if getRemotePort = 0, no connention with socket / server.
-			if (socket.getRemotePort() == 0) {
-				socket.disconnect();
-				socket.connect(ipAddress, port);
-			window.clear(sf::Color::Black);
-			sf::sleep(sf::milliseconds(20));
-			drawer.draw();
-			window.setView(window.getDefaultView());
-			for (auto & currButton : buttonList) {
-				if (currButton->getId() == buttonCommand::ShutDown) {
-					currButton->draw();
-				}
-				else if (currButton->getId() == buttonCommand::StartNode) {
-					startNodeButtonBounds = currButton->getBounds();
-					window.updateView();
-					currButton->draw();
-					window.setView(window.getDefaultView());
-				}
-				else if (currButton->getId() == buttonCommand::EndNode) {
-					endNodeButtonBounds = currButton->getBounds();
+        try {
+            // if getRemotePort = 0, no connention with socket / server.
+            if (socket.getRemotePort() == 0) {
+                socket.disconnect();
+                socket.connect(ipAddress, port);
+            }
+            window.clear(sf::Color::Black);
+            //sf::sleep(sf::milliseconds(20));
+            drawer.draw();
+            window.setView(window.getDefaultView());
+            messageBox.draw();
+            for (auto & currButton : buttonList) {
+                if (currButton->getId() == buttonCommand::ShutDown) {
+                    currButton->draw();
+                }
+                else if (currButton->getId() == buttonCommand::StartNode) {
+                    startNodeButtonBounds = currButton->getBounds();
+                    window.updateView();
+                    currButton->draw();
+                    window.setView(window.getDefaultView());
+                }
+                else if (currButton->getId() == buttonCommand::EndNode) {
+                    endNodeButtonBounds = currButton->getBounds();
 
-					window.updateView();
-					currButton->draw();
-					window.setView(window.getDefaultView());
-				}
-			}
-			window.updateView();
-			if (GetMouseClick()) {
-				for (auto & currButton : buttonList) {
-				drawer.reload(g);
-					bool temp = false;
-					if (currButton->isPressed()) {
-						temp = true;
-					}
-					window.setView(window.getDefaultView());
-					if (currButton->isPressed()) {
-						temp = true;
-					}
-					window.updateView();
-					if (temp) {
-						switch (currButton->getId()) {
-						case buttonCommand::ShutDown:
-							window.clear();
-							messageBox.setMessage( "Shutting Down" );
-							messageBox.draw();
-							window.display();
-							sf::sleep(sf::milliseconds(1000));
-							window.close();
-							exit(0);
-							break;
-						case buttonCommand::StartNode:
-							messageBox.setMessage(("Selected: " + clickedNode.getName() + " as start."));
-							newPath.startNode = clickedNode.getName();
-							startNodeSelected = 1;
-							break;
-						case buttonCommand::EndNode:
-							messageBox.setMessage(("Selected: " + clickedNode.getName() + " as end."));
-							newPath.endNode = clickedNode.getName();
-							endNodeSelected = 1;
-							break;
-						default:
-							break;
-						}
-					}
-				}
+                    window.updateView();
+                    currButton->draw();
+                    window.setView(window.getDefaultView());
+                }
+            }
+            window.updateView();
+            if (GetMouseClick()) {
+                for (auto & currButton : buttonList) {
+                    drawer.reload(g);
+                    bool temp = false;
+                    if (currButton->isPressed()) {
+                        temp = true;
+                    }
+                    window.setView(window.getDefaultView());
+                    if (currButton->isPressed()) {
+                        temp = true;
+                    }
+                    window.updateView();
+                    if (temp) {
+                        switch (currButton->getId()) {
+                        case buttonCommand::ShutDown:
+                            window.clear();
+                            window.setView(window.getDefaultView());
+                            messageBox.setMessage( "Shutting Down" );
+                            messageBox.draw();
+                            window.display();
+                            sf::sleep(sf::milliseconds(1000));
+                            window.close();
+                            exit(0);
+                            break;
+
+                        case buttonCommand::StartNode:
+                            messageBox.setMessage(("Selected: " + node.node->getName() + " as start."));
+                            newPath.startNode = node.node->getName();
+                            startNodeSelected = 1;
+                            break;
+                        case buttonCommand::EndNode:
+                            messageBox.setMessage(("Selected: " + node.node->getName() + " as end."));
+                            newPath.endNode = node.node->getName();
+                            endNodeSelected = 1;
+                            break;
+                        default:
+                            break;
+                        }
+                    }
+                }
             
-				window.updateView();
-				clickedNode = drawer.checkNodeClicked();
-				if (clickedNode.isPressed(window)) {
+                window.updateView();
+				node = drawer.checkNodeClicked();
+				if (node.clicked) {
 					for (auto & currButton : buttonList) {
 						window.setView(window.getDefaultView());
 						if (currButton->getId() == 
 							buttonCommand::StartNode) {
 							currButton->setPosition({
-									clickedNode.getBounds().left, 
-										(clickedNode.getBounds().top + 
-										 3.f*clickedNode.getBounds().height)});
+									node.node->getBounds().left, 
+										(node.node->getBounds().top + 
+										 3.f*node.node->getBounds().height)});
 							currButton->setVisable(true);
 						}
 						if (currButton->getId() == buttonCommand::EndNode) {
 							currButton->setPosition({
-									clickedNode.getBounds().left,
-										(clickedNode.getBounds().top + 
-										 5.f * clickedNode.getBounds().height)});
+									node.node->getBounds().left,
+										(node.node->getBounds().top + 
+										 5.f * node.node->getBounds().height)});
 							currButton->setVisable(true);
 						}
 					}
@@ -327,7 +331,7 @@ void Client::run(){
 			startNodeSelected = false;
 			endNodeSelected = false;
 
-			}
+        }
 		catch (sendMessageFailed & e) {
 			std::cout << e.what() << "\n";
 			startNodeSelected = false;

@@ -15,8 +15,8 @@
 #include "../common/protocol.hh"
 #include "button.hh"
 #include "message-box.hh"
-
-
+#include "graph-node.hh"
+#include "graph-vertice.hh"
 
 enum class button {ShutDown,StartNode,EndNode};
 

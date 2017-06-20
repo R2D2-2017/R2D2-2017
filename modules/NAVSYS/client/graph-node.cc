@@ -55,6 +55,7 @@ int GraphNode::getRealPositionX() {
 
 int GraphNode::getRealPositionY() {
 	return (int)position.y;
+}
 
 sf::Vector2f GraphNode::getPosition() {
     return sf::Vector2f(position.x+size,position.y+size);
