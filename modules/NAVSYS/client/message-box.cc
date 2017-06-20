@@ -10,8 +10,7 @@
 #include <iostream>
 
 MessageBox::MessageBox(sf::RenderWindow & window, sf::Vector2f position) :
-    window(window),
-    position(position)
+    window(window)
 {
     if (!font.loadFromFile(fontName)) {
         std::cerr << "Requested font could not be loaded.\n";
@@ -25,8 +24,9 @@ MessageBox::MessageBox(sf::RenderWindow & window, sf::Vector2f position) :
 }
 
 
-void MessageBox::draw(){
-    if (clock.getElapsedTime() < sf::seconds(2)) {
+void MessageBox::draw() {
+    const int waitTime = 5;
+    if (clock.getElapsedTime() < sf::seconds(waitTime)) {
         window.draw(messageText);
     }
 }

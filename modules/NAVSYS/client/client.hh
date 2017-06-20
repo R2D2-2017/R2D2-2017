@@ -11,14 +11,13 @@
 
 #include <exception>
 #include <SFML/Network.hpp>
+#include <memory>
 #include "../common/graph.hh"
 #include "../common/protocol.hh"
 #include "button.hh"
 #include "message-box.hh"
 #include "graph-node.hh"
 #include "graph-vertice.hh"
-
-enum class button {ShutDown,StartNode,EndNode};
 
 /**
  * \brief Client class
@@ -34,8 +33,7 @@ private:
     sf::TcpSocket socket;
     sf::Vector2f buttonSize = {200,60};
     Graph g;
-    std::vector<Button*> buttonList;
-
+    std::vector<std::unique_ptr<Button>> buttonList;
 
     /**
      * \brief Send a sf packet with error checking
@@ -49,7 +47,7 @@ private:
      * 
      * \param[in] p The packet to put the received data in
      */
-    void checkPacketCorrectlyReceived(sf::Packet & p);
+    void receivePacket(sf::Packet & p);
     
 	/**
 	* \brief Methode that checks if a selected start node can be startnode
