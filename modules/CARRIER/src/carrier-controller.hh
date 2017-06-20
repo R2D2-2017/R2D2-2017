@@ -8,9 +8,11 @@
  */
 
 #pragma once
-
 #include <memory> // Used for smart pointers
 #include <vector>
+#include "motor-controller.hh"
+#include "hc-sr04.hh"
+#include "serial-com.hh"
 #include "motor-controller.hh"
 #include "hc-sr04.hh"
 #include "./states/i-carrier-state.hh"
@@ -19,6 +21,7 @@
 #include "./states/clockwise-state.hh"
 #include "./states/counter-clockwise-state.hh"
 #include "./states/idle-state.hh"
+#include "./states/auto-state.hh"
 
 namespace Carrier {
 
@@ -42,7 +45,10 @@ class CarrierController {
 private:
     /// Controller to send commands to the motors
     MotorController &motorController;
-
+    
+    /// Controller to send commands to the motors
+    SerialCom &serialCom;
+    
     /// Sonar sensor for object avoidance
     std::vector<HcSr04> &sonarSensors;
 
@@ -57,11 +63,13 @@ public:
      * \brief Constructor of CarrierController
      *
      * \param[in]  motorController  class that can control the carrier motors
+     * \param[in]  serialCom        class that can control the serial
      * \param[in]  sonarController  class that can control the sonar sensor
      * \param[in]  distThreshold    the threshold for distance to objects
      * \param[in]  speed            the speed in ???-units
      */
     CarrierController(MotorController &motorController,
+                      SerialCom& serialCom,
                       std::vector<HcSr04>& sonarSensors, int speed = 1);
 
     /**
@@ -87,14 +95,14 @@ public:
 
     /**
      * \brief Returns the current state the carrier is in
-     * 
+     *
      * \return an enum containing the current state
      */
     CarrierState currentState();
 
     /**
      * \brief Returns the current speed
-     * 
+     *
      * \returns integer with current speed value
      */
     int getSpeed();
@@ -105,8 +113,13 @@ public:
     MotorController &getMotorController();
 
     /**
+     * \brief Returns a reference of the serialCom
+     */
+    SerialCom &getSerialCom();
+
+    /**
      * \brief Returns selected sensor reading in cm
-     * 
+     *
      * \param[in] direction selection from the enum to select what sensor to read
      * Can be use to read the 4 sensor individually or use the All enum to read out all at once
      * \return Vector of read sensor values
