@@ -77,9 +77,9 @@ int main(int argc, char **argv) {
 	       	byte  writearray[16] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 		    int index = 0;
             for(auto c :value){
-		      if (c >47 && c < 58 ){
-		          int number = c - 48;
-		          writearray[index++] = (byte)number;
+                if (c >47 && c < 58 ){
+                    int number = c - 48;
+                    writearray[index++] = (byte)number;
 		        }
 	        }
             rfid.MIFARE_Write((byte)0x05, writearray, (byte)16);
