@@ -65,10 +65,10 @@ int main(int argc, char **argv) {
             delay(1000);
             std::cout << "\n\nWaiting for rfid tag: \n";
 
-             rfid.PICC_IsNewCardPresent()
+             rfid.PICC_IsNewCardPresent();
                 //continue;
                
-            rfid.PICC_ReadCardSerial()
+            rfid.PICC_ReadCardSerial();
                // continue;
 
                 
