@@ -1,7 +1,7 @@
 /**
  * \file
  * \brief     Usage example
- * \author    Bob Thomas, David Driessen
+ * \author    Bob Thomas, David Driessen , Matthijs Vos
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See LICENSE
  */
@@ -43,17 +43,36 @@ int main() {
     Stepper z(dirZ, stepZ, ENZ);
     RoboArm::RobotArmController r(x, y, z, xLimitSwitch, yLimitSwitch, ky101);
 
-   I2C i2c(i2c_bus);
-   i2c.reset();
-   i2c.setPWMFreq(60);
-   for(int i=0;i<5;i++){
-   hwlib::cout << "0,0,5" << "\r\n";
-   i2c.setPWM(0,0,5);
-   hwlib::wait_ms(100);
-    hwlib::cout << "0,10,0" << "\r\n";
-   i2c.setPWM(0,5,0);
-    hwlib::wait_ms(250);
-};
+    I2C i2c(i2c_bus);
+    i2c.reset();
+    i2c.setPWMFreq(40);
+   
+    hwlib::cout << "01,01,10" << "\r\n";
+    while(true){
+        if(!xLimitSwitch.get()){
+
+             i2c.setPWM(1,0,0);       
+        }else{
+            i2c.setPWM(1,2500,2000); //move clockwise 
+            
+             
+              // i2c.setPWM(1,2500,0); 
+               
+        }
+   
+    hwlib::wait_ms(200);    
+    }
+    
+    
+   
+    // hwlib::wait_ms(350);
+    // i2c.setPWM(1,0,0);
+   // i2c.setPWM(1,0,2);
+    //hwlib::wait_ms(200);
+    
+   
+    
+
     // RobotArmTester tester(r);
 
     // tester.run();
