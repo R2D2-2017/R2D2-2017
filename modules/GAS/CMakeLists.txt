@@ -43,6 +43,8 @@ set(sources
     src/speaker.cc
     src/mq5.cc
     src/parser.cc
+	src/setup.cc
+	src/command.cc
 	)
 
 # The target chip that is compiled for:

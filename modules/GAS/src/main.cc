@@ -23,6 +23,7 @@
 #include "mq5.hh"
 #include "parser.hh"
 #include <fatfs.hh>
+#include "setup.hh"
 
 /**
  * \brief Casts int value of maximum 3 numbers to characters,
@@ -48,6 +49,15 @@ int main(){
     target::spi_bus_due spiBus;
     target::pin_out cs(target::pins::d7);
 
+    // matrix pins
+    target::pin_out digitalIn( target::pins::d4 );
+    target::pin_out chipSelect( target::pins::d5 );
+    target::pin_out clock( target::pins::d6 );
+    auto spi  = hwlib::spi_bus_bit_banged_sclk_mosi_miso(clock, digitalIn, hwlib::pin_in_dummy);
+
+
+
+
     // alarm leds
     target::pin_out greenAlarmLed(target::pins::d22);
     target::pin_out yellowAlarmLed(target::pins::d24);
@@ -64,6 +74,10 @@ int main(){
     int measureWaitTime             = 2000000; //default value to prevent cpu slurp.
     int mq5Value                    = 0;
     const int startupLedWait        = 200;
+
+    // matrix settings
+    int numberOfUnusedMatrices = 0;
+    int numberOfMatrices = 4;
 
     char charValue[4];
     const char dataFilePath[]        = "/data.txt";
@@ -83,6 +97,8 @@ int main(){
     Speaker dangerPlayer( dangerSpeakerPin );
     Alarm alarm(greenAlarmLed, yellowAlarmLed, redAlarmLed, warningPlayer, dangerPlayer);
     Mq5 mq5(sensor);
+    Setup matrix(spi, chipSelect, numberOfUnusedMatrices, numberOfMatrices);
+
 
     Parser parser(alarm, mq5, &measureWaitTime);
 
@@ -173,6 +189,7 @@ int main(){
         //read mq-5 sensor
         mq5Value = mq5.getSensorPercentage();
         convertToChar(mq5Value, charValue);
+        matrix.operate(charValue);
 
         //write it to sd card and check if alarm needs to go off
         dataFile.write(charValue, sizeof(charValue), err);
