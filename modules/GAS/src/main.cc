@@ -49,9 +49,9 @@ int main(){
     target::pin_out cs(target::pins::d7);
 
     // alarm leds
-    target::pin_out greenAlarmLed(target::pins::d10);
-    target::pin_out yellowAlarmLed(target::pins::d9);
-    target::pin_out redAlarmLed(target::pins::d8);
+    target::pin_out greenAlarmLed(target::pins::d22);
+    target::pin_out yellowAlarmLed(target::pins::d24);
+    target::pin_out redAlarmLed(target::pins::d26);
 
     // speaker sound players
     target::pin_out warningSpeakerPin(target::pins::d11);
