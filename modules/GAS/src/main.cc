@@ -73,12 +73,15 @@ int main(){
     const int numberOfUnusedMatrices        = 0;
     const int numberOfMatrices              = 4;
     const int startupLedWait                = 200;
+    const int preHeatTime                   = 120;
+    const int secondMs                      = 1000;
 
     char charValue[4];
-    const char dataFilePath[]               = "/data.txt";
-    const char confFilePath[]               = "/conf.txt";
-    const char calibFilePath[]              = "/calib.txt";
-    const char sessionSeparator[]           = "\r\n=========================\r\n";
+    const char *heatmsg                    = "HEAT";
+    const char *dataFilePath               = "/data.txt";
+    const char *confFilePath               = "/conf.txt";
+    const char *calibFilePath              = "/calib.txt";
+    const char *sessionSeparator           = "\r\n=========================\r\n";
     char configurationInput[200];
 
 
@@ -123,7 +126,6 @@ int main(){
         hwlib::cout << "data.txt does not exist.\r\n";
     }
 
-
     MuStore::FsNode confFile = fileSystem.get(confFilePath, err);
 
     if (err == MuStore::FsError::FS_ERR_OK) {
@@ -136,6 +138,12 @@ int main(){
         hwlib::cout << "conf.txt does not exist.\r\n";
     }
 
+    for(int i = preHeatTime; i >= 0; --i){
+        convertToChar(i, charValue);
+        matrix.operate(charValue);
+        hwlib::wait_ms(secondMs);
+    }
+
     //read data from configuration file TODO make that thing propper size.
     confFile.read(configurationInput, confFile.getSize(), err);
     configurationInput[confFile.getSize()] = '\0';
@@ -143,16 +151,6 @@ int main(){
     parser.parseArray(configurationInput);
 
 
-    //seek last entry in the data file and set the pointer
-    //to this location to append data instead of overwriting it.
-    dataFile.seek(dataFile.getSize());
-
-    //Write a sepearation line to the datafile to show where measurement sessions start and end.
-    dataFile.write(sessionSeparator, sizeof(sessionSeparator), err);
-
-    if (err != MuStore::FsError::FS_ERR_OK) {
-        hwlib::cout << "Writing returend error: " << (char)err << "\r\n";
-    }
 
     //Checks if the mq5 is callibrated and gets a calibration value if it is not calibrated.
     if(!mq5.getMq5Iscalibrated()){
@@ -180,7 +178,18 @@ int main(){
         return 0;
     }
 
-    //start loop
+    //seek last entry in the data file and set the pointer
+    //to this location to append data instead of overwriting it.
+    dataFile.seek(dataFile.getSize());
+
+    //Write a sepearation line to the datafile to show where measurement sessions start and end.
+    dataFile.write(sessionSeparator, sizeof(sessionSeparator), err);
+
+    if (err != MuStore::FsError::FS_ERR_OK) {
+        hwlib::cout << "Writing returend error: " << (char)err << "\r\n";
+    }
+
+    //start loop measurments, writing data and alarm
     hwlib::cout << "Writing to sd card\r\n";
     using namespace hwlib;
     while (true) {
@@ -189,18 +198,17 @@ int main(){
         //read mq-5 sensor
         mq5Value = mq5.getSensorPercentage();
         convertToChar(mq5Value, charValue);
+        matrix.operate(charValue);
+        alarm.checkGasValue(mq5Value);
 
         //write it to sd card and check if alarm needs to go off
         dataFile.write(charValue, sizeof(charValue), err);
         //hwlib::cout << "wiring data 0 for success: " << (int)err << "\r\n";
         dataFile.write("\r\n", 1, err);
         //hwlib::cout << "wiring newline 0 for success: " << (int)err << "\r\n";
-        alarm.checkGasValue(mq5Value);
-        hwlib::cout << mq5Value << "\r\n";
-        char wololo[] = {"11998"};
+        //hwlib::cout << mq5Value << "\r\n";
 
 
-        matrix.operate(wololo);
 
 
 

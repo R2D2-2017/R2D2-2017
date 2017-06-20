@@ -1,7 +1,7 @@
 #include "setup.hh"
 
 void Setup::operate(char* inputString){
-    int stringLength = sizeof(inputString)/ sizeof(inputString[0]) - 1 + numberOfUnusedMatrices;
+    int stringLength = sizeof(inputString)/ sizeof(inputString[0]) + numberOfUnusedMatrices;
 
     Command display(spiBus, chipSelect, numberOfMatrices, numberOfRows, stringLength);
     display.settings(settings);

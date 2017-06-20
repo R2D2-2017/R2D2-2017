@@ -2,7 +2,6 @@
 
 #include "wrap-hwlib.hh"
 #include "command.hh"
-#include "string.h" // for strlen();
 
 
 class Setup
@@ -62,4 +61,3 @@ public:
      */
     void operate(char* inputString);
 };
-

@@ -23,7 +23,7 @@ void Alarm::checkGasValue(int gasValue) {
         }
     }
 
-    else if (gasValue >= warningThreshold && gasValue < dangerThreshold){
+    else if (gasValue >= warningThreshold && gasValue <= dangerThreshold){
         greenAlarmLed.set(false);
         yellowAlarmLed.set(true);
         redAlarmLed.set(false);
