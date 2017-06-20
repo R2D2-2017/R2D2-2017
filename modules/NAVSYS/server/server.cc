@@ -33,6 +33,16 @@ void Server::broadcastMessage(const command &cmd, const T & message) {
     }
 }
 
+template <typename T>
+void Server::sendMessageToClient(sharedSocketPtr_t &client, const command &cmd, const T &message){
+    sf::Packet p;
+    p << cmd << message;
+    if (client->send(p) != sf::Socket::Done) {
+        std::cout << "Sending message failed\n";
+        exit(-1);
+    }
+}
+
 void Server::run() {
     socketListener.listen(port);
     socketSelector.add(socketListener);
@@ -62,10 +72,20 @@ void Server::run() {
                         if (s->receive(p) == sf::Socket::Done) {
                             std::cout << "Hooray, you received a package\n";
                             
-                            handleInput(p);
+                            handleInput(p, s);
 
                         }
                     }
+                }
+                if (!disconnectClients.empty()) {
+                    for (const auto & disconnectedClient : disconnectClients){
+                        connectedClientSockets.erase(
+                            std::find(
+                                connectedClientSockets.begin(),
+                                connectedClientSockets.end(),
+                                disconnectedClient));
+                    }
+                    disconnectClients.clear();
                 }
             }
         }
@@ -73,16 +93,16 @@ void Server::run() {
 }
 
 
-void Server::handleInput(sf::Packet & p) {
+void Server::handleInput(sf::Packet & p, sharedSocketPtr_t & client) {
     //command::none due to initialization warning
     command cmd = command::None;
     p >> cmd;
     
     if (cmd == command::RequestNodes) {
-        broadcastMessage(command::ResponseNodes, g.getNodes());
+        sendMessageToClient(client, command::ResponseNodes, g.getNodes());
     }
     else if (cmd == command::RequestVertices) {
-        broadcastMessage(command::ResponseVertices, g.getVertices());
+        sendMessageToClient(client, command::ResponseVertices, g.getVertices());
     }
     else if (cmd == command::RequestPath) {
         StartEndNodeData pathToFind;
@@ -91,6 +111,11 @@ void Server::handleInput(sf::Packet & p) {
         Node start(g.getNodeByName(pathToFind.startNode));
         Node end(g.getNodeByName(pathToFind.endNode));
         std::vector<PathNode> path = aStar(g, start, end);
-        broadcastMessage(command::ResponsePath, path);
+        sendMessageToClient(client, command::ResponsePath, path);
+    }
+    else if (cmd == command::RequestDisconnect) {
+        //disconnect client
+        disconnectClients.push_back(client);
+        sendMessageToClient(client, command::ResponseDisconnect, "You have been succesfully disconnected");
     }
 }

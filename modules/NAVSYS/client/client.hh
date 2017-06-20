@@ -11,8 +11,7 @@
 #include <SFML/Network.hpp>
 #include "../common/graph.hh"
 #include "../common/protocol.hh"
-
-enum class button {ShutDown,StartNode,EndNode};
+#include "button.hh"
 
 /**
  * \brief Client class
@@ -28,6 +27,7 @@ private:
     sf::TcpSocket socket;
     sf::Vector2f buttonSize = {200,60};
     Graph g;
+    std::vector<Button*> buttonList;
 
     /**
      * \brief Send a sf packet with error checking
@@ -51,6 +51,15 @@ public:
      * \param[in] port uint16_t, the port of the server
      */
     Client(sf::IpAddress ipAddress, uint16_t port);
+    
+    /**
+     * \brief Default destructor
+     * 
+     * The destructor in this case sends a disconnect request to the server to
+     *  make sure the server dus not try to send packages to a disconnected
+     *  client.
+     */
+    ~Client();
     
     /**
      * \brief Runs the client

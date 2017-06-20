@@ -17,7 +17,6 @@
 #include "../common/pathnode.hh"
 #include "../common/graph-factory.hh"
 #include "../common/graph-input.hh"
-#include "button.hh"
 #include "mouse.hh"
 
 const int window_width = 800;
@@ -27,6 +26,25 @@ Client::Client(sf::IpAddress ipAddress, uint16_t port):
     ipAddress(ipAddress),
     port(port)
 {}
+
+Client::~Client(){
+    sf::Packet p;
+    p << command::RequestDisconnect;
+    sendPacket(p);
+    
+    receivePacket(p);
+    command cmd = command::None;
+    p >> cmd;
+    if (cmd == command::ResponseDisconnect) {
+        std::cout << "Client correctly disconnected\n";
+    }
+    else {
+        std::cerr << "Client not disconnected\n";
+    }
+    for (auto it = buttonList.end()-1; it >= buttonList.begin(); it--){
+        delete *it;
+    }
+}
 
 void Client::sendPacket(sf::Packet & p) {
     if (socket.send(p) != sf::Socket::Done) {
@@ -73,22 +91,21 @@ void Client::run(){
                                     {float(window.getSize().x - (buttonSize.x + 10)), 
                                             10}, 
                                     {buttonSize}, 
-                                    static_cast<int>(button::ShutDown), "Shut Down")));
+                                    buttonCommand::ShutDown, "Shut Down")));
     buttonList.push_back(std::unique_ptr<Button>(new Button(
                                     window, 
                                     {float(window.getSize().x - (buttonSize.x + 100)),
                                             10}, 
                                     {buttonSize.x/2, buttonSize.y/2}, 
-                                    static_cast<int>(button::StartNode), "Start Node", 
+                                    buttonCommand::StartNode, "Start Node", 
                                     false)));
     buttonList.push_back(std::unique_ptr<Button>(new Button(
                                     window, 
                                     {float(window.getSize().x - (buttonSize.x + 200)), 
                                             10}, 
                                     {buttonSize.x / 2, buttonSize.y / 2}, 
-                                    static_cast<int>(button::EndNode), "End Node", 
+                                    buttonCommand::EndNode, "End Node", 
                                     false)));
-
     bool startNodeSelected = false;
     bool endNodeSelected = false;
 
@@ -103,17 +120,18 @@ void Client::run(){
         drawer.draw();
         window.setView(window.getDefaultView());
         for (auto & currButton : buttonList) {
-            if (currButton->getId() == static_cast<int>(button::ShutDown)) {
+            if (currButton->getId() == buttonCommand::ShutDown) {
                 currButton->draw();
             }
-            else if (currButton->getId() == static_cast<int>(button::StartNode)) {
+            else if (currButton->getId() == buttonCommand::StartNode) {
                 startNodeButtonBounds = currButton->getBounds();
                 window.updateView();
                 currButton->draw();
                 window.setView(window.getDefaultView());
             }
-            else if (currButton->getId() == static_cast<int>(button::EndNode)) {
+            else if (currButton->getId() == buttonCommand::EndNode) {
                 endNodeButtonBounds = currButton->getBounds();
+
                 window.updateView();
                 currButton->draw();
                 window.setView(window.getDefaultView());
@@ -123,6 +141,7 @@ void Client::run(){
         window.updateView();
         if (GetMouseClick()) {
             for (auto & currButton : buttonList) {
+            drawer.reload(g);
                 bool temp = false;
                 if (currButton->isPressed()) { 
                     temp = true; 
@@ -134,15 +153,16 @@ void Client::run(){
                 window.updateView();
                 if (temp) {
                     switch (currButton->getId()) {
-                    case static_cast<int>(button::ShutDown):
+                    case buttonCommand::ShutDown:
+
                         window.close();
                         exit(0);
                         break;
-                    case static_cast<int>(button::StartNode):
+                    case buttonCommand::StartNode:
                         newPath.startNode = clickedNode.getName();
                         startNodeSelected = 1;
                         break;
-                    case static_cast<int>(button::EndNode):
+                    case buttonCommand::EndNode:
                         newPath.endNode = clickedNode.getName();
                         endNodeSelected = 1;
                         break;
@@ -157,14 +177,14 @@ void Client::run(){
                 for (auto & currButton : buttonList) {
                     window.setView(window.getDefaultView());
                     if (currButton->getId() == 
-                        static_cast<int>(button::StartNode)) {
+                        buttonCommand::StartNode) {
                         currButton->setPosition({
                                 clickedNode.getBounds().left, 
                                     (clickedNode.getBounds().top + 
                                      3.f*clickedNode.getBounds().height)});
                         currButton->setVisable(true);
                     }
-                    if (currButton->getId() == static_cast<int>(button::EndNode)) {
+                    if (currButton->getId() == buttonCommand::EndNode) {
                         currButton->setPosition({
                                 clickedNode.getBounds().left,
                                     (clickedNode.getBounds().top + 
@@ -177,9 +197,9 @@ void Client::run(){
             else {
                 for (auto & currButton : buttonList) {
                     if (currButton->getId() == 
-                        static_cast<int>(button::StartNode) || 
+                        buttonCommand::StartNode || 
                         currButton->getId() == 
-                        static_cast<int>(button::EndNode)) {
+                        buttonCommand::EndNode) {
                         currButton->setVisable(false);
                     }
                 }

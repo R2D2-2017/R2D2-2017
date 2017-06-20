@@ -29,6 +29,7 @@ private:
     std::vector<sharedSocketPtr_t> connectedClientSockets;
     sf::SocketSelector socketSelector;
     Graph g;
+    std::vector<sharedSocketPtr_t> disconnectClients;
 
 public:
     /**
@@ -41,19 +42,28 @@ public:
     /**
      * \brief Broadcasts a message to all available clients
      *
-     * This functions doesn't check yet if clients are still connected, so it 
-     * can return with error messages if clients have already left.
+     * This functions sends a message to all connected clients
      *
-     * \param[in] message Message that needs to broadcast, std::string
+     * \param[in] message Message that needs to be broadcasted
      */
     template <typename T>
-    void broadcastMessage(const command &cmd, const T & message);
+    void broadcastMessage(const command &cmd, const T &message);
+    
+    /**
+     * \brief Send a message to a specific client
+     * 
+     * \param[in] client The client to send the message to
+     * \param[in] cmd The command to send to the client
+     * \param[in] message The message to send to the client
+     */
+    template <typename T>
+    void sendMessageToClient(sharedSocketPtr_t &client, const command &cmd, const T &message);
 
     /**
      * \brief Runs the server
      *
-     * This function holds the main loop of the server. If you want to edit the
-     * functionality of the server that can be done here.
+     * This function gets called in the main, and handles everything that might 
+     * happens.
      */
     void run();
 
@@ -67,7 +77,8 @@ public:
      *  to do has been done. 
      *
      * \param[in] p  The packet containing the command and data for that command
+     * \param[in] client The client that send the packet
      */
-    void handleInput(sf::Packet & p);
+    void handleInput(sf::Packet & p, sharedSocketPtr_t & client);
 
 };
