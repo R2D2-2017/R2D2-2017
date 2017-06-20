@@ -68,6 +68,13 @@ int main(int argc, char **argv) {
             rfid.PICC_ReadCardSerial();
                 
             // Hier moet het database gedeelte komen om te checken of je ID al in de database staat
+
+
+#ifdef USING_PIN
+            MFRC522::MIFARE_Key key = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
+            if( 1 !=rfid.PCD_Authenticate(MFRC522::PICC_CMD_MF_AUTH_KEY_A, (byte)0x05, &key, &rfid.uid))
+                continue;
+            //read pincode
             std::string id;
             for(byte i = 0; i < rfid.uid.size; ++i){
                 if(rfid.uid.uidByte[i] < 0x10){
@@ -82,13 +89,6 @@ int main(int argc, char **argv) {
                 std::cout << " id in database";
             }
             
-
-#ifdef USING_PIN
-            MFRC522::MIFARE_Key key = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
-            if( 1 !=rfid.PCD_Authenticate(MFRC522::PICC_CMD_MF_AUTH_KEY_A, (byte)0x05, &key, &rfid.uid))
-                continue;
-            //read pincode
-
 
 
             byte bufferSize = (byte)18;
