@@ -1,6 +1,7 @@
 /**
  * \file
- * \author    Other author names missing due to previously missing file header
+ * \author    Bob Thomas
+ * \author    David Driessen
  * \author    Chris Smeele
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See LICENSE
