@@ -14,7 +14,6 @@
 class MessageBox {
 private:
     sf::RenderWindow & window;
-    sf::Vector2f position;
 
     sf::Text messageText;
     sf::Font font;
@@ -22,9 +21,7 @@ private:
 
     std::string fontName = "../client/arial.ttf";
     std::string message = "Succesfully started up";
-
 public:
-
 
     /**
      * \brief Constructor.
@@ -35,7 +32,6 @@ public:
      */
     MessageBox(sf::RenderWindow & window, sf::Vector2f position);
 
-
     /**
      * \brief Draw the messagebox.
      *
@@ -43,7 +39,6 @@ public:
      *
      */
     void draw();
-
 
     /**
      * \brief Set a new message.
@@ -54,5 +49,4 @@ public:
      *
      */
     void setMessage(std::string newMessage);
-
 };

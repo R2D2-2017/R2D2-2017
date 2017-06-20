@@ -19,16 +19,16 @@
 #include "../common/graph-input.hh"
 #include "mouse.hh"
 
-struct receivingFailed : public std::exception {
-	const char * what () const throw() {
-		
-		return "Something went wrong with receiving\n";
+class receiveMessageFailed : public std::exception {
+public:
+    const char * what () const throw() {	
+		return "Something went wrong with receiving a message\n";
 	}
 };
 
-struct sendMessageFailed : public std::exception {
-	const char * what () const throw() {
-		
+class sendMessageFailed : public std::exception {
+public:
+    const char * what () const throw() {
 		return "Something went wrong with sending your message\n";
 	}
 };
@@ -43,7 +43,7 @@ Client::~Client(){
     p << command::RequestDisconnect;
     sendPacket(p);
     
-    checkPacketCorrectlyReceived(p);
+    receivePacket(p);
     command cmd = command::None;
     p >> cmd;
     if (cmd == command::ResponseDisconnect) {
@@ -51,9 +51,6 @@ Client::~Client(){
     }
     else {
         std::cerr << "Client not disconnected\n";
-    }
-    for (auto it = buttonList.end()-1; it >= buttonList.begin(); it--){
-        delete *it;
     }
 }
 
@@ -63,9 +60,9 @@ void Client::sendPacket(sf::Packet & p) {
     }
 }
 
-void Client::checkPacketCorrectlyReceived(sf::Packet & p) {
+void Client::receivePacket(sf::Packet & p) {
     if (socket.receive(p) != sf::Socket::Done) {      
-        throw receivingFailed() ;
+        throw receiveMessageFailed() ;
     }
 }
 
@@ -299,7 +296,7 @@ void Client::run(){
 				drawer.setEndNode(newPath.endNode);
 				messageBox.draw();
 				requestPath(newPath);
-				checkPacketCorrectlyReceived(receivedMessage);
+				receivePacket(receivedMessage);
 
 				std::vector<PathNode> thePath;
 				command cmd = command::None;
@@ -326,7 +323,7 @@ void Client::run(){
 				window.updateView();
 			}
 		}
-		catch (receivingFailed & e) {
+		catch (receiveMessageFailed & e) {
 			std::cout << e.what() << "\n";
 			startNodeSelected = false;
 			endNodeSelected = false;
@@ -347,7 +344,7 @@ void Client::getGraphFromServer() {
 
     for (const auto & cmd : commands) {
         requestGraphUsingCommand(cmd);
-        checkPacketCorrectlyReceived(receivedMessage);
+        receivePacket(receivedMessage);
 
         receivedMessage >> receivedCommand;
 
