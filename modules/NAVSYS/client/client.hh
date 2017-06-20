@@ -58,7 +58,7 @@ public:
     void run();
     
     /**
-     * \brief Requests the database from the server
+     * \brief Requests the graph from the server
      *
      * This function sends the requests for the data contained in the node and 
      * vertices file.
