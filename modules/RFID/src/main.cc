@@ -73,7 +73,7 @@ int main(int argc, char **argv) {
 
                 
             // Hier moet het database gedeelte komen om te checken of je ID al in de database staat
-            std::string id;
+          /*  std::string id;
             for(byte i = 0; i < rfid.uid.size; ++i){
 
                 if(rfid.uid.uidByte[i] < 0x10){
@@ -83,7 +83,7 @@ int main(int argc, char **argv) {
                     id += (char)rfid.uid.uidByte[i];
                 }
             }
-            /*if ( information.isCardInDatabase(id)){
+            if ( information.isCardInDatabase(id)){
                 std::cout << " id in database";
             }*/
 
