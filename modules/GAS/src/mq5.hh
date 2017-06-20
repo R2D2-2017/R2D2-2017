@@ -23,7 +23,7 @@ public:
 	 * \param sensor 	The analog pin the gas sensor is connected to.
 	 * \param meanFilter The strictness of the mean-filter used on the average calculation
 	 */
-	Mq5(hwlib::target::pin_adc &sensor, float meanFilter = 0.2f)
+	Mq5(hwlib::target::pin_adc &sensor, float meanFilter = 1.f)
 			: sensor(sensor), meanFilter(meanFilter) { }
 
 

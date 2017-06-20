@@ -20,16 +20,21 @@ float Mq5::readSensor() {
 }
 
 float Mq5::readSensorAverage(int quantityCounter) {
-    float totalValue = 0;
+    float totalValue = 1;
     float sensorValue;
-    for(int i = 0; i < quantityCounter; i++){
+    for(int i = 1; i <= quantityCounter; i++){
         hwlib::cout << i << "\r\n";
         do {
             sensorValue = readSensor();
-            hwlib::cout << (int)sensorValue << "\r\n";
+            hwlib::cout << "sensorValue: " << (int)sensorValue << "\r\n"
+            << "totalValue: " <<(int)totalValue << "\r\n"
+            << (1+(int)meanFilter) * 1000 << ((int)sensorValue * 1000 / ((int)totalValue/i) * 1000) << "\r\n"
+            << (1-(int)meanFilter) * 1000 << ((int)sensorValue * 1000 / ((int)totalValue/i) * 1000) << "\r\n";
+
+            hwlib::wait_ms(500);
         }
-        while((1+meanFilter) > (sensorValue / (totalValue/quantityCounter)) && (sensorValue / (totalValue/quantityCounter)) > (1-meanFilter));
-        totalValue += readSensor();
+        while((1+meanFilter) > (sensorValue / (totalValue/i)) && (sensorValue / (totalValue/i)) > (1-meanFilter));
+        totalValue += sensorValue;
         hwlib::wait_ms(200);
     }
     return totalValue/quantityCounter;
