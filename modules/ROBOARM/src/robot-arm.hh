@@ -4,6 +4,7 @@
  * \author    Bob Thomas
  * \author    Remco Ruttenberg
  * \author    Chris Smeele
+ * \author    Paul Ettema
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See LICENSE
  */
@@ -87,6 +88,8 @@ namespace RoboArm {
         hwlib::target::pin_in &m1LimitSwitch;
         /// Input pins on which the M2 limit switch get wired to check limitation status
         hwlib::target::pin_in &m2LimitSwitch;
+        /// Input pins on which the M3 limit switch get wired to check limitation status
+        hwlib::target::pin_in &m3LimitSwitch;
         /// Class that reads input to see if the base is on it's starting position for Yrot.
         Ky101 ky101;
 
@@ -99,6 +102,7 @@ namespace RoboArm {
          * \param[in]  m3Stepper  stepper motor 1 - controls Y axis rotation
          * \param[in]  m1LimitSwitch  pin on which the limit switch for M1 is wired
          * \param[in]  m2LimitSwitch  pin on which the limit switch for M2 is wired
+         * \param[in]  m3LimitSwitch  pin on which the limit switch for M3 is wired
          * \param[in]  ky101 class that's used to determine the start position for m3
          */
         RobotArmController(Stepper &m1Stepper,
@@ -106,6 +110,7 @@ namespace RoboArm {
                            Stepper &m3Stepper,
                            hwlib::target::pin_in &m1LimitSwitch,
                            hwlib::target::pin_in &m2LimitSwitch,
+                           hwlib::target::pin_in &m3LimitSwitch,
                            Ky101 &ky101);
 
 

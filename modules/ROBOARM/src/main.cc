@@ -42,6 +42,7 @@ int main() {
 
     auto m1LimitSwitch = hwlib::target::pin_in(hwlib::target::pins::d2);
     auto m2LimitSwitch = hwlib::target::pin_in(hwlib::target::pins::d3);
+    auto m3LimitSwitch = hwlib::target::pin_in(hwlib::target::pins::d14);
 
     auto wifiRx = hwlib::target::pin_in(hwlib::target::pins::d19);
     auto wifiTx = hwlib::target::pin_out(hwlib::target::pins::d18);
@@ -59,6 +60,7 @@ int main() {
                                          m3Stepper,
                                          m1LimitSwitch,
                                          m2LimitSwitch,
+                                         m3LimitSwitch,
                                          ky101);
 
     I2C i2c(i2c_bus);

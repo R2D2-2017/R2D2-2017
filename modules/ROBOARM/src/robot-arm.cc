@@ -3,6 +3,7 @@
  * \author    Bob Thomas
  * \author    Remco Ruttenberg
  * \author    Chris Smeele
+ * \author    Paul Ettema
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See LICENSE
  */
@@ -18,12 +19,14 @@ RobotArmController::RobotArmController(
     Stepper &m3Stepper,
     hwlib::target::pin_in &m1LimitSwitch,
     hwlib::target::pin_in &m2LimitSwitch,
+    hwlib::target::pin_in &m3LimitSwitch,
     Ky101 &ky101)
     : m1Stepper(m1Stepper),
       m2Stepper(m2Stepper),
       m3Stepper(m3Stepper),
       m1LimitSwitch(m1LimitSwitch),
       m2LimitSwitch(m2LimitSwitch),
+      m3LimitSwitch(m3LimitSwitch),
       ky101(ky101)
 { }
 
@@ -168,6 +171,8 @@ void RobotArmController::startup() {
     // while (!ky101.get()) {
     //     rotateMotor(Motor::M3, 1, false);
     // }
+    while (m3LimitSwitch.get())
+        rotateMotor(Motor::M3, 1, false);
     while (m2LimitSwitch.get())
         rotateMotor(Motor::M2, 1, false);
     while (m1LimitSwitch.get())
