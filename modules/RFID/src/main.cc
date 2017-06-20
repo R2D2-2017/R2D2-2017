@@ -71,10 +71,10 @@ int main(int argc, char **argv) {
             std::string id;
             for(byte i = 0; i < rfid.uid.size; ++i){
                 if(rfid.uid.uidByte[i] < 0x10){
-                    id +=(char)rfid.uid.uidByte[i]);
+                    id +=(char)rfid.uid.uidByte[i];
                 }
                 else{
-                    id += (char)rfid.uid.uidByte[i]);
+                    id += (char)rfid.uid.uidByte[i];
                 }
             }
             DatabaseManager information;
