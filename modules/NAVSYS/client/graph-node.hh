@@ -1,7 +1,7 @@
 /**
  * \file      graph-node.hh
  * \brief     header for nodes in sfmlgraphics window
- * \author    Leo Jenneskens, Arco Gelderblom, René de Kluis, Koen de Groot
+ * \author    Leo Jenneskens, Arco Gelderblom, Rene de Kluis, Koen de Groot
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See LICENSE
  */

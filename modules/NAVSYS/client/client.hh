@@ -1,7 +1,7 @@
 /**
  * \file      client.hh
  * \brief     Header for client side connection code for NAVSYS API
- * \author    Philippe Zwietering, Arco Gelderblom, Tim IJntema
+ * \author    Philippe Zwietering, Arco Gelderblom, Tim IJntema, Rene de Kluis
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See ../../LICENSE
  */
@@ -12,6 +12,9 @@
 #include "../common/graph.hh"
 #include "../common/protocol.hh"
 #include "button.hh"
+#include "message-box.hh"
+
+enum class button {ShutDown,StartNode,EndNode};
 
 /**
  * \brief Client class
@@ -28,6 +31,7 @@ private:
     sf::Vector2f buttonSize = {200,60};
     Graph g;
     std::vector<Button*> buttonList;
+
 
     /**
      * \brief Send a sf packet with error checking

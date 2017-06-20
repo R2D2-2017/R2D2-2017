@@ -1,7 +1,7 @@
 /**
  * \file      graph-drawer.hh
  * \brief     header for graphs in sfmlgraphics window
- * \author    Leo Jenneskens, René de Kluis, Koen de Groot, Arco Gelderblom
+ * \author    Leo Jenneskens, Rene de Kluis, Koen de Groot, Arco Gelderblom
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See LICENSE
  */

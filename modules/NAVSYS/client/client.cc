@@ -1,6 +1,6 @@
 /**
  * \file      client.cc
- * \author    Philippe Zwietering, René de Kluis, Koen de Groot, 
+ * \author    Philippe Zwietering, Rene de Kluis, Koen de Groot, 
  *            Arco Gelderblom, Tim IJntema
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See ../../LICENSE
@@ -62,16 +62,18 @@ void Client::receivePacket(sf::Packet & p) {
 }
 
 void Client::run(){
-    sf::Socket::Status connectionStatus = socket.connect(ipAddress, port);
-    if (connectionStatus != sf::Socket::Done) {
-        std::cerr << "Connection failed\n";
-    }
-    
-    getGraphFromServer();
-    
     //create the window
     Window window(sf::VideoMode(window_width, window_height), "NAVSYS", 
                   sf::Style::Fullscreen);
+    
+    MessageBox messageBox(window, { 0,0 });
+
+    sf::Socket::Status connectionStatus = socket.connect(ipAddress, port);
+    if (connectionStatus != sf::Socket::Done) {
+        messageBox.setMessage("Connection FAILED\n");
+    }
+    
+    getGraphFromServer();
     
     //Add a viewport
     window.setViewPort(sf::Vector2f(window_width, window_height), 
@@ -83,6 +85,7 @@ void Client::run(){
     
     drawer.reload(g);
     Gestures gestureHandler(window);
+    
     
     //Button setup
     std::vector<std::unique_ptr<Button>> buttonList;
@@ -111,7 +114,6 @@ void Client::run(){
 
     sf::FloatRect startNodeButtonBounds;
     sf::FloatRect endNodeButtonBounds;
-
     StartEndNodeData newPath;
     GraphNode clickedNode = drawer.checkNodeClicked();
     while(true) {
@@ -136,7 +138,6 @@ void Client::run(){
                 currButton->draw();
                 window.setView(window.getDefaultView());
             }
-            
         }
         window.updateView();
         if (GetMouseClick()) {
@@ -154,15 +155,21 @@ void Client::run(){
                 if (temp) {
                     switch (currButton->getId()) {
                     case buttonCommand::ShutDown:
-
+                        window.clear();
+                        messageBox.setMessage( "Shutting Down" );
+                        messageBox.draw();
+                        window.display();
+                        sf::sleep(sf::milliseconds(1000));
                         window.close();
                         exit(0);
                         break;
                     case buttonCommand::StartNode:
+                        messageBox.setMessage(("Selected: " + clickedNode.getName() + " as start."));
                         newPath.startNode = clickedNode.getName();
                         startNodeSelected = 1;
                         break;
                     case buttonCommand::EndNode:
+                        messageBox.setMessage(("Selected: " + clickedNode.getName() + " as end."));
                         newPath.endNode = clickedNode.getName();
                         endNodeSelected = 1;
                         break;
@@ -171,6 +178,7 @@ void Client::run(){
                     }
                 }
             }
+            
             window.updateView();
             clickedNode = drawer.checkNodeClicked();
             if (clickedNode.isPressed(window)) {
@@ -209,11 +217,10 @@ void Client::run(){
         window.display();
         
         if (startNodeSelected && endNodeSelected) {
-            std::cout << "name of start node > " << newPath.startNode << "\n";
+            messageBox.setMessage(("Calculating Path: " + newPath.startNode + " to " + newPath.endNode));
             drawer.setBeginNode(newPath.startNode);
-            std::cout << "name of end node > " << newPath.endNode << "\n";
             drawer.setEndNode(newPath.endNode);
-
+            messageBox.draw();
             requestPath(newPath);
             receivePacket(receivedMessage);
             
@@ -222,16 +229,10 @@ void Client::run(){
             receivedMessage >> cmd >> thePath;
             
             if (cmd != command::ResponsePath) {
-                std::cout << "Incorrect response from server\n";
+                messageBox.setMessage("Incorrect response from server");
+                messageBox.draw();
             }
-            else {
-                std::cout << "The path is: ";
 
-                for (unsigned int i = 0; i < thePath.size()-1; i++) {
-                    std::cout << thePath[i].getName() << " --> ";
-                }
-                std::cout << thePath.back().getName() << "\n\n";
-            }
             drawer.highlightPath(thePath);
             startNodeSelected = 0;
             endNodeSelected = 0;

@@ -1,11 +1,7 @@
 /**
  * \file      button.hh
  * \brief     This class will let a button appear in a SFML window.
-<<<<<<< HEAD
  * \author    Rene de Kluis, Koen de Groot
-=======
- * \author    Ren� de Kluis, Koen de Groot
->>>>>>> feat-navsys-new-astarfix
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See LICENSE
  */
@@ -33,7 +29,7 @@ private:
     float outlineThickness = 2;
     float xScaleDivider = 20;
     float yScaleDivider = 2;
-	
+
 public:
     /**
      * \brief Constructor

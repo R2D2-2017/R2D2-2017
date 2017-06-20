@@ -31,7 +31,8 @@ set(client_sources
     client/graph-vertice.cc
     client/window.cc
     client/gestures.cc
-    client/button.cc)
+    client/button.cc
+    client/message-box.cc)
 
 set(server_sources
     server/main.cc
