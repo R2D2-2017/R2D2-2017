@@ -69,11 +69,10 @@ int main(int argc, char **argv) {
 
 #ifdef USING_PIN
             MFRC522::MIFARE_Key key = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
+            if( 1 !=rfid.PCD_Authenticate(MFRC522::PICC_CMD_MF_AUTH_KEY_A, (byte)0x05, &key, &rfid.uid))
+                continue;
             std::cout << "Input PIN and finish with #\n";
             std::string value = keypad.getString();
-            long result;
-            if(!rfid.PCD_Authenticate(MFRC522::PICC_CMD_MF_AUTH_KEY_A, (byte)0x05, &key, &rfid.uid))
-                continue;
 	       	byte  writearray[16] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 		    int index = 0;
             for(auto c :value){
