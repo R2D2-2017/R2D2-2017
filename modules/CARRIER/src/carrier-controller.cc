@@ -7,13 +7,14 @@
  */
 
 #include "carrier-controller.hh"
+
 using namespace Carrier;
 
-CarrierController::CarrierController(MotorController & motorController,
-    HcSr04 & sonarSensor, int speed) :
-    motorController{ motorController }, sonarSensor{  sonarSensor }, speed{ speed }
-{
-    state = new IdleState(this);
+CarrierController::CarrierController(MotorController &motorController,
+                                     SerialCom& serialCom,
+                                     std::vector<HcSr04>& sonarSensors, int speed) :
+    motorController{ motorController }, serialCom{serialCom}, sonarSensors{ sonarSensors }, speed{ speed } {
+    state = std::make_unique<IdleState>(*this);
 }
 
 CarrierState CarrierController::currentState() {
@@ -27,23 +28,27 @@ void CarrierController::update() {
 void CarrierController::setState(CarrierState state) {
     switch(state) {
         case CarrierState::Forward:
-            this->state = new ForwardState(this);
+            this->state = std::make_unique<ForwardState>(*this);
         break;
 
         case CarrierState::Backward:
-            this->state = new BackwardState(this);
+            this->state = std::make_unique<BackwardState>(*this);
         break;
 
         case CarrierState::Clockwise:
-            this->state = new ClockwiseState(this);
+            this->state = std::make_unique<ClockwiseState>(*this);
         break;
 
         case CarrierState::CounterClockwise:
-            this->state = new CounterClockwiseState(this);
+            this->state = std::make_unique<CounterClockwiseState>(*this);
         break;
 
         case CarrierState::Idle:
-            this->state = new IdleState(this);
+            this->state = std::make_unique<IdleState>(*this);
+        break;
+
+        case CarrierState::Auto:
+            this->state = std::make_unique<AutoState>(*this);
         break;
     }
 }
@@ -56,10 +61,18 @@ void CarrierController::setSpeed(int speed) {
     this->speed = speed;
 }
 
-MotorController* CarrierController::getMotorController() {
-    return &motorController;
+MotorController& CarrierController::getMotorController() {
+    return motorController;
 }
 
-HcSr04* CarrierController::getSonar() {
-    return &sonarSensor;
+SerialCom& CarrierController::getSerialCom() {
+    return serialCom;
+}
+
+std::vector<int> CarrierController::getSonarValue(SonarDirections direction) {
+    if(direction == SonarDirections::All) {
+        return std::vector<int>{sonarSensors[0].getDistance(), sonarSensors[1].getDistance(),sonarSensors[2].getDistance(),sonarSensors[3].getDistance()};
+    } else {
+        return std::vector<int>{sonarSensors[direction].getDistance()};
+    }
 }

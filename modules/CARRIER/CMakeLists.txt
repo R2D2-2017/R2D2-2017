@@ -26,10 +26,10 @@ set(sources
     src/states/backward-state.cc
     src/states/clockwise-state.cc
     src/states/counter-clockwise-state.cc
+    src/states/auto-state.cc
     src/states/idle-state.cc
     src/hallsensor.cc
-    src/main.cc
-    )
+    src/main.cc)
 
 
 add_executable(${exe_name} ${sources})

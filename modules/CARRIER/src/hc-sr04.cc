@@ -19,7 +19,7 @@ HcSr04::HcSr04( int & TriggerPin,int & EchoPin ):
 
 
 
-double HcSr04::getDistance(){
+int HcSr04::getDistance(){
     // Send signal to sensor
     digitalWrite ( TriggerPin, 1 );
     delayMicroseconds( 10 );
@@ -43,6 +43,6 @@ double HcSr04::getDistance(){
     // for the fact that I want centimeters.
     distanceInCm = (((endTimeUsec - startTimeUsec)/10000.0)*340.29)/2;
 
-    return distanceInCm;
+    return (int)distanceInCm;
 
 }
