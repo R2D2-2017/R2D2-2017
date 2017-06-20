@@ -13,8 +13,7 @@
 
 
 ConfigFileParser::ConfigFileParser(const std::string & databaseFile, const std::string & encryptionFile):
-    databaseFile( databaseFile ),
-    encryptionFile ( encryptionFile )
+    databaseFile( databaseFile )
 {}
 
 
@@ -65,26 +64,26 @@ void ConfigFileParser::loadDatabaseSettings(std::string & ip, std::string & user
     file.close();
 }
 
-void ConfigFileParser::loadEncryptionSettings(int & encryptionKey){
-
-    //open encryption file if not opened throw error
-    std::ifstream file;
-    file.open(encryptionFile);
-    if(!file.is_open()){
-        throw std::runtime_error("File not opened ");
-    }
-
-    // the string for reading input
-    std::string input;
-
-    file >> input;
-    incorrectLineCheck(input != "KEY:");
-    file >> encryptionKey;
-    incorrectLineCheck(file.eof());
-
-    // throw error if reading went wrong
-    if (!encryptionKey) {
-        throw std::runtime_error("Missing input after reading file: ");
-    }
-    file.close();
-}
+//void ConfigFileParser::loadEncryptionSettings(int & encryptionKey){
+//
+//    //open encryption file if not opened throw error
+//    std::ifstream file;
+//    file.open(encryptionFile);
+//    if(!file.is_open()){
+//        throw std::runtime_error("File not opened ");
+//    }
+//
+//    // the string for reading input
+//    std::string input;
+//
+//    file >> input;
+//    incorrectLineCheck(input != "KEY:");
+//    file >> encryptionKey;
+//    incorrectLineCheck(file.eof());
+//
+//    // throw error if reading went wrong
+//    if (!encryptionKey) {
+//        throw std::runtime_error("Missing input after reading file: ");
+//    }
+//    file.close();
+//}
