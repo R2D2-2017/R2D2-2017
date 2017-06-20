@@ -94,12 +94,14 @@ void GraphDrawer::highlightPath(std::vector<PathNode> path) {
     }
 }
 
-GraphNode GraphDrawer::checkNodeClicked() {
-    GraphNode dummy({ 0,0 },"");
-    for (auto & indexer : graphNodes) {
-        if (indexer.isPressed(window)) {
-            dummy = indexer;
+clickedNode GraphDrawer::checkNodeClicked() {
+    clickedNode tempNode;
+    for (auto & node : graphNodes) {
+        if (node.isPressed(window)) {
+            tempNode.node = std::make_unique<GraphNode>(node);
+            tempNode.clicked = true;
+            return tempNode;
         }
     }
-    return dummy;
+    return tempNode;
 }

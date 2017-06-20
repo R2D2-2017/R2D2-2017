@@ -1,10 +1,6 @@
 /**
  * \file      client.cc
-<<<<<<< HEAD
- * \author    Philippe Zwietering, Rene de Kluis, Koen de Groot, 
-=======
- * \author    Philippe Zwietering, René de Kluis, Koen de Groot,
->>>>>>> feat-navsys-fullscreen
+ * \author    Philippe Zwietering, Rene de Kluis, Koen de Groot,
  *            Arco Gelderblom, Tim IJntema
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See ../../LICENSE
@@ -127,7 +123,7 @@ void Client::run(){
     sf::FloatRect startNodeButtonBounds;
     sf::FloatRect endNodeButtonBounds;
     StartEndNodeData newPath;
-    GraphNode clickedNode = drawer.checkNodeClicked();
+    clickedNode node = drawer.checkNodeClicked();
     while(true) {
         window.clear(sf::Color::Black);
         sf::sleep(sf::milliseconds(20));
@@ -175,14 +171,15 @@ void Client::run(){
                         window.close();
                         exit(0);
                         break;
-                    case buttonCommand::StartNode:
-                        messageBox.setMessage(("Selected: " + clickedNode.getName() + " as start."));
-                        newPath.startNode = clickedNode.getName();
+
+                    case static_cast<int>(button::StartNode):
+                        messageBox.setMessage(("Selected: " + node.node->getName() + " as start."));
+                        newPath.startNode = node.node->getName();
                         startNodeSelected = 1;
                         break;
-                    case buttonCommand::EndNode:
-                        messageBox.setMessage(("Selected: " + clickedNode.getName() + " as end."));
-                        newPath.endNode = clickedNode.getName();
+                    case static_cast<int>(button::EndNode):
+                        messageBox.setMessage(("Selected: " + node.node->getName() + " as end."));
+                        newPath.endNode = node.node->getName();
                         endNodeSelected = 1;
                         break;
                     default:
@@ -192,23 +189,23 @@ void Client::run(){
             }
             
             window.updateView();
-            clickedNode = drawer.checkNodeClicked();
-            if (clickedNode.isPressed(window)) {
+            node = drawer.checkNodeClicked();
+            if (node.clicked) {
                 for (auto & currButton : buttonList) {
                     window.setView(window.getDefaultView());
                     if (currButton->getId() == 
                         buttonCommand::StartNode) {
                         currButton->setPosition({
-                                clickedNode.getBounds().left, 
-                                    (clickedNode.getBounds().top + 
-                                     3.f*clickedNode.getBounds().height)});
+                                node.node->getBounds().left, 
+                                    (node.node->getBounds().top + 
+                                     3.f*node.node->getBounds().height)});
                         currButton->setVisable(true);
                     }
                     if (currButton->getId() == buttonCommand::EndNode) {
                         currButton->setPosition({
-                                clickedNode.getBounds().left,
-                                    (clickedNode.getBounds().top + 
-                                     5.f * clickedNode.getBounds().height)});
+                                 node.node->getBounds().left,
+                                    (node.node->getBounds().top + 
+                                     5.f * node.node->getBounds().height)});
                         currButton->setVisable(true);
                     }
                 }
