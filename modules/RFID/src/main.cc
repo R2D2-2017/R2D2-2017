@@ -71,10 +71,10 @@ int main(int argc, char **argv) {
             std::string id;
             for(byte i = 0; i < rfid.uid.size; ++i){
                 if(rfid.uid.uidByte[i] < 0x10){
-                    id.append((std::string)rfid.uid.uidByte[i]);
+                    id.append((char const *)rfid.uid.uidByte[i]);
                 }
                 else{
-                    id.append((std::string)rfid.uid.uidByte[i]);
+                    id.append((char const *)rfid.uid.uidByte[i]);
                 }
             }
             
