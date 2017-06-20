@@ -1,8 +1,8 @@
 /**
  * \file
- * \brief     The definitions of the parser functionality of GAS-03.
  * \author    Wilco Louwerse
- * \author	  Nicky van Steensel van der Aa
+ * \author    Nicky van Steensel van der Aa
+ * \author    David de Jong
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See LICENSE
  * \trello    https://trello.com/c/zSJnP0Rw/5-a-parser-must-be-made-that-can-read-the-conftxt-and-set-the-variables
@@ -19,101 +19,103 @@ bool Parser::ifContainsString(char array[], const char *string) {
     bool containsString = false;
     for (int i = 0; array[i] != '\0'; i++) {
         if (containsString) {break;}
-        int j = 0;
-        while (string[j] == array[i+j]) {
-            if (string[j] == '\0') {
+        int stringPartial = 0;
+        while (string[stringPartial] == array[i+stringPartial]) {
+            if (string[stringPartial] == '\0') {
                 containsString = true;
                 break;
             }
-            j++;
+            stringPartial++;
         }
     }
     return containsString;
 }
 
-void Parser::parseArray(char* input) {
+bool Parser::parseArray(char* input) {
 
-    //for loop integers
+    // For loop integers.
     int i, j;
 
-    //read input array variables
-    //example of 1 variable:      @firstNote:880\n
+    // Read input array variables.
     for (i = 0; input[i] != '\0'; ++i) {
 
-        //start reading new variable at '@'
+        // Start reading new variable at '@'.
         if (input[i] == '@') {
 
-            //reset variable value to 0
+            // Reset variable value to 0.
             variableValue = 0;
 
-            //skip '@' character
+            // Skip '@' character.
             i++;
 
-            //read variable name from input array
+            // Read variable name from input array.
             for (j = 0; input[i] != ':'; ++i, ++j) {
-                if (input[i] == '\0') {                          //prevent endless loop
+                // Prevent endless loop.
+                if (input[i] == '\0') {
                     hwlib::cout << ">>>PARSER ERROR : while reading variable name, prevent endless loop!" << "\r\n";
-                    break;
+                    return false;
                 }
                 variableName[j] = input[i];
             }
             variableName[j] = '\0';
 
-            //skip ':' character
+            // Skip ':' character.
             i++;
 
-            //read variable value from input array (always int)
+            // Read variable value from input array (always int).
             for (j = 0; input[i] != '\n'; ++i, ++j) {
-                if (input[i] == '\0') {                          //prevent endless loop
+                // Prevent endless loop.
+                if (input[i] == '\0') {
                     hwlib::cout << ">>>PARSER ERROR : while reading variable value for [ " << variableName
                                 << " ], prevent endless loop!" << "\r\n";
-                    break;
+                    return false;
                 }
                 if (variableValue != 0) {
+                    // Multiply the value to add an extra zero so the next number can be added.
                     variableValue *= 10;
                 }
-                if ((input[i] < '0') || (input[i] > '9')) {      //check if variable value is an integer or not
+                // Check if variable value is an integer or not.
+                if ((input[i] < '0') || (input[i] > '9')) {
                     hwlib::cout << ">>>PARSER ERROR : while reading variable value for [ " << variableName
                                 << " ], [ " << input[i] << " ] is not an integer!" << "\r\n";
-                    break;
+                    return false;
                 }
-                variableValue += input[i] - '0';                //convert a single char to an integer
+                // Convert a single char to an integer.
+                variableValue += input[i] - '0';
             }
 
-            //set all variables
+            // Set all variables.
             if (ifContainsString(variableName, firstNoteString)) {
                 alarm.setFirstNote(variableValue);
-               // hwlib::cout << "alarm.setFirstNote(" << variableValue << ")" << "\r\n";
             }
             else if (ifContainsString(variableName, secondNoteString)) {
                 alarm.setSecondNote(variableValue);
-              //  hwlib::cout << "alarm.setSecondNote(" << variableValue << ")" << "\r\n";
             }
             else if (ifContainsString(variableName, warningThresholdString)) {
                 alarm.setWarningThreshold(variableValue);
-               // hwlib::cout << "alarm.setWarningThreshold(" << variableValue << ")" << "\r\n";
             }
             else if (ifContainsString(variableName, dangerThresholdString)) {
                 alarm.setDangerThreshold(variableValue);
-              //  hwlib::cout << "alarm.setDangerThreshold(" << variableValue << ")" << "\r\n";
             }
             else if (ifContainsString(variableName, mq5CalibrationValueString)) {
-				if (mq5.getMq5Iscalibrated()) {
-					mq5.setMq5CalibrationValue(variableValue);
+                if (mq5.getMq5Iscalibrated()) {
+                    mq5.setMq5CalibrationValue(variableValue);
                     mq5.setMq5Iscalibrated(true);
-				} else {
+                } else {
                     hwlib::cout << "isCalibrated is false callibrationvalue will not be set \r\n";
                 }
             }
             else if (ifContainsString(variableName, measureWaitTimeString)) {
                 *measureWaitTime = variableValue;
             }
-			else if (ifContainsString(variableName, isCalibratedString)) {
-				mq5.setMq5Iscalibrated((bool)variableValue);
-				hwlib::cout << "is calibrated = " << (bool)variableValue << "\r\n";
+            else if (ifContainsString(variableName, isCalibratedString)) {
+                mq5.setMq5Iscalibrated(static_cast<bool>(variableValue));
+                hwlib::cout << "is calibrated = " << static_cast<bool>(variableValue) << "\r\n";
             } else {
                 hwlib::cout << ">>>PARSER ERROR : [ " << variableName << " ] is not a valid/known variable!" << "\r\n";
+                return false;
             }
         }
     }
+    return true;
 }

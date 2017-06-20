@@ -86,8 +86,6 @@ extern "C" int strncmp(const char *str1, const char *str2, size_t num) {
     return 0;
 }
 
-
-
 extern "C" size_t strlen(const char *string) {
     size_t result = 0;
     while (string[result])

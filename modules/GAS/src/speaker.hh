@@ -13,25 +13,27 @@
 #include "wrap-hwlib.hh"
 
 /**
- * \brief Speaker class for playing sounds
+ * \brief Speaker class for playing sounds.
  */
 class Speaker {
 public:
     /**
-       * \brief Constructor for Speaker
-       * \param speakerPin that must be connected to the speaker
+       * \brief Constructor for Speaker.
+       *
+       * \param speakerPin That must be connected to the speaker.
        */
     Speaker(hwlib::pin_out &speakerPin)
             : speakerPin(speakerPin) {}
 
     /**
-     * \brief play a note from the speaker
-     * \param note will be the frequency to play for the speaker. Specified notes can be found in enum.hh
+     * \brief Play a note from the speaker.
+     *
+     * \param note Will be the frequency to play for the speaker.
      */
     void playNote(int note);
 private:
     /**
-     * digital pin used for the speaker
+     * Digital pin used for the speaker.
      **/
     hwlib::pin_out & speakerPin;
 };

@@ -142,7 +142,9 @@ int main() {
     confFile.read(configurationInput, confFile.getSize(), err);
     configurationInput[confFile.getSize()] = '\0';
     //hwlib::cout << configurationInput << "\r\n"; //debug statment for console output of read configuration
-    parser.parseArray(configurationInput);
+    if (!parser.parseArray(configurationInput)){
+        return 0;
+    }
 
 
 
