@@ -72,24 +72,24 @@ int main(int argc, char **argv) {
                 continue;
             std::cout << "Input PIN and finish with #\n";
             std::string value = keypad.getString();
-	       	byte  writearray[16] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+	       	byte  writeArray[16] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 		    int index = 0;
             for(auto c :value){
                 if (c >47 && c < 58 ){
                     int number = c - 48;
-                    writearray[index++] = (byte)number;
+                    writeArray[index++] = (byte)number;
 		        }
 	        }
-            rfid.MIFARE_Write((byte)0x05, writearray, (byte)16);
+            rfid.MIFARE_Write((byte)0x05, writeArray, (byte)16);
             for (int i = 0; i < 16; i++){
-                std::cout <<(int)writearray[i] << '\n';
+                std::cout <<(int)writeArray[i] << '\n';
             } 
-            byte buffersize = (byte)18;
-            byte readarray[18] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
-            rfid.MIFARE_Read((byte)0x05,readarray, &buffersize);
+            byte bufferSize = (byte)18;
+            byte readArray[18] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+            rfid.MIFARE_Read((byte)0x05,readArray, &bufferSize);
             std::cout << "Readarray contains: \n";
             for (int i = 0; i < 18; i++){
-                std::cout <<(int)readarray[i] << '\n';
+                std::cout <<(int)readArray[i] << '\n';
             }         
 #endif
 
