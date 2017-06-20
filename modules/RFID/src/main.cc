@@ -58,7 +58,9 @@ int main(int argc, char **argv) {
         MatrixKeypad keypad(keypadRow, keypadColumn, 4);
 
         LedController led(0);
-std::cerr<<"lukkie" ;
+        DatabaseManager information;
+        information.connectTo(ip,username,password);
+        information.selectDatabase("R2D2");
         while (true) {
             delay(1000);
             std::cout << "\n\nWaiting for rfid tag: \n";
@@ -68,35 +70,31 @@ std::cerr<<"lukkie" ;
                
             if(!rfid.PICC_ReadCardSerial())
                 continue;
-                std::cerr<<"rickaerdotje" ;
+
                 
             // Hier moet het database gedeelte komen om te checken of je ID al in de database staat
+            std::string id;
+            for(byte i = 0; i < rfid.uid.size; ++i){
 
+                if(rfid.uid.uidByte[i] < 0x10){
+                    id +=(char)rfid.uid.uidByte[i];
+
+                }
+                else{
+                    id += (char)rfid.uid.uidByte[i];
+
+                }
+            }
+            if ( information.isCardInDatabase(id)){
+                std::cout << " id in database";
+            }
 
 #ifdef USING_PIN
             MFRC522::MIFARE_Key key = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
             if( 1 !=rfid.PCD_Authenticate(MFRC522::PICC_CMD_MF_AUTH_KEY_A, (byte)0x05, &key, &rfid.uid))
                 continue;
             //read pincode
-            std::string id;
-            for(byte i = 0; i < rfid.uid.size; ++i){
-                std::cerr <<"0";
-                if(rfid.uid.uidByte[i] < 0x10){
-                    id +=(char)rfid.uid.uidByte[i];
-                    std::cerr<<"1" ;
-                }
-                else{
-                    id += (char)rfid.uid.uidByte[i];
-                        std::cerr<<"2" ;
-                }
-            }
-                std::cerr<<"philips " ;
-            DatabaseManager information;
-            information.connectTo(ip,username,password);
-            information.selectDatabase("R2D2");
-            if ( information.isCardInDatabase(id)){
-                std::cout << " id in database";
-            }
+
             
 
 
