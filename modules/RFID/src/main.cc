@@ -58,22 +58,22 @@ int main(int argc, char **argv) {
         MatrixKeypad keypad(keypadRow, keypadColumn, 4);
 
         LedController led(0);
-       // DatabaseManager information;
-        //information.connectTo(ip,username,password);
-        //information.selectDatabase("R2D2");
+        DatabaseManager information;
+        information.connectTo(ip,username,password);
+        information.selectDatabase("R2D2");
         while (true) {
             delay(1000);
             std::cout << "\n\nWaiting for rfid tag: \n";
 
-             rfid.PICC_IsNewCardPresent();
-                //continue;
+             if(!rfid.PICC_IsNewCardPresent())
+                continue;
                
-            rfid.PICC_ReadCardSerial();
-               // continue;
+            if(!rfid.PICC_ReadCardSerial())
+                continue;
 
                 
             // Hier moet het database gedeelte komen om te checken of je ID al in de database staat
-          /*  std::string id;
+            std::string id;
             for(byte i = 0; i < rfid.uid.size; ++i){
 
                 if(rfid.uid.uidByte[i] < 0x10){
@@ -85,7 +85,7 @@ int main(int argc, char **argv) {
             }
             if ( information.isCardInDatabase(id)){
                 std::cout << " id in database";
-            }*/
+            }
 
 #ifdef USING_PIN
             MFRC522::MIFARE_Key key = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
