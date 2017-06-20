@@ -74,7 +74,6 @@ int main(int argc, char **argv) {
             long result;
             if(!rfid.PCD_Authenticate(MFRC522::PICC_CMD_MF_AUTH_KEY_A, (byte)0x05, &key, &rfid.uid))
                 continue;
-            std::cout << (int)status;
 	       	byte  writearray[16] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 		    int index = 0;
             for(auto c :value){
