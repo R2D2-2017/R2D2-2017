@@ -28,18 +28,18 @@ int main() {
 
     // XY motor controlling the angle of the base joint.
     auto m1Enable = hwlib::target::pin_out(hwlib::target::pins::a2);
-    auto m1Step   = hwlib::target::pin_out(hwlib::target::pins::a6);
-    auto m1Dir    = hwlib::target::pin_out(hwlib::target::pins::a7);
+    auto m1Step = hwlib::target::pin_out(hwlib::target::pins::a6);
+    auto m1Dir = hwlib::target::pin_out(hwlib::target::pins::a7);
 
     // XY motor controlling the angle of the middle joint.
     auto m2Enable = hwlib::target::pin_out(2, 6); //d38
-    auto m2Step   = hwlib::target::pin_out(hwlib::target::pins::a0);
-    auto m2Dir    = hwlib::target::pin_out(hwlib::target::pins::a1);
+    auto m2Step = hwlib::target::pin_out(hwlib::target::pins::a0);
+    auto m2Dir = hwlib::target::pin_out(hwlib::target::pins::a1);
 
     // Motor controlling the rotation of the Y axis. (rotates the base of the robot)
     auto m3Enable = hwlib::target::pin_out(hwlib::target::pins::a8);
-    auto m3Step   = hwlib::target::pin_out(hwlib::target::pins::d46);
-    auto m3Dir    = hwlib::target::pin_out(hwlib::target::pins::d48);
+    auto m3Step = hwlib::target::pin_out(hwlib::target::pins::d46);
+    auto m3Dir = hwlib::target::pin_out(hwlib::target::pins::d48);
 
     auto m1LimitSwitch = hwlib::target::pin_in(hwlib::target::pins::d2);
     auto m2LimitSwitch = hwlib::target::pin_in(hwlib::target::pins::d3);

@@ -49,8 +49,16 @@ Status RoboArm::Parser::parseCommand(const hwlib::string<0> &command,
             robotArmController.disable();
             return Status::Successful;
         }
-        if (command == "I2CDemo") {
-            i2c.runDemo();
+        if (command == "OPEN") {
+            //1 is the is the servo number
+            //175 is the degrease for the servo to fully open
+            i2c.moveServoTo(1, 175);
+            return Status::Successful;
+        }
+        if (command == "CLOSE") {
+            //1 is the is the servo number
+            //92 is the degrease for the servo to fully close
+            i2c.moveServoTo(1, 92);
             return Status::Successful;
         }
     } else {
