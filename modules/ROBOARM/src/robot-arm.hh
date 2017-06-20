@@ -78,7 +78,7 @@ namespace RoboArm {
         /// Calculating the ratio to drive a gear correctly - http://www.wikihow.com/Determine-Gear-Ratio
         static constexpr float armStepRatio = bigGear / smallArmGear;
 
-        Position position {0, 0, 0};
+        /// The current rotations of M[123].
         std::tuple<float,float,float> motorRotations {150, 0, 0};
 
         /// The different stepper motors you can use.

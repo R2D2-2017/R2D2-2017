@@ -62,6 +62,11 @@ void RobotArmController::rotateMotor(Motor motor,
         else if (motor == Motor::M3)
             m3Stepper.step(clockwise);
     }
+
+    (  motor == Motor::M1 ? std::get<0>(motorRotations)
+     : motor == Motor::M2 ? std::get<1>(motorRotations)
+     :                      std::get<2>(motorRotations))
+        += clockwise ? -degrees : degrees;
 }
 
 template<typename T>
@@ -145,8 +150,6 @@ bool RobotArmController::moveTo(Position pos) {
                     - std::get<2>(motorRotations)),
                std::get<2>(newMotorRotations)
                - std::get<2>(motorRotations) < 0);
-
-    motorRotations = newMotorRotations;
 
     return true;
 }
