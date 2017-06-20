@@ -6,36 +6,39 @@
  * \license   See LICENSE
  */
 
-
 #include "config-file-parser.hh"
 
 #include <iostream>
 
+ConfigFileParser::ConfigFileParser(const std::string &databaseFile)
+    : databaseFile(databaseFile) {}
 
-ConfigFileParser::ConfigFileParser(const std::string & databaseFile):
-    databaseFile( databaseFile )
-{}
-
-
-void ConfigFileParser::incorrectLineCheck(const bool & toCheck, const std::string & fileName, int line) {
+void ConfigFileParser::incorrectLineCheck(const bool &toCheck,
+                                          const std::string &fileName,
+                                          int line) {
     if (toCheck) {
-    	// Casted to string to prevent error involving const char array + std::string not same type
-        throw std::runtime_error((std::string)"Incorrect input"
-                + "\nFunction call in file: " + fileName + " line: " + std::to_string(line));
+        // Casted to string to prevent error involving const char array +
+        // std::string not same type
+        throw std::runtime_error((std::string) "Incorrect input" +
+                                 "\nFunction call in file: " + fileName +
+                                 " line: " + std::to_string(line));
     }
 }
 
 /**
  * \brief Reducing the amount of arguments needed to call incorrectLineCheck
  */
-#define incorrectLineCheck(toCheck) incorrectLineCheck(toCheck, __FILE__, __LINE__)
+#define incorrectLineCheck(toCheck)                                            \
+    incorrectLineCheck(toCheck, __FILE__, __LINE__)
 
-void ConfigFileParser::loadDatabaseSettings(std::string & ip, std::string & username, std::string & password) {
+void ConfigFileParser::loadDatabaseSettings(std::string &ip,
+                                            std::string &username,
+                                            std::string &password) {
 
-    //open databasefile if not opened throw error
+    // open databasefile if not opened throw error
     std::ifstream file;
     file.open(databaseFile);
-    if(!file.is_open()){
+    if (!file.is_open()) {
         throw std::runtime_error("File not opened ");
     }
 

@@ -10,11 +10,10 @@
 #include "mysql.hh"
 
 class DatabaseManager {
-private:
-    MySql  connection;
+  private:
+    MySql connection;
 
-public:
-
+  public:
     /**
      * \brief Connects to a mysql server
      *
@@ -104,7 +103,7 @@ public:
      * \param [in] string cardId
      * \returns returns true if cardId is added to the database
      */
-    bool addCardToDatabase( std::string cardId);
+    bool addCardToDatabase(std::string cardId);
 
     /**
      * \brief executes a query with no result
@@ -116,7 +115,7 @@ public:
      * \param [in] string query
      *
      */
-    void executeQueryNoResult( std::string query );
+    void executeQueryNoResult(std::string query);
 
     /**
      * \brief executes a query with  result
@@ -141,6 +140,5 @@ public:
      * \return std::unique_ptr<sql::ResultSet> &
      *
      */
-    std::unique_ptr<sql::ResultSet> & getFullResultSet();
-
+    std::unique_ptr<sql::ResultSet> &getFullResultSet();
 };

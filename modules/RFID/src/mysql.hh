@@ -1,6 +1,7 @@
 /**
  * \file      mysql.hh
- * \brief     Mysql library with error checking that uses the mysqlcppconn library
+ * \brief     Mysql library with error checking that uses the mysqlcppconn
+ * library
  * \author    Tim IJntema
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See LICENSE
@@ -29,20 +30,21 @@
  * information.
  */
 class MySql {
-private:
+  private:
     /**
      * \brief Can not be a smart pointer
      *
-     * This variable can not be a smart pointer due to the smart pointers needing
-     * a destructor to call. The destructor of sql::Driver is protected and therefore
+     * This variable can not be a smart pointer due to the smart pointers
+     * needing
+     * a destructor to call. The destructor of sql::Driver is protected and
+     * therefore
      * cannot be reached.
      */
-    sql::Driver * driver;
+    sql::Driver *driver;
     std::unique_ptr<sql::Connection> connection;
     std::unique_ptr<sql::Statement> statement;
     std::unique_ptr<sql::ResultSet> result;
-    
-    
+
     /**
      * \brief Checks for errors when executing function of template type T.
      *
@@ -59,11 +61,9 @@ private:
      *
      * \returns true on success.
      */
-    template <typename T>
-    void errorCheck(T function);
-    
-    
-public:
+    template <typename T> void errorCheck(T function);
+
+  public:
     /**
      * \brief Constructs the mysql class
      *
@@ -73,14 +73,12 @@ public:
      * \endcode
      */
     MySql();
-    
-    
+
     /**
      *  \brief Destructs the mysql class
      */
     ~MySql();
-    
-    
+
     /**
      * \brief Connects to a mysql server
      *
@@ -96,9 +94,9 @@ public:
      *
      * \returns true on success.
      */
-    void connectTo(const std::string & url, const std::string & username, const std::string & password);
-    
-    
+    void connectTo(const std::string &url, const std::string &username,
+                   const std::string &password);
+
     /**
      * \brief Selects a database
      *
@@ -111,9 +109,8 @@ public:
      *
      * \returns true on success.
      */
-    void selectDatabase(const std::string & databaseName);
-    
-    
+    void selectDatabase(const std::string &databaseName);
+
     /**
      * \brief Executes a query and stores the results in a variable
      *
@@ -126,26 +123,26 @@ public:
      *
      * \returns true on success.
      */
-    void executeQuery(const std::string & query);
-    
-    
+    void executeQuery(const std::string &query);
+
     /**
      * \brief Executes a query where there is no data to be received
      *
      * Typical usage:
      * \code
-     *     executeQueryNoResult( "INSERT INTO sometable (column1, column2, column3) VALUES ('set', 'of', 'values')" );
+     *     executeQueryNoResult( "INSERT INTO sometable (column1, column2,
+     * column3) VALUES ('set', 'of', 'values')" );
      * \endcode
      *
      * \param [in] query The query to execute
      *
      * \returns true on success.
      */
-    void executeQueryNoResult(const std::string & query);
-    
-    
+    void executeQueryNoResult(const std::string &query);
+
     /**
-     * \brief Can be used to grab the result of a previous query by column number
+     * \brief Can be used to grab the result of a previous query by column
+     * number
      *
      * Does not return the result if there is no result left. In that case it
      *  returns an empty string.
@@ -159,9 +156,8 @@ public:
      *
      * \returns The result from the database
      */
-    std::string getPreviousResponseColumn(const unsigned int & columnNumber);
-    
-    
+    std::string getPreviousResponseColumn(const unsigned int &columnNumber);
+
     /**
      * \brief Can be used to grab the result of a previous query by column name
      *
@@ -173,13 +169,12 @@ public:
      *     getPreviousResponseColumn("CARD_ID");
      * \endcode
      *
-     * \param [in] columnName The name of the requested column 
+     * \param [in] columnName The name of the requested column
      *
      * \returns The result from the database
      */
-    std::string getPreviousResponseColumn(const std::string & columnName);
-    
-    
+    std::string getPreviousResponseColumn(const std::string &columnName);
+
     /**
      * \brief Get the full result from the previous sql query
      *
@@ -190,5 +185,5 @@ public:
      *
      * \returns The full result with all columns and rows
      */
-    std::unique_ptr<sql::ResultSet> & getFullResult();
+    std::unique_ptr<sql::ResultSet> &getFullResult();
 };

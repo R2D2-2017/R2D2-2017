@@ -8,9 +8,9 @@
 
 #pragma once
 
-#include <string>
 #include <fstream>
 #include <stdexcept>
+#include <string>
 
 /**
  * \brief Factory class for files
@@ -20,14 +20,15 @@
  *  handeled in the class.
  */
 class ConfigFileParser {
-private:
-    const std::string  databaseFile;
+  private:
+    const std::string databaseFile;
 
     /**
      * \brief Checks for errors when executing a statement
      *
      * If an error occurs, an incorrect line error will be thrown in the form of
-     *  a const std::string. The line the error occured at should be given to the
+     *  a const std::string. The line the error occured at should be given to
+     * the
      *  function.
      *
      * Typical usage:
@@ -38,12 +39,13 @@ private:
      * \param [in] toCheck A comparrison with a boolean type as result
      * \param [in] line The line the error occured on
      */
-    void incorrectLineCheck(const bool & toCheck, const std::string & fileName, int line);
+    void incorrectLineCheck(const bool &toCheck, const std::string &fileName,
+                            int line);
 
-public:
+  public:
     /**
      * \brief Constructor with filenames
-     * 
+     *
      * constructs the configFileParser
      *
      * Typical usage:
@@ -54,7 +56,7 @@ public:
      * \param [in] databaseFile   The name of the file to open
      * \param [in] encryptionFile The name of the file to open
      */
-    ConfigFileParser(const std::string & databaseFile);
+    ConfigFileParser(const std::string &databaseFile);
 
     /**
      * \brief Load the database ip, password and username from a file
@@ -74,5 +76,6 @@ public:
      * \param [out] username The username to be read from the file
      * \param [out] password The password to be read from the file
      */
-    void loadDatabaseSettings(std::string & ip, std::string & username, std::string & password);
+    void loadDatabaseSettings(std::string &ip, std::string &username,
+                              std::string &password);
 };

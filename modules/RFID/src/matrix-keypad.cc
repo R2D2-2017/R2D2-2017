@@ -9,14 +9,12 @@
 #include "matrix-keypad.hh"
 #include <iostream>
 
-MatrixKeypad::MatrixKeypad(const int *row, const int *column, int colSize):
-    colSize(colSize),
-    row(row),
-    column(column)
-{
+MatrixKeypad::MatrixKeypad(const int *row, const int *column, int colSize)
+    : colSize(colSize), row(row), column(column) {
     // Making sure the column size is within range
-    if (colSize < 3 || colSize > 4){
-        std::cerr << "Column size " << colSize << " higher or lower than the allowed range\n";
+    if (colSize < 3 || colSize > 4) {
+        std::cerr << "Column size " << colSize
+                  << " higher or lower than the allowed range\n";
         exit(EXIT_FAILURE);
     }
 }
@@ -46,21 +44,21 @@ char MatrixKeypad::getKey() {
     return 'h';
 }
 
-std::string MatrixKeypad::getString(){
+std::string MatrixKeypad::getString() {
     std::string pincode;
     char c = getKey();
     int length = 0;
-    while (c != '#' && length < 16){
+    while (c != '#' && length < 16) {
         if (c > 47 && c < 58) {
             pincode += c;
             length += 1;
             std::cout << "Key entered\n";
         }
         char heldKey = c;
-        while ((c = getKey()) == heldKey){
+        while ((c = getKey()) == heldKey) {
             delay(10);
         }
-        c= getKey();
+        c = getKey();
     }
     return pincode;
 }
