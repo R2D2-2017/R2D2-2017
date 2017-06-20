@@ -1,6 +1,10 @@
 /**
  * \file      client.cc
+<<<<<<< HEAD
  * \author    Philippe Zwietering, Rene de Kluis, Koen de Groot, 
+=======
+ * \author    Philippe Zwietering, René de Kluis, Koen de Groot,
+>>>>>>> feat-navsys-fullscreen
  *            Arco Gelderblom, Tim IJntema
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See ../../LICENSE
@@ -18,9 +22,6 @@
 #include "../common/graph-factory.hh"
 #include "../common/graph-input.hh"
 #include "mouse.hh"
-
-const int window_width = 800;
-const int window_height = 480;
 
 Client::Client(sf::IpAddress ipAddress, uint16_t port):
     ipAddress(ipAddress),
@@ -62,30 +63,40 @@ void Client::receivePacket(sf::Packet & p) {
 }
 
 void Client::run(){
-    //create the window
-    Window window(sf::VideoMode(window_width, window_height), "NAVSYS", 
-                  sf::Style::Fullscreen);
     
+    // Get available VideoModes
+    std::vector<sf::VideoMode> modes = sf::VideoMode::getFullscreenModes();
+
+    // Store highest resolution VideoMode available
+    sf::VideoMode fullscreenVideoMode = modes[1];
+
+    // Create the window
+    Window window(fullscreenVideoMode, "NAVSYS", sf::Style::Fullscreen);
+
+    // Add viewport
+    window.setViewPort(sf::Vector2f(fullscreenVideoMode.width, 
+    fullscreenVideoMode.height), sf::Vector2f(100,100));
+
+
     MessageBox messageBox(window, { 0,0 });
 
+    //create the window
     sf::Socket::Status connectionStatus = socket.connect(ipAddress, port);
     if (connectionStatus != sf::Socket::Done) {
         messageBox.setMessage("Connection FAILED\n");
     }
-    
+
     getGraphFromServer();
+
     
-    //Add a viewport
-    window.setViewPort(sf::Vector2f(window_width, window_height), 
-                       sf::Vector2f(100, 100));
-    
+    GraphDrawer printOnScreen(window);
+
     GraphDrawer drawer(window);
-    
+
     sf::Packet receivedMessage;
-    
+
     drawer.reload(g);
     Gestures gestureHandler(window);
-    
     
     //Button setup
     std::vector<std::unique_ptr<Button>> buttonList;
@@ -95,8 +106,9 @@ void Client::run(){
                                             10}, 
                                     {buttonSize}, 
                                     buttonCommand::ShutDown, "Shut Down")));
+
     buttonList.push_back(std::unique_ptr<Button>(new Button(
-                                    window, 
+                                    window,
                                     {float(window.getSize().x - (buttonSize.x + 100)),
                                             10}, 
                                     {buttonSize.x/2, buttonSize.y/2}, 
@@ -144,12 +156,12 @@ void Client::run(){
             for (auto & currButton : buttonList) {
             drawer.reload(g);
                 bool temp = false;
-                if (currButton->isPressed()) { 
-                    temp = true; 
+                if (currButton->isPressed()) {
+                    temp = true;
                 }
                 window.setView(window.getDefaultView());
-                if (currButton->isPressed()) { 
-                    temp = true; 
+                if (currButton->isPressed()) {
+                    temp = true;
                 }
                 window.updateView();
                 if (temp) {
@@ -213,9 +225,9 @@ void Client::run(){
                 }
             }
         }
-        
+
         window.display();
-        
+
         if (startNodeSelected && endNodeSelected) {
             messageBox.setMessage(("Calculating Path: " + newPath.startNode + " to " + newPath.endNode));
             drawer.setBeginNode(newPath.startNode);
@@ -223,11 +235,11 @@ void Client::run(){
             messageBox.draw();
             requestPath(newPath);
             receivePacket(receivedMessage);
-            
+
             std::vector<PathNode> thePath;
             command cmd = command::None;
             receivedMessage >> cmd >> thePath;
-            
+
             if (cmd != command::ResponsePath) {
                 messageBox.setMessage("Incorrect response from server");
                 messageBox.draw();
@@ -237,7 +249,7 @@ void Client::run(){
             startNodeSelected = 0;
             endNodeSelected = 0;
         }
-        
+
         if (window.isOpen()) {
             sf::Event event;
             while (window.pollEvent(event)) {
@@ -255,13 +267,13 @@ void Client::getGraphFromServer() {
     sf::Packet receivedMessage;
     command commands[] = {command::RequestNodes, command::RequestVertices};
     command receivedCommand = command::None;
-    
+
     for (const auto & cmd : commands) {
         requestGraphUsingCommand(cmd);
         receivePacket(receivedMessage);
-        
+
         receivedMessage >> receivedCommand;
-        
+
         if (receivedCommand == command::ResponseNodes) {
             std::vector<Node> nodes;
             receivedMessage >> nodes;
@@ -281,7 +293,7 @@ void Client::getGraphFromServer() {
 
 void Client::requestGraphUsingCommand(const command &cmd) {
     sf::Packet p;
-    p << cmd;  
+    p << cmd;
     sendPacket(p);
 }
 
