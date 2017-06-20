@@ -9,9 +9,6 @@
 #include <iostream>
 #include "mouse.hh"
 
-GraphNode::GraphNode()
-{}
-
 GraphNode::GraphNode(sf::Vector2f position, std::string name, float size):
     position(position),
     size(size),
