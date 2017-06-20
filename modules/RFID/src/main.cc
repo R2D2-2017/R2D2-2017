@@ -78,16 +78,14 @@ int main(int argc, char **argv) {
 
                 if(rfid.uid.uidByte[i] < 0x10){
                     id +=(char)rfid.uid.uidByte[i];
-
                 }
                 else{
                     id += (char)rfid.uid.uidByte[i];
-
                 }
             }
-            if ( information.isCardInDatabase(id)){
+            /*if ( information.isCardInDatabase(id)){
                 std::cout << " id in database";
-            }
+            }*/
 
 #ifdef USING_PIN
             MFRC522::MIFARE_Key key = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
