@@ -10,17 +10,19 @@
 #include "robot-arm.hh"
 #include "stepper.hh"
 #include "wrap-hwlib.hh"
+#include "I2C.hh"
 
 class RobotArmTester {
     static const char *commandList1[15];
     static const char *commandList2[26];
 
     RoboArm::RobotArmController &robotarm;
+    I2C &i2c;
 
     void run_test(const char *commandList[], int commandListLen);
 
 public:
-    RobotArmTester(RoboArm::RobotArmController &robotarm);
+    RobotArmTester(RoboArm::RobotArmController &robotarm, I2C &i2c);
 
     void run(int test = 0);
 };

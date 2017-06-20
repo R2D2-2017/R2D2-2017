@@ -15,25 +15,24 @@ set(cxxflags
 
 string(REGEX REPLACE ";" " " cxxflags "${cxxflags}")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${cxxflags}")
-set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -nostartfiles -nostdlib -Wl,--defsym=STACK_SIZE=92160")
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,--defsym=STACK_SIZE=92160")
 
-link_libraries(gcc)
+link_libraries(gcc m)
 
 set(hwlib ../../libraries/hwlib)
 include_directories(${hwlib}/library)
 add_definitions(-DBMPTK_TARGET_arduino_due
         -DBMPTK_TARGET=arduino_due
-        -DBMPTK_BAUDRATE=19200)
-
+        -DBMPTK_BAUDRATE=9600)
 set(sources
         src/parser.cc
         src/wrap-hwlib.cc
-        src/libc-stub.cc
         src/stepper.cc
         src/ky101.cc
         src/robot-arm.cc
         src/main.cc
-        src/RobotArmTester.cc
+        src/robot-arm-tester.cc
+        src/wifi.cc
         src/I2C.cc
         )
 
