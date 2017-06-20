@@ -38,7 +38,7 @@ int main(void) {
         HcSr04(southTrigger, southEcho),
         HcSr04(westTrigger, westEcho)
     };
-    Carrier::CarrierController       stateMachine(controller, sonarSensors, 127);
+    Carrier::CarrierController       stateMachine(controller, serialCom, sonarSensors, 127);
 
     // Quick bluetooth status led
     pinMode(statusLed, OUTPUT);

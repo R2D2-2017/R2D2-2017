@@ -11,6 +11,7 @@ using namespace Carrier;
 ForwardState::ForwardState(CarrierController &controller) : ICarrierState{ controller } {
     if (controller.getSonarValue(SonarDirections::North)[0] <= 50) {
         controller.setState(CarrierState::Idle);
+        controller.getSerialCom().write("PATH OBSTRUCTED CANT GO FORWARD");
     } else {
         controller.getMotorController().forward(controller.getSpeed());
     }
@@ -19,6 +20,7 @@ ForwardState::ForwardState(CarrierController &controller) : ICarrierState{ contr
 void ForwardState::update() {
     if (controller.getSonarValue(SonarDirections::North)[0] <= 50) {
         controller.setState(CarrierState::Idle);
+        controller.getSerialCom().write("PATH OBSTRUCTED CANT GO FORWARD");
     }
 }
 
