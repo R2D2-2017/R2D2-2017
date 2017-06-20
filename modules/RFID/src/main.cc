@@ -47,7 +47,8 @@ int main(int argc, char **argv) {
         // Keypad objects
         MatrixKeypad keypad(keypadRow, keypadColumn, 4);
 
-        LedController led(0);
+        LedController redLed(0);
+        LedController greenLed(11);
         DatabaseManager information;
         information.connectTo(ip, username, password);
         information.selectDatabase("R2D2");
@@ -71,11 +72,15 @@ int main(int argc, char **argv) {
                     id += ' ';
                 }
             }
+
+            bool inDatabase;
             std::cout << id << " is the presented ID\n";
             if (!information.isCardInDatabase(id)) {
                 std::cout << "This ID is in the database\n";
+                inDatabase = 1;
             } else {
                 std::cout << "This ID is NOT in the database\n";
+                inDatabase = 0;
             }
 
 #ifdef USING_PIN
@@ -116,9 +121,13 @@ int main(int argc, char **argv) {
             }
 
 #endif
-
             rfid.PCD_StopCrypto1();
-            led.blinkLed(1000);
+            if (inDatabase){
+                greenLed.blinkLed(3000);
+            }
+            else{
+                redLed.blinkLed(3000);
+            }
         }
     } catch (const std::string &error) {
         std::cerr << error << '\n';
