@@ -91,10 +91,10 @@ std::cerr<<"lukkie" ;
                 }
             }
                 std::cerr<<"philips " ;
-            DatabaseManager information;
+          /*  DatabaseManager information;
             if ( information.isCardInDatabase(id)){
                 std::cout << " id in database";
-            }
+            }*/
             
 
 
