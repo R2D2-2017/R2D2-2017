@@ -9,18 +9,17 @@
 
 SerialCom::SerialCom(std::string serial, int baud) : serial(serial), baud(baud) {}
 
-int SerialCom::init() {
+bool SerialCom::init() {
     std::cout << "Connecting to serial: " << serial << "\n";
     serialPort = serialOpen(serial.c_str(), baud);
     serialFlush(serialPort);
     if(serialPort < 0) {
         std::cout << "Can't connect to serial port: " << serial << "\n";
-        return 0;
+        return false;
     } else {
         std::cout << "Connected to serial port: " << serial << "\n";
-        return 1;
+        return true;
     }
-    return 0;
 }
 
 std::string SerialCom::readCommand() {

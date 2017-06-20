@@ -39,6 +39,19 @@ enum SonarDirections {
  * A statemachine that controls its various states (and transitions)
  */
 class CarrierController {
+private:
+    /// Controller to send commands to the motors
+    MotorController &motorController;
+
+    /// Sonar sensor for object avoidance
+    std::vector<HcSr04> &sonarSensors;
+
+    /// The speed in ???-units
+    int speed;
+
+    /// The current motor state
+    std::unique_ptr<ICarrierState> state;
+
 public:
     /**
      * \brief Constructor of CarrierController
@@ -99,18 +112,5 @@ public:
      * \return Vector of read sensor values
      */
     std::vector<int> getSonarValue(SonarDirections direction);
-
-private:
-    /// Controller to send commands to the motors
-    MotorController &motorController;
-
-    /// Sonar sensor for object avoidance
-    std::vector<HcSr04> &sonarSensors;
-
-    /// The speed in ???-units
-    int speed;
-
-    /// The current motor state
-    std::unique_ptr<ICarrierState> state;
 };
 } // namespace Carrier
