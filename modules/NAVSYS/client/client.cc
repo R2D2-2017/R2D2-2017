@@ -55,10 +55,15 @@ void Client::run(){
     std::vector<sf::VideoMode> modes = sf::VideoMode::getFullscreenModes();
 
     // Store highest resolution VideoMode available
-    sf::VideoMode fullscreenVideoMode = modes[3];
+    sf::VideoMode fullscreenVideoMode = modes[1];
 
     // Create the window
-    sf::RenderWindow window(fullscreenVideoMode, "NAVSYS", sf::Style::Default);
+    Window window(fullscreenVideoMode, "NAVSYS", sf::Style::Fullscreen);
+
+    // Add viewport
+    window.setViewPort(sf::Vector2f(fullscreenVideoMode.width, 
+    fullscreenVideoMode.height), sf::Vector2f(100,100));
+
     GraphDrawer printOnScreen(window);
 
     GraphDrawer drawer(window);
@@ -101,43 +106,12 @@ void Client::run(){
     GraphNode clickedNode = drawer.checkNodeClicked();
     while(true) {
         window.clear(sf::Color::Black);
-<<<<<<< HEAD
-		sf::sleep(sf::milliseconds(100));
-        printOnScreen.reload(&g);
-        printOnScreen.draw();
-
-
-        if(printOptionsFlag){
-            printOptionsFlag = 0;
-            std::cout << "Press Left to enter route information\n";
-						std::cout << "Press Q to exit the window\n";
-        }
-
-				if(sf::Keyboard::isKeyPressed(sf::Keyboard::Q){
-						window.close();
-						return;
-				}
-
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left)){
-            std::string startNode;
-            std::string endNode;
-            std::cout << "name of start node>";
-            std::cin >> startNode;
-            std::cout << "name of end node>";
-            std::cin >> endNode;
-
-            requestPath(startNode, endNode);
-
-            if(  socket.receive(receivedMessage) != sf::Socket::Done  ){
-                std::cout << "Something went wrong with receiving" << std::endl;
-=======
         sf::sleep(sf::milliseconds(20));
         drawer.draw();
         window.setView(window.getDefaultView());
         for (auto & currButton : buttonList) {
             if (currButton->getId() == static_cast<int>(button::ShutDown)) {
                 currButton->draw();
->>>>>>> b3fb60b480b92a23b2e64c4f363efb7b25a3152b
             }
             else if (currButton->getId() == static_cast<int>(button::StartNode)) {
                 startNodeButtonBounds = currButton->getBounds();
@@ -296,12 +270,9 @@ void Client::requestGraphUsingCommand(const command &cmd) {
     p << cmd;
     sendPacket(p);
 }
-<<<<<<< HEAD
-=======
 
 void Client::requestPath(const StartEndNodeData &nodes) {
     sf::Packet p;
     p << command::RequestPath << nodes;
     sendPacket(p);
 }
->>>>>>> b3fb60b480b92a23b2e64c4f363efb7b25a3152b
