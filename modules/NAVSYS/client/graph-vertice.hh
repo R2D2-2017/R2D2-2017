@@ -36,7 +36,7 @@ public:
      *
      * Function that will draw the vertices on the window out of the parameters
      *
-     * \param[in,out] window The window that the vertice gets drawn on
+     * \param[in] window The window that the vertice gets drawn on
      */
     void draw(sf::RenderWindow & window);
 

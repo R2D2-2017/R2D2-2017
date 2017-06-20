@@ -1,6 +1,6 @@
 /**
- * \file      vector.cc
- * \author    Robert Bezem
+ * \file      vectice.cc
+ * \author    Robert Bezem, Tim IJntema
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See LICENSE
  */
@@ -35,12 +35,12 @@ bool Vertice::operator!=(const Vertice &rhs) const {
     return !(rhs == *this);
 }
 
-Node * Vertice::getNeighbour() {
-    return &node2;
+Node & Vertice::getNeighbour() {
+    return node2;
 }
 
-Node * Vertice::getCurrent() {
-    return &node1;
+Node & Vertice::getCurrent() {
+    return node1;
 }
 
 int Vertice::getWeight() {

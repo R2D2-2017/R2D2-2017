@@ -41,7 +41,7 @@ private:
      * 
      * \param[in] p The packet to put the received data in
      */
-    void checkPacketCorrectlyReceived(sf::Packet & p);
+    void receivePacket(sf::Packet & p);
 public:
 
     /**
@@ -58,12 +58,12 @@ public:
     void run();
     
     /**
-     * \brief Requests the database from the server
+     * \brief Requests the graph from the server
      *
      * This function sends the requests for the data contained in the node and 
      * vertices file.
      */
-    void getDatabaseFromServer();
+    void getGraphFromServer();
 
     /**
      * \brief Requests the path from the server
@@ -79,5 +79,5 @@ public:
      *
      * \param[in] cmd The command to send 
      */
-    void requestDatabaseUsingCommand(const command &cmd);
+    void requestGraphUsingCommand(const command &cmd);
 };

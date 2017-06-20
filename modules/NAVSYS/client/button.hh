@@ -1,7 +1,7 @@
 /**
  * \file      button.hh
  * \brief     This class will let a button appear in a SFML window.
- * \author    René de Kluis, Koen de Groot
+ * \author    Rene de Kluis, Koen de Groot
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See LICENSE
  */
@@ -16,22 +16,29 @@ private:
     sf::Vector2f position;
     sf::Vector2f size;
     int id;
-    bool isFocused = false;
     bool isVisable;
+    
+    bool pressedState = false;
     std::string fontName = "../client/arial.ttf";
     sf::Font font;
     sf::Text buttonText;
     sf::RectangleShape button;
+    float outlineThickness = 2;
+    float xScaleDivider = 20;
+    float yScaleDivider = 2;
+	
 public:
     /**
      * \brief Constructor
      *
-     * \param[in,out]    window      The SFML window
+     * \param[in]        window      The SFML window
      * \param[in]        position    Position of the button (x,y)
      * \param[in]        size        Size of the button (x,y)
      * \param[in]        id          ID of the button
      * \param[in]        text        Displaytext what comes on the button
-     * \param[in]        isVisable   Set the visability of the button
+     * \param[in]        isVisable   Set the visability of the button, default
+     *                               is that the button will be visable, so 
+     *                               the default value is true
      */
     Button(sf::RenderWindow & window, sf::Vector2f position, sf::Vector2f size, 
            int id, std::string text, bool isVisable = true);
@@ -48,17 +55,13 @@ public:
     /**
      * \brief Make the button blue.
      *
-     * Setfocus() sets the boolean as if the button is pressed.
-     * The next time the button is drawn it will appear blue.
+     * This function sets the button as if it is pressed.
+     * The next time the button is drawn it will appear in a pressed state.
+     * 
+     * \param[in]   b   Boolean to set the state of the button.
+     * 
      */
-    void setFocus(bool b);
-    
-    /**
-     * \brief Get the state of the button.
-     *
-     * \return The state if the button is pressed.
-     */
-    bool getFocus();
+    void setState(bool b);
 
     /**
      * \brief Set the size of the button.

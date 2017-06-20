@@ -1,7 +1,7 @@
 /**
- * \file      vector.hh
+ * \file      vectice.hh
  * \brief     This file contains the \see Vertice class
- * \author    Robert
+ * \author    Robert Bezem, Tim IJntema
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See LICENSE
  */
@@ -72,14 +72,14 @@ public:
      * 
      * \return The second node
      */
-    Node * getNeighbour();
+    Node & getNeighbour();
     
     /**
      * \brief Get the first node
      * 
      * \return The first node
      */
-    Node * getCurrent();
+    Node & getCurrent();
     
     /**
      * \brief Get the weigth of a vertice

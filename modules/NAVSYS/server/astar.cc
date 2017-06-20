@@ -92,7 +92,7 @@ std::vector<PathNode> aStar(Graph & g, Node &start, Node &goal) {
         // check which vertices the current node is part of as the origin node
         // add those to the curVertice vector as relevant vertices
         for (auto it = vertices.begin(); it != vertices.end(); it++) {
-            if (it->getCurrent()->getCoordinate() == current->getCoordinate()) {
+            if (it->getCurrent().getCoordinate() == current->getCoordinate()) {
                 curVertice.push_back(*it);
             }
         }
@@ -104,7 +104,7 @@ std::vector<PathNode> aStar(Graph & g, Node &start, Node &goal) {
 
             // check if the neighbouring nodes are already closed
             for (auto i = closedNodes.begin(); i != closedNodes.end(); i++) {
-                if (it->getNeighbour()->getCoordinate() 
+                if (it->getNeighbour().getCoordinate() 
                     == i->get()->getCoordinate()) {
                     closed = true;
                     break;
@@ -119,7 +119,7 @@ std::vector<PathNode> aStar(Graph & g, Node &start, Node &goal) {
             // check if the node is already opened
             for (auto i = openedNodes.begin(); i != openedNodes.end(); i++) {
                 opened = false;
-                if (it->getNeighbour()->getCoordinate() 
+                if (it->getNeighbour().getCoordinate() 
                     == i->get()->getCoordinate()) {
                     opened = true;
                     break;
@@ -134,7 +134,7 @@ std::vector<PathNode> aStar(Graph & g, Node &start, Node &goal) {
             float curG = 0;
             for (auto i = openedNodes.begin(); i != openedNodes.end(); i++) {
                 if (i->get()->getCoordinate() 
-                    == it->getNeighbour()->getCoordinate()) {
+                    == it->getNeighbour().getCoordinate()) {
                     curG = i->get()->getPathDistance();
                 }
             }
@@ -143,7 +143,7 @@ std::vector<PathNode> aStar(Graph & g, Node &start, Node &goal) {
             // vertice weight and the current nodes g
             if (!opened) {
                 openedNodes.push_back(std::make_shared<PathNode>(
-                                      PathNode(*(it->getNeighbour()), 
+                                      PathNode(it->getNeighbour(), 
                                       goal, 
                                       float(
                                         it->getWeight()) + 
@@ -161,7 +161,7 @@ std::vector<PathNode> aStar(Graph & g, Node &start, Node &goal) {
             // recalculate f
             for (auto i = openedNodes.begin(); i != openedNodes.end(); i++) {
                 if (i->get()->getCoordinate() 
-                    == it->getNeighbour()->getCoordinate()) {
+                    == it->getNeighbour().getCoordinate()) {
                     i->get()->setParent(current);
                     i->get()->setPathDistance(tentativeG);
                     i->get()->calcPriority(goal);

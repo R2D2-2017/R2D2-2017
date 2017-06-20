@@ -113,9 +113,9 @@ void Graph::dumpGraphToDisk(const std::string &nodeFilePath,
         [&verticeFile](Vertice vertice) {
             std::string tmp = "";
             tmp+="(";
-            tmp.append(vertice.getCurrent()->getName());
+            tmp.append(vertice.getCurrent().getName());
             tmp+=")-(";
-            tmp.append(vertice.getNeighbour()->getName());
+            tmp.append(vertice.getNeighbour().getName());
             tmp+=")[";
             tmp.append(std::to_string(vertice.getWeight()));
             tmp+="]\n";

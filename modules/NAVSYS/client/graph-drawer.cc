@@ -6,41 +6,42 @@
  */
 
 #include "graph-drawer.hh"
+#include <algorithm>
 
 GraphDrawer::GraphDrawer(sf::RenderWindow & window):
     window(window)
 {}
 
 void GraphDrawer::draw() {
-    for (auto & it : graphNodes) {
-        it.draw(window);
+    for (auto & node : graphNodes) {
+        node.draw(window);
     }
-    for (auto & it : graphVertices) {
-        it.draw(window);
+    for (auto & vertice : graphVertices) {
+        vertice.draw(window);
     }
 }
 
-void GraphDrawer::reload(Graph * g) {
+void GraphDrawer::reload(Graph & g) {
     clear();
-    std::vector<Node> nodeVector = g->getNodes();	
-    for (auto & it : nodeVector) {
+    std::vector<Node> nodeVector = g.getNodes();	
+    for (auto & node : nodeVector) {
         graphNodes.push_back(
             GraphNode(
                 sf::Vector2f(
-                    it.getCoordinate().x*scaling,
-                    it.getCoordinate().y*scaling),
-                it.getName()));
+                    node.getCoordinate().x*scaling,
+                    node.getCoordinate().y*scaling),
+                node.getName()));
     }
-    std::vector<Vertice> verticeVector = g->getVertices();	
-    for (auto & it : verticeVector) {
+    std::vector<Vertice> verticeVector = g.getVertices();	
+    for (auto & vertice : verticeVector) {
         graphVertices.push_back(GraphVertice(
             sf::Vector2f(
-                it.getCurrent()->getCoordinate().x*scaling,
-                it.getCurrent()->getCoordinate().y*scaling
+                vertice.getCurrent().getCoordinate().x*scaling,
+                vertice.getCurrent().getCoordinate().y*scaling
             ),
             sf::Vector2f(
-                it.getNeighbour()->getCoordinate().x*scaling,
-                it.getNeighbour()->getCoordinate().y*scaling
+                vertice.getNeighbour().getCoordinate().x*scaling,
+                vertice.getNeighbour().getCoordinate().y*scaling
             )));
     }
 }
@@ -52,29 +53,31 @@ void GraphDrawer::clear() {
 
 void GraphDrawer::setBeginNode(std::string nodeName) {
     // search through the vector for the node and change it's color to green
-    for (auto node = graphNodes.begin(); node != graphNodes.end(); ++node) {
-        if (node->getName() == nodeName) {
-            node->changeColor(sf::Color::Green);
-            break;
-        }
+    auto foundNode = std::find_if(graphNodes.begin(), graphNodes.end(), 
+                                  [&](GraphNode & node)->bool{
+                                    return node.getName() == nodeName;
+    });
+    if (foundNode != graphNodes.end()) {
+        foundNode->changeColor(sf::Color::Green);
     }
     draw();
 }
 
 void GraphDrawer::setEndNode(std::string nodeName) {
     // search through the vector for the node and change it's color to red
-    for (auto node = graphNodes.begin(); node != graphNodes.end(); ++node) {
-        if (node->getName() == nodeName) {
-            node->changeColor(sf::Color::Red);
-            break;
-        }
+    auto foundNode = std::find_if(graphNodes.begin(), graphNodes.end(), 
+                                  [&](GraphNode & node)->bool{
+                                    return node.getName() == nodeName;
+    });
+    if (foundNode != graphNodes.end()) {
+        foundNode->changeColor(sf::Color::Red);
     }
     draw();
 }
 
 void GraphDrawer::highlightPath(std::vector<PathNode> path) {
     // loop through the path
-    for (unsigned int i = 0; i < path.size()-1; i++) {
+    for (size_t i = 0; i < path.size()-1; ++i) {
         for (auto vertice = graphVertices.begin();
             vertice != graphVertices.end(); ++vertice) {
             // check per vertice whether it is the right one
@@ -92,7 +95,7 @@ void GraphDrawer::highlightPath(std::vector<PathNode> path) {
 }
 
 GraphNode GraphDrawer::checkNodeClicked() {
-    GraphNode dummy({ 0,0 },"dummy");
+    GraphNode dummy({ 0,0 },"");
     for (auto & indexer : graphNodes) {
         if (indexer.isPressed(window)) {
             dummy = indexer;

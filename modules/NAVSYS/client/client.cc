@@ -9,6 +9,7 @@
 #include "client.hh"
 
 #include <iostream>
+#include <memory>
 
 #include "window.hh"
 #include "gestures.hh"
@@ -19,8 +20,8 @@
 #include "button.hh"
 #include "mouse.hh"
 
-#define WINDOW_WIDTH 800
-#define WINDOW_HEIGHT 480
+const int window_width = 800;
+const int window_height = 480;
 
 Client::Client(sf::IpAddress ipAddress, uint16_t port):
     ipAddress(ipAddress),
@@ -35,7 +36,7 @@ void Client::sendPacket(sf::Packet & p) {
     }
 }
 
-void Client::checkPacketCorrectlyReceived(sf::Packet & p) {
+void Client::receivePacket(sf::Packet & p) {
     if (socket.receive(p) != sf::Socket::Done) {
         std::cerr << "Something went wrong with receiving\n";
         exit(-1);
@@ -48,48 +49,48 @@ void Client::run(){
         std::cerr << "Connection failed\n";
     }
     
-    getDatabaseFromServer();
+    getGraphFromServer();
     
     //create the window
-    Window window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "NAVSYS", 
+    Window window(sf::VideoMode(window_width, window_height), "NAVSYS", 
                   sf::Style::Default);
     
     //Add a viewport
-    window.setViewPort(sf::Vector2f(WINDOW_WIDTH, WINDOW_HEIGHT), 
+    window.setViewPort(sf::Vector2f(window_width, window_height), 
                        sf::Vector2f(100, 100));
     
     GraphDrawer drawer(window);
     
     sf::Packet receivedMessage;
     
-    drawer.reload(&g);
+    drawer.reload(g);
     Gestures gestureHandler(window);
     
     //Button setup
-    std::vector<Button*> buttonList;
-    buttonList.push_back(new Button(
-                            window, 
-                            {float(window.getSize().x - (buttonSize.x + 10)), 
-                             10}, 
-                            {buttonSize}, 
-                            static_cast<int>(button::ShutDown), "Shut Down"));
-    buttonList.push_back(new Button(
-                            window, 
-                            {float(window.getSize().x - (buttonSize.x + 100)),
-                             10}, 
-                            {buttonSize.x/2, buttonSize.y/2}, 
-                            static_cast<int>(button::StartNode), "Start Node", 
-                            false));
-    buttonList.push_back(new Button(
-                            window, 
-                            {float(window.getSize().x - (buttonSize.x + 200)), 
-                             10}, 
-                            {buttonSize.x / 2, buttonSize.y / 2}, 
-                            static_cast<int>(button::EndNode), "End Node", 
-                            false));
+    std::vector<std::unique_ptr<Button>> buttonList;
+    buttonList.push_back(std::unique_ptr<Button>(new Button(
+                                    window, 
+                                    {float(window.getSize().x - (buttonSize.x + 10)), 
+                                            10}, 
+                                    {buttonSize}, 
+                                    static_cast<int>(button::ShutDown), "Shut Down")));
+    buttonList.push_back(std::unique_ptr<Button>(new Button(
+                                    window, 
+                                    {float(window.getSize().x - (buttonSize.x + 100)),
+                                            10}, 
+                                    {buttonSize.x/2, buttonSize.y/2}, 
+                                    static_cast<int>(button::StartNode), "Start Node", 
+                                    false)));
+    buttonList.push_back(std::unique_ptr<Button>(new Button(
+                                    window, 
+                                    {float(window.getSize().x - (buttonSize.x + 200)), 
+                                            10}, 
+                                    {buttonSize.x / 2, buttonSize.y / 2}, 
+                                    static_cast<int>(button::EndNode), "End Node", 
+                                    false)));
 
-    bool startNodeSelected = 0;
-    bool endNodeSelected = 0;
+    bool startNodeSelected = false;
+    bool endNodeSelected = false;
 
     sf::FloatRect startNodeButtonBounds;
     sf::FloatRect endNodeButtonBounds;
@@ -101,38 +102,38 @@ void Client::run(){
         sf::sleep(sf::milliseconds(20));
         drawer.draw();
         window.setView(window.getDefaultView());
-        for (auto & indexer : buttonList) {
-            if (indexer->getId() == static_cast<int>(button::ShutDown)) {
-                indexer->draw();
+        for (auto & currButton : buttonList) {
+            if (currButton->getId() == static_cast<int>(button::ShutDown)) {
+                currButton->draw();
             }
-            else if (indexer->getId() == static_cast<int>(button::StartNode)) {
-                startNodeButtonBounds = indexer->getBounds();
+            else if (currButton->getId() == static_cast<int>(button::StartNode)) {
+                startNodeButtonBounds = currButton->getBounds();
                 window.updateView();
-                indexer->draw();
+                currButton->draw();
                 window.setView(window.getDefaultView());
             }
-            else if (indexer->getId() == static_cast<int>(button::EndNode)) {
-                endNodeButtonBounds = indexer->getBounds();
+            else if (currButton->getId() == static_cast<int>(button::EndNode)) {
+                endNodeButtonBounds = currButton->getBounds();
                 window.updateView();
-                indexer->draw();
+                currButton->draw();
                 window.setView(window.getDefaultView());
             }
             
         }
         window.updateView();
         if (GetMouseClick()) {
-            for (auto & indexer : buttonList) {
+            for (auto & currButton : buttonList) {
                 bool temp = false;
-                if (indexer->isPressed()) { 
+                if (currButton->isPressed()) { 
                     temp = true; 
                 }
                 window.setView(window.getDefaultView());
-                if (indexer->isPressed()) { 
+                if (currButton->isPressed()) { 
                     temp = true; 
                 }
                 window.updateView();
                 if (temp) {
-                    switch (indexer->getId()) {
+                    switch (currButton->getId()) {
                     case static_cast<int>(button::ShutDown):
                         window.close();
                         exit(0);
@@ -153,33 +154,33 @@ void Client::run(){
             window.updateView();
             clickedNode = drawer.checkNodeClicked();
             if (clickedNode.isPressed(window)) {
-                for (auto & indexer : buttonList) {
+                for (auto & currButton : buttonList) {
                     window.setView(window.getDefaultView());
-                    if (indexer->getId() == 
+                    if (currButton->getId() == 
                         static_cast<int>(button::StartNode)) {
-                        indexer->setPosition({
-                            clickedNode.getBounds().left, 
-                            (clickedNode.getBounds().top + 
-                            1.5f*clickedNode.getBounds().height)});
-                        indexer->setVisable(true);
+                        currButton->setPosition({
+                                clickedNode.getBounds().left, 
+                                    (clickedNode.getBounds().top + 
+                                     1.5f*clickedNode.getBounds().height)});
+                        currButton->setVisable(true);
                     }
-                    if (indexer->getId() == static_cast<int>(button::EndNode)) {
-                        indexer->setPosition({
-                            clickedNode.getBounds().left,
-                            (clickedNode.getBounds().top + 
-                            2.5f * clickedNode.getBounds().height)});
-                        indexer->setVisable(true);
+                    if (currButton->getId() == static_cast<int>(button::EndNode)) {
+                        currButton->setPosition({
+                                clickedNode.getBounds().left,
+                                    (clickedNode.getBounds().top + 
+                                     2.5f * clickedNode.getBounds().height)});
+                        currButton->setVisable(true);
                     }
                 }
                 window.updateView();
             }
             else {
-                for (auto & indexer : buttonList) {
-                    if (indexer->getId() == 
+                for (auto & currButton : buttonList) {
+                    if (currButton->getId() == 
                         static_cast<int>(button::StartNode) || 
-                        indexer->getId() == 
+                        currButton->getId() == 
                         static_cast<int>(button::EndNode)) {
-                            indexer->setVisable(false);
+                        currButton->setVisable(false);
                     }
                 }
             }
@@ -194,7 +195,7 @@ void Client::run(){
             drawer.setEndNode(newPath.endNode);
 
             requestPath(newPath);
-            checkPacketCorrectlyReceived(receivedMessage);
+            receivePacket(receivedMessage);
             
             std::vector<PathNode> thePath;
             command cmd = command::None;
@@ -229,14 +230,14 @@ void Client::run(){
     }
 }
 
-void Client::getDatabaseFromServer() {
+void Client::getGraphFromServer() {
     sf::Packet receivedMessage;
     command commands[] = {command::RequestNodes, command::RequestVertices};
     command receivedCommand = command::None;
     
     for (const auto & cmd : commands) {
-        requestDatabaseUsingCommand(cmd);
-        checkPacketCorrectlyReceived(receivedMessage);
+        requestGraphUsingCommand(cmd);
+        receivePacket(receivedMessage);
         
         receivedMessage >> receivedCommand;
         
@@ -257,7 +258,7 @@ void Client::getDatabaseFromServer() {
     }
 }
 
-void Client::requestDatabaseUsingCommand(const command &cmd) {
+void Client::requestGraphUsingCommand(const command &cmd) {
     sf::Packet p;
     p << cmd;  
     sendPacket(p);
