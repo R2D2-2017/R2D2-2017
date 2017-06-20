@@ -71,13 +71,14 @@ int main(int argc, char **argv) {
             std::string id;
             for(byte i = 0; i < rfid.uid.size; ++i){
                 if(rfid.uid.uidByte[i] < 0x10){
-                    id.append((char const )rfid.uid.uidByte[i]);
+                    id.append((char const *)rfid.uid.uidByte[i]);
                 }
                 else{
-                    id.append((char const )rfid.uid.uidByte[i]);
+                    id.append((char const *)rfid.uid.uidByte[i]);
                 }
             }
-            
+            databasemanager information: 
+            information.isCardInDatabase(id);
 
 #ifdef USING_PIN
             MFRC522::MIFARE_Key key = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
@@ -86,8 +87,7 @@ int main(int argc, char **argv) {
             //read pincode
 
 
-            Database information: 
-            database.isCardInDatabase();
+
             byte bufferSize = (byte)18;
             byte readArray[18] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
             rfid.MIFARE_Read((byte)0x05,readArray, &bufferSize);
