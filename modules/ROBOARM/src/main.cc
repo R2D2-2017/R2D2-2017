@@ -1,6 +1,7 @@
 /**
  * \file
- * \author    Other author names missing due to previously missing file header
+ * \author    Bob Thomas
+ * \author    David Driessen
  * \author    Chris Smeele
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See LICENSE
@@ -114,6 +115,7 @@ int main() {
             wifi.send("WAIT_S\n");
             wifi.send("WAIT_MS\n");
             wifi.send("TEST\n\n");
+            wifi.send("MOVETO\n\n");
         } else if (command == "exit") {
             break;
         } else {
