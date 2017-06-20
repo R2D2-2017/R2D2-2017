@@ -85,7 +85,7 @@ int main(void) {
                 stateMachine.setState(Carrier::CarrierState::Idle);
             } else if(command.find("AUTO") != std::string::npos){
                 serialCom.write("AUTO-DRIVING MODE ACTIVATED");
-
+                stateMachine.setState(Carrier::CarrierState::Auto);
             }
             printf("%s", command.c_str());
         }
