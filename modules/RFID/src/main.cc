@@ -58,7 +58,7 @@ int main(int argc, char **argv) {
         MatrixKeypad keypad(keypadRow, keypadColumn, 4);
 
         LedController led(0);
-
+std::cerr<<"lukkie" ;
         while (true) {
             delay(1000);
             std::cout << "\n\nWaiting for rfid tag: \n";
@@ -68,7 +68,7 @@ int main(int argc, char **argv) {
                
             if(!rfid.PICC_ReadCardSerial())
                 continue;
-                std::cout<<"rickaerdotje" ;
+                std::cerr<<"rickaerdotje" ;
                 
             // Hier moet het database gedeelte komen om te checken of je ID al in de database staat
 
@@ -80,17 +80,17 @@ int main(int argc, char **argv) {
             //read pincode
             std::string id;
             for(byte i = 0; i < rfid.uid.size; ++i){
-                std::cout <<"0";
+                std::cerr <<"0";
                 if(rfid.uid.uidByte[i] < 0x10){
                     id +=(char)rfid.uid.uidByte[i];
-                    std::cout<<"1" ;
+                    std::cerr<<"1" ;
                 }
                 else{
                     id += (char)rfid.uid.uidByte[i];
-                        std::cout<<"2" ;
+                        std::cerr<<"2" ;
                 }
             }
-                std::cout<<"philips " ;
+                std::cerr<<"philips " ;
             DatabaseManager information;
             if ( information.isCardInDatabase(id)){
                 std::cout << " id in database";
