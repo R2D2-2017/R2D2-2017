@@ -17,14 +17,14 @@ private:
     static const unsigned int characterSize = 30;
     static constexpr float positionOffset = 20;
     static const int outlineThickness = 2;
-    /*
+    /**
      * \brief The default color for a Vertic is white
      */
     sf::Color color = sf::Color::White;
     
     bool isFocused = false;
 
-    /*
+    /**
      * \brief The size of the node
      *
      * The size gets a default initialization of 10.0 in the constructor of 
@@ -32,7 +32,7 @@ private:
      */
     float size;
 
-    /*
+    /**
      * \brief The name of the node
      */
     std::string name;
@@ -83,7 +83,7 @@ public:
      */
     bool isPressed(sf::RenderWindow & window);
    	
-    /*
+    /**
      * \brief Assign a new color to the node
      *
      * This function is used to assign new colors to the node. Note that the 
