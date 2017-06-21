@@ -33,8 +33,6 @@ bool DatabaseManager::getCardAuthorisationFromDatabase(std::string cardId) {
     query += "SELECT AUTHORIZED FROM RFID WHERE CARD_ID = '";
     query += cardId += '\'';
 
-    std::cout << query << '\n';
-
     connection.executeQuery(query);
     std::string result = connection.getPreviousResponseColumn("AUTHORIZED");
     // if result was 1 return false
@@ -47,7 +45,6 @@ bool DatabaseManager::getCardAuthorisationFromDatabase(std::string cardId) {
 
 void DatabaseManager::setCardAuthorisationInDatabase(bool status,
                                                      std::string cardId) {
-
     // format the sql query string
     std::string query;
     query += "UPDATE RFID SET AUTHORIZED = '";
@@ -61,7 +58,6 @@ void DatabaseManager::setCardAuthorisationInDatabase(bool status,
     query += "' WHERE RFID.CARD_ID = '";
     query += cardId += '\'';
 
-    std::cout << query << '\n';
     connection.executeQueryNoResult(query);
 }
 
@@ -77,7 +73,6 @@ bool DatabaseManager::addCardToDatabase(std::string cardId) {
     query += cardId;
     query += "\', 0)";
 
-    // std::cout << query << '\n';
     connection.executeQueryNoResult(query);
     return true;
 }
@@ -90,7 +85,7 @@ bool DatabaseManager::isCardInDatabase(std::string cardId) {
              "WHERE CARD_ID =\'";
     query += cardId;
     query += "\')";
-    // std::cout <<query << "\n";
+
     connection.executeQuery(query);
 
     // if there is a result the card is already in the database
