@@ -21,16 +21,16 @@
 
 class receiveMessageFailed : public std::exception {
 public:
-    const char * what () const throw() {	
-		return "Something went wrong with receiving a message\n";
-	}
+    const char * what () const throw() {    
+        return "Something went wrong with receiving a message\n";
+    }
 };
 
 class sendMessageFailed : public std::exception {
 public:
     const char * what () const throw() {
-		return "Something went wrong with sending your message\n";
-	}
+        return "Something went wrong with sending your message\n";
+    }
 };
 
 Client::Client(sf::IpAddress ipAddress, uint16_t port):
@@ -67,38 +67,38 @@ void Client::receivePacket(sf::Packet & p) {
 }
 
 void Client::connectToServer(){
-		socket.disconnect();
+        socket.disconnect();
         socket.connect(ipAddress, port);
 }
 
 bool Client::checkIfNodesCanBeStartNode(std::vector<GraphNode> nodes, std::vector<GraphVertice> vertices, std::string nodeName){
-	bool checkbool =false;
-	for(GraphNode & tempNode : nodes){
-	    if(tempNode.getName() == nodeName){
+    bool checkbool =false;
+    for(GraphNode & tempNode : nodes){
+        if(tempNode.getName() == nodeName){
             for(GraphVertice & tempVert : vertices){
                 if(tempNode.getRealPositionX() == tempVert.getRealPositionAX() && tempNode.getRealPositionY() == tempVert.getRealPositionAY()){
-			        checkbool = true;
-				}
-		    }				
-		}
-			//std::cout << temp.getName() << " " << temp.getRealPositionX() << " " << temp.getRealPositionX() << " \n";
-	}
-	return checkbool;
+                    checkbool = true;
+                }
+            }               
+        }
+        //std::cout << temp.getName() << " " << temp.getRealPositionX() << " " << temp.getRealPositionX() << " \n";
+    }
+    return checkbool;
 }
 
 bool Client::checkIfNodesCanBeEndNode(std::vector<GraphNode> nodes, std::vector<GraphVertice> vertices, std::string nodeName){
     bool checkbool =false;
-	for(GraphNode & tempNode : nodes){
-	    if(tempNode.getName() == nodeName){
+    for(GraphNode & tempNode : nodes){
+        if(tempNode.getName() == nodeName){
             for(GraphVertice & tempVert : vertices){
                 if(tempNode.getRealPositionX() == tempVert.getRealPositionBX() && tempNode.getRealPositionY() == tempVert.getRealPositionBY()){
-			        checkbool = true;
-				}
-		    }				
-		}
-			//std::cout << temp.getName() << " " << temp.getRealPositionX() << " " << temp.getRealPositionX() << " \n";
-	}
-	return checkbool;	    
+                    checkbool = true;
+                }
+            }               
+        }
+        //std::cout << temp.getName() << " " << temp.getRealPositionX() << " " << temp.getRealPositionX() << " \n";
+    }
+    return checkbool;       
 }
 
 void Client::run(){
@@ -151,25 +151,22 @@ void Client::run(){
     std::vector<std::unique_ptr<Button>> buttonList;
     buttonList.push_back(std::unique_ptr<Button>(new Button(
                                     window, 
-                                    {float(window.getSize().x - (buttonSize.x + 10)), 
-                                            10}, 
+                                    {float(window.getSize().x - (buttonSize.x + 10)), 10}, 
                                     {buttonSize}, 
                                     buttonCommand::ShutDown, "Shut Down")));
 
     buttonList.push_back(std::unique_ptr<Button>(new Button(
                                     window,
-                                    {float(window.getSize().x - (buttonSize.x + 100)),
-                                            10}, 
+                                    {float(window.getSize().x - (buttonSize.x + 100)), 10}, 
                                     {buttonSize.x/2, buttonSize.y/2}, 
                                     buttonCommand::StartNode, "Start Node", 
                                     false)));
     buttonList.push_back(std::unique_ptr<Button>(new Button(
-                                                            window, 
-                                                            {float(window.getSize().x - (buttonSize.x + 200)), 
-                                                                    10}, 
-                                                            {buttonSize.x / 2, buttonSize.y / 2}, 
-                                                            buttonCommand::EndNode, "End Node", 
-                                                            false)));
+                                     window, 
+                                     {float(window.getSize().x - (buttonSize.x + 200)), 10}, 
+                                     {buttonSize.x / 2, buttonSize.y / 2}, 
+                                     buttonCommand::EndNode, "End Node", 
+                                     false)));
     bool startNodeSelected = false;
     bool endNodeSelected = false;
 
@@ -250,100 +247,100 @@ void Client::run(){
                 }
             
                 window.updateView();
-				node = drawer.checkNodeClicked();
-				if (node.clicked) {
-					for (auto & currButton : buttonList) {
-						window.setView(window.getDefaultView());
-						if (currButton->getId() == 
-							buttonCommand::StartNode) {
-							currButton->setPosition({
-									node.node->getBounds().left, 
-										(node.node->getBounds().top + 
-										 3.f*node.node->getBounds().height)});
-							currButton->setVisable(true);
-						}
-						if (currButton->getId() == buttonCommand::EndNode) {
-							currButton->setPosition({
-									node.node->getBounds().left,
-										(node.node->getBounds().top + 
-										 5.f * node.node->getBounds().height)});
-							currButton->setVisable(true);
-						}
-					}
-					window.updateView();
-				}
-				else {
-					for (auto & currButton : buttonList) {
-						if (currButton->getId() == 
-							buttonCommand::StartNode || 
-							currButton->getId() == 
-							buttonCommand::EndNode) {
-							currButton->setVisable(false);
-						}
-					}
-				}
-			}
+                node = drawer.checkNodeClicked();
+                if (node.clicked) {
+                    for (auto & currButton : buttonList) {
+                        window.setView(window.getDefaultView());
+                        if (currButton->getId() == 
+                            buttonCommand::StartNode) {
+                            currButton->setPosition({
+                                    node.node->getBounds().left, 
+                                        (node.node->getBounds().top + 
+                                         3.f*node.node->getBounds().height)});
+                            currButton->setVisable(true);
+                        }
+                        if (currButton->getId() == buttonCommand::EndNode) {
+                            currButton->setPosition({
+                                    node.node->getBounds().left,
+                                        (node.node->getBounds().top + 
+                                         5.f * node.node->getBounds().height)});
+                            currButton->setVisable(true);
+                        }
+                    }
+                    window.updateView();
+                }
+                else {
+                    for (auto & currButton : buttonList) {
+                        if (currButton->getId() == 
+                            buttonCommand::StartNode || 
+                            currButton->getId() == 
+                            buttonCommand::EndNode) {
+                            currButton->setVisable(false);
+                        }
+                    }
+                }
+            }
 
-			window.display();
+            window.display();
 
-			if(startNodeSelected && endNodeSelected && !checkIfNodesCanBeStartNode(drawer.getGraphNode(), drawer.getGraphVertice(), newPath.startNode)){
-				messageBox.setMessage("Start node can not be used. because it has no connection to the grid \n");
-				endNodeSelected =false;
-				startNodeSelected = false;
-			}else if(startNodeSelected && endNodeSelected && !checkIfNodesCanBeEndNode(drawer.getGraphNode(), drawer.getGraphVertice(), newPath.endNode)){
-				messageBox.setMessage("End node can not be used. because it has no connection to the grid \n");
-				endNodeSelected =false;
-				startNodeSelected = false;
-		
-			}else if(startNodeSelected && endNodeSelected && newPath.startNode == newPath.endNode) {
-				messageBox.setMessage("Start and end node cannot be the same, you are at the endpoint \n");
-				endNodeSelected =false;
-				startNodeSelected = false;
-			
-			}else if(startNodeSelected && endNodeSelected && newPath.startNode != newPath.endNode) {
-				messageBox.setMessage(("Calculating Path: " + newPath.startNode + " to " + newPath.endNode));
-				drawer.setBeginNode(newPath.startNode);
-				drawer.setEndNode(newPath.endNode);
-				messageBox.draw();
-				requestPath(newPath);
-				receivePacket(receivedMessage);
+            if(startNodeSelected && endNodeSelected && !checkIfNodesCanBeStartNode(drawer.getGraphNode(), drawer.getGraphVertice(), newPath.startNode)){
+                messageBox.setMessage("Start node can not be used. because it has no connection to the grid \n");
+                endNodeSelected =false;
+                startNodeSelected = false;
+            }else if(startNodeSelected && endNodeSelected && !checkIfNodesCanBeEndNode(drawer.getGraphNode(), drawer.getGraphVertice(), newPath.endNode)){
+                messageBox.setMessage("End node can not be used. because it has no connection to the grid \n");
+                endNodeSelected =false;
+                startNodeSelected = false;
+        
+            }else if(startNodeSelected && endNodeSelected && newPath.startNode == newPath.endNode) {
+                messageBox.setMessage("Start and end node cannot be the same, you are at the endpoint \n");
+                endNodeSelected =false;
+                startNodeSelected = false;
+            
+            }else if(startNodeSelected && endNodeSelected && newPath.startNode != newPath.endNode) {
+                messageBox.setMessage(("Calculating Path: " + newPath.startNode + " to " + newPath.endNode));
+                drawer.setBeginNode(newPath.startNode);
+                drawer.setEndNode(newPath.endNode);
+                messageBox.draw();
+                requestPath(newPath);
+                receivePacket(receivedMessage);
 
-				std::vector<PathNode> thePath;
-				command cmd = command::None;
-				receivedMessage >> cmd >> thePath;
+                std::vector<PathNode> thePath;
+                command cmd = command::None;
+                receivedMessage >> cmd >> thePath;
 
-				if (cmd != command::ResponsePath) {
-					messageBox.setMessage("Incorrect response from server");
-					messageBox.draw();
-				}
+                if (cmd != command::ResponsePath) {
+                    messageBox.setMessage("Incorrect response from server");
+                    messageBox.draw();
+                }
 
-				drawer.highlightPath(thePath);
-				startNodeSelected = 0;
-				endNodeSelected = 0;
-			}
+                drawer.highlightPath(thePath);
+                startNodeSelected = 0;
+                endNodeSelected = 0;
+            }
 
-			if (window.isOpen()) {
-				sf::Event event;
-				while (window.pollEvent(event)) {
-					if (event.type == sf::Event::Closed) {
-						window.close();
-					}
-				}
-				window.moveViewPort(gestureHandler.getMouseDrag(20, 150));
-				window.updateView();
-			}
-		}
-		catch (receiveMessageFailed & e) {
-			std::cout << e.what() << "\n";
-			startNodeSelected = false;
-			endNodeSelected = false;
+            if (window.isOpen()) {
+                sf::Event event;
+                while (window.pollEvent(event)) {
+                    if (event.type == sf::Event::Closed) {
+                        window.close();
+                    }
+                }
+                window.moveViewPort(gestureHandler.getMouseDrag(20, 150));
+                window.updateView();
+            }
+        }
+        catch (receiveMessageFailed & e) {
+            std::cout << e.what() << "\n";
+            startNodeSelected = false;
+            endNodeSelected = false;
 
         }
-		catch (sendMessageFailed & e) {
-			std::cout << e.what() << "\n";
-			startNodeSelected = false;
-			endNodeSelected = false;
-		}
+        catch (sendMessageFailed & e) {
+            std::cout << e.what() << "\n";
+            startNodeSelected = false;
+            endNodeSelected = false;
+        }
     }
 }
 

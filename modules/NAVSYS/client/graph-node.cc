@@ -50,11 +50,11 @@ void GraphNode::changeColor(sf::Color newColor) {
 }
 
 int GraphNode::getRealPositionX() {
-	return (int)position.x;
+    return (int)position.x;
 }
 
 int GraphNode::getRealPositionY() {
-	return (int)position.y;
+    return (int)position.y;
 }
 
 sf::Vector2f GraphNode::getPosition() {
