@@ -17,17 +17,20 @@
 /**
  * \brief Serial communication class with wiring pi
  * 
- * Simple class that encapsulates wiringSerial
- * that is able read commands with a newline and write data into the serial
+ * Encapsulates wiringSerial, allowing it to read commands with a newline and
+ * write data into the serial
  */
 class SerialCom {
 private:
     /// The command that has been received
     std::string command;
+
     /// The serial connection which is basically a file open
     int serialPort;
+    
     /// The path to the serial connection like /dev/rfcomm0
     std::string serial;
+    
     /// Baudrate you want to open the serial connection on
     int baud;
 
@@ -41,16 +44,18 @@ public:
     SerialCom(std::string serial, int baud);
 
     /**
-     * \brief Try to connect to the serial port
+     * \brief Tries to connect to the serial port
      * 
-     * \return true if connected, false unable to connect
+     * \return true if connected, false if unable to connect
      */
     bool init();
 
     /**
-     * \brief reads command until new line and returns it as a std::string
-     * 
-     * \return received command as string
+     * \brief Reads until a newline is encountered
+     *
+     * If only a newline is received (less than two characters), return "-1"
+     *
+     * \return the received command as string
      */
     std::string readCommand();
 

@@ -17,7 +17,6 @@
 #include "motor-controller.hh"
 #include "serial-com.hh"
 #include "hc-sr04.hh"
-#include "./states/i-carrier-state.hh"
 
 int main(void) {
     // Wiringpi pin setup
@@ -40,7 +39,7 @@ int main(void) {
 
     int hallPin   =  8;
 
-    //Declaration of the system classes
+    // Declaration of the system classes
     MotorController                  controller("/dev/ttyS0", 38400);
     SerialCom                        serialCom("/dev/rfcomm0", 9600);
     std::vector<HcSr04> sonarSensors = {
@@ -54,18 +53,18 @@ int main(void) {
     // Quick bluetooth status led
     pinMode(statusLed, OUTPUT);
 
-    //If not connected to bluetooth serial blink and poll to connect
+    // Blink led and poll until bluetooth serial connection is established
     while (!serialCom.init()) {
         digitalWrite(statusLed, 1); // On
         delay(500);
-        digitalWrite(statusLed, 0); // off
+        digitalWrite(statusLed, 0); // Off
         delay(500);
     }
     digitalWrite(statusLed, 1); // On
 
-    //When connected go into the carrier state loop
+    // When connected go into the carrier state loop
     while (true) {
-        //Read command from the bluetooth serial com
+        // Read command from the bluetooth serial com
         std::string command = serialCom.readCommand();
         if (command != "-1") {
             if (command.find("FORWARD") != std::string::npos) {
@@ -87,7 +86,7 @@ int main(void) {
                 serialCom.write("AUTO-DRIVING MODE ACTIVATED");
                 stateMachine.setState(Carrier::CarrierState::Auto);
             }
-            printf("%s", command.c_str());
+            std::cout << command << std::endl;
         }
         stateMachine.update();
         delay(100);

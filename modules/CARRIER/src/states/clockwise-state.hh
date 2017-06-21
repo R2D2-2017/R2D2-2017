@@ -1,7 +1,7 @@
 /**
  * \file
  * \author    Bob Thomas
- * \brief     Class to control the backward state of the carrier
+ * \brief     Class to control the clockwise state of the carrier
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See LICENSE
  */
@@ -17,14 +17,15 @@ namespace Carrier {
 class CarrierController;
 
 /**
- * \brief ClockwiseState class to control the ClockwiseState in the CarrierController
+ * \brief Defines actions for the Clockwise state
  */
 class ClockwiseState : public ICarrierState {
     public:
         /**
          * \brief Constructor for the ClockwiseState class
          * 
-         * \param[in] controller Reference of the CarrierController that the ClockwiseState can use to control the carrier
+         * \param[in]  controller  reference of the CarrierController that the
+         * ClockwiseState can use to control the carrier
          */
         ClockwiseState(CarrierController &controller);
 

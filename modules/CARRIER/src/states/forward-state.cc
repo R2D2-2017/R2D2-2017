@@ -10,18 +10,18 @@
 using namespace Carrier;
 
 ForwardState::ForwardState(CarrierController &controller) : ICarrierState{ controller } {
-    if (controller.getSonarValue(SonarDirections::North)[0] <= 50) {
+    if (controller.getSonarValue(SonarDirection::North)[0] <= 50) {
         controller.setState(CarrierState::Idle);
-        controller.getSerialCom().write("PATH OBSTRUCTED CANT GO FORWARD");
+        controller.getSerialCom().write("PATH OBSTRUCTED! CANNOT GO FORWARD");
     } else {
         controller.getMotorController().forward(controller.getSpeed());
     }
 }
 
 void ForwardState::update() {
-    if (controller.getSonarValue(SonarDirections::North)[0] <= 50) {
+    if (controller.getSonarValue(SonarDirection::North)[0] <= 50) {
         controller.setState(CarrierState::Idle);
-        controller.getSerialCom().write("PATH OBSTRUCTED CANT GO FORWARD");
+        controller.getSerialCom().write("PATH OBSTRUCTED! CANNOT GO FORWARD");
     }
 }
 

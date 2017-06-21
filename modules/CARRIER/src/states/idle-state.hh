@@ -17,14 +17,15 @@ namespace Carrier {
 class CarrierController;
 
 /**
- * \brief IdleState class to control the IdleState in the CarrierController
+ * \brief Defines actions for the Idle state
  */
 class IdleState : public ICarrierState {
     public:
         /**
          * \brief Constructor for the IdleState class
          * 
-         * \param[in] controller Reference of the CarrierController that the IdleState can use to control the carrier
+         * \param[in]  controller  reference of the CarrierController that the
+         * IdleState can use to control the carrier
          */
         IdleState(CarrierController &controller);
 

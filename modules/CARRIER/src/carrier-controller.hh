@@ -10,11 +10,9 @@
 #pragma once
 #include <memory> // Used for smart pointers
 #include <vector>
-#include "motor-controller.hh"
 #include "hc-sr04.hh"
+#include "motor-controller.hh"
 #include "serial-com.hh"
-#include "motor-controller.hh"
-#include "hc-sr04.hh"
 #include "./states/i-carrier-state.hh"
 #include "./states/forward-state.hh"
 #include "./states/backward-state.hh"
@@ -26,14 +24,14 @@
 namespace Carrier {
 
 /**
- * \brief enum for the different distance sensors
+ * \brief Directions for the different distance sensors
  */
-enum SonarDirections {
+enum SonarDirection {
     North = 0,
     East,
     South,
     West,
-    All,
+    All
 };
 
 /**
@@ -46,10 +44,10 @@ private:
     /// Controller to send commands to the motors
     MotorController &motorController;
     
-    /// Controller to send commands to the motors
+    /// Controller for serial communication
     SerialCom &serialCom;
     
-    /// Sonar sensor for object avoidance
+    /// A vector of four sonar sensors, used for object avoidance
     std::vector<HcSr04> &sonarSensors;
 
     /// The speed in ???-units
@@ -62,15 +60,17 @@ public:
     /**
      * \brief Constructor of CarrierController
      *
-     * \param[in]  motorController  class that can control the carrier motors
-     * \param[in]  serialCom        class that can control the serial
-     * \param[in]  sonarController  class that can control the sonar sensor
-     * \param[in]  distThreshold    the threshold for distance to objects
+     * The sonar vector must be filled as follows: North, East, South, West.
+     *
+     * \param[in]  motorController  a reference to the motro controller
+     * \param[in]  serialCom        a reference to the serial com
+     * \param[in]  sonarSensors     a vector containing the four sonar sensors
      * \param[in]  speed            the speed in ???-units
      */
     CarrierController(MotorController &motorController,
-                      SerialCom& serialCom,
-                      std::vector<HcSr04>& sonarSensors, int speed = 1);
+                      SerialCom &serialCom,
+                      std::vector<HcSr04> &sonarSensors,
+                      int speed = 1);
 
     /**
      * \brief Sets the speed
@@ -83,27 +83,28 @@ public:
      * \brief Update tick for the controller
      *
      * Allows the controller to perform the actions for the current state,
-     * during which the controller may change state
+     * during which the controller may change state.
      */
     void update();
 
     /**
-     * \brief Sets the state of the robot based on the Given CarrierState
-     * \param[in] state The state the robot is going to be set in
+     * \brief Sets the state of the robot based on the given CarrierState
+     *
+     * \param[in]  state  The state the robot is going to transition to
      */
     void setState(CarrierState state);
 
     /**
      * \brief Returns the current state the carrier is in
      *
-     * \return an enum containing the current state
+     * \return An enum containing the current state
      */
     CarrierState currentState();
 
     /**
      * \brief Returns the current speed
      *
-     * \returns integer with current speed value
+     * \returns An integer with the current speed value
      */
     int getSpeed();
 
@@ -118,12 +119,18 @@ public:
     SerialCom &getSerialCom();
 
     /**
-     * \brief Returns selected sensor reading in cm
+     * \brief Returns selected sensor reading in centimeters
      *
-     * \param[in] direction selection from the enum to select what sensor to read
-     * Can be use to read the 4 sensor individually or use the All enum to read out all at once
-     * \return Vector of read sensor values
+     * Can be used to read the four sensors individually or use
+     * SonarDirection::All to read out all of them at once.
+     *
+     * A single direction returns a vector with one element.
+     * When reading all sensors, a vector of four elements is returned.
+     * The vector is filled as follows: North, East, South, West.
+     *
+     * \param[in]  direction  selection from the enum to select what sensor to read
+     * \return A vector of read sensor distance values
      */
-    std::vector<int> getSonarValue(SonarDirections direction);
+    std::vector<int> getSonarValue(SonarDirection direction);
 };
 } // namespace Carrier

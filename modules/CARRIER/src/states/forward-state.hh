@@ -17,14 +17,15 @@ namespace Carrier {
 class CarrierController;
 
 /**
- * \brief ForwardState class to control the ForwardState in the CarrierController
+ * \brief Defines actions for the Forward state
  */
 class ForwardState : public ICarrierState {
     public:
         /**
          * \brief Constructor for the ForwardState class
          * 
-         * \param[in] controller Reference of the CarrierController that the forwardState can use to control the carrier
+         * \param[in]  controller  reference of the CarrierController that the
+         * ForwardState can use to control the carrier
          */
         ForwardState(CarrierController &controller);
 

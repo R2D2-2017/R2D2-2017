@@ -17,14 +17,15 @@ namespace Carrier {
 class CarrierController;
 
 /**
- * \brief BackwardState class to control the BackwardState in the CarrierController
+ * \brief Defines actions for the Backward state
  */
 class BackwardState : public ICarrierState {
     public:
         /**
          * \brief Constructor for the BackwardState class
          * 
-         * \param[in] controller Reference of the CarrierController that the BackwardState can use to control the carrier
+         * \param[in]  controller  reference of the CarrierController that the
+         * BackwardState can use to control the carrier
          */
         BackwardState(CarrierController &controller);
 
@@ -37,7 +38,7 @@ class BackwardState : public ICarrierState {
         void update();
 
         /**
-         * \brief Returns the BackwardState enum from CarrierState
+         * \brief Returns the Backward state
          */
         CarrierState getState();
 };
