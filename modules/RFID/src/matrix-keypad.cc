@@ -1,6 +1,6 @@
 /**
  * \file      matrix-keypad.cc
- * \brief     Library for a 3x4 or 4x4 keypad
+ * \brief     Class for a 3x4 or 4x4 keypad
  * \author    Tim IJntema, René de Kluis, Ricardo Bouwman
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See LICENSE
@@ -12,7 +12,7 @@
 MatrixKeypad::MatrixKeypad(const int *row, const int *column, int colSize)
     : colSize(colSize), row(row), column(column) {
     // Making sure the column size is within range
-    if (colSize < 3 || colSize > 4) {
+    if (colSize < minColSize || colSize > maxColSize) {
         std::cerr << "Column size " << colSize
                   << " higher or lower than the allowed range\n";
         exit(EXIT_FAILURE);
@@ -26,7 +26,7 @@ char MatrixKeypad::getKey() {
         for (int currentRow = 0; currentRow < rowSize; currentRow++) {
             pinMode(row[currentRow], INPUT);
             pullUpDnControl(row[currentRow], PUD_UP);
-            if (digitalRead(row[currentRow]) == 0) {
+            if (!digitalRead(row[currentRow])) {
                 activeRow = currentRow;
             }
         }
@@ -37,28 +37,26 @@ char MatrixKeypad::getKey() {
     for (int currentCol = 0; currentCol < colSize; currentCol++) {
         pinMode(column[currentCol], INPUT);
         pullUpDnControl(column[currentCol], PUD_UP);
-        if (digitalRead(column[currentCol]) == 0) {
+        if (!digitalRead(column[currentCol])) {
             return keypad[activeRow][currentCol];
         }
     }
-    return 'h';
+    return noKey;
 }
 
 std::string MatrixKeypad::getString() {
     std::string pinCode;
-    char c = getKey();
-    int length = 0;
-    while (c != '#' && length < 16) {
-        if (c > 47 && c < 58) {
-            pinCode += c;
-            length += 1;
+    char pressedKey = getKey();
+    while (pressedKey != '#' && pinCode.length() < maxPinCodeLength) {
+        if (pressedKey >= asciiZero && pressedKey <= asciiNine) {
+            pinCode += pressedKey;
             std::cout << "Key entered\n";
         }
-        char heldKey = c;
+        char heldKey = pressedKey;
         while (getKey() == heldKey) {
-            delay(10);
+            delay(checkKeyHeldDelay);
         }
-        c = getKey();
+        pressedKey = getKey();
     }
     return pinCode;
 }

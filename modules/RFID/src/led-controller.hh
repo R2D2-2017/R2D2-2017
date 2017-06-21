@@ -1,7 +1,7 @@
 /**
  * \file      led-controller.hh
  * \brief     blink a led for a given time
- * \author    Koen de Groot
+ * \author    Koen de Groot, Ricardo Bouwman
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See LICENSE
  */
@@ -16,10 +16,10 @@ class LedController {
     /**
     * \brief constructor for a led
     *
-    * \param[in]     p     the wiringPi pin number the led is connected to
+    * \param[in]     pin     the wiringPi pin number the led is connected to
     */
 
-    LedController(int p);
+    LedController(int pin);
 
     /**
     * \brief blink led a given time

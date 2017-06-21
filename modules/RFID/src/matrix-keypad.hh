@@ -1,6 +1,6 @@
 /**
  * \file      matrix-keypad.hh
- * \brief     Library for using a 3x4 or 4x4 matrix keypad
+ * \brief     Class for using a 3x4 or 4x4 matrix keypad
  * \author    Tim IJntema, René de Kluis, Ricardo Bouwman
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See LICENSE
@@ -12,13 +12,20 @@
 #include <wiringPi.h>
 
 /**
- * \brief Library for using a 3x4 or 4x4 keypad
+ * \brief Class for using a 3x4 or 4x4 keypad
  *
- * This library can be used to capture input from a 4x4 keypad using wiringPi.
+ * This class can be used to capture input from a 4x4 keypad using wiringPi.
  *
  */
 class MatrixKeypad {
-  private:
+private:
+    const char noKey = 'h';
+    const int asciiZero = 48;
+    const int asciiNine = 57;
+    const unsigned int maxPinCodeLength = 16;
+    const unsigned int checkKeyHeldDelay = 10;
+    const int minColSize = 3;
+    const int maxColSize = 4;
     const int rowSize = 4;
     const int colSize;
 
@@ -29,12 +36,12 @@ class MatrixKeypad {
 
     // The only difference between the 3x4 and 4x4 keypad is that the 3x4 keypad
     // has no alphabetic characters
-    char keypad[4][4] = {{'1', '2', '3', 'A'},
+    const char keypad[4][4] = {{'1', '2', '3', 'A'},
                          {'4', '5', '6', 'B'},
                          {'7', '8', '9', 'C'},
                          {'*', '0', '#', 'D'}};
 
-  public:
+public:
     /**
     * \brief Constructor
     *
