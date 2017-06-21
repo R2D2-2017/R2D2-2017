@@ -18,6 +18,7 @@
 #include "serial-com.hh"
 #include "hc-sr04.hh"
 #include "./states/i-carrier-state.hh"
+#include "slit-sensor.hh"
 
 int main(void) {
     // Wiringpi pin setup
@@ -62,6 +63,9 @@ int main(void) {
         delay(500);
     }
     digitalWrite(statusLed, 1); // On
+
+    // this functionality can't be used yet
+    SlitSensor rotationCounter(5,6,1ns);
 
     //When connected go into the carrier state loop
     while (true) {
