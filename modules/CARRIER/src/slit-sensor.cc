@@ -49,7 +49,7 @@ void SlitSensor::threadMain() {
         }
 
         if (statusFront) {
-                if(!statusfront){
+                if(!statusFront){
                     NewRotations++;
                 }
             }
