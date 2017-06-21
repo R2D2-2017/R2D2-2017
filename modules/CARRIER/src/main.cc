@@ -18,6 +18,9 @@
 #include "serial-com.hh"
 #include "hc-sr04.hh"
 #include "./states/i-carrier-state.hh"
+#include "slit-sensor.hh"
+#include <iostream>
+
 
 int main(void) {
     // Wiringpi pin setup
@@ -62,7 +65,7 @@ int main(void) {
         delay(500);
     }
     digitalWrite(statusLed, 1); // On
-
+    /*
     //When connected go into the carrier state loop
     while (true) {
         //Read command from the bluetooth serial com
@@ -92,4 +95,10 @@ int main(void) {
         stateMachine.update();
         delay(100);
     }
+     */
+    SlitSenor sensordingetje( 21, 22, 1ns);
+    stateMachine.setState(Carrier::CarrierState::Backward);
+    delay(500);
+    stateMachine.setState(Carrier::CarrierState::Idle);
+    std::cout << "Rotations: " << sensordingetje.rotations();
 }
