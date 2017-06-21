@@ -24,7 +24,11 @@ SlitSensor::~SlitSensor() {
 }
 
 int SlitSensor::rotations() {
-    return rotationCount;
+    //return rotationCount;
+    if(NewRotations<16) {
+        return 0;
+    }
+    return rotationCount = NewRotations / 16;
 }
 
 void SlitSensor::reset() {
@@ -43,6 +47,11 @@ void SlitSensor::threadMain() {
             waitingForBack = false;
             rotationCount++;
         }
+
+        if (!waitingForBack) {
+            NewRotations++;
+        }
         std::this_thread::sleep_for(pollTime);
     }
 }
+

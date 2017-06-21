@@ -28,6 +28,7 @@ private:
     const std::chrono::nanoseconds pollTime;
 
     std::atomic_uint rotationCount{ 0 };
+    int NewRotations = 0 ;
 
     std::thread pollThread;
     bool running = true;
