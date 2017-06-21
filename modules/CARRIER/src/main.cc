@@ -96,7 +96,7 @@ int main(void) {
         delay(100);
     }
      */
-    SlitSenor sensordingetje( 21, 22, 1ns);
+    SlitSensor sensordingetje( 21, 22, 1ns);
     stateMachine.setState(Carrier::CarrierState::Backward);
     delay(500);
     stateMachine.setState(Carrier::CarrierState::Idle);
