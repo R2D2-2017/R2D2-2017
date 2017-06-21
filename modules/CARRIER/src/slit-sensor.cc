@@ -24,11 +24,7 @@ SlitSensor::~SlitSensor() {
 }
 
 int SlitSensor::rotations() {
-    //return rotationCount;
-    if(NewRotations<16) {
-        return 0;
-    }
-    return rotationCount = NewRotations / 16;
+    return rotationCount;
 }
 
 void SlitSensor::reset() {
@@ -38,22 +34,19 @@ void SlitSensor::reset() {
 void SlitSensor::threadMain() {
     bool waitingForBack = false;
     bool statusFront, statusBack;
+    bool prevFront = digitalRead(frontPin);
+    bool prevBack = digitalRead(backPin);
     while (running) {
         statusFront = digitalRead(frontPin);
         statusBack  = digitalRead(backPin);
-        if (!waitingForBack && statusFront) {
-            waitingForBack = true;
-        } else if (waitingForBack && statusBack) {
-            waitingForBack = false;
-            rotationCount++;
+        
+        if (prevFront != statusFront) {
+            ++rotationCount;
         }
+        // TODO: implement direction
 
-        if (statusFront) {
-                if(!statusBack){
-                    NewRotations++;
-                }
-            }
-        }
+        prevFront = statusFront;
+
         std::this_thread::sleep_for(pollTime);
     }
 
