@@ -10,7 +10,7 @@
 #include "robot-arm.hh"
 #include "stepper.hh"
 #include "wrap-hwlib.hh"
-#include "I2C.hh"
+#include "i2c.hh"
 
 class RobotArmTester {
     static const char *commandList1[15];

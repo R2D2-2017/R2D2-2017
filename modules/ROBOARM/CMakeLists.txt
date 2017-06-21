@@ -33,7 +33,7 @@ set(sources
         src/main.cc
         src/robot-arm-tester.cc
         src/wifi.cc
-        src/I2C.cc
+        src/i2c.cc
         )
 
 # The target chip that is compiled for:

@@ -3,6 +3,7 @@
  * \author    Bob Thomas
  * \author    David Driessen
  * \author    Chris Smeele
+ * \author    Paul Ettema
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See LICENSE
  */
@@ -13,7 +14,7 @@
 #include "wifi.hh"
 #include "wrap-hwlib.hh"
 #include "robot-arm-tester.hh"
-#include "I2C.hh"
+#include "i2c.hh"
 
 
 int main() {
@@ -28,21 +29,22 @@ int main() {
 
     // XY motor controlling the angle of the base joint.
     auto m1Enable = hwlib::target::pin_out(hwlib::target::pins::a2);
-    auto m1Step   = hwlib::target::pin_out(hwlib::target::pins::a6);
-    auto m1Dir    = hwlib::target::pin_out(hwlib::target::pins::a7);
+    auto m1Step = hwlib::target::pin_out(hwlib::target::pins::a6);
+    auto m1Dir = hwlib::target::pin_out(hwlib::target::pins::a7);
 
     // XY motor controlling the angle of the middle joint.
     auto m2Enable = hwlib::target::pin_out(2, 6); //d38
-    auto m2Step   = hwlib::target::pin_out(hwlib::target::pins::a0);
-    auto m2Dir    = hwlib::target::pin_out(hwlib::target::pins::a1);
+    auto m2Step = hwlib::target::pin_out(hwlib::target::pins::a0);
+    auto m2Dir = hwlib::target::pin_out(hwlib::target::pins::a1);
 
     // Motor controlling the rotation of the Y axis. (rotates the base of the robot)
     auto m3Enable = hwlib::target::pin_out(hwlib::target::pins::a8);
-    auto m3Step   = hwlib::target::pin_out(hwlib::target::pins::d46);
-    auto m3Dir    = hwlib::target::pin_out(hwlib::target::pins::d48);
+    auto m3Step = hwlib::target::pin_out(hwlib::target::pins::d46);
+    auto m3Dir = hwlib::target::pin_out(hwlib::target::pins::d48);
 
     auto m1LimitSwitch = hwlib::target::pin_in(hwlib::target::pins::d2);
     auto m2LimitSwitch = hwlib::target::pin_in(hwlib::target::pins::d3);
+    auto m3LimitSwitch = hwlib::target::pin_in(hwlib::target::pins::d14);
 
     auto wifiRx = hwlib::target::pin_in(hwlib::target::pins::d19);
     auto wifiTx = hwlib::target::pin_out(hwlib::target::pins::d18);
@@ -60,9 +62,13 @@ int main() {
                                          m3Stepper,
                                          m1LimitSwitch,
                                          m2LimitSwitch,
+                                         m3LimitSwitch,
                                          ky101);
 
     I2C i2c(i2c_bus);
+    i2c.reset();
+    i2c.setPWMFreq(50);
+
     RobotArmTester tester(robotarm, i2c);
 
     wifi.setupAccessPoint("ROBOARM", "123454321");
@@ -73,19 +79,6 @@ int main() {
     hwlib::cout << "enabled\r\n";
     robotarm.startup(); // resets the robot position
     hwlib::cout << "started up\r\n";
-
-    //hwlib::wait_ms(2000);
-
-    //robotarm.moveTo({ 12, 12,  0 });
-    //hwlib::wait_ms(3000);
-    //robotarm.moveTo({ 12, 12,  45 });
-    //hwlib::wait_ms(3000);
-    //robotarm.moveTo({ 12, 12,  0 });
-
-    //robotarm.moveTo({ 24, 18,  20 });
-    //hwlib::wait_ms(3000);
-    //robotarm.moveTo({ 15, 2,   20 });
-    //hwlib::wait_ms(2000);
 
     using namespace RoboArm::Parser;
     while (true) {
