@@ -16,43 +16,37 @@
 class Stepper {
 private:
 
-    /**
-     * Pin that is used to enable or disable the motor
-     */
+    /// Pin that is used to enable or disable the motor
     hwlib::pin_out &en_pin;
 
-    /**
-     * Pin that is used for the clockwise or counterclockwise direction
-     */
+    /// Pin that is used for the clockwise or counterclockwise direction
     hwlib::pin_out &dir_pin;
 
-    /**
-     * Pin that is used to control the step of the stepper motor
-     */
+    /// Pin that is used to control the step of the stepper motor
     hwlib::pin_out &stp_pin;
 
 public:
     /**
-     *\brief Constructor for the stepper motor
-     *\param[in] dir_pin pin is used for the clockwise or counterclockwise direction
-     *\param[in] stp_pin pin is used to control the step of the stepper motor
+     * \brief Constructor for the stepper motor
+     * \param[in] dir_pin pin is used for the clockwise or counterclockwise direction
+     * \param[in] stp_pin pin is used to control the step of the stepper motor
      */
     Stepper(hwlib::pin_out &dir_pin, hwlib::pin_out &stp_pin,
             hwlib::pin_out &en_pin);
 
     /**
-     *\brief Let the motor step a certain amount of steps
-     *\param[in] clockwise the direction the motor will rotate to
+     * \brief Let the motor step a certain amount of steps
+     * \param[in] clockwise the direction the motor will rotate to
      */
     void step(bool clockwise);
 
     /**
-     *\brief Enable the motor
+     * \brief Enable the motor
      */
     void enable();
 
     /**
-     *\brief Enable the motor
+     * \brief Enable the motor
      */
     void disable();
 };

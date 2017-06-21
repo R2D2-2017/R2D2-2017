@@ -18,29 +18,28 @@
 
 
 int main() {
-    hwlib::cout << "hallo\r\n";
     WDT->WDT_MR = WDT_MR_WDDIS;
 
     auto sclPin = hwlib::target::pin_oc(hwlib::target::pins::d21);
     auto sdaPin = hwlib::target::pin_oc(hwlib::target::pins::d20);
-    hwlib::i2c_bus_bit_banged_scl_sda i2c_bus(sclPin, sdaPin);
+    hwlib::i2c_bus_bit_banged_scl_sda i2cBus(sclPin, sdaPin);
 
     auto ky101Pin = hwlib::target::pin_in(hwlib::target::pins::d14);
 
     // XY motor controlling the angle of the base joint.
     auto m1Enable = hwlib::target::pin_out(hwlib::target::pins::a2);
-    auto m1Step = hwlib::target::pin_out(hwlib::target::pins::a6);
-    auto m1Dir = hwlib::target::pin_out(hwlib::target::pins::a7);
+    auto m1Step   = hwlib::target::pin_out(hwlib::target::pins::a6);
+    auto m1Dir    = hwlib::target::pin_out(hwlib::target::pins::a7);
 
     // XY motor controlling the angle of the middle joint.
     auto m2Enable = hwlib::target::pin_out(2, 6); //d38
-    auto m2Step = hwlib::target::pin_out(hwlib::target::pins::a0);
-    auto m2Dir = hwlib::target::pin_out(hwlib::target::pins::a1);
+    auto m2Step   = hwlib::target::pin_out(hwlib::target::pins::a0);
+    auto m2Dir    = hwlib::target::pin_out(hwlib::target::pins::a1);
 
     // Motor controlling the rotation of the Y axis. (rotates the base of the robot)
     auto m3Enable = hwlib::target::pin_out(hwlib::target::pins::a8);
-    auto m3Step = hwlib::target::pin_out(hwlib::target::pins::d46);
-    auto m3Dir = hwlib::target::pin_out(hwlib::target::pins::d48);
+    auto m3Step   = hwlib::target::pin_out(hwlib::target::pins::d46);
+    auto m3Dir    = hwlib::target::pin_out(hwlib::target::pins::d48);
 
     auto m1LimitSwitch = hwlib::target::pin_in(hwlib::target::pins::d2);
     auto m2LimitSwitch = hwlib::target::pin_in(hwlib::target::pins::d3);
@@ -65,7 +64,7 @@ int main() {
                                          m3LimitSwitch,
                                          ky101);
 
-    I2C i2c(i2c_bus);
+    I2C i2c(i2cBus);
     i2c.reset();
     i2c.setPWMFreq(50);
 
@@ -81,6 +80,7 @@ int main() {
     hwlib::cout << "started up\r\n";
 
     using namespace RoboArm::Parser;
+
     while (true) {
         hwlib::string<16> command = wifi.receive();
 
@@ -112,17 +112,18 @@ int main() {
         } else {
             Status result = parseCommand(command, robotarm, i2c);
             switch (result) {
-                case Status::SyntaxError:
-                    wifi.send("Syntax error\n");
-                    break;
-                case Status::Successful:
-                    wifi.send("Done\n");
-                    break;
+            case Status::SyntaxError:
+                wifi.send("Syntax error\n");
+                break;
+            case Status::Successful:
+                wifi.send("Done\n");
+                break;
             }
         }
     }
 
     hwlib::cout << "end\r\n";
     robotarm.disable();
+
     return 0;
 }

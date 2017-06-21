@@ -246,14 +246,14 @@ hwlib::string<32> Wifi::receive() {
         hwlib::cout << "---------------" << i << "---------------\r\n";
     }
 
-    id_last_transmition = buffer[begin + 5];
+    idLastTransmition = buffer[begin + 5];
 
     return returnData;
 }
 
 void Wifi::send(const hwlib::string<32> &data) {
     hwlib::string<48> s = "AT+CIPSEND=";
-    s += id_last_transmition;
+    s += idLastTransmition;
     s += ",";
     int len = data.length();
     if (len == 0)return;

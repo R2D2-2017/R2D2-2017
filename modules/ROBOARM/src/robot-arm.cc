@@ -32,7 +32,7 @@ RobotArmController::RobotArmController(
 bool RobotArmController::canRotateMotor(Motor motor, int degrees) const {
     auto limits = motorLimits[motor == Motor::M1 ? 0 : motor == Motor::M2 ? 1 : 2];
 
-    // This is annoying. 💩
+    // This is annoying.
     auto oldRot = (  motor == Motor::M1 ? std::get<0>(motorRotations)
                    : motor == Motor::M2 ? std::get<1>(motorRotations)
                    :                      std::get<2>(motorRotations));
@@ -90,11 +90,8 @@ bool RobotArmController::rotateMotor(Motor motor, int degrees) {
 
 template<typename T>
 constexpr T pow2(T v) { return v * v; }
-
 constexpr float pi = 3.141592653589793;
-
 constexpr float rad2deg(float rad) { return rad * (180 / pi); }
-
 constexpr float deg2rad(float deg) { return deg * (pi / 180); }
 
 std::tuple<float,float,float>
@@ -134,7 +131,6 @@ static hwlib::ostream &operator<<(hwlib::ostream &stream, Position pos) {
 bool RobotArmController::moveTo(Position pos) {
     hwlib::cout << "moving to " << pos << "\r\n";
 
-    // TODO: Reach checking, return false if pos is out of reach.
     auto newMotorRotations = positionToMotorRotations(pos);
 
     hwlib::cout << "motors: "

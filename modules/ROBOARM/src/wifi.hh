@@ -10,11 +10,14 @@
 #include "wrap-hwlib.hh"
 
 /**
- * Wifi class implementing the ESP8266 to create a wifi network and receive
- * commands through it
+ * \brief Wifi class implementing the ESP8266 to create a wifi network and
+ *        receive commands through it
  */
 class Wifi {
 
+    /**
+     * \brief AT response status type
+     */
     enum class ATSTATUS {
         OK,
         READY,
@@ -22,33 +25,40 @@ class Wifi {
         NO_CHANGE
     };
 
-    bool debug = false;
     /**
-     * The client id to response to
+     * \brief Whether we are in debug mode
      */
-    char id_last_transmition = '0';
+    bool debug = false;
+
     /**
-     * UART input pin the ESP8266 is connected to
+     * \brief The client id to response to
+     */
+    char idLastTransmition = '0';
+    /**
+     * \brief UART input pin the ESP8266 is connected to
      */
     hwlib::pin_in &rx;
 
     /**
-     * UART output pin the ESP8266 is connected to
+     * \brief UART output pin the ESP8266 is connected to
      */
     hwlib::pin_out &tx;
 
     /**
-     * Size of the buffer containing the last received response
+     * \brief Size of the buffer containing the last received response
      */
     static const int bufferSize = 512;
 
     /**
-     * Buffer containing the last received response
+     * \brief Buffer containing the last received response
      */
     char buffer[bufferSize];
 
     /**
      * \brief Send the AT command and stores it in the internal buffer
+     *
+     * \param command The command string
+     *
      * \return ATSTATUS The response status of the at command
      */
     Wifi::ATSTATUS AT(const hwlib::string<32> &command);

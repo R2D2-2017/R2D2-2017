@@ -17,19 +17,18 @@
 
 namespace RoboArm {
     /**
-     * Enum for the different step modes
+     * \brief Enum for the different step modes
      */
     enum RobotResolution {
-        Fullstep = 128,
-        HALFSTEP = Fullstep / 2,
-        QUARTERSTEP = Fullstep / 4,
-        EIGHTHSTEP = Fullstep / 8,
-        SIXTEENTHSTEP = Fullstep / 16
+        FULLSTEP      = 128,
+        HALFSTEP      = FULLSTEP / 2,
+        QUARTERSTEP   = FULLSTEP / 4,
+        EIGHTHSTEP    = FULLSTEP / 8,
+        SIXTEENTHSTEP = FULLSTEP / 16
     };
 
-
     /**
-     * Position type, used as input for coordinate-based movement.
+     * \brief Position type, used as input for coordinate-based movement.
      */
     struct Position {
         float x, y;
@@ -37,25 +36,23 @@ namespace RoboArm {
     };
 
     /**
-     * Enum class for the different motors on the robot arm
+     * \brief Enum class for the different motors on the robot arm
      */
     enum class Motor {
         M1, M2, M3
     };
 
     /**
-     * Enum class for the different limit switches
+     * \brief Enum class for the different limit switches
      */
     enum class RobotLimitSwitch {
         BOTH, M1, M2, NONE
     };
 
-    /**
-     * List of limits of M1, M2 and M3.
-     */
+    /// List of limits of M1, M2 and M3.
     static constexpr std::pair<float,float> motorLimits[] {
         {    0, 150 },
-        {    -90,  0 },
+        {  -90,   0 },
         { -180, 180 },
     };
 
@@ -64,83 +61,57 @@ namespace RoboArm {
      */
     class RobotArmController {
 
-        /**
-         * microSteps the driver board is using to control the X and Y position.
-         */
+        /// microSteps the driver board is using to control the X and Y position.
         static constexpr int microStepsArms = EIGHTHSTEP;
 
-        /**
-         * microSteps the driver board is using to control the Y axis rotation.
-         */
+        /// microSteps the driver board is using to control the Y axis rotation.
         static constexpr int microStepsBase = QUARTERSTEP;
 
-        /**
-         * Length of the arm from the base joint to the middle joint.
-         */
+        /// Length of the arm from the base joint to the middle joint.
         static constexpr float arm1Length = 18.5;
 
-        /**
-         * Length of the arm from the middle joint to the hand.
-         */
+        /// Length of the arm from the middle joint to the hand.
         static constexpr float arm2Length = 21;
 
-        /**
-         * How many teeth the driver gear of M3 has.
-         */
+        /// How many teeth the driver gear of M3 has.
         static constexpr int smallBaseGear = 20;
 
-        /**
-         * How many teeth the driver gear for the arms have for M1 and M2 (XY axes)
-         */
+        /// How many teeth the driver gear for the arms have for M1 and M2 (XY axes)
         static constexpr int smallArmGear = 11;
 
-        /**
-         * How many teeth the driven gear has for all three axes
-         */
+        /// How many teeth the driven gear has for all three axes
         static constexpr int bigGear = 45;
 
-        /**
-         * The size of a step to turn the motor 1 degree
-         */
+        /// The size of a step to turn the motor 1 degree
         static constexpr float stepSize = 1.65;
 
-        /**
-         * Calculating the ratio to drive a gear correctly
-         * http://www.wikihow.com/Determine-Gear-Ratio
-         */
+        /// Calculating the ratio to drive a gear correctly
+        /// http://www.wikihow.com/Determine-Gear-Ratio
         static constexpr float baseStepRatio = bigGear / smallBaseGear;
 
-        /**
-         * Calculating the ratio to drive a gear correctly
-         * http://www.wikihow.com/Determine-Gear-Ratio
-         */
+        /// Calculating the ratio to drive a gear correctly
+        /// http://www.wikihow.com/Determine-Gear-Ratio
         static constexpr float armStepRatio = bigGear / smallArmGear;
 
         /**
-         * The current rotations of M[123] in degrees.
+         * \brief The current rotations of M[123] in degrees.
          * These initial values match the motor rotations after startup.
          */
         std::tuple<float,float,float> motorRotations {150, 0, 0};
 
-        /**
-         * The different stepper motors you can use.
-         */
+        /// The different stepper motors you can use.
         Stepper &m1Stepper, &m2Stepper, &m3Stepper;
-        /**
-         * Input pins on which the M1 limit switch get wired to check limitation status
-         */
+
+        /// Input pins on which the M1 limit switch get wired to check limitation status
         hwlib::target::pin_in &m1LimitSwitch;
-        /**
-         * Input pins on which the M2 limit switch get wired to check limitation status
-         */
+
+        /// Input pins on which the M2 limit switch get wired to check limitation status
         hwlib::target::pin_in &m2LimitSwitch;
-        /**
-         * Input pins on which the M3 limit switch get wired to check limitation status
-         */
+
+        /// Input pins on which the M3 limit switch get wired to check limitation status
         hwlib::target::pin_in &m3LimitSwitch;
-        /**
-         * Class that reads input to see if the base is on it's starting position for Yrot.
-         */
+
+        /// Class that reads input to see if the base is on it's starting position for Yrot.
         Ky101 ky101;
 
     public:
@@ -166,6 +137,14 @@ namespace RoboArm {
 
         static std::tuple<float,float,float> positionToMotorRotations(Position pos);
 
+        /**
+         * \brief Check if the given rotation for the given motor is possible.
+         *
+         * \param motor   the motor
+         * \param degrees the amount of degrees to turn
+         *
+         * \return whether the rotation is possible
+         */
         bool canRotateMotor(Motor motor, int degrees) const;
 
         /**
@@ -173,8 +152,8 @@ namespace RoboArm {
          *
          * Note: A negative degree value means clockwise rotation.
          *
-         * \param[in]  motor     The motor you want to rotate
-         * \param[in]  degrees   how many degrees you want to rotate
+         * \param motor   The motor you want to rotate
+         * \param degrees how many degrees you want to rotate
          *
          * \retval true  When rotation succeeded
          * \retval false When rotation failed (due to motor limits)
