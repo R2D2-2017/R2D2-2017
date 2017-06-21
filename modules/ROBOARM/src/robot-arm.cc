@@ -30,12 +30,17 @@ RobotArmController::RobotArmController(
           ky101(ky101) {}
 
 bool RobotArmController::canRotateMotor(Motor motor, int degrees) const {
-    if(motor == Motor::M3){ return true;}
-    auto limits = motorLimits[motor == Motor::M1 ? 0 : motor == Motor::M2 ? 1 : 2];
 
-    // This is annoying. 💩
-    auto oldRot = (motor == Motor::M1 ? std::get<0>(motorRotations)
-                     : std::get<1>(motorRotations));
+    // Bypass check for motor 3.
+    if(motor == Motor::M3)
+        return true;
+
+    auto limits = motorLimits[motor == Motor::M1 ? 0
+                            : motor == Motor::M2 ? 1 : 2];
+
+    auto oldRot = (motor == Motor::M1
+                   ? std::get<0>(motorRotations)
+                   : std::get<1>(motorRotations));
 
     auto newRot = oldRot + degrees;
 
