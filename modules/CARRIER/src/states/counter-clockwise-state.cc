@@ -9,11 +9,15 @@
 
 using namespace Carrier;
 
-CounterClockwiseState::CounterClockwiseState(CarrierController &controller) : ICarrierState{ controller } {
+CounterClockwiseState::CounterClockwiseState(CarrierController &controller /*, int degrees*, SlitSensor &object*/) : ICarrierState{ controller } {
     // if (controller->sonarSensor.getDistance() <= distThreshold) {
         // controller->setState(new IdleState(controller));
     // }
      controller.getMotorController().left(controller.getSpeed());
+    //template code for when the slitsensor does work
+    // while(object.rotations() != degrees * (number of rotations per degree)){
+    //  }
+    // controller.getMotorController().stop();
 }
 
 void CounterClockwiseState::update() {

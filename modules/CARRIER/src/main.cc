@@ -17,6 +17,8 @@
 #include "motor-controller.hh"
 #include "serial-com.hh"
 #include "hc-sr04.hh"
+#include "./states/i-carrier-state.hh"
+#include "slit-sensor.hh"
 
 int main(void) {
     // Wiringpi pin setup
@@ -62,7 +64,10 @@ int main(void) {
     }
     digitalWrite(statusLed, 1); // On
 
-    // When connected go into the carrier state loop
+    // this functionality can't be used yet
+    SlitSensor rotationCounter(5,6,1ns);
+
+    //When connected go into the carrier state loop
     while (true) {
         // Read command from the bluetooth serial com
         std::string command = serialCom.readCommand();

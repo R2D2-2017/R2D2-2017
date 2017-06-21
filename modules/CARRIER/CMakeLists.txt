@@ -29,7 +29,10 @@ set(sources
     src/states/auto-state.cc
     src/states/idle-state.cc
     src/hallsensor.cc
-    src/main.cc)
+    src/slit-sensor.cc
+    src/main.cc
+    )
+
 
 
 add_executable(${exe_name} ${sources})
