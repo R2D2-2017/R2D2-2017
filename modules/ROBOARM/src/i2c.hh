@@ -36,8 +36,8 @@ class I2C {
 
     /**
      * \brief Sends command tot the pcA9685 chip
-     * \param[in]  registerAdress  The address of the target register
-     * \param[in]  registerValues  The value to send to the register
+     * \param[in] address The address of the target register
+     * \param[in] values The value to send to the register
      */
     void sendCommand(uint8_t address, uint8_t value);
 public:
@@ -49,30 +49,30 @@ public:
     void reset(void);
 
     /*!
-     * \brief  Set PWM duty cycle
-     * \param[in] The frequency to set the PWM outputs to. value 40-25000000
+     * \brief Set PWM duty cycle
+     * \param[in] freq The frequency to set the PWM outputs to. value 40-25000000
      */
-    void setPWMFreq(int);
+    void setPWMFreq(int freq);
 
     /*!
-     * \brief  Set PWM duty cycle
-     * \param[in] led channel (1-16) to set PWM value for
-     * \param[in] The on count of the duty cycle for the PWM. value 0-4095
-     * \param[in] The off count of the duty cycle for the PWM. value 0-4095
+     * \brief Set PWM duty cycle
+     * \param[in] led Led channel (1-16) to set PWM value for
+     * \param[in] onValue The on count of the duty cycle for the PWM. value 0-4095
+     * \param[in] offValue The off count of the duty cycle for the PWM. value 0-4095
      */
-    void setPWM(uint8_t, int, int);
+    void setPWM(uint8_t led, int onValue, int offValue);
 
     /*!
-     * \brief  Set PWM duty cycle
-     * \param[in] led channel (1-16) to set PWM value for
-     * \param[in] The percentage of the duty cycle for the PWM. value 0-100
+     * \brief Set PWM duty cycle
+     * \param[in] led Led channel (1-16) to set PWM value for
+     * \param[in] value The percentage of the duty cycle for the PWM. value 0-100
      */
-    void setPWM(uint8_t, int);
+    void setPWM(uint8_t led, int value);
 
     /*!
      * \brief  Set PWM duty cycle for a servo moto
-     * \param[in] Servo channel (1-16) to set PWM value for
-     * \param[in] The degrees to tern the servo motor to. value 0-180
+     * \param[in] servo Servo channel (1-16) to set PWM value for
+     * \param[in] degrees The degrees to tern the servo motor to. value 0-180
      */
     void moveServoTo(uint8_t servo, int degrees);
 };
