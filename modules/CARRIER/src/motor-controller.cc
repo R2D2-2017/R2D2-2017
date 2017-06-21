@@ -13,26 +13,26 @@ MotorController::MotorController(std::string portName, int baud) :
 {}
 
 void MotorController::forward(int speed){
-	leftMotor.sendCommand(MovementControls::forwardMotorOne, speed);
-	rightMotor.sendCommand(MovementControls::forwardMotorTwo, speed);
+	leftMotor.sendCommand(MovementControls::ForwardMotorOne, speed);
+	rightMotor.sendCommand(MovementControls::ForwardMotorTwo, speed);
 }
 
 void MotorController::backward(int speed){
-	leftMotor.sendCommand(MovementControls::backwardMotorOne, speed);
-	rightMotor.sendCommand(MovementControls::backwardMotorTwo, speed);
+	leftMotor.sendCommand(MovementControls::BackwardMotorOne, speed);
+	rightMotor.sendCommand(MovementControls::BackwardMotorTwo, speed);
 }
 
 void MotorController::left(int speed){
-	leftMotor.sendCommand(MovementControls::backwardMotorOne, speed);
-	rightMotor.sendCommand(MovementControls::forwardMotorTwo, speed);
+	leftMotor.sendCommand(MovementControls::BackwardMotorOne, speed);
+	rightMotor.sendCommand(MovementControls::ForwardMotorTwo, speed);
 }
 
 void MotorController::right(int speed){
-	leftMotor.sendCommand(MovementControls::backwardMotorTwo, speed);
-	rightMotor.sendCommand(MovementControls::forwardMotorOne, speed);
+	leftMotor.sendCommand(MovementControls::BackwardMotorTwo, speed);
+	rightMotor.sendCommand(MovementControls::ForwardMotorOne, speed);
 }
 
 void MotorController::stop(){
-	leftMotor.sendCommand(MovementControls::forwardMotorOne, 0);
-	leftMotor.sendCommand(MovementControls::forwardMotorTwo, 0);
+	leftMotor.sendCommand(MovementControls::ForwardMotorOne, 0);
+	leftMotor.sendCommand(MovementControls::ForwardMotorTwo, 0);
 }

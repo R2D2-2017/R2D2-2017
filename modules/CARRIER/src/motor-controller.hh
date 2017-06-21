@@ -11,28 +11,26 @@
 #include "motor.hh"
 
 /**
- * \brief Serial communication with wiring pi for the Qik2s12v10
- *
- * Class that lets user control motors connected through Qik2s12v10 and
- * Raspberry Pi serial port
+ * \brief Movement commands to control the motors
  */
-enum MovementControls : char {
-    forwardMotorOne = 0x08,
-    forwardMotorTwo = 0x0C,
-    backwardMotorOne = 0X0A,
-    backwardMotorTwo = 0x0E
+enum MovementControls : uint8_t {
+    ForwardMotorOne = 0x08,  ///< Moves motor one forward
+    ForwardMotorTwo = 0x0C,  ///< Moves motor two forward
+    BackwardMotorOne = 0X0A, ///< Moves motor one backward
+    BackwardMotorTwo = 0x0E  ///< Moves motor two backward
 };
 
 /**
- * \brief class to control the rosbee motors
+ * \brief Controls both rosbee motors
  * 
- * This class controls the motor class by sending specific rosbee motor control commands
+ * Controls the rosbee motors by sending specific rosbee motor control commands
  */
 class MotorController {
 private:
-    /// left Motor on controller
+    /// The left motor
     Motor leftMotor;
-    /// right Motor on controller
+
+    /// The right motor
     Motor rightMotor;
 
 public:
