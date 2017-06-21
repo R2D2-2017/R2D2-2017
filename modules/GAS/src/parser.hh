@@ -24,16 +24,3 @@
 * \return   Returns whether parsing was successful or not.
 */
 bool parseArray(const char *input, int &measureWaitTime, Alarm &alarm, Mq5 &mq5);
-
-// Variables that the parser checks for in the conf file and their associated strings.
-namespace ParserStrings {
-    const char *firstNote            = "firstNote";
-    const char *secondNote           = "secondNote";
-    const char *warningThreshold     = "warningThreshold";
-    const char *dangerThreshold      = "dangerThreshold";
-    const char *mq5CalibrationValue  = "mq5CalibrationValue";
-    const char *measureWaitTime      = "measureWaitTime";
-    const char *isCalibrated         = "isCalibrated";
-};
-
-

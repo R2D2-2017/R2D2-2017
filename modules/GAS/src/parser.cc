@@ -9,6 +9,17 @@
  */
 
 #include "parser.hh"
+// Variables that the parser checks for in the conf file and their associated strings.
+namespace ParserStrings {
+    static const char *firstNote            = "firstNote";
+    static const char *secondNote           = "secondNote";
+    static const char *warningThreshold     = "warningThreshold";
+    static const char *dangerThreshold      = "dangerThreshold";
+    static const char *mq5CalibrationValue  = "mq5CalibrationValue";
+    static const char *measureWaitTime      = "measureWaitTime";
+    static const char *isCalibrated         = "isCalibrated";
+}
+
 
 /**
  * \brief Checks if a given array contains a given string.
