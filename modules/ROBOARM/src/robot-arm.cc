@@ -34,8 +34,8 @@ bool RobotArmController::canRotateMotor(Motor motor, int degrees) const {
     auto limits = motorLimits[motor == Motor::M1 ? 0 : motor == Motor::M2 ? 1 : 2];
 
     // This is annoying. 💩
-    auto oldRot = (  motor == Motor::M1 ? std::get<0>(motorRotations)
-                   : motor == Motor::M2 ? std::get<1>(motorRotations);
+    auto oldRot = (motor == Motor::M1 ? std::get<0>(motorRotations)
+                     : std::get<1>(motorRotations));
 
     auto newRot = oldRot + degrees;
 
