@@ -26,11 +26,11 @@ void GraphVertice::changeColor(sf::Color newColor) {
 
 bool GraphVertice::checkVertice(sf::Vector2f positionNodeOne, 
                                 sf::Vector2f positionNodeTwo) {
-    if ((positionNodeOne == positiona) && (positionNodeTwo == positionb)) {
+    if ((positionNodeOne == positionA) && (positionNodeTwo == positionB)) {
         return 1;
     }
-    else if ((positionNodeOne == positionb) && 
-             (positionNodeTwo == positiona)) {
+    else if ((positionNodeOne == positionB) && 
+             (positionNodeTwo == positionA)) {
         return 1;
     }
     return 0;
