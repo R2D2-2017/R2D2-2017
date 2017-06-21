@@ -68,26 +68,27 @@ void Client::run(){
     
     //Button setup
     std::vector<std::unique_ptr<Button>> buttonList;
-    buttonList.push_back(std::unique_ptr<Button>(new Button(
+    buttonList.push_back(std::make_unique<Button>(
                                     window, 
-                                    {float(window.getSize().x - (buttonSize.x + 10)), 
-                                            10}, 
-                                    {buttonSize}, 
-                                    static_cast<int>(button::ShutDown), "Shut Down")));
-    buttonList.push_back(std::unique_ptr<Button>(new Button(
+                                    sf::Vector2f((window.getSize().x - (buttonSize.x + 10)), 
+                                     10), 
+                                    buttonSize, 
+                                    static_cast<int>(button::ShutDown),
+                                    "shutdown"));
+    buttonList.push_back(std::make_unique<Button>(
                                     window, 
-                                    {float(window.getSize().x - (buttonSize.x + 100)),
-                                            10}, 
-                                    {buttonSize.x/2, buttonSize.y/2}, 
+                                    sf::Vector2f((window.getSize().x - (buttonSize.x + 100)),
+                                                 10), 
+                                    sf::Vector2f(buttonSize.x/2, buttonSize.y/2), 
                                     static_cast<int>(button::StartNode), "Start Node", 
-                                    false)));
-    buttonList.push_back(std::unique_ptr<Button>(new Button(
+                                    false));
+    buttonList.push_back(std::make_unique<Button>(
                                     window, 
-                                    {float(window.getSize().x - (buttonSize.x + 200)), 
-                                            10}, 
-                                    {buttonSize.x / 2, buttonSize.y / 2}, 
+                                    sf::Vector2f((window.getSize().x - (buttonSize.x + 200)), 
+                                            10), 
+                                    sf::Vector2f(buttonSize.x / 2, buttonSize.y / 2), 
                                     static_cast<int>(button::EndNode), "End Node", 
-                                    false)));
+                                    false));
 
     bool startNodeSelected = false;
     bool endNodeSelected = false;
