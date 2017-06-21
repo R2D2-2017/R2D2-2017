@@ -1,4 +1,5 @@
 /**
+ * \file
  * \author    Jeroen Kok
  * \author    Robbie Valkenburg
  * \author    Mike Hilhorst
@@ -9,7 +10,7 @@
 
 #include "alarm.hh"
 
-void Alarm::checkGasValue(int gasValue) {
+void Alarm::checkGasValue(uint32_t gasValue) {
     if (gasValue > dangerThreshold) {
         greenAlarmLed.set(false);
         yellowAlarmLed.set(false);
@@ -19,7 +20,7 @@ void Alarm::checkGasValue(int gasValue) {
             dangerPlayer.playNote(firstNote);
             dangerPlayer.playNote(secondNote);
         }
-    } else if (gasValue >= warningThreshold && gasValue <= dangerThreshold) {
+    } else if (gasValue > warningThreshold && gasValue <= dangerThreshold) {
         greenAlarmLed.set(false);
         yellowAlarmLed.set(true);
         redAlarmLed.set(false);
@@ -32,18 +33,18 @@ void Alarm::checkGasValue(int gasValue) {
     }
 }
 
-void Alarm::setFirstNote(int Note) {
-    firstNote = Note;
+void Alarm::setFirstNote(int note) {
+    firstNote = note;
 }
 
-void Alarm::setSecondNote(int Note) {
-    secondNote = Note;
+void Alarm::setSecondNote(int note) {
+    secondNote = note;
 }
 
-void Alarm::setWarningThreshold(int Threshold) {
-    warningThreshold = Threshold;
+void Alarm::setWarningThreshold(int threshold) {
+    warningThreshold = threshold;
 }
 
-void Alarm::setDangerThreshold(int Threshold) {
-    dangerThreshold = Threshold;
+void Alarm::setDangerThreshold(int threshold) {
+    dangerThreshold = threshold;
 }

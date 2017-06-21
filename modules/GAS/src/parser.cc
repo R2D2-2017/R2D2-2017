@@ -10,12 +10,12 @@
 
 #include "parser.hh"
 
-Parser::Parser(Alarm &alarm, Mq5 &mq5, int *measureWaitTime) :
+Parser::Parser(Alarm &alarm, Mq5 &mq5, int &measureWaitTime) :
         alarm(alarm),
         mq5(mq5),
         measureWaitTime(measureWaitTime) {}
 
-bool Parser::ifContainsString(char array[], const char *string) {
+bool Parser::ifContainsString(const char *array, const char *string) {
     bool containsString = false;
     for (int i = 0; array[i] != '\0'; i++) {
         if (containsString) {break;}
@@ -33,16 +33,11 @@ bool Parser::ifContainsString(char array[], const char *string) {
 
 bool Parser::parseArray(char* input) {
 
-    // For loop integers.
-    int i, j;
-
     // Read input array variables.
-    for (i = 0; input[i] != '\0'; ++i) {
+    for (int i = 0, j = 0; input[i] != '\0'; ++i) {
 
         // Start reading new variable at '@'.
         if (input[i] == '@') {
-
-            // Reset variable value to 0.
             variableValue = 0;
 
             // Skip '@' character.
@@ -66,14 +61,14 @@ bool Parser::parseArray(char* input) {
             for (j = 0; input[i] != '\n'; ++i, ++j) {
                 // Prevent endless loop.
                 if (input[i] == '\0') {
-                    hwlib::cout << ">>>PARSER ERROR : while reading variable value for [ " << variableName
-                                << " ], prevent endless loop!" << "\r\n";
+                    hwlib::cout << "Unexpected end of string after '@': [ " << variableName
+                                << " ]\r\n";
                     return false;
                 }
-                if (variableValue != 0) {
-                    // Multiply the value to add an extra zero so the next number can be added.
-                    variableValue *= 10;
-                }
+                // Multiply the value to add an extra zero so the next number can be added.
+                variableValue *= 10;
+
+
                 // Check if variable value is an integer or not.
                 if ((input[i] < '0') || (input[i] > '9')) {
                     hwlib::cout << ">>>PARSER ERROR : while reading variable value for [ " << variableName
@@ -98,7 +93,7 @@ bool Parser::parseArray(char* input) {
                 alarm.setDangerThreshold(variableValue);
             }
             else if (ifContainsString(variableName, mq5CalibrationValueString)) {
-                if (mq5.getMq5IsCalibrated()) {
+                if (mq5.isMq5Calibrated()) {
                     mq5.setMq5CalibrationValue(variableValue);
                     mq5.setMq5IsCalibrated(true);
                 } else {

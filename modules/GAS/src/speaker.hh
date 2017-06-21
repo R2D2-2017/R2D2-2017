@@ -5,8 +5,8 @@
  * \author    Mike Hilhorst
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See LICENSE
- * \wiki      https://github.com/R2D2-2017/R2D2-2017/wiki/M-LSP-12
- * \trello    https://trello.com/c/rFuGBmTr/5-9-speaker-sounds-alarm-when-threshold-is-crossed
+ *            https://github.com/R2D2-2017/R2D2-2017/wiki/M-LSP-12
+ *            https://trello.com/c/rFuGBmTr/5-9-speaker-sounds-alarm-when-threshold-is-crossed
  */
 
 #pragma once
@@ -16,6 +16,10 @@
  * \brief Speaker class for playing sounds.
  */
 class Speaker {
+private:
+    /// Digital pin used for the speaker.
+    hwlib::pin_out & speakerPin;
+
 public:
     /**
        * \brief Constructor for Speaker.
@@ -31,9 +35,4 @@ public:
      * \param note Will be the frequency to play for the speaker.
      */
     void playNote(int note);
-private:
-    /**
-     * Digital pin used for the speaker.
-     **/
-    hwlib::pin_out & speakerPin;
 };

@@ -1,19 +1,19 @@
 /**
  * \file
- * \brief        GAS module main
+ * \brief       GAS module main
  * \author      Chris Smeele
  * \author      David Driessen
  * \author      Paul Ettema
  * \author      Robbie Valkenburg
  * \author      Mike Hilhorst
  * \author      Bram van Bergeijk
- * \author	    Wilco Louwerse
- * \author     David de Jong
- * \author	    Nicky van Steensel van der Aa
- * \copyright Copyright (c) 2017, The R2D2 Team
+ * \author      Wilco Louwerse
+ * \author      David de Jong
+ * \author      Nicky van Steensel van der Aa
+ * \copyright   Copyright (c) 2017, The R2D2 Team
  * \license     See LICENSE
- * \wiki	        https://github.com/R2D2-2017/R2D2-2017/wiki/Gas-safety-system
- * \trello	    https://trello.com/c/etqKmerH/93-gas-gas-safety-system
+ *              https://github.com/R2D2-2017/R2D2-2017/wiki/Gas-safety-system
+ *              https://trello.com/c/etqKmerH/93-gas-gas-safety-system
  */
 #include "wrap-hwlib.hh"
 #include "hwlib-due-spi.hh"
@@ -26,17 +26,28 @@
 
 /**
  * \brief Casts int value of maximum 3 numbers to characters,
- *		  The characters are stored in the second parameter
- *		  mq5Char.
+ *        The characters are stored in the second parameter
+ *        mq5Char.
  */
-void convertToChar(int toConvert, char converted[4]);
 
-void convertToChar(int toConvert, char converted[4]) {
+static void intToString(unsigned int toConvert, char *converted) {
     converted[0] = ((char) (toConvert / 1000 % 10) + '0');
     converted[1] = ((char) (toConvert % 1000 / 100) + '0');
     converted[2] = ((char) (toConvert % 100 / 10) + '0');
     converted[3] = ((char) (toConvert % 10) + '0');
 }
+
+const char *dataFilePath = "/data.txt";
+const char *confFilePath = "/conf.txt";
+const char *calibFilePath = "/calib.txt";
+const char *sessionSeparator = "\r\n=========================\r\n";
+
+const int numberOfUnusedMatrices = 0;
+const int numberOfMatrices = 4;
+const int startupLedWait = 200;
+const int preHeatTime = 120;    // Time in seconds for preheating of the sensor.
+const int secondMs = 1000;
+
 
 int main() {
     namespace target = hwlib::target;
@@ -70,18 +81,8 @@ int main() {
 
     // Initialize variables.
     int measureWaitTime = 2000000; // Default value to prevent cpu overuse when no value is given in the conf file.
-    int mq5Value = 0;
-    const int numberOfUnusedMatrices = 0;
-    const int numberOfMatrices = 4;
-    const int startupLedWait = 200;
-    const int preHeatTime = 120;    // Time in seconds for preheating of the sensor.
-    const int secondMs = 1000;
 
     char charValue[4];
-    const char *dataFilePath = "/data.txt";
-    const char *confFilePath = "/conf.txt";
-    const char *calibFilePath = "/calib.txt";
-    const char *sessionSeparator = "\r\n=========================\r\n";
     char configurationInput[200]; // Buffer configuration file.
 
     // Initialize classes for writing and reading to/from files.
@@ -132,23 +133,25 @@ int main() {
     }
 
     for (int i = preHeatTime; i >= 0; --i) {
-        convertToChar(i, charValue);
-        matrix.operate(charValue);
+        intToString(i, charValue);
+        matrix.displayString(charValue);
         hwlib::wait_ms(secondMs);
     }
 
     // Read data from configuration file.
     confFile.read(configurationInput, confFile.getSize(), err);
+    if (sizeof(configurationInput) <= confFile.getSize()) {
+        hwlib::cout << "Input buffer to small contact the developer of this program\r\n";
+        return 0;
+    }
     configurationInput[confFile.getSize()] = '\0';
     //hwlib::cout << configurationInput << "\r\n"; //debug statement for console output of read configuration
-    if (!parser.parseArray(configurationInput)){
+    if (!parser.parseArray(configurationInput)) {
         return 0;
     }
 
-
-
     // Checks if the mq5 is calibrated and gets a calibration value if it is not calibrated.
-    if (!mq5.getMq5IsCalibrated()) {
+    if (!mq5.isMq5Calibrated()) {
         char tempValueArray[4];
 
         hwlib::cout << "Sensor is not calibrated.\r\nCalibration will start\r\n";
@@ -165,7 +168,7 @@ int main() {
             hwlib::cout << "calib.txt does not exist.\r\n";
         }
 
-        convertToChar(static_cast<int>(mq5.getCalibrationValue()), tempValueArray);
+        intToString(static_cast<int>(mq5.getCalibrationValue()), tempValueArray);
         calibFile.write(tempValueArray, sizeof(tempValueArray), err);
         hwlib::cout << "wiring data 0 for success: " << static_cast<int>(err) << "\r\n";
         calibFile.truncate();
@@ -186,20 +189,20 @@ int main() {
 
     // Start loop measurements, writing data and alarm.
     hwlib::cout << "Writing to sd card\r\n";
-    using namespace hwlib;
+    int mq5Value = 0;
     while (true) {
         uint64_t time = hwlib::now_us();
 
-        // Read mq-5 sensor.
+        // Read mq-5 sensor and send value to alarm and LED matrices.
         mq5Value = mq5.getSensorPercentage();
-        convertToChar(mq5Value, charValue);
-        matrix.operate(charValue);
+        intToString(mq5Value, charValue);
+        matrix.displayString(charValue);
         alarm.checkGasValue(mq5Value);
 
-        // Write it to sd card and check if alarm needs to go off.
+        // Write it to sd card.
         dataFile.write(charValue, sizeof(charValue), err);
         dataFile.write("\r\n", 1, err);
-        hwlib::wait_us((int_fast32_t)(measureWaitTime - (hwlib::now_us() - time)));
+        hwlib::wait_us((int_fast32_t) (measureWaitTime - (hwlib::now_us() - time)));
     }
 
     return 0;

@@ -5,12 +5,11 @@
  * \author    Mike Hilhorst
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See LICENSE
- * \wiki      https://github.com/R2D2-2017/R2D2-2017/wiki/M-LSP-12
- * \trello    https://trello.com/c/rFuGBmTr/5-9-speaker-sounds-alarm-when-threshold-is-crossed
+ *            https://github.com/R2D2-2017/R2D2-2017/wiki/M-LSP-12
+ *            https://trello.com/c/rFuGBmTr/5-9-speaker-sounds-alarm-when-threshold-is-crossed
  */
 
 #include "speaker.hh"
-
 
 /// Code inspired by Wouter van Ooijen.
 void Speaker::playNote(int note) {

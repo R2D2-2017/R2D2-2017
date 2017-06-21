@@ -1,91 +1,26 @@
+/**
+ * \file
+ * \brief     Class that contains the functions that are needed to display text on the MAX7219.
+ * \author    Mike Hilhorst
+ * \copyright Copyright (c) 2017, The R2D2 Team
+ * \license   See LICENSE
+ */
 #pragma once
 
 #include "wrap-hwlib.hh"
-#include "command.hh"
+#include "matrixparser.hh"
 
-
-class Setup
-{
+class Setup {
 private:
 
-    /**
-     * Spi pins.
-     */
-    hwlib::spi_bus & spiBus;
-    hwlib::pin_out & chipSelect;
+    /// Spi pins.
+    hwlib::spi_bus &spiBus;
+    hwlib::pin_out &chipSelect;
 
-    /**
-     * Settings.
-     */
-    int numberOfUnusedMatrices;
-    int numberOfMatrices;
-    int numberOfRows = 8;
-
-    /**
-     * Chars that can be displayed.
-     */
-    uint8_t charSpace[8][8] = {0};
-    uint8_t charOne[8][8] = {
-    {0,0,0,0,0,0,0,0}, {0,0,1,1,1,0,0,0},
-    {0,1,1,1,1,0,0,0}, {0,0,0,1,1,0,0,0},
-    {0,0,0,1,1,0,0,0}, {0,0,0,1,1,0,0,0},
-    {0,1,1,1,1,1,1,0}, {0,0,0,0,0,0,0,0}};
-    uint8_t charTwo[8][8] = {
-    {0,0,0,0,0,0,0,0}, {0,1,1,1,1,1,0,0},
-    {0,0,0,0,0,1,1,0}, {0,0,0,0,0,1,1,0},
-    {0,0,0,0,1,1,0,0}, {0,0,0,1,1,0,0,0},
-    {0,1,1,1,1,1,1,0}, {0,0,0,0,0,0,0,0}};
-    uint8_t charThree[8][8] = {
-    {0,0,0,0,0,0,0,0}, {0,1,1,1,1,1,0,0},
-    {0,0,0,0,0,1,1,0}, {0,0,0,1,1,1,1,0},
-    {0,0,0,1,1,1,1,0}, {0,0,0,0,0,1,1,0},
-    {0,1,1,1,1,1,0,0}, {0,0,0,0,0,0,0,0}};
-    uint8_t charFour[8][8] = {
-    {0,0,0,0,0,0,0,0}, {0,0,0,0,0,1,0,0},
-    {0,0,0,0,1,1,0,0}, {0,0,0,1,0,1,0,0},
-    {0,0,1,0,0,1,0,0}, {0,1,1,1,1,1,1,0},
-    {0,0,0,0,0,1,0,0}, {0,0,0,0,0,0,0,0}};
-    uint8_t charFive[8][8] = {
-    {0,0,0,0,0,0,0,0}, {0,1,1,1,1,1,1,0},
-    {0,1,0,0,0,0,0,0}, {0,1,1,1,1,1,0,0},
-    {0,0,0,0,0,0,1,0}, {0,0,0,0,0,0,1,0},
-    {0,1,1,1,1,1,0,0}, {0,0,0,0,0,0,0,0}};
-    uint8_t charSix[8][8] = {
-    {0,0,0,0,0,0,0,0}, {0,0,1,1,1,1,1,0},
-    {0,1,0,0,0,0,0,0}, {0,1,1,1,1,1,0,0},
-    {0,1,0,0,0,0,1,0}, {0,1,0,0,0,0,1,0},
-    {0,0,1,1,1,1,0,0}, {0,0,0,0,0,0,0,0}};
-    uint8_t charSeven[8][8] = {
-    {0,0,0,0,0,0,0,0}, {0,1,1,1,1,1,1,0},
-    {0,0,0,0,0,1,1,0}, {0,0,0,0,1,1,0,0},
-    {0,0,0,1,1,0,0,0}, {0,0,1,1,0,0,0,0},
-    {0,1,1,0,0,0,0,0}, {0,0,0,0,0,0,0,0}};
-    uint8_t charEight[8][8] = {
-    {0,0,0,0,0,0,0,0}, {0,0,1,1,1,1,0,0},
-    {0,1,0,0,0,0,1,0}, {0,0,1,1,1,1,0,0},
-    {0,1,0,0,0,0,1,0}, {0,1,0,0,0,0,1,0},
-    {0,0,1,1,1,1,0,0}, {0,0,0,0,0,0,0,0}};
-    uint8_t charNine[8][8] = {
-    {0,0,0,0,0,0,0,0}, {0,0,1,1,1,1,0,0},
-    {0,1,0,0,0,0,1,0}, {0,0,1,1,1,1,1,0},
-    {0,0,0,0,0,0,1,0}, {0,0,0,0,0,0,1,0},
-    {0,0,1,1,1,1,0,0}, {0,0,0,0,0,0,0,0}};
-    uint8_t charZero[8][8] = {
-    {0,0,0,0,0,0,0,0}, {0,0,1,1,1,1,0,0},
-    {0,1,0,0,0,0,1,0}, {0,1,0,0,0,0,1,0},
-    {0,1,0,0,0,0,1,0}, {0,1,0,0,0,0,1,0},
-    {0,0,1,1,1,1,0,0}, {0,0,0,0,0,0,0,0}};
-    uint8_t charMinus[8][8] = {
-    {0,0,0,0,0,0,0,0}, {0,0,0,0,0,0,0,0},
-    {0,0,0,0,0,0,0,0}, {0,1,1,1,1,1,1,0},
-    {0,1,1,1,1,1,1,0}, {0,0,0,0,0,0,0,0},
-    {0,0,0,0,0,0,0,0}, {0,0,0,0,0,0,0,0}};
-    uint8_t charPlus[8][8] = {
-    {0,0,0,0,0,0,0,0}, {0,0,0,1,1,0,0,0},
-    {0,0,0,1,1,0,0,0}, {0,1,1,1,1,1,1,0},
-    {0,1,1,1,1,1,1,0}, {0,0,0,1,1,0,0,0},
-    {0,0,0,1,1,0,0,0}, {0,0,0,0,0,0,0,0}};
-    uint8_t settings[5][2] = {{0x09,0x00},{0x0c,0x01},{0x0f,0x00},{0x0A,0x04},{0x0B,0x07}};
+    /// Settings.
+    const int numberOfUnusedMatrices;
+    const int numberOfMatrices;
+    const int numberOfRows = 8;
 
 public:
 
@@ -99,19 +34,19 @@ public:
     *                                   So the display won't display random stuff because of current leaking.
     * \param numberOfMatrices           Is the number of matrices you have hooked up.
     */
-    Setup(hwlib::spi_bus & spiBus, hwlib::pin_out & chipSelect, int numberOfUnusedMatrices, int numberOfMatrices):
+    Setup(hwlib::spi_bus &spiBus, hwlib::pin_out &chipSelect, int numberOfUnusedMatrices, int numberOfMatrices):
             spiBus(spiBus),
             chipSelect(chipSelect),
             numberOfUnusedMatrices(numberOfUnusedMatrices),
             numberOfMatrices(numberOfMatrices)
-    {};
+    {}
 
     /**
      * \brief This function takes a string and displays it on the matrices.
      *
-     * There is a limit, you can only display 0 to 9, - and +. The max string length is 500.
+     * There is a limit, you can only display 0 to 9, - and +. The max string length is 20.
      * The number of displayed chars on the this display is limited by the number of matrices
-     * \param inputString String that is displayed on the led matrix.
+     * \param inputString that will be displayed on the led matrix.
      */
-    void operate(char* inputString);
+    void displayString(char *inputString);
 };

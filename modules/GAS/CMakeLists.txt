@@ -42,12 +42,13 @@ set(sources
     src/speaker.cc
     src/mq5.cc
     src/parser.cc
-	src/setup.cc
-	src/command.cc
-	)
+    src/setup.cc
+        src/matrixparser.cc
+    )
 
 # The target chip that is compiled for:
 include(${toolchain}/targets/arm32/cm3/atmel/sam3x/sam3x8e/sam3x8e.cmake)
 
 # The flashscript used to flash the binary (optional):
 include(${toolchain}/targets/arm32/cm3/atmel/sam3x/sam3x8e/flashscripts/arduino_due.cmake)
+
