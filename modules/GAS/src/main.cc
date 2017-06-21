@@ -30,7 +30,7 @@
  *        mq5Char.
  */
 
-static void intToString(unsigned int toConvert, char *converted) {
+static void intToString(size_t toConvert, char *converted) {
     converted[0] = ((char) (toConvert / 1000 % 10) + '0');
     converted[1] = ((char) (toConvert % 1000 / 100) + '0');
     converted[2] = ((char) (toConvert % 100 / 10) + '0');
@@ -167,7 +167,7 @@ int main() {
             return 0;
         }
 
-        intToString(static_cast<unsigned int>(mq5.getCalibrationValue()), tempValueArray);
+        intToString(static_cast<size_t >(mq5.getCalibrationValue()), tempValueArray);
         calibFile.write(tempValueArray, sizeof(tempValueArray), err);
         hwlib::cout << "wiring data 0 for success: " << static_cast<int>(err) << "\r\n";
         calibFile.truncate();
@@ -188,12 +188,12 @@ int main() {
 
     // Start loop measurements, writing data and alarm.
     hwlib::cout << "Writing to sd card\r\n";
-    unsigned int mq5Value = 0;
+    size_t mq5Value = 0;
     while (true) {
         uint64_t time = hwlib::now_us();
 
         // Read mq-5 sensor and send value to alarm and LED matrices.
-        mq5Value = static_cast<unsigned int>(mq5.getSensorPercentage());
+        mq5Value = static_cast<size_t >(mq5.getSensorPercentage());
         intToString(mq5Value, charValue);
         matrix.displayString(charValue);
         alarm.checkGasValue(mq5Value);

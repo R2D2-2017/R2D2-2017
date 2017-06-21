@@ -54,7 +54,7 @@ private:
     /**
      * \brief This function converts a 8x8 matrix to a 8x2 matrix.
      *
-     * This conversion makes the data use able for commander.
+     * This conversion makes the datsa use able for commander.
      * \param[in] renderInput       Accept 8x8 matrix.
      * \param[out] converterOutput  8x2 matrix.
      */

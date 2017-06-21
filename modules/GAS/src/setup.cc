@@ -76,7 +76,7 @@ static const uint8_t charPlus[8][8] = {
 static const uint8_t settings[5][2] = {{0x09,0x00},{0x0c,0x01},{0x0f,0x00},{0x0A,0x04},{0x0B,0x07}};
 
 void Setup::displayString(const char *inputString) {
-    size_t stringLength = strlen(inputString) / sizeof(inputString[0]) + numberOfUnusedMatrices;
+    size_t stringLength = strlen(inputString) + numberOfUnusedMatrices;
     MatrixDisplayParser display(spiBus, chipSelect, numberOfMatrices, numberOfRows);
     display.settings(settings);
 
@@ -84,7 +84,7 @@ void Setup::displayString(const char *inputString) {
         display.render(charSpace, stringLength);
     }
 
-    for (unsigned int i = 0; i < stringLength - numberOfUnusedMatrices; i++) {
+    for (size_t i = 0; i < stringLength - numberOfUnusedMatrices; i++) {
         switch (inputString[i]) {
             case '1' : display.render(charOne, stringLength); break;
             case '2' : display.render(charTwo,  stringLength); break;

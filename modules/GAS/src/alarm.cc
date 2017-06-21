@@ -41,10 +41,10 @@ void Alarm::setSecondNote(int note) {
     secondNote = note;
 }
 
-void Alarm::setWarningThreshold(int threshold) {
+void Alarm::setWarningThreshold(size_t threshold) {
     warningThreshold = threshold;
 }
 
-void Alarm::setDangerThreshold(int threshold) {
+void Alarm::setDangerThreshold(size_t threshold) {
     dangerThreshold = threshold;
 }

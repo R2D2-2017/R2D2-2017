@@ -50,7 +50,7 @@ bool parseArray(const char *input, int &measureWaitTime, Alarm &alarm, Mq5 &mq5)
     int variableValue = 0;
 
     // Read input array variables.
-    for (unsigned int i = 0, j = 0; input[i] != '\0'; ++i) {
+    for (size_t i = 0, j = 0; input[i] != '\0'; ++i) {
         if (input[i] == '@') {
             variableValue = 0;
 
