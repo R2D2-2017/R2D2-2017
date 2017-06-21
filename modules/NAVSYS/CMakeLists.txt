@@ -7,7 +7,6 @@ set(exe_server "navsys-server")
 enable_testing()
 include(../../flags.cmake)
 
-
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/common)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 include_directories(${SFML_INCLUDE_DIR})
@@ -38,10 +37,11 @@ set(server_sources
     server/server.cc
     server/astar.cc)
 
-find_package(SFML 2 REQUIRED system window graphics network audio)
+  find_package(SFML 2 REQUIRED system window graphics network audio)
+  find_package(Threads)
 
 add_executable(${exe_client} ${common_sources} ${client_sources})
-target_link_libraries(${exe_client} ${SFML_LIBRARIES} pthread)
+target_link_libraries(${exe_client} ${SFML_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT})
 
 add_executable(${exe_server} ${common_sources} ${server_sources})
-target_link_libraries(${exe_server} ${SFML_LIBRARIES} pthread)
+target_link_libraries(${exe_server} ${SFML_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT})
