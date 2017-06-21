@@ -9,39 +9,39 @@
 
 const char *RobotArmTester::commandList1[15] = {
         // Reset
-        "RESET 1",
+        "RESET",
 
-        // Z axis test
-        "WAIT_S 2", "Z 90", "WAIT_S 2", "Z -90", "WAIT_S 2",
+        // M3 aM2is test
+        "WAIT_S 2", "M3 -90", "WAIT_S 2", "M3 90", "WAIT_S 2",
 
-        // Y axis test
-        "Y 90", "WAIT_S 2", "Y -45", "WAIT_S 2",
+        // M1 aM2is test
+        "M1 -90", "WAIT_S 2", "M1 45", "WAIT_S 2",
 
-        // X axis test
-        "X 45", "WAIT_S 2", "X -45", "WAIT_S 2",
+        // M2 aM2is test
+        "M2 -45", "WAIT_S 2", "M2 45", "WAIT_S 2",
 
         // Reset
-        "RESET 1",
+        "RESET",
 };
 
-const char *RobotArmTester::commandList2[26] = {
+const char *RobotArmTester::commandList2[13] = {
         // Reset
-        "RESET 1",
+        "RESET",
 
-        // Z axis test
-        "WAIT_S 2", "Z 90", "WAIT_S 2", "Z -90", "WAIT_S 2", "Z 180",
-        "WAIT_S 2", "Z -180", "WAIT_S 2",
-
-        // Y axis test
-        "Y 90", "WAIT_S 2", "Y -90", "WAIT_S 2", "Y 180", "WAIT_S 2",
-        "Y -180", "WAIT_S 2",
-
-        // X axis test
-        "X 90", "WAIT_S 2", "X -90", "WAIT_S 2", "X 180", "WAIT_S 2",
-        "X -240",
+        "MOVETO 20 15 0",
+        "MOVETO 10 10 90",
+        "MOVETO 20 0 90",
+        "OPEN",
+        "MOVETO 30 0 90",
+        "WAIT_S 2",
+        "CLOSE",
+        "WAIT_S 1",
+        "MOVETO 20 10 0",
+        "WAIT_S 3",
+        "OPEN",
 
         // Reset
-        "RESET 1",
+        "RESET",
 };
 
 void RobotArmTester::run_test(const char *commandList[], int commandListLen){

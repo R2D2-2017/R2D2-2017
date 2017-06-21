@@ -54,13 +54,10 @@ bool RobotArmController::rotateMotor(Motor motor, int degrees) {
     int requiredSteps = (int) (selectedMicroSteps
                                * (abs(degrees) * selectedRatio) / stepSize);
 
-    hwlib::cout << "required: " << requiredSteps << "\r\n";
-
     bool clockwise = degrees < 0;
 
     for (int stepsTaken = 0; stepsTaken < requiredSteps; stepsTaken++) {
         RobotLimitSwitch switchEnabled = checkLimitations();
-        hwlib::cout << "\r" << stepsTaken;
 
         if ((motor == Motor::M1 && !clockwise
              && (switchEnabled == RobotLimitSwitch::BOTH

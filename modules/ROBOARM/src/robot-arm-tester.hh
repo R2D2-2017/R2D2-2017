@@ -18,7 +18,7 @@
  */
 class RobotArmTester {
     static const char *commandList1[15];
-    static const char *commandList2[26];
+    static const char *commandList2[13];
 
     RoboArm::RobotArmController &robotarm;
     I2C &i2c;
