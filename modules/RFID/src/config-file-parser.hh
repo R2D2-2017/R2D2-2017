@@ -1,6 +1,6 @@
 /**
  * \file      config-file-parser.hh
- * \brief     Library for getting information out of a file
+ * \brief     Class for getting information out of a file
  * \author    Tim IJntema, Jeremy Ruizenaar, Ricardo Bouwman, Luuk Steeman
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See LICENSE
