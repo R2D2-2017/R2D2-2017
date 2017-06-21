@@ -67,14 +67,14 @@ public:
      * \param[in] g The total path distance to this node from start 
      *              to calculate f
      */
-    PathNode(Node n, Node goal, float g = 0);
+    PathNode(const Node & n, const Node & goal, float g = 0);
 
     /**
      * \brief CalcPriority calculates priority
      * 
      * \param[in] goal The goal node
      */
-    void calcPriority(Node goal);
+    void calcPriority(const Node & goal);
 
     /**
      * \brief Sets pathDistance
