@@ -33,7 +33,7 @@ public:
     * \brief Read and set the settings from a read given input array.
     *
     * \param    Input The input array to parse.
-    * \return   Retuns weither parsing was successful or not.
+    * \return   Returns whether parsing was successful or not.
     */
     bool parseArray(char *input);
 
@@ -55,7 +55,7 @@ private:
     char variableName[20];
     int variableValue = 0;
 
-    // Varriables that the parser checks for in the conf file and their associated strings.
+    // Variables that the parser checks for in the conf file and their associated strings.
     const char *firstNoteString             = "firstNote";
     const char *secondNoteString            = "secondNote";
     const char *warningThresholdString      = "warningThreshold";

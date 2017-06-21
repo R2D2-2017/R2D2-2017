@@ -107,7 +107,7 @@ public:
     {};
 
     /**
-     * \brief This function takes a string and displays it on the matices.
+     * \brief This function takes a string and displays it on the matrices.
      *
      * There is a limit, you can only display 0 to 9, - and +. The max string length is 500.
      * The number of displayed chars on the this display is limited by the number of matrices

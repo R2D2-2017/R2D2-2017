@@ -98,18 +98,18 @@ bool Parser::parseArray(char* input) {
                 alarm.setDangerThreshold(variableValue);
             }
             else if (ifContainsString(variableName, mq5CalibrationValueString)) {
-                if (mq5.getMq5Iscalibrated()) {
+                if (mq5.getMq5IsCalibrated()) {
                     mq5.setMq5CalibrationValue(variableValue);
-                    mq5.setMq5Iscalibrated(true);
+                    mq5.setMq5IsCalibrated(true);
                 } else {
-                    hwlib::cout << "isCalibrated is false callibrationvalue will not be set \r\n";
+                    hwlib::cout << "isCalibrated is false calibration value will not be set \r\n";
                 }
             }
             else if (ifContainsString(variableName, measureWaitTimeString)) {
                 *measureWaitTime = variableValue;
             }
             else if (ifContainsString(variableName, isCalibratedString)) {
-                mq5.setMq5Iscalibrated(static_cast<bool>(variableValue));
+                mq5.setMq5IsCalibrated(static_cast<bool>(variableValue));
                 hwlib::cout << "is calibrated = " << static_cast<bool>(variableValue) << "\r\n";
             } else {
                 hwlib::cout << ">>>PARSER ERROR : [ " << variableName << " ] is not a valid/known variable!" << "\r\n";

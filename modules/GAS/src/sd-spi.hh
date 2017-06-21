@@ -9,7 +9,7 @@
  * hwlib and work inside the R2D2 Project by Paul Ettema
  *
  * Original file is copyright 2016 (c) Chris Smeele and licensed under GPLv3.
- * This file is modified and relicensed under the Apache license with the
+ * This file is modified and re-licensed under the Apache license with the
  * original author's permission.
  */
 #pragma once
@@ -95,14 +95,14 @@ private:
     /**
      * \brief Receives an array of data from the sd card reader
      * \param buffer The array to store the data in
-     * \param length The ammount of data to receive in bytes
+     * \param length The amount of data to receive in bytes
      */
     void recv(uint8_t *buffer, size_t length);
 
     /**
      * \brief Receives a block of data from the sd card
      * \param buffer The array to store the data in
-     * \param length The ammount of data to receive
+     * \param length The amount of data to receive
      * \returns Returns the status code if the receiving was successful or not
      */
     MuStore::StoreError recvBlock(uint8_t *buffer, size_t length);

@@ -1,6 +1,6 @@
 /**
  * \author    Jeroen Kok
- * \author    Robbie valkenburg
+ * \author    Robbie Valkenburg
  * \author    Mike Hilhorst
  * \author    Nicky van Steensel van der Aa
  * \copyright Copyright (c) 2017, The R2D2 Team

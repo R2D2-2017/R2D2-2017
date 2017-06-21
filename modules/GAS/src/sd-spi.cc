@@ -10,14 +10,10 @@
  * hwlib and work inside the R2D2 Project by Paul Ettema
  *
  * Original file is copyright 2016 (c) Chris Smeele and licensed under GPLv3.
- * This file is modified and relicensed under the Apache license with the
+ * This file is modified and re-licensed under the Apache license with the
  * original author's permission.
  */
 #include "sd-spi.hh"
-
-#include <cstdlib>
-#include <cstring>
-#include <cmath>
 
 using namespace MuStore;
 
@@ -303,7 +299,7 @@ SdSpi::SdSpi(hwlib::pin_out &cs, hwlib::spi_bus &bus)
 
     SdCsd csd;
 
-    // For some reason bitfields are broken. We accecss it as a byte
+    // For some reason bitfields are broken. We access it as a byte
     // array instead. Meh.
     uint8_t *csdb = (uint8_t*)&csd;
     recvBlock(csdb, sizeof(csd));

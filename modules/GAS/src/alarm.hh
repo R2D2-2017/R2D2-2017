@@ -2,7 +2,7 @@
  * \file
  * \brief     The declarations of the class Alarm of GAS-03
  * \author    Jeroen Kok
- * \author    Robbie Vlakenburg
+ * \author    Robbie Valkenburg
  * \author    Mike Hilhorst
  * \author    Nicky van Steensel van der Aa
  * \author	  David de Jong

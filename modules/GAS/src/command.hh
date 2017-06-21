@@ -47,8 +47,9 @@ private:
     void commander(uint8_t (*commands)[8][2]);
 
     /**
-     * \brief This function converts a 8x8 matrix to a 8x2 matrix. This conversion makes the data useable for commander.
+     * \brief This function converts a 8x8 matrix to a 8x2 matrix.
      *
+     * This conversion makes the data use able for commander.
      * \param[in] renderInput       Accept 8x8 matrix.
      * \param[out] converterOutput  8x2 matrix.
      */

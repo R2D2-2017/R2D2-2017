@@ -19,7 +19,6 @@
 #include "hwlib-due-spi.hh"
 #include "sd-spi.hh"
 #include "alarm.hh"
-#include "speaker.hh"
 #include "mq5.hh"
 #include "parser.hh"
 #include "setup.hh"
@@ -141,18 +140,18 @@ int main() {
     // Read data from configuration file.
     confFile.read(configurationInput, confFile.getSize(), err);
     configurationInput[confFile.getSize()] = '\0';
-    //hwlib::cout << configurationInput << "\r\n"; //debug statment for console output of read configuration
+    //hwlib::cout << configurationInput << "\r\n"; //debug statement for console output of read configuration
     if (!parser.parseArray(configurationInput)){
         return 0;
     }
 
 
 
-    // Checks if the mq5 is callibrated and gets a calibration value if it is not calibrated.
-    if (!mq5.getMq5Iscalibrated()) {
-        char tempvaluearray[4];
+    // Checks if the mq5 is calibrated and gets a calibration value if it is not calibrated.
+    if (!mq5.getMq5IsCalibrated()) {
+        char tempValueArray[4];
 
-        hwlib::cout << "Sensor is not calibrated.\r\nCallibration will start\r\n";
+        hwlib::cout << "Sensor is not calibrated.\r\nCalibration will start\r\n";
 
         MuStore::FsNode calibFile = fileSystem.get(calibFilePath, err);
 
@@ -166,8 +165,8 @@ int main() {
             hwlib::cout << "calib.txt does not exist.\r\n";
         }
 
-        convertToChar(static_cast<int>(mq5.getCalibrationValue()), tempvaluearray);
-        calibFile.write(tempvaluearray, sizeof(tempvaluearray), err);
+        convertToChar(static_cast<int>(mq5.getCalibrationValue()), tempValueArray);
+        calibFile.write(tempValueArray, sizeof(tempValueArray), err);
         hwlib::cout << "wiring data 0 for success: " << static_cast<int>(err) << "\r\n";
         calibFile.truncate();
         hwlib::cout << "Calibration done.\r\nCheck calib.txt for the value\r\n";
@@ -178,14 +177,14 @@ int main() {
     // To this location to append data instead of overwriting it.
     dataFile.seek(dataFile.getSize());
 
-    // Write a sepearation line to the datafile to show where measurement sessions start and end.
+    // Write a separation line to the datafile to show where measurement sessions start and end.
     dataFile.write(sessionSeparator, sizeof(sessionSeparator), err);
 
     if (err != MuStore::FsError::FS_ERR_OK) {
-        hwlib::cout << "Writing returend error: " << static_cast<int>(err) << "\r\n";
+        hwlib::cout << "Writing returned error: " << static_cast<int>(err) << "\r\n";
     }
 
-    // Start loop measurments, writing data and alarm.
+    // Start loop measurements, writing data and alarm.
     hwlib::cout << "Writing to sd card\r\n";
     using namespace hwlib;
     while (true) {

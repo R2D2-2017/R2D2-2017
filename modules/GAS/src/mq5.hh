@@ -55,21 +55,21 @@ public:
     *
     * \return  The isCalibrated bool.
     */
-    bool getMq5Iscalibrated();
+    bool getMq5IsCalibrated();
 
     /**
     * \brief   Sets the isCalibrated bool.
     *
     * \param calibrated    The desired state of the bool.
     */
-    void setMq5Iscalibrated(bool calibrated);
+    void setMq5IsCalibrated(bool calibrated);
 
 private:
 
     const float newMax = 3.3f;
 
     /**
-     * intger value to get the numbers behind the floating point into an integer.
+     * integer value to get the numbers behind the floating point into an integer.
      */
     const int floatMultp = 1000;
 

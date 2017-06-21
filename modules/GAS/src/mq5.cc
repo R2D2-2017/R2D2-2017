@@ -19,7 +19,7 @@ float Mq5::readSensor() {
     float rawSensorValue = static_cast<float>(sensor.get());
 
     // Analog value of the sensor.
-    float analogValue = (( rawSensorValue / (powf(2.0f, static_cast<float>(sensor.adc_n_bits))) * newMax)* floatMultp);
+    float analogValue = ((rawSensorValue / (powf(2.0f, static_cast<float>(sensor.adc_n_bits))) * newMax) * floatMultp);
     hwlib::cout << static_cast<int>(analogValue) << "\n\r";
     return analogValue;
 }
@@ -28,35 +28,36 @@ float Mq5::readSensor() {
 float Mq5::readSensorAverage(int quantityCounter) {
     float totalValue = 1;
     float sensorValue;
-    for(int i = 1; i <= quantityCounter; i++){
+    for (int i = 1; i <= quantityCounter; i++) {
         do {
             sensorValue = readSensor();
-        } while((1+meanFilter) < (sensorValue / ((totalValue + sensorValue)/i))
-        && (sensorValue / ((totalValue + sensorValue)/i))  < (1-meanFilter));
+        } while ((1 + meanFilter) < (sensorValue / ((totalValue + sensorValue) / i))
+                 && (sensorValue / ((totalValue + sensorValue) / i)) < (1 - meanFilter));
 
         totalValue += sensorValue;
         hwlib::wait_ms(200);
     }
-    return totalValue/quantityCounter;
+    return totalValue / quantityCounter;
 }
 
 int Mq5::getSensorPercentage() {
-    // percentage is divinding by 100
-    return (int)(100 / calibrationValue * readSensorAverage(1));
+    // percentage is dividing by 100
+    return (int) (100 / calibrationValue * readSensorAverage(1));
 }
-float Mq5::getCalibrationValue(){
+
+float Mq5::getCalibrationValue() {
     int measurementQuantity = 200;
     return readSensorAverage(measurementQuantity);
 }
 
-void Mq5::setMq5CalibrationValue(float value){
+void Mq5::setMq5CalibrationValue(float value) {
     calibrationValue = value;
 }
 
-bool Mq5::getMq5Iscalibrated(){
+bool Mq5::getMq5IsCalibrated() {
     return isCalibrated;
 }
 
-void Mq5::setMq5Iscalibrated(bool calbrated){
-    isCalibrated = calbrated;
+void Mq5::setMq5IsCalibrated(bool calibrated) {
+    isCalibrated = calibrated;
 }

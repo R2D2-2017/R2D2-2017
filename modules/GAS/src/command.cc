@@ -15,7 +15,7 @@ void Command::commander(uint8_t (*commands)[8][2]) {
             processedCommands[l] = {commands[k][j - 1][1]};
             l++;
         }
-        spiBus.write_and_read(chipSelect, 2 * numberOfMatrices, processedCommands, nullptr);
+        spiBus.write_and_read(chipSelect, static_cast<const size_t >(2 * numberOfMatrices), processedCommands, nullptr);
     }
 }
 
@@ -28,19 +28,19 @@ void Command::settings(const uint8_t (*settingsList)[2]) {
             processedCommands[l] = {settingsList[i][1]};
             l++;
         }
-        spiBus.write_and_read(chipSelect, 2 * numberOfMatrices, processedCommands, nullptr);
+        spiBus.write_and_read(chipSelect, static_cast<const size_t >(2 * numberOfMatrices), processedCommands, nullptr);
     }
 }
 
 void Command::converter(uint8_t (*renderInput)[8], uint8_t (*converterOutput)[2]) {
-    for (int i = 0; i < 8; i++) {
+    for (uint8_t i = 0; i < 8; i++) {
         uint8_t shiftVariable = 0;
         int rowCounter = 0;
         for (int j = 8; j >= 0; j--) {
             shiftVariable |= renderInput[i][rowCounter - 1] << (j);
             rowCounter++;
         }
-        converterOutput[i][0] = i + 1;
+        converterOutput[i][0] = i + static_cast<uint8_t >(1);
         converterOutput[i][1] = shiftVariable;
     }
 

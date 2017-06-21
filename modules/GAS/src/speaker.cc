@@ -13,18 +13,18 @@
 
 
 /// Code inspired by Wouter van Ooijen.
-void Speaker::playNote( int note){
+void Speaker::playNote(int note) {
     const int duration = 166666;
-    if( note == 0 ){
-        hwlib::wait_us( duration );
+    if (note == 0) {
+        hwlib::wait_us(duration);
     } else {
         auto end = hwlib::now_us() + duration;
-        auto half_period = 1000000 / ( 2 * note );
-        while( end > hwlib::now_us() ){
-            speakerPin.set( true );
-            hwlib::wait_us( half_period );
-            speakerPin.set( false );
-            hwlib::wait_us( half_period );
+        auto half_period = 1000000 / (2 * note);
+        while (end > hwlib::now_us()) {
+            speakerPin.set(true);
+            hwlib::wait_us(half_period);
+            speakerPin.set(false);
+            hwlib::wait_us(half_period);
         }
     }
 }
