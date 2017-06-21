@@ -61,7 +61,8 @@ class MySql {
      *
      * \returns true on success.
      */
-    template <typename T> void errorCheck(T function);
+    template <typename T>
+    void errorCheck(T function);
 
   public:
     /**
