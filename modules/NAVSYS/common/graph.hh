@@ -29,28 +29,28 @@ public:
      * 
      * \param[in] node Node to add
      */
-    void addNode(const Node node);
+    void addNode(const Node & node);
 
     /**
      * \brief Remove node from graph
      * 
      * \param[in] node Node to remove
      */
-    void removeNode(const Node node);
+    void removeNode(const Node & node);
 
     /**
      * \brief Add vertice to graph
      * 
      * \param[in] vertice Vertice to add
      */
-    void addVertice(const Vertice vertice);
+    void addVertice(const Vertice & vertice);
 
     /**
      * \brief Remove vertice from graph
      * 
      * \param[in] vertice Vertice to remove
      */
-    void removeVertice(const Vertice vertice);
+    void removeVertice(const Vertice & vertice);
 
     /**
      * \brief Check if node is in graph
@@ -59,7 +59,7 @@ public:
      * 
      * \return True if node is in graph
      */
-    bool containsNode(const Node node);
+    bool containsNode(const Node & node);
 
     /**
      * \brief Check if vertice is in graph
@@ -68,7 +68,7 @@ public:
      * 
      * \return True if vertice is in graph
      */
-    bool containsVertice(const Vertice vertice);
+    bool containsVertice(const Vertice & vertice);
 
     /**
      * \brief Get a vector with all nodes in the graph
