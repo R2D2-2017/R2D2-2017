@@ -38,8 +38,8 @@ void SlitSensor::threadMain() {
     bool prevBack = digitalRead(backPin);
     while (running) {
         statusFront = digitalRead(frontPin);
-        statusBack  = digitalRead(backPin);
-        
+        statusBack = digitalRead(backPin);
+
         if (prevFront != statusFront) {
             ++rotationCount;
         }
@@ -49,4 +49,4 @@ void SlitSensor::threadMain() {
 
         std::this_thread::sleep_for(pollTime);
     }
-
+}
