@@ -27,6 +27,7 @@ set(sources
     src/states/clockwise-state.cc
     src/states/counter-clockwise-state.cc
     src/states/auto-state.cc
+    src/states/avoidance-state.cc
     src/states/idle-state.cc
     src/hallsensor.cc
     src/slit-sensor.cc

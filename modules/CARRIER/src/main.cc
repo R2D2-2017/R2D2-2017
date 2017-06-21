@@ -39,7 +39,8 @@ int main(void) {
     int westTrigger   =  27;
     int westEcho      =  28;
 
-    int hallPin   =  8;
+    //outdated pin
+    // int hallPin   =  8;
 
     // Declaration of the system classes
     MotorController                  controller("/dev/ttyS0", 38400);

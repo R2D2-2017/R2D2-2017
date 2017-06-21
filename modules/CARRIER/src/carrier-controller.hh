@@ -44,10 +44,10 @@ class CarrierController {
 private:
     /// Controller to send commands to the motors
     MotorController &motorController;
-    
+
     /// Controller for serial communication
     SerialCom &serialCom;
-    
+
     /// A vector of four sonar sensors, used for object avoidance
     std::vector<HcSr04> &sonarSensors;
 

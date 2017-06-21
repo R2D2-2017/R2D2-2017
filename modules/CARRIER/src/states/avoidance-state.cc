@@ -2,20 +2,15 @@
 #include "avoidance-state.hh"
 using namespace Carrier;
 
-AvoidanceState::AvoidanceState(CarrierController *controller): controller(controller) {
+AvoidanceState::AvoidanceState(CarrierController &controller): ICarrierState(controller) {
 
-}
-
-
-CarrierState AvoidanceState::getState() {
-    return CarrierState::Avoidance;
 }
 
 void AvoidanceState::update() {
-    if (controller.getSonarValue(SonarDirections::North)[0] <= threshold) {
-        controller.getMotorController().stop(controller->getSpeed());
-        while (controller.getSonarValue(SonarDirections::South)[0] > threshold) {
-            controller.getMotorController().left(controller->getSpeed());
+    if (controller.getSonarValue(SonarDirection::North)[0] <= threshold) {
+        controller.getMotorController().stop();
+        while (controller.getSonarValue(SonarDirection::South)[0] > threshold) {
+            controller.getMotorController().left(controller.getSpeed());
         }
     }
 
