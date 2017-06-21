@@ -60,9 +60,6 @@ void RobotArmTester::run_test(const char *commandList[], int commandListLen){
     }
 }
 
-RobotArmTester::RobotArmTester(RoboArm::RobotArmController &robotarm, I2C &i2c)
-        : robotarm(robotarm), i2c(i2c) {}
-
 void RobotArmTester::run(int test) {
     hwlib::cout << "START SEQUENCE" << "\r\n";
     robotarm.enable();

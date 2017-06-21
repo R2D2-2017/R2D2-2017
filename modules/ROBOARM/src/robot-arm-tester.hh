@@ -1,5 +1,6 @@
 /**
  * \file
+ * \brief     Robot arm tester class file
  * \author    David Driessen
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See LICENSE
@@ -17,7 +18,9 @@
  * \brief The test class to test functionality of the roboarm and run a test program
  */
 class RobotArmTester {
+    /// Test command sequence 1.
     static const char *commandList1[15];
+    /// Test command sequence 2.
     static const char *commandList2[13];
 
     RoboArm::RobotArmController &robotarm;
@@ -35,11 +38,12 @@ public:
      * \param robotarm The robotarm to run the tests with
      * \param i2c The i2c bus the gripper is connected to
      */
-    RobotArmTester(RoboArm::RobotArmController &robotarm, I2C &i2c);
+    RobotArmTester(RoboArm::RobotArmController &robotarm, I2C &i2c)
+        : robotarm(robotarm), i2c(i2c) {}
 
     /**
      * \brief Runs a test on the robotarm
-     * \param test The number of the test to run
+     * \param test The number of the test to run (0=all)
      */
     void run(int test = 0);
 };
