@@ -37,7 +37,7 @@ const int blinkTime = 3000;
 
 int main(int argc, char **argv) {
 
-    if(argc != 2 || std::string(argv[1]) != "pin" && std::string(argv[1]) != "no-pin") {
+    if(argc != 2 || (std::string(argv[1]) != "pin" && std::string(argv[1]) != "no-pin")) {
         std::cerr << "Please only put in 'pin' or 'no-pin' as parameter, nothing else." << std::endl
                   << "Your function will then either look like './rfid pin' or './rfid no-pin'" << std::endl;
     }
