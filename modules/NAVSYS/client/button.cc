@@ -93,7 +93,7 @@ void Button::setVisable(bool visable) {
 
 bool Button::isPressed() {
     if (getBounds().contains(getMousePosition(window))) {
-        if (button.getFillColor() != sf::Color::Transparent) {
+        if (isVisable) {
             pressedState = true;
         }
     }
