@@ -53,7 +53,7 @@ void CarrierController::setState(CarrierState state) {
         /*
         case CarrierState ::Avoidance:
             this->state = std::make_unique<AvoidanceState>(*this);
-        */it
+        */
     }
 }
 
