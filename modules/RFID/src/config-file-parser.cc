@@ -9,6 +9,9 @@
 #include "config-file-parser.hh"
 
 #include <iostream>
+#include <string>
+
+using namespace std::literals;
 
 ConfigFileParser::ConfigFileParser(const std::string &databaseFile)
     : databaseFile(databaseFile) {}
