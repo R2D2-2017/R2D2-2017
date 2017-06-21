@@ -25,9 +25,9 @@ SlitSensor::~SlitSensor() {
 
 int SlitSensor::rotations() {
     //return rotationCount;
-    if(NewRotations<16) {
-        return 0;
-    }
+//    if(NewRotations<16) {
+//        return 0;
+//    }
     return rotationCount = NewRotations;
 }
 
