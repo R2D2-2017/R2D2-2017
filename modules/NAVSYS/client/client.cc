@@ -119,13 +119,23 @@ void Client::run(){
 
     MessageBox messageBox(window, { 0,0 });
 
-    //create the window
-    sf::Socket::Status connectionStatus = socket.connect(ipAddress, port);
-    if (connectionStatus != sf::Socket::Done) {
-        messageBox.setMessage("Connection FAILED\n");
+    window.clear(sf::Color::Black);
+    sf::Socket::Status connectionStatus = sf::Socket::Error;
+    while (connectionStatus != sf::Socket::Done) {
+        try {
+            //Try to connect to server
+            connectionStatus = socket.connect(ipAddress, port);
+            getGraphFromServer();
+        }
+        catch (const std::exception & error) {
+            std::string lastPartOfMessage = error.what();
+            messageBox.setMessage("Error occured: " + lastPartOfMessage);
+            messageBox.draw();
+            window.display();
+            int waitTime = 5;
+            sf::sleep(sf::seconds(waitTime));
+        }
     }
-
-    getGraphFromServer();
 
     
     GraphDrawer printOnScreen(window);
