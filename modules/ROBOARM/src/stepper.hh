@@ -11,7 +11,7 @@
 #include "wrap-hwlib.hh"
 
 /**
- * brief Simple interface to control a stepper motor
+ * \brief Simple interface to control a stepper motor
  */
 class Stepper {
 private:
