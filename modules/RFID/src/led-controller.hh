@@ -27,5 +27,5 @@ class LedController {
     * \param[in]     pin     the wiringPi pin number
     * \param[in]     time    duration the led will be on in MS
     */
-    void blinkLed(int time);
+    void blinkLed(unsigned int time);
 };

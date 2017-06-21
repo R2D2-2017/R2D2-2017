@@ -11,7 +11,7 @@
 
 LedController::LedController(int p) { pin = p; }
 
-void LedController::blinkLed(int time) {
+void LedController::blinkLed(unsigned int time) {
     pinMode(pin, OUTPUT); // set GPIO pin to output
     digitalWrite(pin, 1); // turns led on
     delay(time);          // delays for time in ms

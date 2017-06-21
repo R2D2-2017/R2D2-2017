@@ -17,7 +17,7 @@
  *
  * This class handles file input using c++ ifstream. It can be used to read
  *  information from a file with settings. Closing files and opening them is
- *  handeled in the class.
+ *  handled in the class.
  */
 class ConfigFileParser {
   private:
@@ -27,7 +27,7 @@ class ConfigFileParser {
      * \brief Checks for errors when executing a statement
      *
      * If an error occurs, an incorrect line error will be thrown in the form of
-     *  a const std::string. The line the error occured at should be given to
+     *  a const std::string. The line the error ocurred at should be given to
      * the
      *  function.
      *
@@ -36,15 +36,15 @@ class ConfigFileParser {
      *     incorrectLinCheck(true == true, __LINE__);
      * \endcode
      *
-     * \param [in] toCheck A comparrison with a boolean type as result
-     * \param [in] line The line the error occured on
+     * \param [in] toCheck A comparison with a boolean type as result
+     * \param [in] line The line the error occurred on
      */
     void incorrectLineCheck(const bool &toCheck, const std::string &fileName,
                             int line);
 
   public:
     /**
-     * \brief Constructor with filenames
+     * \brief Constructor with file names
      *
      * constructs the configFileParser
      *
@@ -62,7 +62,7 @@ class ConfigFileParser {
      * \brief Load the database ip, password and username from a file
      *
      * If an error occurs, a const std::string will be thrown with the line the
-     *  error occured on.
+     *  error occurred on.
      *
      * Typical usage:
      * \code

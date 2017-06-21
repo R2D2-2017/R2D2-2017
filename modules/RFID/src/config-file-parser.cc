@@ -35,7 +35,7 @@ void ConfigFileParser::loadDatabaseSettings(std::string &ip,
                                             std::string &username,
                                             std::string &password) {
 
-    // open databasefile if not opened throw error
+    // open database file if not opened throw error
     std::ifstream file;
     file.open(databaseFile);
     if (!file.is_open()) {

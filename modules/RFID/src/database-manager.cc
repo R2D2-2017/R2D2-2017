@@ -1,18 +1,18 @@
 /**
- * \file      DatabaseManager.hh
+ * \file
  * \brief     Library for executing query on a rfid database
  * \author    Jeremy Ruizenaar
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See LICENSE
  */
-#include "databasemanager.hh"
+#include "database-manager.hh"
 
-void DatabaseManager::connectTo(std::string ip, std::string username,
-                                std::string password) {
+void DatabaseManager::connectTo(const std::string &ip, const std::string &username,
+                                const std::string &password) {
     connection.connectTo(ip, username, password);
 }
 
-void DatabaseManager::selectDatabase(std::string database) {
+void DatabaseManager::selectDatabase(const std::string &database) {
     connection.selectDatabase(database);
 }
 
@@ -26,25 +26,21 @@ std::string DatabaseManager::getAllCardIdFromDatabase() {
     return res;
 }
 
-bool DatabaseManager::getCardAuthorisationFromDatabase(std::string cardId) {
+bool DatabaseManager::getCardAuthorisationFromDatabase(const std::string &cardId) {
 
     // format the sql query string
     std::string query;
     query += "SELECT AUTHORIZED FROM RFID WHERE CARD_ID = '";
-    query += cardId += '\'';
+    query += cardId + "\\";
 
     connection.executeQuery(query);
     std::string result = connection.getPreviousResponseColumn("AUTHORIZED");
     // if result was 1 return false
-    if (result.compare("1")) {
-        return false;
-    } else {
-        return true;
-    }
+    return !result.compare("1");
 }
 
-void DatabaseManager::setCardAuthorisationInDatabase(bool status,
-                                                     std::string cardId) {
+void DatabaseManager::setCardAuthorisationInDatabase(const bool &status,
+                                                     const std::string &cardId) {
     // format the sql query string
     std::string query;
     query += "UPDATE RFID SET AUTHORIZED = '";
@@ -56,12 +52,12 @@ void DatabaseManager::setCardAuthorisationInDatabase(bool status,
     }
 
     query += "' WHERE RFID.CARD_ID = '";
-    query += cardId += '\'';
+    query += cardId + "\\";
 
     connection.executeQueryNoResult(query);
 }
 
-bool DatabaseManager::addCardToDatabase(std::string cardId) {
+bool DatabaseManager::addCardToDatabase(const std::string &cardId) {
 
     // check if card id is already in the database
     if (!isCardInDatabase(cardId)) {
@@ -77,30 +73,26 @@ bool DatabaseManager::addCardToDatabase(std::string cardId) {
     return true;
 }
 
-bool DatabaseManager::isCardInDatabase(std::string cardId) {
+bool DatabaseManager::isCardInDatabase(const std::string &cardId) {
 
     // format the sql query string
     std::string query;
     query += "SELECT CARD_ID FROM RFID WHERE EXISTS ( SELECT CARD_ID FROM RFID "
-             "WHERE CARD_ID =\'";
+        "WHERE CARD_ID =\'";
     query += cardId;
     query += "\')";
 
     connection.executeQuery(query);
 
     // if there is a result the card is already in the database
-    if (connection.getFullResult()->next()) {
-        return false;
-    } else {
-        return true;
-    }
+    return !connection.getFullResult()->next();
 }
 
-void DatabaseManager::executeQueryNoResult(std::string query) {
+void DatabaseManager::executeQueryNoResult(const std::string &query) {
     connection.executeQueryNoResult(query);
 }
 
-void DatabaseManager::executeQuery(std::string query) {
+void DatabaseManager::executeQuery(const std::string &query) {
     connection.executeQuery(query);
 }
 

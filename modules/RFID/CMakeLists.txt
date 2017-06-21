@@ -25,7 +25,7 @@ set(sources
     src/mfrc522.cc
     src/led-controller.cc
     src/matrix-keypad.cc
-    src/config-file-parser.cc src/databasemanager.cc src/databasemanager.hh)
+    src/config-file-parser.cc src/database-manager.cc src/database-manager.hh)
 
 add_executable(${exe_name} ${sources})
 target_link_libraries(${exe_name} ${WIRINGPI_LIBRARIES} ${mysqlcppconn_LIBRARIES} ${bcm2835_lib})

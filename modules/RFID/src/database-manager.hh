@@ -1,6 +1,6 @@
 /**
  * \file      databasemanager.hh
- * \brief     Library for executing query on a rfid database
+ * \brief     Library for executing query on a RFID database
  * \author    Jeremy Ruizenaar
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See LICENSE
@@ -10,10 +10,10 @@
 #include "mysql.hh"
 
 class DatabaseManager {
-  private:
+private:
     MySql connection;
 
-  public:
+public:
     /**
      * \brief Connects to a mysql server
      *
@@ -29,7 +29,7 @@ class DatabaseManager {
      *
      * \returns true on success.
      */
-    void connectTo(std::string ip, std::string username, std::string password);
+    void connectTo(const std::string &ip, const std::string &username, const std::string &password);
 
     /**
      * \brief Selects a database
@@ -42,7 +42,7 @@ class DatabaseManager {
      * \param [in] string database
      * \returns true on success.
      */
-    void selectDatabase(std::string database);
+    void selectDatabase(const std::string &database);
 
     /**
      * \brief returns a string with al card id's
@@ -66,7 +66,7 @@ class DatabaseManager {
      *
      * \returns true is authorized
      */
-    bool getCardAuthorisationFromDatabase(std::string cardId);
+    bool getCardAuthorisationFromDatabase(const std::string &cardId);
 
     /**
      * \brief set the authorisation of a card in the database
@@ -78,7 +78,7 @@ class DatabaseManager {
      * \param [in] string cardId
      * \returns card is authorized or unauthorized
      */
-    void setCardAuthorisationInDatabase(bool status, std::string cardId);
+    void setCardAuthorisationInDatabase(const bool &status, const std::string &cardId);
 
     /**
      * \brief check if a card is already in the database
@@ -91,7 +91,7 @@ class DatabaseManager {
      * \param [in] string cardId
      * \returns returns true if cardId is in th database
      */
-    bool isCardInDatabase(std::string cardId);
+    bool isCardInDatabase(const std::string &cardId);
 
     /**
      * \brief adds a card to the database
@@ -103,7 +103,7 @@ class DatabaseManager {
      * \param [in] string cardId
      * \returns returns true if cardId is added to the database
      */
-    bool addCardToDatabase(std::string cardId);
+    bool addCardToDatabase(const std::string &cardId);
 
     /**
      * \brief executes a query with no result
@@ -115,7 +115,7 @@ class DatabaseManager {
      * \param [in] string query
      *
      */
-    void executeQueryNoResult(std::string query);
+    void executeQueryNoResult(const std::string &query);
 
     /**
      * \brief executes a query with  result
@@ -127,7 +127,7 @@ class DatabaseManager {
      * \param [in] string query
      *
      */
-    void executeQuery(std::string query);
+    void executeQuery(const std::string &query);
 
     /**
      * \brief get the full result set from the connection
