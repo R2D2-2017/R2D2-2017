@@ -3,6 +3,7 @@
  * \author    Bob Thomas
  * \author    Remco Ruttenberg
  * \author    Chris Smeele
+ * \author    Paul Ettema
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See LICENSE
  */
@@ -13,28 +14,29 @@
 using namespace RoboArm;
 
 RobotArmController::RobotArmController(
-    Stepper &m1Stepper,
-    Stepper &m2Stepper,
-    Stepper &m3Stepper,
-    hwlib::target::pin_in &m1LimitSwitch,
-    hwlib::target::pin_in &m2LimitSwitch,
-    Ky101 &ky101)
-    : m1Stepper(m1Stepper),
-      m2Stepper(m2Stepper),
-      m3Stepper(m3Stepper),
-      m1LimitSwitch(m1LimitSwitch),
-      m2LimitSwitch(m2LimitSwitch),
-      ky101(ky101)
-{ }
+        Stepper &m1Stepper,
+        Stepper &m2Stepper,
+        Stepper &m3Stepper,
+        hwlib::target::pin_in &m1LimitSwitch,
+        hwlib::target::pin_in &m2LimitSwitch,
+        hwlib::target::pin_in &m3LimitSwitch,
+        Ky101 &ky101)
+        : m1Stepper(m1Stepper),
+          m2Stepper(m2Stepper),
+          m3Stepper(m3Stepper),
+          m1LimitSwitch(m1LimitSwitch),
+          m2LimitSwitch(m2LimitSwitch),
+          m3LimitSwitch(m3LimitSwitch),
+          ky101(ky101) {}
 
 void RobotArmController::rotateMotor(Motor motor,
-                                     int   degrees,
-                                     bool  clockwise) {
+                                     int degrees,
+                                     bool clockwise) {
 
     int selectedMicroSteps = (motor == Motor::M3) ? microStepsBase
-                                                    : microStepsArms;
+                                                  : microStepsArms;
     int selectedRatio = (int) ((motor == Motor::M3) ? baseStepRatio
-                                                      : armStepRatio);
+                                                    : armStepRatio);
     int requiredSteps = (int) (selectedMicroSteps
                                * (degrees * selectedRatio) / stepSize);
 
@@ -46,10 +48,10 @@ void RobotArmController::rotateMotor(Motor motor,
         hwlib::cout << "\r" << stepsTaken;
 
         if ((motor == Motor::M1 && !clockwise
-             && (   switchEnabled == RobotLimitSwitch::BOTH
+             && (switchEnabled == RobotLimitSwitch::BOTH
                  || switchEnabled == RobotLimitSwitch::M1))
             || (motor == Motor::M2 && !clockwise &&
-                (   switchEnabled == RobotLimitSwitch::BOTH
+                (switchEnabled == RobotLimitSwitch::BOTH
                  || switchEnabled == RobotLimitSwitch::M2))) {
 
             break;
@@ -62,6 +64,12 @@ void RobotArmController::rotateMotor(Motor motor,
         else if (motor == Motor::M3)
             m3Stepper.step(clockwise);
     }
+
+    (motor == Motor::M1 ? std::get<0>(motorRotations)
+                        : motor == Motor::M2 ? std::get<1>(motorRotations)
+                                             : std::get<2>(motorRotations))
+            += clockwise ? -degrees : degrees;
+
     hwlib::cout << "\r\n";
 }
 
@@ -70,11 +78,12 @@ constexpr T pow2(T v) { return v * v; }
 
 constexpr float pi = 3.141592653589793;
 
-constexpr float rad2deg(float rad) { return rad * (180/pi); }
-constexpr float deg2rad(float deg) { return deg * (pi/180); }
+constexpr float rad2deg(float rad) { return rad * (180 / pi); }
+
+constexpr float deg2rad(float deg) { return deg * (pi / 180); }
 
 
-std::tuple<float,float,float>
+std::tuple<float, float, float>
 RobotArmController::positionToMotorRotations(Position pos) {
 
     // FIXME: Make it clear where radians/degrees are used.
@@ -83,14 +92,16 @@ RobotArmController::positionToMotorRotations(Position pos) {
     // for an explanation for these formulas.
 
     float distance = sqrt(pow2(pos.x) + pow2(pos.y));
-    float slope    =  atan(pos.y / pos.x);
+    float slope = atan(pos.y / pos.x);
 
-    float joint1Rot = acos((pow2(arm1Length) + pow2(distance) - pow2(arm2Length))
-                           / (2 * arm1Length * distance)) + slope;
+    float joint1Rot =
+            acos((pow2(arm1Length) + pow2(distance) - pow2(arm2Length))
+                 / (2 * arm1Length * distance)) + slope;
 
     float joint2Rot = joint1Rot - pi
-                    + acos((pow2(arm1Length) + pow2(arm2Length) - pow2(distance))
-                           / (2 * arm1Length * arm2Length));
+                      + acos((pow2(arm1Length) + pow2(arm2Length) -
+                              pow2(distance))
+                             / (2 * arm1Length * arm2Length));
 
     float yRot = deg2rad(pos.yRot);
 
@@ -99,7 +110,7 @@ RobotArmController::positionToMotorRotations(Position pos) {
 
 static hwlib::ostream &operator<<(hwlib::ostream &stream, float v) {
     // Print a float with one decimal.
-    stream << (int)v << "." << (int)(v * 10) % 10;
+    stream << (int) v << "." << (int) (v * 10) % 10;
     return stream;
 }
 
@@ -126,28 +137,26 @@ bool RobotArmController::moveTo(Position pos) {
     hwlib::cout << "rotate 1 by " << (std::get<0>(newMotorRotations)
                                       - std::get<0>(motorRotations)) << "\r\n";
     rotateMotor(Motor::M1,
-               fabs(std::get<0>(newMotorRotations)
-                    - std::get<0>(motorRotations)),
-               std::get<0>(newMotorRotations)
-               - std::get<0>(motorRotations) < 0);
+                fabs(std::get<0>(newMotorRotations)
+                     - std::get<0>(motorRotations)),
+                std::get<0>(newMotorRotations)
+                - std::get<0>(motorRotations) < 0);
 
     hwlib::cout << "rotate 2 by " << (std::get<1>(newMotorRotations)
                                       - std::get<1>(motorRotations)) << "\r\n";
     rotateMotor(Motor::M2,
-               fabs(std::get<1>(newMotorRotations)
-                    - std::get<1>(motorRotations)),
-               std::get<1>(newMotorRotations)
-               - std::get<1>(motorRotations) < 0);
+                fabs(std::get<1>(newMotorRotations)
+                     - std::get<1>(motorRotations)),
+                std::get<1>(newMotorRotations)
+                - std::get<1>(motorRotations) < 0);
 
     hwlib::cout << "rotate 3 by " << (std::get<2>(newMotorRotations)
                                       - std::get<2>(motorRotations)) << "\r\n";
     rotateMotor(Motor::M3,
-               fabs(std::get<2>(newMotorRotations)
-                    - std::get<2>(motorRotations)),
-               std::get<2>(newMotorRotations)
-               - std::get<2>(motorRotations) < 0);
-
-    motorRotations = newMotorRotations;
+                fabs(std::get<2>(newMotorRotations)
+                     - std::get<2>(motorRotations)),
+                std::get<2>(newMotorRotations)
+                - std::get<2>(motorRotations) < 0);
 
     return true;
 }
@@ -169,6 +178,8 @@ void RobotArmController::startup() {
     // while (!ky101.get()) {
     //     rotateMotor(Motor::M3, 1, false);
     // }
+    while (m3LimitSwitch.get())
+        rotateMotor(Motor::M3, 1, false);
     while (m2LimitSwitch.get())
         rotateMotor(Motor::M2, 1, false);
     while (m1LimitSwitch.get())
