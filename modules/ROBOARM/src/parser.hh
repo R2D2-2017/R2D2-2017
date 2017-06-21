@@ -11,7 +11,7 @@
 #include "wrap-hwlib.hh"
 #include "robot-arm.hh"
 #include "robot-arm-tester.hh"
-#include "I2C.hh"
+#include "i2c.hh"
 
 namespace RoboArm {
     namespace Parser {
@@ -19,6 +19,15 @@ namespace RoboArm {
             Successful,
             SyntaxError,
         };
+
+        /**
+         * \brief Get int from string
+         *
+         * \param[in] hwlib::string String to get int from
+         *
+         * \return returns the int from the string
+         */
+        int stringToInt(const hwlib::string<0> &string);
 
         /**
          * \brief Parses a string and drives the servo motor

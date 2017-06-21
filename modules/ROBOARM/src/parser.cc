@@ -9,7 +9,7 @@
 
 using namespace RoboArm::Parser;
 
-int stringToInt(const hwlib::string<0> &amount) {
+int RoboArm::Parser::stringToInt(const hwlib::string<0> &amount) {
     int intAmount = 0;
     // string to int routine because no stdlib and not present in hwlib :(
     for (size_t i = 0; i < amount.length(); i++) {
@@ -52,13 +52,13 @@ Status RoboArm::Parser::parseCommand(const hwlib::string<0> &command,
         if (command == "OPEN") {
             //1 is the is the servo number
             //175 is the degrease for the servo to fully open
-            i2c.moveServoTo(1, 175);
+            i2c.moveServoTo(1, 140);
             return Status::Successful;
         }
         if (command == "CLOSE") {
             //1 is the is the servo number
             //92 is the degrease for the servo to fully close
-            i2c.moveServoTo(1, 92);
+            i2c.moveServoTo(1, 75);
             return Status::Successful;
         }
     } else {

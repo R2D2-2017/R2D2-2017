@@ -13,7 +13,7 @@
 #include "wifi.hh"
 #include "wrap-hwlib.hh"
 #include "robot-arm-tester.hh"
-#include "I2C.hh"
+#include "i2c.hh"
 
 
 int main() {

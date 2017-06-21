@@ -62,6 +62,7 @@ void RobotArmController::rotateMotor(Motor motor,
         else if (motor == Motor::M3)
             m3Stepper.step(clockwise);
     }
+    hwlib::cout << "\r\n";
 }
 
 template<typename T>
