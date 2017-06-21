@@ -7,21 +7,30 @@
  */
 
 #pragma once
+
 #include <wiringPi.h>
 
 class HcSr04 {
 private:
-    int     TriggerPin;
-    int     EchoPin;
-    double  distanceInCm = 0;
-    volatile long endTimeUsec = 0;
-    volatile long startTimeUsec = 0;
+    /// Pin used to trigger the sonar sensor
+    int triggerPin;
+
+    /// Pin used to determine the echo time
+    int echoPin;
+
 public:
-    HcSr04(int & TriggerPin,int & EchoPin);
     /**
-     * \brief Get distance in CM
+     * \brief Constructor for the HcSr04 class
      *
-     * \return Double - Centimeters
+     * \param[in]  triggerPin  the pin used to trigger the sonar sensor
+     * \param[in]  echoPin     the pin used to determine the echo time
+     */
+    HcSr04(int triggerPin, int echoPin);
+
+    /**
+     * \brief Gets the distance in centimeters
+     *
+     * \return The measured distance in centimeters
      */
     int  getDistance();
 };

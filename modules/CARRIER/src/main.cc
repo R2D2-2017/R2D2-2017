@@ -49,13 +49,13 @@ int main(void) {
         HcSr04(southTrigger, southEcho),
         HcSr04(westTrigger, westEcho)
     };
-    Carrier::CarrierController       stateMachine(controller, sonarSensors, 127);
+    Carrier::CarrierController       stateMachine(controller, serialCom, sonarSensors, 127);
 
     // Quick bluetooth status led
     pinMode(statusLed, OUTPUT);
 
     //If not connected to bluetooth serial blink and poll to connect
-    while (serialCom.init() == 0) {
+    while (!serialCom.init()) {
         digitalWrite(statusLed, 1); // On
         delay(500);
         digitalWrite(statusLed, 0); // off
@@ -83,6 +83,9 @@ int main(void) {
             } else if (command.find("STOP") != std::string::npos) {
                 serialCom.write("STOPPING");
                 stateMachine.setState(Carrier::CarrierState::Idle);
+            } else if(command.find("AUTO") != std::string::npos){
+                serialCom.write("AUTO-DRIVING MODE ACTIVATED");
+                stateMachine.setState(Carrier::CarrierState::Auto);
             }
             printf("%s", command.c_str());
         }
