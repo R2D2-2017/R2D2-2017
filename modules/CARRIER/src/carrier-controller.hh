@@ -22,7 +22,7 @@
 #include "./states/counter-clockwise-state.hh"
 #include "./states/idle-state.hh"
 #include "./states/auto-state.hh"
-#include "./states/avoidance-state.hh"
+//#include "./states/avoidance-state.hh"
 
 namespace Carrier {
 
