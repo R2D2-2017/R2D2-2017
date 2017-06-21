@@ -11,14 +11,14 @@ PathNode::PathNode():
     pathDistance(0)
 {}
 
-PathNode::PathNode(Node n, Node goal, float g) :
+PathNode::PathNode(const Node & n, const Node & goal, float g) :
     Node(n.getCoordinate(), n.getName()),
     pathDistance(g)
 {
     calcPriority(goal);
 }
 
-void PathNode::calcPriority(Node goal) {
+void PathNode::calcPriority(const Node & goal) {
     priority = pathDistance + euclideanDistance(goal);
 }
 
@@ -63,7 +63,7 @@ sf::Packet & operator>>(sf::Packet & lhs, PathNode & node) {
 
 sf::Packet & operator<<(sf::Packet & lhs, 
                         const std::vector<PathNode> & pathVector) {
-    lhs << (sf::Uint32)pathVector.size();
+    lhs << static_cast<sf::Uint32>(pathVector.size());
     for (auto node : pathVector) {
         lhs << node;
     }

@@ -10,15 +10,15 @@
 #include <iostream>
 
 void GraphFactory::createGraph(const std::string &nodeFilePath, 
-                               const std::string &verticeFilepath, 
+                               const std::string &verticeFilePath, 
                                Graph & graph ) {
     graph.setNodes(RunNodeFactory(nodeFilePath));
-    graph.setVertices(RunVerticeFactory(verticeFilepath,graph.getNodes()));
+    graph.setVertices(RunVerticeFactory(verticeFilePath,graph.getNodes()));
 }
 
 Node GraphFactory::getNodeByName(const std::string &name, 
                                  std::vector<Node> nodes) {
-    std::vector<Node>::iterator it = std::find_if(
+    auto it = std::find_if(
             std::begin(nodes),
             std::end(nodes),
             [&](Node & node) -> bool {
@@ -50,7 +50,7 @@ std::vector<Node> GraphFactory::RunNodeFactory(
         bool coordinateFlagY = false;
 
         // for each char in line
-        unsigned int i = false;
+        unsigned int i = 0;
         while (i < nodeEntry.length()) {
 
             char c = nodeEntry.at(i);
@@ -119,7 +119,7 @@ std::vector<Vertice> GraphFactory::RunVerticeFactory(
             bool weightFlag = false;
 
             // for each char in line
-            unsigned int i = false;
+            unsigned int i = 0;
             while (i < verticeEntry.length()) {
                 char c = verticeEntry.at(i);
                 if (c == '(' && !nodeFlagB) {

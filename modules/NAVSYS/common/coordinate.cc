@@ -49,7 +49,7 @@ Coordinate operator-(Coordinate lhs, const Coordinate &rhs) {
 }
 
 float Coordinate::euclideanDistance(const Coordinate &rhs) const {
-    return (float) sqrt(pow(x - rhs.x, 2) + pow(y - rhs.y, 2));
+    return static_cast<float> (sqrt(pow(x - rhs.x, 2) + pow(y - rhs.y, 2)));
 }
 
 sf::Packet &operator<<(sf::Packet & lhs, const Coordinate &coordinate) {
