@@ -31,7 +31,7 @@ namespace Carrier {
          * \brief Constructor for the AvoidanceState class
          * \param[in] controller Reference of a CarrierController that the AvoidanceState can use to control the carrier
          */
-        AvoidanceState(CarrierController *controller, HcS);
+        AvoidanceState(CarrierController *controller);
 
         /**
          * \brief Updates the current state
