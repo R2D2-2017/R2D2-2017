@@ -75,7 +75,7 @@ public:
     /**
      * \brief Sets the speed
      *
-     * \param[in]  speed  the speed in (TODO: figure out which units to use)
+     * \param[in]  speed  the speed used for the motors (number between 0-127)
      */
     void setSpeed(int speed);
 
