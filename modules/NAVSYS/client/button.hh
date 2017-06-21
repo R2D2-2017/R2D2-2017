@@ -26,7 +26,7 @@ private:
     sf::Font font;
     sf::Text buttonText;
     sf::RectangleShape button;
-    float outlineThickness = 2;
+    const float outlineThickness = 2;
     float xScaleDivider = 20;
     float yScaleDivider = 2;
 
@@ -134,7 +134,8 @@ public:
     /**
      * \brief Get the global bounds of the button.
      *
-     * The bounds of the buttons are in the following order:\n
+     * The bounds of the buttons are recieved of the globalbounds 
+	 * of an SFML float rectangle. 
      * {X, Y, Height, Width}
      *
      * \return The global bounds of the button
