@@ -20,8 +20,8 @@
 #include "button.hh"
 #include "mouse.hh"
 
-const int window_width = 800;
-const int window_height = 480;
+const int windowWidth = 800;
+const int windowHeight = 480;
 
 Client::Client(sf::IpAddress ipAddress, uint16_t port):
     ipAddress(ipAddress),
@@ -52,11 +52,11 @@ void Client::run(){
     getGraphFromServer();
     
     //create the window
-    Window window(sf::VideoMode(window_width, window_height), "NAVSYS", 
+    Window window(sf::VideoMode(windowWidth, windowHeight), "NAVSYS", 
                   sf::Style::Default);
     
     //Add a viewport
-    window.setViewPort(sf::Vector2f(window_width, window_height), 
+    window.setViewPort(sf::Vector2f(windowWidth, windowHeight), 
                        sf::Vector2f(100, 100));
     
     GraphDrawer drawer(window);

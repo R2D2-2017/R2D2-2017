@@ -12,8 +12,8 @@
 
 class GraphVertice{
 private:
-    sf::Vector2f positiona;
-    sf::Vector2f positionb;
+    sf::Vector2f positionA;
+    sf::Vector2f positionB;
     
     /*
      * \brief The default color for a Vertic is white
@@ -29,7 +29,7 @@ public:
      * \param[in] positiona The starting position of the vertice
      * \param[in] positionb The end position of the vertice
      */
-    GraphVertice(sf::Vector2f positiona,sf::Vector2f positionb);
+    GraphVertice(sf::Vector2f positionA,sf::Vector2f positionB);
 
     /**
      * \brief draw function

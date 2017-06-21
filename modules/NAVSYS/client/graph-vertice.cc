@@ -7,15 +7,15 @@
 
 #include "graph-vertice.hh"
 
-GraphVertice::GraphVertice(sf::Vector2f positiona,sf::Vector2f positionb):
-    positiona(positiona),
-    positionb(positionb)
+GraphVertice::GraphVertice(sf::Vector2f positionA,sf::Vector2f positionB):
+    positionA(positionA),
+    positionB(positionB)
 {}
 
 void GraphVertice::draw(sf::RenderWindow & window) {
     sf::Vertex line[] = {
-        sf::Vertex(sf::Vector2f(positiona.x,positiona.y), color),
-        sf::Vertex(sf::Vector2f(positionb.x,positionb.y), color)
+        sf::Vertex(sf::Vector2f(positionA.x,positionA.y), color),
+        sf::Vertex(sf::Vector2f(positionB.x,positionB.y), color)
     };
     window.draw(line,2,sf::Lines);
 }
