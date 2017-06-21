@@ -10,7 +10,7 @@
 
 #include "alarm.hh"
 
-void Alarm::checkGasValue(uint32_t gasValue) {
+void Alarm::checkGasValue(unsigned int gasValue) {
     if (gasValue > dangerThreshold) {
         greenAlarmLed.set(false);
         yellowAlarmLed.set(false);

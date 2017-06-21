@@ -10,12 +10,7 @@
 
 #include "parser.hh"
 
-Parser::Parser(Alarm &alarm, Mq5 &mq5, int &measureWaitTime) :
-        alarm(alarm),
-        mq5(mq5),
-        measureWaitTime(measureWaitTime) {}
-
-bool Parser::ifContainsString(const char *array, const char *string) {
+bool ifContainsString(const char *array, const char *string) {
     bool containsString = false;
     for (int i = 0; array[i] != '\0'; i++) {
         if (containsString) {break;}
@@ -31,7 +26,10 @@ bool Parser::ifContainsString(const char *array, const char *string) {
     return containsString;
 }
 
-bool Parser::parseArray(char* input) {
+bool parseArray(const char *input, int &measureWaitTime, Alarm &alarm, Mq5 &mq5) {
+
+    char variableName[20];
+    int variableValue = 0;
 
     // Read input array variables.
     for (int i = 0, j = 0; input[i] != '\0'; ++i) {
@@ -47,7 +45,7 @@ bool Parser::parseArray(char* input) {
             for (j = 0; input[i] != ':'; ++i, ++j) {
                 // Prevent endless loop.
                 if (input[i] == '\0') {
-                    hwlib::cout << ">>>PARSER ERROR : while reading variable name, prevent endless loop!" << "\r\n";
+                    hwlib::cout << "Error while reading variable name" << "\r\n";
                     return false;
                 }
                 variableName[j] = input[i];
@@ -71,8 +69,8 @@ bool Parser::parseArray(char* input) {
 
                 // Check if variable value is an integer or not.
                 if ((input[i] < '0') || (input[i] > '9')) {
-                    hwlib::cout << ">>>PARSER ERROR : while reading variable value for [ " << variableName
-                                << " ], [ " << input[i] << " ] is not an integer!" << "\r\n";
+                    hwlib::cout << "Error while reading variable value for [ " << variableName
+                                << " ], [ " << input[i] << " ] is not an integer\r\n";
                     return false;
                 }
                 // Convert a single char to an integer.
@@ -80,19 +78,19 @@ bool Parser::parseArray(char* input) {
             }
 
             // Set all variables.
-            if (ifContainsString(variableName, firstNoteString)) {
+            if (ifContainsString(variableName, parserStrings_t::firstNote)) {
                 alarm.setFirstNote(variableValue);
             }
-            else if (ifContainsString(variableName, secondNoteString)) {
+            else if (ifContainsString(variableName, parserStrings_t::secondNote)) {
                 alarm.setSecondNote(variableValue);
             }
-            else if (ifContainsString(variableName, warningThresholdString)) {
+            else if (ifContainsString(variableName, parserStrings_t::warningThreshold)) {
                 alarm.setWarningThreshold(variableValue);
             }
-            else if (ifContainsString(variableName, dangerThresholdString)) {
+            else if (ifContainsString(variableName, parserStrings_t::dangerThreshold)) {
                 alarm.setDangerThreshold(variableValue);
             }
-            else if (ifContainsString(variableName, mq5CalibrationValueString)) {
+            else if (ifContainsString(variableName, parserStrings_t::mq5CalibrationValue)) {
                 if (mq5.isMq5Calibrated()) {
                     mq5.setMq5CalibrationValue(variableValue);
                     mq5.setMq5IsCalibrated(true);
@@ -100,10 +98,10 @@ bool Parser::parseArray(char* input) {
                     hwlib::cout << "isCalibrated is false calibration value will not be set \r\n";
                 }
             }
-            else if (ifContainsString(variableName, measureWaitTimeString)) {
-                *measureWaitTime = variableValue;
+            else if (ifContainsString(variableName, parserStrings_t::measureWaitTime)) {
+                measureWaitTime = variableValue;
             }
-            else if (ifContainsString(variableName, isCalibratedString)) {
+            else if (ifContainsString(variableName, parserStrings_t::isCalibrated)) {
                 mq5.setMq5IsCalibrated(static_cast<bool>(variableValue));
                 hwlib::cout << "is calibrated = " << static_cast<bool>(variableValue) << "\r\n";
             } else {

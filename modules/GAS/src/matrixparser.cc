@@ -43,14 +43,15 @@ void MatrixDisplayParser::converter(const uint8_t (*renderInput)[8], uint8_t (*c
 
 }
 
-void MatrixDisplayParser::render(const uint8_t (*renderInput)[8], const size_t stringLength) {
+void MatrixDisplayParser::render(const uint8_t (*renderInput)[8], const int stringLength) {
+    static int numberOfWrites = 0;
     converter(renderInput, converterOutput);
     for (int i = 0; i < numberOfRows; i++) {
-        commands[numberOfWrites++][i][1] = converterOutput[i][1];
+        commands[numberOfWrites][i][1] = converterOutput[i][1];
     }
+    numberOfWrites++;
     if (numberOfWrites == stringLength) {
         numberOfWrites = 0;
         spiParseAndSend(commands);
     }
 }
-

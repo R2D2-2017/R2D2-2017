@@ -97,9 +97,6 @@ int main() {
     Mq5 mq5(sensor);
     Setup matrix(spi, chipSelect, numberOfUnusedMatrices, numberOfMatrices);
 
-    // Initialize the parser.
-    Parser parser(alarm, mq5, &measureWaitTime);
-
     // Startup blink.
     startLed.set(false);
     hwlib::wait_ms(startupLedWait);
@@ -146,7 +143,7 @@ int main() {
     }
     configurationInput[confFile.getSize()] = '\0';
     //hwlib::cout << configurationInput << "\r\n"; //debug statement for console output of read configuration
-    if (!parser.parseArray(configurationInput)) {
+    if (!parseArray(configurationInput, measureWaitTime, alarm, mq5)) {
         return 0;
     }
 

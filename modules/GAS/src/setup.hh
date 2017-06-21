@@ -18,8 +18,8 @@ private:
     hwlib::pin_out &chipSelect;
 
     /// Settings.
-    const int numberOfUnusedMatrices;
-    const int numberOfMatrices;
+    int numberOfUnusedMatrices;
+    int numberOfMatrices;
     const int numberOfRows = 8;
 
 public:
@@ -46,7 +46,7 @@ public:
      *
      * There is a limit, you can only display 0 to 9, - and +. The max string length is 20.
      * The number of displayed chars on the this display is limited by the number of matrices
-     * \param inputString that will be displayed on the led matrix.
+     * \param[in] inputString that will be displayed on the led matrix.
      */
-    void displayString(char *inputString);
+    void displayString(const char *inputString);
 };

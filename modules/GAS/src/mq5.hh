@@ -15,6 +15,42 @@
 #include "wrap-hwlib.hh"
 
 class Mq5 {
+private:
+
+    /// Legacy code we have no clue what it does but its probably important. Dont touch ☢
+    const float newMax = 3.3f;
+
+    /// Integer value to get the numbers behind the floating point into an integer.
+    const int floatMultp = 1000;
+
+    /// The pin the mq-5 sensor is connected to.
+    hwlib::target::pin_adc &sensor;
+
+    /// The strictness of the mean-filter.
+    float meanFilter;
+
+    /// The calibration value read/set during startup.
+    float calibrationValue = 0;
+
+    /// Value that says uf the sensor has a calibration value.
+    /// False by default to prevent non calibrated initialization.
+    bool isCalibrated = false;
+
+    /**
+    * \brief Reads the gas sensor data.
+    *
+    * \return The measured data as float voltage.
+    */
+    float readSensor();
+
+    /**
+    * \brief Reads the gas sensor data 5 times and returns an average of the measured values.
+    *
+    * \param counter    The given amount of times the gas sensor is going to be measured.
+    * \return                   The average measured data as float voltage.
+    */
+    float readSensorAverage(int counter);
+
 public:
 
     /**
@@ -63,40 +99,4 @@ public:
     * \param calibrated    The desired state of the bool.
     */
     void setMq5IsCalibrated(bool calibrated);
-
-private:
-
-    /// Legacy code we have no clue what it does but its probably important. Dont touch ☢
-    const float newMax = 3.3f;
-
-    /// Integer value to get the numbers behind the floating point into an integer.
-    const int floatMultp = 1000;
-
-    /// The pin the mq-5 sensor is connected to.
-    hwlib::target::pin_adc &sensor;
-
-    /// The strictness of the mean-filter.
-    float meanFilter;
-
-    /// The calibration value read/set during startup.
-    float calibrationValue = 0;
-
-    /// Value that says uf the sensor has a calibration value.
-    /// False by default to prevent non calibrated initialization.
-    bool isCalibrated = false;
-
-    /**
-    * \brief Reads the gas sensor data.
-    *
-    * \return The measured data as float voltage.
-    */
-    float readSensor();
-
-    /**
-    * \brief Reads the gas sensor data 5 times and returns an average of the measured values.
-    *
-    * \param counter    The given amount of times the gas sensor is going to be measured.
-    * \return                   The average measured data as float voltage.
-    */
-    float readSensorAverage(int counter);
 };

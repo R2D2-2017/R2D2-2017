@@ -20,10 +20,10 @@ private:
 
     /// Alarm thresholds set by constructor.
     /// warningThreshold triggers the first alarm and lights the yellow LED.
-    int warningThreshold = 100;
+    unsigned int warningThreshold = 100;
 
     /// dangerThreshold triggers the second alarm and lights the red LED.
-    int dangerThreshold = 110;
+    unsigned int dangerThreshold = 110;
 
     /// The first note to be played in MHz.
     int firstNote = 880;
@@ -69,7 +69,7 @@ public:
      * the warning-speaker and yellow led. When it's below said thresholds the green led will be triggered.
      * \param gasValue the gas value.
      */
-    void checkGasValue(uint32_t gasValue);
+    void checkGasValue(unsigned int gasValue);
 
     /**
     * \brief Set the firstNote to this value.

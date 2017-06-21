@@ -28,7 +28,7 @@ private:
 
     /// Used to give each character its proper location in the array
     /// and at the end it is used to check if all characters have been processed.
-    int numberOfWrites = 0;
+    ///int numberOfWrites = 0;
 
     /// Represents the size of a matrix and is used to prevent no junk data is added to them.
     int numberOfCommands = 5;
@@ -38,7 +38,7 @@ private:
      *
      * The size of the matrices and arrays support up to 20 characters.
     */
-    uint8_t processedCommands[50];
+    uint8_t processedCommands[20];
     uint8_t converterOutput[8][2];
     uint8_t commands[20][8][2];
     /**
@@ -93,5 +93,5 @@ public:
      * \param[in] renderInput   Accepts 8x8 matrix.
      * \param[in] stringLength  Size of text to display on led matrices.
      */
-    void render(const uint8_t (*renderInput)[8], const size_t stringLength);
+    void render(const uint8_t (*renderInput)[8], const int stringLength);
 };

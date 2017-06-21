@@ -7,7 +7,11 @@
 #include "setup.hh"
 
 /// Chars that can be displayed.
-static const uint8_t charSpace[8][8] = {0};
+static const uint8_t charSpace[8][8] = {
+        {1,1,0,0,0,0,0,0}, {0,0,1,1,1,0,0,0},
+        {0,1,1,1,1,0,0,0}, {0,0,0,1,1,0,0,0},
+        {0,0,0,1,1,0,0,0}, {0,0,0,1,1,0,0,0},
+        {0,1,1,1,1,1,1,0}, {0,0,0,0,0,0,0,0}};
 static const uint8_t charOne[8][8] = {
         {0,0,0,0,0,0,0,0}, {0,0,1,1,1,0,0,0},
         {0,1,1,1,1,0,0,0}, {0,0,0,1,1,0,0,0},
@@ -70,9 +74,8 @@ static const uint8_t charPlus[8][8] = {
         {0,0,0,1,1,0,0,0}, {0,0,0,0,0,0,0,0}};
 static const uint8_t settings[5][2] = {{0x09,0x00},{0x0c,0x01},{0x0f,0x00},{0x0A,0x04},{0x0B,0x07}};
 
-void Setup::displayString(char *inputString) {
-    size_t stringLength = sizeof(inputString) / sizeof(inputString[0]) + numberOfUnusedMatrices;
-
+void Setup::displayString(const char *inputString) {
+    int stringLength = sizeof(inputString) / sizeof(inputString[0]) + numberOfUnusedMatrices;
     MatrixDisplayParser display(spiBus, chipSelect, numberOfMatrices, numberOfRows);
     display.settings(settings);
 
