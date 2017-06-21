@@ -13,7 +13,8 @@ MySql::MySql() { driver = get_driver_instance(); }
 
 MySql::~MySql() {}
 
-template <typename T> void MySql::errorCheck(T function) {
+template <typename T>
+void MySql::errorCheck(T function) {
     try {
         function();
     } catch (sql::SQLException &error) {
