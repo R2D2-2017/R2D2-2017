@@ -48,8 +48,11 @@ void SlitSensor::threadMain() {
             rotationCount++;
         }
 
-        if (!waitingForBack) {
-            NewRotations++;
+        if (statusFront) {
+                if(!statusBack){
+                    NewRotations++;
+                }
+            }
         }
         std::this_thread::sleep_for(pollTime);
     }
