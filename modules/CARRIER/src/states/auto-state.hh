@@ -47,9 +47,9 @@ class AutoState : public ICarrierState{
         CarrierState getState();
     private:
         /// Array of available states
-        std::array<CarrierState, 5> states = {CarrierState::Idle, CarrierState::Forward,
+        std::array<CarrierState, 5> states = {{CarrierState::Idle, CarrierState::Forward,
                                               CarrierState::Backward, CarrierState::Clockwise,
-                                              CarrierState::CounterClockwise};
+                                              CarrierState::CounterClockwise}};
         int threshold = 25;
     };
 
