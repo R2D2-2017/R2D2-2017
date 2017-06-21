@@ -1,7 +1,7 @@
 /**
  * \file      config-file-parser.hh
  * \brief     Library for getting information out of a file
- * \author    Tim IJntema, Jeremy Ruizenaar, Ricardo Bouwman
+ * \author    Tim IJntema, Jeremy Ruizenaar, Ricardo Bouwman, Luuk Steeman
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See LICENSE
  */
@@ -33,13 +33,12 @@ class ConfigFileParser {
      *
      * Typical usage:
      * \code
-     *     incorrectLinCheck(true == true, __LINE__);
+     *     incorrectLineCheck(true == true, __LINE__);
      * \endcode
      *
-     * \param [in] toCheck A comparison with a boolean type as result
      * \param [in] line The line the error occurred on
      */
-    void incorrectLineCheck(const bool &toCheck, const std::string &fileName,
+    void incorrectLineCheck(const std::string &fileName,
                             int line);
 
   public:
