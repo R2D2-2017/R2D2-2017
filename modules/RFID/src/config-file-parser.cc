@@ -1,7 +1,7 @@
 /**
  * \file      config-file-parser.cc
- * \brief     Library for getting information out of a config file
- * \author    Tim IJntema, Jeremy Ruizenaar, Ricardo Bouwman
+ * \brief     Class for getting information out of a config file
+ * \author    Tim IJntema, Jeremy Ruizenaar, Ricardo Bouwman, Luuk Steeman
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See LICENSE
  */
@@ -13,23 +13,16 @@
 ConfigFileParser::ConfigFileParser(const std::string &databaseFile)
     : databaseFile(databaseFile) {}
 
-void ConfigFileParser::incorrectLineCheck(const bool &toCheck,
+void ConfigFileParser::incorrectLineCheck(
                                           const std::string &fileName,
                                           int line) {
-    if (toCheck) {
-        // Casted to string to prevent error involving const char array +
-        // std::string not same type
-        throw std::runtime_error((std::string) "Incorrect input" +
-                                 "\nFunction call in file: " + fileName +
-                                 " line: " + std::to_string(line));
-    }
-}
 
-/**
- * \brief Reducing the amount of arguments needed to call incorrectLineCheck
- */
-#define incorrectLineCheck(toCheck)                                            \
-    incorrectLineCheck(toCheck, __FILE__, __LINE__)
+    // Casted to string to prevent error involving const char array +
+    // std::string not same type
+    throw std::runtime_error( "Incorrect input"s +
+                             "\nFunction call in file: "s + fileName +
+                             " line: "s + std::to_string(line));
+}
 
 void ConfigFileParser::loadDatabaseSettings(std::string &ip,
                                             std::string &username,
@@ -46,19 +39,25 @@ void ConfigFileParser::loadDatabaseSettings(std::string &ip,
     std::string input;
 
     file >> input;
-    incorrectLineCheck(input != "IP:");
+    if (input != "IP:")
+        incorrectLineCheck(__FILE__, __LINE__);
     file >> ip;
-    incorrectLineCheck(ip == "\n");
+    if (ip == "\n")
+        incorrectLineCheck(__FILE__, __LINE__);
 
     file >> input;
-    incorrectLineCheck(input != "USERNAME:");
+    if (input != "USERNAME:")
+        incorrectLineCheck(__FILE__, __LINE__);
     file >> username;
-    incorrectLineCheck(username == "\n");
+    if (username == "\n")
+        incorrectLineCheck(__FILE__, __LINE__);
 
     file >> input;
-    incorrectLineCheck(input != "PASSWORD:");
+    if (input!= "PASSWORD:")
+        incorrectLineCheck(__FILE__, __LINE__);
     file >> password;
-    incorrectLineCheck(password == "\n" || file.eof());
+    if (password == "\n" || file.eof())
+        incorrectLineCheck(__FILE__, __LINE__);
 
     // throw error if reading went wrong
     if (ip.empty() || username.empty() || password.empty()) {
