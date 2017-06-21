@@ -30,12 +30,12 @@ RobotArmController::RobotArmController(
           ky101(ky101) {}
 
 bool RobotArmController::canRotateMotor(Motor motor, int degrees) const {
+    if(motor == Motor::M3){ return true;}
     auto limits = motorLimits[motor == Motor::M1 ? 0 : motor == Motor::M2 ? 1 : 2];
 
     // This is annoying. 💩
     auto oldRot = (  motor == Motor::M1 ? std::get<0>(motorRotations)
-                   : motor == Motor::M2 ? std::get<1>(motorRotations)
-                   :                      std::get<2>(motorRotations));
+                   : motor == Motor::M2 ? std::get<1>(motorRotations);
 
     auto newRot = oldRot + degrees;
 
@@ -175,10 +175,6 @@ RobotLimitSwitch RobotArmController::checkLimitations() {
 void RobotArmController::startup() {
     auto initialRotations = motorRotations;
 
-    while (m3LimitSwitch.get()) {
-        std::get<2>(motorRotations) = motorLimits[2].first + 5;
-        rotateMotor(Motor::M3, 1);
-    }
     while (m2LimitSwitch.get()) {
         // Override rotation limit checks - we don't know the current rotation anyway.
         std::get<1>(motorRotations) = motorLimits[1].first + 5;
@@ -187,6 +183,10 @@ void RobotArmController::startup() {
     while (m1LimitSwitch.get()) {
         std::get<0>(motorRotations) = motorLimits[0].first + 5;
         rotateMotor(Motor::M1, 1);
+    }
+    while (m3LimitSwitch.get()) {
+        std::get<2>(motorRotations) = motorLimits[2].first + 5;
+        rotateMotor(Motor::M3, -1);
     }
 
     motorRotations = initialRotations;
