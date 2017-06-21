@@ -1,11 +1,12 @@
 /**
  * \file      graph-node.cc
- * \author    Leo Jenneskens, Arco Gelderblom, René de Kluis, Koen de Groot
+ * \author    Leo Jenneskens, Arco Gelderblom, Renï¿½ de Kluis, Koen de Groot
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See LICENSE
  */
 
 #include "graph-node.hh"
+#include <SFML/Config.hpp>
 #include <iostream>
 #include "mouse.hh"
 
@@ -27,7 +28,14 @@ void GraphNode::draw(sf::RenderWindow & window) {
     txt.setString(name);
     txt.setCharacterSize(characterSize);
     txt.setStyle(sf::Text::Bold);
-    txt.setColor(sf::Color::Green);
+    
+    //Check for sfml version
+    #if SFML_VERSION_MINOR == 1
+        txt.setColor(sf::Color::Green);
+    #else
+        txt.setFillColor(sf::Color::Green);
+    #endif
+    
     txt.setPosition(position.x+positionOffset,position.y+positionOffset);
     window.draw(txt);
 
