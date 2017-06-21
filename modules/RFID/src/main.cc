@@ -129,12 +129,6 @@ int main(int argc, char **argv) {
                 redLed.blinkLed(3000);
             }
         }
-    } catch (const std::string &error) {
-        std::cerr << error << '\n';
-        exit(EXIT_FAILURE);
-    } catch (...) {
-        std::cerr << "Something went wrong\n";
-        exit(EXIT_FAILURE);
     }
     return 0;
 }
