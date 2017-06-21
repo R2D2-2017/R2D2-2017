@@ -1,6 +1,6 @@
 /**
  * \file      mysql.cc
- * \brief     Mysql library with error checking that uses the mysqlcppconn
+ * \brief     Mysql class with error checking that uses the mysqlcppconn
  * library
  * \author    Tim IJntema
  * \copyright Copyright (c) 2017, The R2D2 Team
@@ -69,4 +69,4 @@ std::string MySql::getPreviousResponseColumn(const std::string &columnName) {
     return columnInformation;
 }
 
-std::unique_ptr<sql::ResultSet> &MySql::getFullResult() { return result; }
+std::unique_ptr<sql::ResultSet> MySql::getFullResult() { return std::move(result); }

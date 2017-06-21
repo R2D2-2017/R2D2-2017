@@ -1,6 +1,6 @@
 /**
  * \file      mysql.hh
- * \brief     Mysql library with error checking that uses the mysqlcppconn
+ * \brief     Mysql class with error checking that uses the mysqlcppconn
  * library
  * \author    Tim IJntema
  * \copyright Copyright (c) 2017, The R2D2 Team
@@ -74,9 +74,7 @@ class MySql {
      */
     MySql();
 
-    /**
-     *  \brief Destructs the mysql class
-     */
+
     ~MySql();
 
     /**
@@ -185,5 +183,5 @@ class MySql {
      *
      * \returns The full result with all columns and rows
      */
-    std::unique_ptr<sql::ResultSet> &getFullResult();
+    std::unique_ptr<sql::ResultSet> getFullResult();
 };

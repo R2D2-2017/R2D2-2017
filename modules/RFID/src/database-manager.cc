@@ -1,6 +1,6 @@
 /**
- * \file
- * \brief     Library for executing query on a rfid database
+ * \file      database-manager.cc
+ * \brief     Class for executing query on a rfid database
  * \author    Jeremy Ruizenaar
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See LICENSE
@@ -45,11 +45,7 @@ void DatabaseManager::setCardAuthorisationInDatabase(const bool &status,
     std::string query;
     query += "UPDATE RFID SET AUTHORIZED = '";
 
-    if (status) {
-        query += '1';
-    } else {
-        query += '0';
-    }
+    query += status ? '1' : '0';
 
     query += "' WHERE RFID.CARD_ID = '";
     query += cardId + "\\";
@@ -96,6 +92,6 @@ void DatabaseManager::executeQuery(const std::string &query) {
     connection.executeQuery(query);
 }
 
-std::unique_ptr<sql::ResultSet> &DatabaseManager::getFullResultSet() {
+std::unique_ptr<sql::ResultSet> DatabaseManager::getFullResultSet() {
     return connection.getFullResult();
 }

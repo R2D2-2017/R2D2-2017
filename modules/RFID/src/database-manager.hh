@@ -1,6 +1,6 @@
 /**
- * \file      databasemanager.hh
- * \brief     Library for executing query on a RFID database
+ * \file      database-manager.hh
+ * \brief     Class for executing query on a RFID database
  * \author    Jeremy Ruizenaar
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See LICENSE
@@ -140,5 +140,5 @@ public:
      * \return std::unique_ptr<sql::ResultSet> &
      *
      */
-    std::unique_ptr<sql::ResultSet> &getFullResultSet();
+    std::unique_ptr<sql::ResultSet> getFullResultSet();
 };
