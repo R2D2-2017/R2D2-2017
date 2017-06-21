@@ -13,26 +13,28 @@
 #include <wiringSerial.h>
 
 /**
- * \brief Serial communication class with wiringPi
- * Simple class that encapsulates wiringSerial
- * That is able send commands with the protocol required by the Qik2s12v10
-*/
-enum MotorControls : uint8_t {
-	startBit = 0xAA,
-    deviceId = 0x0A
-};
-
-/**
- * \brief class that sends data over serial to the rosbee motors
+ * \brief Controls the rosbee motors via serial
+ *
+ * Encapsulates wiringSerial, allowing it to send commands using the protocol
+ * required by the Qik2s12v10
 */
 class Motor{
 private:
 	/// The port name for the raspberry pi zero w this is "/dev/ttyS0"
 	std::string portName;
+
 	/// Baudrate you wat to open the serial connection on
 	int baud;
-	/// The opened serial port that can be used by wiringSerial
+
+    /// The opened serial port that can be used by wiringSerial
 	int openPort;
+
+    /// Byte signifiying the start of a message
+    static constexpr uint8_t startBit = 0xAA;
+
+    /// Byte containing the device id
+    static constexpr uint8_t deviceId = 0x0A;
+
 public:
 	/**
      * \brief Constructor for Motor class opens the serial for wiringSerial
