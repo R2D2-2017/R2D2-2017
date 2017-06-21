@@ -56,5 +56,4 @@ void SlitSensor::threadMain() {
         }
         std::this_thread::sleep_for(pollTime);
     }
-}
 
