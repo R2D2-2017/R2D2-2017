@@ -55,7 +55,7 @@ namespace RoboArm {
      */
     static constexpr std::pair<float,float> motorLimits[] {
         {    0, 150 },
-        {    0,  90 },
+        {    -90,  0 },
         { -180, 180 },
     };
 
