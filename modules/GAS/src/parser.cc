@@ -5,12 +5,19 @@
  * \author    David de Jong
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See LICENSE
- * \trello    https://trello.com/c/zSJnP0Rw/5-a-parser-must-be-made-that-can-read-the-conftxt-and-set-the-variables
+ * https://trello.com/c/zSJnP0Rw/5-a-parser-must-be-made-that-can-read-the-conftxt-and-set-the-variables
  */
 
 #include "parser.hh"
 
-bool ifContainsString(const char *array, const char *string) {
+/**
+ * \brief Checks if a given array contains a given string.
+ *
+ * \param[in] array     The given array to check with.
+ * \param[in] string    The given string to check with.
+ * \return          Returns true if the given array contains the given string.
+ */
+static bool ifContainsString(const char *array, const char *string) {
     bool containsString = false;
     for (int i = 0; array[i] != '\0'; i++) {
         if (containsString) {break;}
@@ -32,9 +39,7 @@ bool parseArray(const char *input, int &measureWaitTime, Alarm &alarm, Mq5 &mq5)
     int variableValue = 0;
 
     // Read input array variables.
-    for (int i = 0, j = 0; input[i] != '\0'; ++i) {
-
-        // Start reading new variable at '@'.
+    for (unsigned int i = 0, j = 0; input[i] != '\0'; ++i) {
         if (input[i] == '@') {
             variableValue = 0;
 
@@ -46,6 +51,10 @@ bool parseArray(const char *input, int &measureWaitTime, Alarm &alarm, Mq5 &mq5)
                 // Prevent endless loop.
                 if (input[i] == '\0') {
                     hwlib::cout << "Error while reading variable name" << "\r\n";
+                    return false;
+                }
+                if (j < sizeof(variableName)-1){
+                    hwlib::cout << "Out of bounds while getting variable name\r\n";
                     return false;
                 }
                 variableName[j] = input[i];
@@ -78,19 +87,19 @@ bool parseArray(const char *input, int &measureWaitTime, Alarm &alarm, Mq5 &mq5)
             }
 
             // Set all variables.
-            if (ifContainsString(variableName, parserStrings_t::firstNote)) {
+            if (ifContainsString(variableName, ParserStrings::firstNote)) {
                 alarm.setFirstNote(variableValue);
             }
-            else if (ifContainsString(variableName, parserStrings_t::secondNote)) {
+            else if (ifContainsString(variableName, ParserStrings::secondNote)) {
                 alarm.setSecondNote(variableValue);
             }
-            else if (ifContainsString(variableName, parserStrings_t::warningThreshold)) {
+            else if (ifContainsString(variableName, ParserStrings::warningThreshold)) {
                 alarm.setWarningThreshold(variableValue);
             }
-            else if (ifContainsString(variableName, parserStrings_t::dangerThreshold)) {
+            else if (ifContainsString(variableName, ParserStrings::dangerThreshold)) {
                 alarm.setDangerThreshold(variableValue);
             }
-            else if (ifContainsString(variableName, parserStrings_t::mq5CalibrationValue)) {
+            else if (ifContainsString(variableName, ParserStrings::mq5CalibrationValue)) {
                 if (mq5.isMq5Calibrated()) {
                     mq5.setMq5CalibrationValue(variableValue);
                     mq5.setMq5IsCalibrated(true);
@@ -98,10 +107,10 @@ bool parseArray(const char *input, int &measureWaitTime, Alarm &alarm, Mq5 &mq5)
                     hwlib::cout << "isCalibrated is false calibration value will not be set \r\n";
                 }
             }
-            else if (ifContainsString(variableName, parserStrings_t::measureWaitTime)) {
+            else if (ifContainsString(variableName, ParserStrings::measureWaitTime)) {
                 measureWaitTime = variableValue;
             }
-            else if (ifContainsString(variableName, parserStrings_t::isCalibrated)) {
+            else if (ifContainsString(variableName, ParserStrings::isCalibrated)) {
                 mq5.setMq5IsCalibrated(static_cast<bool>(variableValue));
                 hwlib::cout << "is calibrated = " << static_cast<bool>(variableValue) << "\r\n";
             } else {

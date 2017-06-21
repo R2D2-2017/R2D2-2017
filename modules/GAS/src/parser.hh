@@ -18,15 +18,6 @@
 #include "mq5.hh"
 
 /**
- * \brief Checks if a given array contains a given string.
- *
- * \param[in] array     The given array to check with.
- * \param[in] string    The given string to check with.
- * \return          Returns true if the given array contains the given string.
- */
-bool ifContainsString(const char *array, const char *string);
-
-/**
 * \brief Read and set the settings from a read given input array.
 *
 * \param    input The input array to parse.
@@ -35,14 +26,14 @@ bool ifContainsString(const char *array, const char *string);
 bool parseArray(const char *input, int &measureWaitTime, Alarm &alarm, Mq5 &mq5);
 
 // Variables that the parser checks for in the conf file and their associated strings.
-typedef const struct ParserStrings {
-    static constexpr char *firstNote            = (char*)"firstNote";
-    static constexpr char *secondNote           = (char*)"secondNote";
-    static constexpr char *warningThreshold     = (char*)"warningThreshold";
-    static constexpr char *dangerThreshold      = (char*)"dangerThreshold";
-    static constexpr char *mq5CalibrationValue  = (char*)"mq5CalibrationValue";
-    static constexpr char *measureWaitTime      = (char*)"measureWaitTime";
-    static constexpr char *isCalibrated         = (char*)"isCalibrated";
-} parserStrings_t;
+namespace ParserStrings {
+    const char *firstNote            = "firstNote";
+    const char *secondNote           = "secondNote";
+    const char *warningThreshold     = "warningThreshold";
+    const char *dangerThreshold      = "dangerThreshold";
+    const char *mq5CalibrationValue  = "mq5CalibrationValue";
+    const char *measureWaitTime      = "measureWaitTime";
+    const char *isCalibrated         = "isCalibrated";
+};
 
 

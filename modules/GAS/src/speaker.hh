@@ -18,7 +18,7 @@
 class Speaker {
 private:
     /// Digital pin used for the speaker.
-    hwlib::pin_out & speakerPin;
+    hwlib::pin_out &speakerPin;
 
 public:
     /**

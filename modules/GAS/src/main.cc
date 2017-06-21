@@ -46,7 +46,6 @@ const int numberOfUnusedMatrices = 0;
 const int numberOfMatrices = 4;
 const int startupLedWait = 200;
 const int preHeatTime = 120;    // Time in seconds for preheating of the sensor.
-const int secondMs = 1000;
 
 
 int main() {
@@ -115,6 +114,7 @@ int main() {
 
     if (!dataFile.doesExist()) {
         hwlib::cout << "data.txt does not exist.\r\n";
+        return 0;
     }
 
     MuStore::FsNode confFile = fileSystem.get(confFilePath, err);
@@ -125,22 +125,23 @@ int main() {
         hwlib::cout << "Filesystem returned error: " << static_cast<int>(err) << "\r\n ";
     }
 
-    if (!dataFile.doesExist()) {
+    if (!confFile.doesExist()) {
         hwlib::cout << "conf.txt does not exist.\r\n";
+        return 0;
     }
 
     for (int i = preHeatTime; i >= 0; --i) {
         intToString(i, charValue);
         matrix.displayString(charValue);
-        hwlib::wait_ms(secondMs);
+        hwlib::wait_ms(1000);
     }
 
     // Read data from configuration file.
-    confFile.read(configurationInput, confFile.getSize(), err);
     if (sizeof(configurationInput) <= confFile.getSize()) {
         hwlib::cout << "Input buffer to small contact the developer of this program\r\n";
         return 0;
     }
+    confFile.read(configurationInput, confFile.getSize(), err);
     configurationInput[confFile.getSize()] = '\0';
     //hwlib::cout << configurationInput << "\r\n"; //debug statement for console output of read configuration
     if (!parseArray(configurationInput, measureWaitTime, alarm, mq5)) {
@@ -161,11 +162,12 @@ int main() {
             hwlib::cout << "Filesystem returned error: " << static_cast<int>(err) << "\r\n ";
         }
 
-        if (!dataFile.doesExist()) {
+        if (!calibFile.doesExist()) {
             hwlib::cout << "calib.txt does not exist.\r\n";
+            return 0;
         }
 
-        intToString(static_cast<int>(mq5.getCalibrationValue()), tempValueArray);
+        intToString(static_cast<unsigned int>(mq5.getCalibrationValue()), tempValueArray);
         calibFile.write(tempValueArray, sizeof(tempValueArray), err);
         hwlib::cout << "wiring data 0 for success: " << static_cast<int>(err) << "\r\n";
         calibFile.truncate();
@@ -186,19 +188,19 @@ int main() {
 
     // Start loop measurements, writing data and alarm.
     hwlib::cout << "Writing to sd card\r\n";
-    int mq5Value = 0;
+    unsigned int mq5Value = 0;
     while (true) {
         uint64_t time = hwlib::now_us();
 
         // Read mq-5 sensor and send value to alarm and LED matrices.
-        mq5Value = mq5.getSensorPercentage();
+        mq5Value = static_cast<unsigned int>(mq5.getSensorPercentage());
         intToString(mq5Value, charValue);
         matrix.displayString(charValue);
         alarm.checkGasValue(mq5Value);
 
         // Write it to sd card.
         dataFile.write(charValue, sizeof(charValue), err);
-        dataFile.write("\r\n", 1, err);
+        dataFile.write("\r\n", 2, err);
         hwlib::wait_us((int_fast32_t) (measureWaitTime - (hwlib::now_us() - time)));
     }
 

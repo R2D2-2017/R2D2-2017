@@ -26,10 +26,6 @@ private:
     /// Number of rows per matrix.
     int numberOfRows;
 
-    /// Used to give each character its proper location in the array
-    /// and at the end it is used to check if all characters have been processed.
-    ///int numberOfWrites = 0;
-
     /// Represents the size of a matrix and is used to prevent no junk data is added to them.
     int numberOfCommands = 5;
 

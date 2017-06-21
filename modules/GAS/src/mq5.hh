@@ -6,8 +6,8 @@
  * \author    Nicky van Steensel van der Aa
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See LICENSE
- * \wiki      https://github.com/R2D2-2017/R2D2-2017/wiki/MQ-5-gas-sensor
- * \trello    http://bit.ly/2sSmQjw
+ * https://github.com/R2D2-2017/R2D2-2017/wiki/MQ-5-gas-sensor
+ * https://trello.com/c/FUDCRaeC/1-12-the-application-can-convert-the-analog-value-from-the-mq-5-to-percentage-value20
  */
 
 #pragma once
@@ -46,17 +46,17 @@ private:
     /**
     * \brief Reads the gas sensor data 5 times and returns an average of the measured values.
     *
-    * \param counter    The given amount of times the gas sensor is going to be measured.
+    * \param count    The given amount of times the gas sensor is going to be measured.
     * \return                   The average measured data as float voltage.
     */
-    float readSensorAverage(int counter);
+    float readSensorAverage(int count);
 
 public:
 
     /**
     * \brief Constructor for Mq5.
     *
-    * Initializes the sensor adc pin and sets the calibration value by using readSensorAverage(25,0.2).
+    * Initializes the sensor adc pin and sets the meanfilter value.
     * \param sensor       The analog pin the gas sensor is connected to.
     * \param meanFilter   The strictness of the mean-filter used on the average calculation.
     */
