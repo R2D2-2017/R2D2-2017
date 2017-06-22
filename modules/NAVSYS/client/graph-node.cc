@@ -6,7 +6,6 @@
  */
 
 #include "graph-node.hh"
-#include <SFML/Config.hpp>
 #include <iostream>
 #include "mouse.hh"
 

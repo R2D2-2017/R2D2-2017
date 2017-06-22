@@ -15,9 +15,6 @@ void Graph::addNode(const Node & node) {
     if (!containsNode(node)) {
         nodes.push_back(node);
     }
-    else {
-        //throw std::runtime_error("Node already in graph");
-    }
 }
 
 void Graph::removeNode(const Node & node) {
@@ -27,8 +24,6 @@ void Graph::removeNode(const Node & node) {
 void Graph::addVertice(const Vertice & vertice) {
     if (!containsVertice(vertice)) {
         vertices.push_back(vertice);
-    } else {
-        //throw std::runtime_error("Vertice already in graph");
     }
 }
 
