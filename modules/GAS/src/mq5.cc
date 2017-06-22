@@ -19,7 +19,6 @@ float Mq5::readSensor() {
 
     // Analog value of the sensor.
     float analogValue = ((rawSensorValue / (powf(2.0f, static_cast<float>(sensor.adc_n_bits))) * newMax) * floatMultp);
-    hwlib::cout << static_cast<int>(analogValue) << "\r\n";
     return analogValue;
 }
 

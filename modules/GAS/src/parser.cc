@@ -64,13 +64,13 @@ bool parseArray(const char *input, int &measureWaitTime, Alarm &alarm, Mq5 &mq5)
                     hwlib::cout << "Error while reading variable name" << "\r\n";
                     return false;
                 }
-                if (j < sizeof(variableName)-1){
-                    hwlib::cout << "Out of bounds while getting variable name\r\n";
-                    return false;
-                }
+
                 variableName[j] = input[i];
             }
-            variableName[j] = '\0';
+            if (j <= sizeof(variableName)-1){
+             variableName[j] = '\0';
+            }
+
 
             // Skip ':' character.
             i++;

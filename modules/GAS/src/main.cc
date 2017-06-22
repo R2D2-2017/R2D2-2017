@@ -45,7 +45,7 @@ const char *sessionSeparator = "\r\n=========================\r\n";
 const int numberOfUnusedMatrices = 0;
 const int numberOfMatrices = 4;
 const int startupLedWait = 200;
-const int preHeatTime = 120;    // Time in seconds for preheating of the sensor.
+const int preHeatTime = 300;    // Time in seconds for preheating of the sensor.
 
 
 int main() {
