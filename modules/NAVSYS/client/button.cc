@@ -9,8 +9,8 @@
 #include <iostream>
 #include "mouse.hh"
 
-Button::Button(sf::RenderWindow & window, sf::Vector2f position,
-               sf::Vector2f size, int id, std::string text, bool isVisible):
+Button::Button(sf::RenderWindow &window, sf::Vector2f position, 
+               sf::Vector2f size, int id, std::string text, bool isVisable):
     window(window),
     position(position),
     size(size),

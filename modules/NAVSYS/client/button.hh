@@ -23,10 +23,9 @@ private:
     sf::Font font;
     sf::Text buttonText;
     sf::RectangleShape button;
-    float outlineThickness = 2;
-    float xScaleDivider = 20;
-    float yScaleDivider = 2;
-
+    const float outlineThickness = 2;
+    const float xScaleDivider = 20;
+    const float yScaleDivider = 2;
 public:
     /**
      * \brief Constructor
@@ -40,7 +39,7 @@ public:
      *                               is that the button will be visable, so
      *                               the default value is true
      */
-    Button(sf::RenderWindow & window, sf::Vector2f position, sf::Vector2f size,
+    Button(sf::RenderWindow &window, sf::Vector2f position, sf::Vector2f size, 
            int id, std::string text, bool isVisable = true);
 
     /**
