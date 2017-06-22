@@ -1,6 +1,6 @@
 /**
  * \file      main.cc
- * \brief     Main of the NAVSYS feature branch
+ * \brief     Main of the NAVSYS Client
  * \author    Philippe Zwietering
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See ../../LICENSE

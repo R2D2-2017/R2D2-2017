@@ -9,13 +9,13 @@
 #include <iostream>
 #include "mouse.hh"
 
-Button::Button(sf::RenderWindow & window, sf::Vector2f position, 
-               sf::Vector2f size, int id, std::string text, bool isVisable):
+Button::Button(sf::RenderWindow & window, sf::Vector2f position,
+               sf::Vector2f size, int id, std::string text, bool isVisible):
     window(window),
     position(position),
     size(size),
     id(id),
-    isVisable(isVisable)
+    isVisible(isVisible)
 {
     button.setSize(size);
     button.setOutlineColor(sf::Color::Red);
@@ -34,7 +34,7 @@ Button::Button(sf::RenderWindow & window, sf::Vector2f position,
         ((1 / buttonText.getGlobalBounds().height) * (size.y/yScaleDivider))
     );
 
-    if (!isVisable) {
+    if (!isVisible) {
         button.setFillColor(sf::Color::Transparent);
         button.setOutlineColor(sf::Color::Transparent);
         buttonText.setColor(sf::Color::Transparent);
@@ -42,7 +42,7 @@ Button::Button(sf::RenderWindow & window, sf::Vector2f position,
 }
 
 void Button::draw() {
-    if (isVisable) {
+    if (isVisible) {
         if (pressedState) {
             button.setFillColor(sf::Color::Blue);
         }
@@ -78,7 +78,7 @@ void Button::setFont(std::string newFont) {
 }
 
 void Button::setVisable(bool visable) {
-    isVisable = visable;
+    isVisible = visable;
     if (visable) {
         button.setFillColor(sf::Color::White);
         button.setOutlineColor(sf::Color::Red);
@@ -93,7 +93,7 @@ void Button::setVisable(bool visable) {
 
 bool Button::isPressed() {
     if (getBounds().contains(getMousePosition(window))) {
-        if (isVisable) {
+        if (isVisible) {
             pressedState = true;
         }
     }

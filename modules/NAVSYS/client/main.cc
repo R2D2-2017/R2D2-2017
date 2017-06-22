@@ -1,6 +1,6 @@
 /**
  * \file      main.cc
- * \brief     Start up the client side of the navsys system
+ * \brief     The main of the NAVSYS Client
  * \author    Philippe Zwietering
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See ../../LICENSE

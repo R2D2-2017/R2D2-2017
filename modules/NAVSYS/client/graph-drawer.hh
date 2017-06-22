@@ -1,17 +1,17 @@
 /**
  * \file      graph-drawer.hh
- * \brief     header for graphs in sfmlgraphics window
+ * \brief     Header for drawing graphs in a SFML graphics window.
  * \author    Leo Jenneskens, René de Kluis, Koen de Groot, Arco Gelderblom
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See LICENSE
  */
 
-#pragma once 
+#pragma once
 
 #include <memory>
 #include <SFML/Graphics.hpp>
-#include "graph-vertice.hh" 
-#include "graph-node.hh" 
+#include "graph-vertice.hh"
+#include "graph-node.hh"
 #include "graph.hh"
 #include "pathnode.hh"
 
@@ -28,7 +28,7 @@ private:
     const int scaling = 65;
 public:
     /**
-     * \brief Constructor.
+     * \brief Constructor
      *
      * \param[in]    window      The SFML window
      *
@@ -38,62 +38,60 @@ public:
     /**
      * \brief Draw the graph on the SFML window.
      *
-     * This function will draw the nodes en vertices on the window given in the
+     * This function draws the nodes en vertices on the window given in the
      * constructor of the class.
      */
     void draw();
 
     /**
-     * \brief This function will reload the graph.
+     * \brief This function reloads the graph.
      *
-     * In this function the vectors with Nodes and vertices will be reloaded 
-     * and again initialised.
+     * This function reinitializes the nodes and vertice.
      *
      * \param[in,out]    g      Graph to be build
-     * 
+     *
      */
     void reload(Graph & g);
 
     /**
-     * \brief Clear the vectors with nodes and vertices
+     * \brief Clears the vectors containing nodes and vertice.
      *
-     * calling this function will empty the vectors 
-     * storing the node en vertice vectors
+     * This function empties the vectors
+     * containing the nodes en vertice.
      *
      */
     void clear();
 
     /**
-     * \brief Set the begin node for the path
+     * \brief Sets the begin node for the path.
      *
-     * \param[in] nodeName The Unique name of the node that is the begin
+     * \param[in] nodeName The unique name of the start node.
      */
     void setBeginNode(std::string nodeName);
 
     /**
-     * \brief Set the end node for the path
+     * \brief Sets the end node for the path.
      *
-     * \param[in] nodeName The Unique name of the node that is the end
+     * \param[in] nodeName The unique name of the end node.
      */
     void setEndNode(std::string nodeName);
 
     /**
-     * \brief Highlight the path that can be taken with a blue color
+     * \brief Highlights the path that can be taken with a blue color.
      *
-     * \param[in] path A vector containing the nodes of the path to follow
+     * \param[in] path A vector containing the nodes of the path to follow.
      */
     void highlightPath(std::vector<PathNode> path);
 
     /**
-     * \brief Get a clickedNode 
-     * 
-     * This function checks all the graphnodes in the graph if they are 
-     * selected. If one of these graphnodes is selected the function returns
-     * the selected GraphNode and a bool stating that it is selected as a 
-     * clickedNode. 
+     * \brief Gets a clickedNode
      *
-     * \return This function returns the clickedNode
+     * This function checks if any of the nodes in the graph has been selected.
+     * If one of the nodes has been selected, the function returns a
+     * clickedNode struct.
+     *
+     * \return A clickedNode struct containing the clicked node.
      *
      */
-    clickedNode checkNodeClicked();
+     clickedNode checkNodeClicked();
 };

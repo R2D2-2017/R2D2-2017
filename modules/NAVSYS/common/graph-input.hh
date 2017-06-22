@@ -1,7 +1,7 @@
 /**
  * \file      graph-input.hh
  * \brief     This file contains the definitions of the graphIO class,
- *            which is the class that handles all user input in regards to a 
+ *            which is the class that handles all user input in regards to a
  *            graph.
  * \author    Jeremy
  * \copyright Copyright (c) 2017, The R2D2 Team
@@ -13,7 +13,7 @@
 #include "graph.hh"
 
 /**
- * \brief Class for using cin to get nodes and vertices
+ * \brief Class for using cin to get nodes and vertices.
  */
 class GraphInput {
 public:
@@ -33,7 +33,7 @@ public:
      * \brief Description of getNodeEntryFromScreen
      *
      * This function can be used to get a vertice entry from the terminal.
-     * It asks the user to input the data, which it uses to create a vertice 
+     * It asks the user to input the data, which it uses to create a vertice
      * class. The created vertice class is then passed to the graph.
      * Output vertice is added to graph.
      *

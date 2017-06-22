@@ -19,7 +19,7 @@ typedef std::shared_ptr<sf::TcpSocket> sharedSocketPtr_t;
 /**
  * \brief Server class
  *
- * This class handles everything an API server should do, it accepts new clients 
+ * This class handles everything an API server should do, it accepts new clients
  * over TCP and sends messages to them after requests.
  */
 class Server{
@@ -41,7 +41,7 @@ public:
     /**
      * \brief Broadcasts a message to all available clients
      *
-     * This functions doesn't check yet if clients are still connected, so it 
+     * This functions doesn't check yet if clients are still connected, so it
      * can return with error messages if clients have already left.
      *
      * \param[in] message Message that needs to broadcast, std::string
@@ -64,7 +64,7 @@ public:
      *  command using a packet followed by possibly some data that should come
      *  with that command. Some processing is done and the function sends a
      *  command back to the client to make sure the client knows what he wanted
-     *  to do has been done. 
+     *  to do has been done.
      *
      * \param[in] p  The packet containing the command and data for that command
      */

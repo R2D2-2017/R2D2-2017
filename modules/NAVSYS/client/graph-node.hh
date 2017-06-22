@@ -1,12 +1,12 @@
 /**
  * \file      graph-node.hh
- * \brief     header for nodes in sfmlgraphics window
- * \author    Leo Jenneskens, Arco Gelderblom, René de Kluis, Koen de Groot
+ * \brief     Header for nodes in a SFML graphics window
+ * \author    Leo Jenneskens, Arco Gelderblom, Renï¿½ de Kluis, Koen de Groot
  * \copyright Copyright (c) 2017, The R2D2 Team
  * \license   See LICENSE
  */
 
-#pragma once 
+#pragma once
 
 #include <SFML/Graphics.hpp>
 
@@ -17,28 +17,29 @@ private:
     static const unsigned int characterSize = 30;
     static constexpr float positionOffset = 20;
     static const int outlineThickness = 2;
+
     /**
-     * \brief The default color for a Vertic is white
+     * \brief The default color for a node is white.
      */
     sf::Color color = sf::Color::White;
-    
+
     bool isFocused = false;
 
     /**
-     * \brief The size of the node
+     * \brief A float variable containing the size of the node.
      *
-     * The size gets a default initialization of 10.0 in the constructor of 
-     * this class
+     * The constructor sets this value to 10.0 by default.
      */
     float size;
 
     /**
-     * \brief The name of the node
+     * \brief A string variable containing the name of the node.
      */
     std::string name;
+
 public:
     /**
-     * \brief constructor for the graphnodes class 
+     * \brief Constructor
      *
      * \param[in] position Position of the GraphNode
      * \param[in] name     Name of the GraphNode
@@ -48,25 +49,25 @@ public:
     GraphNode( sf::Vector2f position, std::string name, float size = 10.0);
 
     /**
-     * \brief Draw function
-     * 
-     * \param[in] window Draws the node on this sfml window
+     * \brief Draws the node in the SFML window.
+     *
+     * \param[in] window The SFML window
      */
     void draw( sf::RenderWindow & window ) ;
 
     /**
-     * \brief Get the name of the GraphNode
+     * \brief Gets the name of the GraphNode.
      *
-     * \return The name of the node as an std::string
+     * \return The name of the node as a std::string.
      */
     std::string getName();
 
     /**
-     * \brief Get the global bounds of a GraphNode.
+     * \brief Gets the global bounds of a GraphNode.
      *
      * The bounds of the buttons are in the following order:
-     * {X, Y, Height, Width}
-     * 
+     * {X, Y, Height, Width}.
+     *
      * \return The global bounds of the GraphNode.
      *
      */
@@ -77,26 +78,26 @@ public:
      *
      * \param[in]    window      The SFML window
      *
-     * \return This function returns True if the GraphNode is pressed, 
+     * \return This function returns True if the GraphNode is pressed,
      *         otherwise it will return False.
      *
      */
     bool isPressed(sf::RenderWindow & window);
-   	
+
     /**
-     * \brief Assign a new color to the node
+     * \brief Assigns a new color to the node.
      *
-     * This function is used to assign new colors to the node. Note that the 
+     * This function is used to assign new colors to the node. Note that the
      * color must be an SFML color object. (sf::Color)
      *
-     * \param[in] newColor Assign 'newColor' to the node
+     * \param[in] newColor The new color to assign to the node.
      */
     void changeColor(sf::Color newColor);
 
     /**
-     * \brief Get the position of the node
+     * \brief Gets the position of the node.
      *
-     * \return get the position of the node as an sfml vector
+     * \return The position of the node as a sf::Vector2f.
      */
     sf::Vector2f getPosition();
 };
