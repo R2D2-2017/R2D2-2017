@@ -28,7 +28,12 @@ Button::Button(sf::RenderWindow & window, sf::Vector2f position,
     buttonText.setFont(font);
     buttonText.setPosition(position);
     buttonText.setString(text);
-    buttonText.setColor(sf::Color::Black);
+    //Check for sfml version
+    #if SFML_VERSION_MINOR == 1
+        buttonText.setColor(sf::Color::Black);
+    #else
+        buttonText.setFillColor(sf::Color::Black);
+    #endif
     buttonText.setScale(
         ((1 / buttonText.getGlobalBounds().width) * (size.x-(size.x/xScaleDivider))),
         ((1 / buttonText.getGlobalBounds().height) * (size.y/yScaleDivider))
@@ -37,7 +42,12 @@ Button::Button(sf::RenderWindow & window, sf::Vector2f position,
     if (!isVisible) {
         button.setFillColor(sf::Color::Transparent);
         button.setOutlineColor(sf::Color::Transparent);
-        buttonText.setColor(sf::Color::Transparent);
+        //Check for sfml version
+        #if SFML_VERSION_MINOR == 1
+            buttonText.setColor(sf::Color::Transparent);
+        #else
+            buttonText.setFillColor(sf::Color::Transparent);
+        #endif
     }
 }
 
@@ -82,12 +92,22 @@ void Button::setVisable(bool visable) {
     if (visable) {
         button.setFillColor(sf::Color::White);
         button.setOutlineColor(sf::Color::Red);
-        buttonText.setColor(sf::Color::Black);
+        //Check for sfml version
+        #if SFML_VERSION_MINOR == 1
+            buttonText.setColor(sf::Color::Black);
+        #else
+            buttonText.setFillColor(sf::Color::Black);
+        #endif
     }
     else {
         button.setFillColor(sf::Color::Transparent);
         button.setOutlineColor(sf::Color::Transparent);
-        buttonText.setColor(sf::Color::Transparent);
+        //Check for sfml version
+        #if SFML_VERSION_MINOR == 1
+            buttonText.setColor(sf::Color::Transparent);
+        #else
+            buttonText.setFillColor(sf::Color::Transparent);
+        #endif
     }
 }
 
