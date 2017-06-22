@@ -163,14 +163,14 @@ void Client::run(){
                                 node.node->getBounds().left, 
                                     (node.node->getBounds().top + 
                                      1.5f*node.node->getBounds().height)});
-                        currButton->setVisable(true);
+                        currButton->setVisible(true);
                     }
                     if (currButton->getId() == static_cast<int>(button::EndNode)) {
                         currButton->setPosition({
                                  node.node->getBounds().left,
                                     (node.node->getBounds().top + 
                                      2.5f * node.node->getBounds().height)});
-                        currButton->setVisable(true);
+                        currButton->setVisible(true);
                     }
                 }
                 window.updateView();
@@ -181,7 +181,7 @@ void Client::run(){
                         static_cast<int>(button::StartNode) || 
                         currButton->getId() == 
                         static_cast<int>(button::EndNode)) {
-                        currButton->setVisable(false);
+                        currButton->setVisible(false);
                     }
                 }
             }

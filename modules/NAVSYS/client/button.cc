@@ -10,7 +10,7 @@
 #include "mouse.hh"
 
 Button::Button(sf::RenderWindow &window, sf::Vector2f position, 
-               sf::Vector2f size, int id, std::string text, bool isVisable):
+               sf::Vector2f size, int id, std::string text, bool isVisible):
     window(window),
     position(position),
     size(size),
@@ -87,9 +87,9 @@ void Button::setFont(std::string newFont) {
     font.loadFromFile(newFont);
 }
 
-void Button::setVisable(bool visable) {
-    isVisible = visable;
-    if (visable) {
+void Button::setVisible(bool visible) {
+    isVisible = visible;
+    if (visible) {
         button.setFillColor(sf::Color::White);
         button.setOutlineColor(sf::Color::Red);
         //Check for sfml version

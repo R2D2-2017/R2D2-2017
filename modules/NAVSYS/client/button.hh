@@ -16,7 +16,7 @@ private:
     sf::Vector2f position;
     sf::Vector2f size;
     int id;
-    bool isVisable;
+    bool isVisible;
 
     bool pressedState = false;
     std::string fontName = "../client/arial.ttf";
@@ -35,12 +35,12 @@ public:
      * \param[in]        size        Size of the button (x,y)
      * \param[in]        id          ID of the button
      * \param[in]        text        Displaytext what comes on the button
-     * \param[in]        isVisable   Set the visability of the button, default
-     *                               is that the button will be visable, so
+     * \param[in]        isVisible   Set the visability of the button, default
+     *                               is that the button will be visible, so
      *                               the default value is true
      */
     Button(sf::RenderWindow &window, sf::Vector2f position, sf::Vector2f size, 
-           int id, std::string text, bool isVisable = true);
+           int id, std::string text, bool isVisible = true);
 
     /**
      * \brief Draws the button on the window.
@@ -93,10 +93,10 @@ public:
     /**
      * \brief Sets the visablility of the button.
      *
-     * \param[in]    visable      Visability: True for visable, False for
-     *                            invisable.
+     * \param[in]    visible      Visability: True for visible, False for
+     *                            invisible.
      */
-    void setVisable(bool visable);
+    void setVisible(bool visible);
 
     /**
      * \brief Checks if the button is pressed.
